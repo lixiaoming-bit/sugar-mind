@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <!-- 工具栏 -->
+    <tool-boxes></tool-boxes>
+    <!-- 核心画布区域 -->
+    <custom-canvas></custom-canvas>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import CustomCanvas from '@/components/CustomCanvas'
+import ToolBoxes from '@/components/ToolBoxes'
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    HelloWorld,
-  },
-};
+    CustomCanvas,
+    ToolBoxes
+  }
+}
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #f2f6f9;
 }
 </style>
