@@ -1,12 +1,38 @@
 <template>
   <div class="tool-box-bottom-right-container">
-    <icon-font type="iconicon_common_mouse_r" class="option-one" />
-    <icon-font type="iconicon_common_navigation1" class="option-one" />
-    <icon-font type="iconicon_common_narrow2" class="option-one" />
+    <a-popover placement="top">
+      <template slot="content">点击图标，切换左右键拖动</template>
+      <icon-font type="iconicon_common_mouse_r" class="option-one" />
+    </a-popover>
+    <a-popover placement="top">
+      <template slot="content">导航器</template>
+      <icon-font type="iconicon_common_navigation1" class="option-one" />
+    </a-popover>
+    <a-popover placement="top">
+      <template slot="content">缩小</template>
+      <icon-font type="iconicon_common_narrow2" class="option-one" />
+    </a-popover>
     <span class="option-one">100%</span>
-    <icon-font type="iconicon_common_enlarge1" class="option-one" />
-    <icon-font type="iconicon_common_full-screen1" class="option-one" />
-    <icon-font type="iconicon_smalltool_more" class="option-one" />
+    <a-popover placement="top">
+      <template slot="content">放大</template>
+      <icon-font type="iconicon_common_enlarge1" class="option-one" />
+    </a-popover>
+    <a-popover placement="top">
+      <template slot="content">全屏</template>
+      <icon-font type="iconicon_common_full-screen1" class="option-one" />
+    </a-popover>
+    <a-popover placement="topLeft">
+      <template slot="content">疑问帮助&偏好设置</template>
+
+      <a-dropdown :trigger="['click']">
+        <icon-font type="iconicon_smalltool_more" class="option-one" />
+        <a-menu slot="overlay">
+          <a-menu-item>新手入门</a-menu-item>
+          <a-menu-item>快捷键查看</a-menu-item>
+          <a-menu-item>偏好设置</a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </a-popover>
   </div>
 </template>
 
@@ -19,11 +45,22 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    options() {
+      return [
+        {
+          icon: 'iconicon_common_mouse_r',
+          tips: ''
+        }
+      ]
+    }
+  },
   watch: {},
   mounted() {},
   created() {},
-  methods: {}
+  methods: {
+    // 处理疑问帮助，偏好设置
+  }
 }
 </script>
 

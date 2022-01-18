@@ -8,6 +8,11 @@
 .center {
   text-align: center;
 }
+
+.ant-popover-inner-content {
+  padding: 5px 10px;
+}
+
 :root {
   --layout-height: 60px;
 }
