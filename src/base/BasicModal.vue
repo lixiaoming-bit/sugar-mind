@@ -17,8 +17,6 @@
 <script>
 export default {
   name: 'BasicModal',
-  filters: {},
-  components: {},
   props: {
     title: {
       type: String,
@@ -28,15 +26,7 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  data() {
-    return {}
-  },
-  computed: {},
-  watch: {},
-  mounted() {},
-  created() {},
-  methods: {}
+  }
 }
 </script>
 
@@ -49,7 +39,7 @@ export default {
     height: 50px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 12px 16px;
     border-bottom: 1px solid #eeeeee;
     &-title {

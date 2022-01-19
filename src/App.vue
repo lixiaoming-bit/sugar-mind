@@ -4,17 +4,21 @@
     <tool-boxes></tool-boxes>
     <!-- 核心画布区域 -->
     <custom-canvas></custom-canvas>
+    <!-- 弹框区域 -->
+    <modals></modals>
   </div>
 </template>
 
 <script>
 import CustomCanvas from '@/components/CustomCanvas'
 import ToolBoxes from '@/components/ToolBoxes'
+import Modals from '@/components/Modals'
 export default {
   name: 'App',
   components: {
     CustomCanvas,
-    ToolBoxes
+    ToolBoxes,
+    Modals
   }
 }
 </script>
