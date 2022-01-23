@@ -1,13 +1,16 @@
 <template>
-  <div class="tool-box-bottom-left-container">
-    <span class="text">字数</span>
-    <span class="number">640</span>
-    <span class="text">节点</span>
-    <span class="number">100</span>
-  </div>
+  <transition name="slide-fade-bottom">
+    <div class="tool-box-bottom-left-container" v-show="isShowComponent">
+      <span class="text">字数</span>
+      <span class="number">640</span>
+      <span class="text">节点</span>
+      <span class="number">100</span>
+    </div>
+  </transition>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ToolBoxBL',
   filters: {},
@@ -16,7 +19,12 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['displayMode']),
+    isShowComponent() {
+      return this.displayMode !== 'pure'
+    }
+  },
   watch: {},
   mounted() {},
   created() {},
@@ -47,5 +55,17 @@ export default {
     color: #222;
     padding-left: 6px;
   }
+}
+
+.slide-fade-bottom-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-bottom-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-bottom-enter,
+.slide-fade-bottom-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
 }
 </style>

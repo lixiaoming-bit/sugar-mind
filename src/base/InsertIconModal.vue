@@ -18,17 +18,17 @@
 <script>
 import BasicModal from './BasicModal'
 
-import { levelIcons, emojiIcons, processIcons, markIcons } from '@/icon'
+import { levelIcons, emojiIcons, processIcons, markIcons } from '@/assets/images'
 
 export default {
-  name: 'SelectIconModal',
+  name: 'InsertIconModal',
   components: {
     BasicModal
   },
   data() {
     return {
       icons: [],
-      visible: true
+      visible: false
     }
   },
   computed: {},
@@ -73,11 +73,11 @@ export default {
   right: 10px;
   width: 340px;
   bottom: 10px;
+  height: 100%;
+  top: 100px;
   position: fixed;
   .icon-wrapper {
     padding: 0 20px;
-    max-height: 520px;
-    overflow: auto;
   }
   .one-icon {
     .title {

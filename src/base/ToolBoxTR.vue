@@ -1,34 +1,37 @@
 <template>
-  <div class="tool-box-top-right-container">
-    <div class="one-option" v-for="(item, index) in options" :key="index">
-      <a-popover placement="bottom">
-        <template slot="content">
-          {{ item.tips }}
-        </template>
-        <div class="center">
-          <icon-font :type="item.icon" class="one-option-icon" />
-          <div class="one-option-title">{{ item.title }}</div>
-        </div>
-      </a-popover>
-    </div>
-    <div class="one-option">
-      <a-popover placement="bottomLeft" overlay-class-name="more-popover">
-        <template slot="content">
-          <div class="more-one-option" v-for="item in moreOptions" :key="item.title">
-            <icon-font :type="item.icon" />
-            <span class="more-one-option-title">{{ item.title }}</span>
+  <transition name="slide-fade-top">
+    <div class="tool-box-top-right-container" v-show="isShowComponent" :style="isCompact">
+      <div class="one-option" v-for="(item, index) in options" :key="index">
+        <a-popover placement="bottom">
+          <template slot="content">
+            {{ item.tips }}
+          </template>
+          <div class="center">
+            <icon-font :type="item.icon" class="one-option-icon" />
+            <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
           </div>
-        </template>
-        <div class="center">
-          <icon-font type="iconicon_draw_share" class="one-option-icon" />
-          <div class="one-option-title">分享协作</div>
-        </div>
-      </a-popover>
+        </a-popover>
+      </div>
+      <div class="one-option">
+        <a-popover placement="bottomLeft" overlay-class-name="more-popover">
+          <template slot="content">
+            <div class="more-one-option" v-for="item in moreOptions" :key="item.title">
+              <icon-font :type="item.icon" />
+              <span class="more-one-option-title">{{ item.title }}</span>
+            </div>
+          </template>
+          <div class="center">
+            <icon-font type="iconicon_draw_share" class="one-option-icon" />
+            <div class="one-option-title" v-if="isShowTitle">分享协作</div>
+          </div>
+        </a-popover>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ToolBoxTR',
   filters: {},
@@ -38,6 +41,19 @@ export default {
     return {}
   },
   computed: {
+    ...mapGetters(['displayMode']),
+    isShowComponent() {
+      return this.displayMode !== 'pure'
+    },
+    isShowTitle() {
+      return this.displayMode !== 'compact'
+    },
+    isCompact() {
+      return {
+        '--layout-height': this.displayMode === 'compact' ? '40px' : '60px',
+        '--layout-width': this.displayMode === 'compact' ? '40px' : '60px'
+      }
+    },
     options() {
       return [
         {
@@ -90,7 +106,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 8px;
+  // padding: 0 8px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -98,7 +114,7 @@ export default {
 .one-option {
   cursor: pointer;
   height: 100%;
-  width: 60px;
+  width: var(--layout-width);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -123,6 +139,18 @@ export default {
   &.disabled {
     color: #bcbcbc !important;
   }
+}
+
+.slide-fade-top-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-enter,
+.slide-fade-top-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 </style>
 <style lang="less">

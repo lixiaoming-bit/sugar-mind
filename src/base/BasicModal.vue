@@ -1,10 +1,10 @@
 <template>
-  <div class="basic-modal-container" v-if="visible">
+  <div class="basic-modal-container">
     <div class="basic-modal-header">
       <div class="basic-modal-header-title">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div class="basic-modal-header-icon">
+      <div class="basic-modal-header-icon" @click="handleClose">
         <a-icon type="close"></a-icon>
       </div>
     </div>
@@ -15,16 +15,20 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'BasicModal',
   props: {
     title: {
       type: String,
       default: ''
-    },
-    visible: {
-      type: Boolean,
-      default: false
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_VISIBLE_MODAL']),
+    // 关闭
+    handleClose() {
+      this.SET_VISIBLE_MODAL()
     }
   }
 }
@@ -32,6 +36,9 @@ export default {
 
 <style scoped lang="less">
 .basic-modal-container {
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0px 0px 5px #f2f3f5;
@@ -45,11 +52,14 @@ export default {
     &-title {
       font-size: 14px;
     }
+    &-icon {
+      cursor: pointer;
+    }
   }
   .basic-modal-body {
-    max-height: 700px;
+    height: calc(100% - 50px);
     overflow-y: auto;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 }
 </style>

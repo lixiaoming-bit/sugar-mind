@@ -22,6 +22,7 @@ import ToolBoxTR from '@/base/ToolBoxTR'
 import ToolBoxMR from '@/base/ToolBoxMR'
 import ToolBoxBL from '@/base/ToolBoxBL'
 import ToolBoxBR from '@/base/ToolBoxBR'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ToolBoxes',
@@ -37,7 +38,9 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['displayMode'])
+  },
   watch: {},
   mounted() {},
   created() {},
@@ -47,10 +50,10 @@ export default {
 
 <style scoped lang="less">
 .tool-boxes-container {
-  height: 100vh;
-  width: 100vw;
+  // height: 100vh;
+  // width: 100vw;
   position: fixed;
-  z-index: 2;
+  // z-index: 2;
 }
 </style>
 <style lang="css">

@@ -1,19 +1,34 @@
 <template>
-  <div class="tool-box-top-left-container">
-    <icon-font type="iconback" class="icon-font" />
-    <a-popover placement="bottom">
-      <template slot="content">自定义标题</template>
-      <input type="text" class="custom-input" value="自定义标题" />
-    </a-popover>
-    <div class="vertical-line"></div>
-    <icon-font type="iconwancheng" class="icon-font" />
-    <div class="action-tips">自动保存成功</div>
-  </div>
+  <transition name="slide-fade-top">
+    <div class="tool-box-top-left-container" v-if="isShowComponent" :style="isCompact">
+      <icon-font type="iconback" class="icon-font" />
+      <a-popover placement="bottom">
+        <template slot="content">自定义标题</template>
+        <input type="text" class="custom-input" value="自定义标题" />
+      </a-popover>
+      <div class="vertical-line"></div>
+      <icon-font type="iconwancheng" class="icon-font" />
+      <div class="action-tips">自动保存成功</div>
+    </div>
+  </transition>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'ToolBoxTL'
+  name: 'ToolBoxTL',
+  computed: {
+    ...mapGetters(['displayMode']),
+    isShowComponent() {
+      return this.displayMode !== 'pure'
+    },
+    isCompact() {
+      return {
+        '--layout-height': this.displayMode === 'compact' ? '40px' : '60px'
+      }
+    }
+  }
 }
 </script>
 
@@ -58,5 +73,17 @@ export default {
     line-height: 26px;
     color: #333;
   }
+}
+
+.slide-fade-top-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-enter,
+.slide-fade-top-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 </style>

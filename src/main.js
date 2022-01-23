@@ -7,7 +7,7 @@ import 'ant-design-vue/dist/antd.css'
 import './icon/iconfont'
 import './common/common.css'
 
-import './icon'
+import './icon/iconfont'
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: ''
