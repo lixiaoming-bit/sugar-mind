@@ -156,7 +156,7 @@ export default {
 }
 .slide-fade-right-enter,
 .slide-fade-right-leave-to {
-  transform: translateX(100%);
+  transform: translate(100%, -50%);
   opacity: 0;
 }
 </style>

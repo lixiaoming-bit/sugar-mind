@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade-top">
+  <transition name="slide-fade-right">
     <div class="tool-box-top-right-container" v-show="isShowComponent" :style="isCompact">
       <div class="one-option" v-for="(item, index) in options" :key="index">
         <a-popover placement="bottom">
@@ -141,14 +141,14 @@ export default {
   }
 }
 
-.slide-fade-top-enter-active {
+.slide-fade-right-enter-active {
   transition: all 0.25s linear;
 }
-.slide-fade-top-leave-active {
+.slide-fade-right-leave-active {
   transition: all 0.25s linear;
 }
-.slide-fade-top-enter,
-.slide-fade-top-leave-to {
+.slide-fade-right-enter,
+.slide-fade-right-leave-to {
   transform: translateY(-100%);
   opacity: 0;
 }

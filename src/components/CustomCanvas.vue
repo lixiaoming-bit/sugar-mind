@@ -1,21 +1,34 @@
 <template>
-  <div class="custom-canvas-container">123</div>
+  <div class="custom-canvas-container" @click="handleClick"></div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'CustomCanvas',
   filters: {},
   components: {},
   props: {},
   data() {
-    return {}
+    return {
+      target: 'normal'
+    }
   },
   computed: {},
   watch: {},
   mounted() {},
   created() {},
-  methods: {}
+  methods: {
+    ...mapMutations(['SET_DISPLAY_MODE']),
+    handleClick() {
+      if (this.target === 'pure') {
+        this.target = 'normal'
+      } else {
+        this.target = 'pure'
+      }
+      this.SET_DISPLAY_MODE(this.target)
+    }
+  }
 }
 </script>
 

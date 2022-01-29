@@ -11,6 +11,9 @@ export default new Vuex.Store({
   mutations: {
     SET_VISIBLE_MODAL(state, payload = null) {
       state.visibleModal = payload
+    },
+    SET_DISPLAY_MODE(state, payload = 'normal') {
+      state.displayMode = payload
     }
   },
   actions: {},

@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade-top">
+  <transition name="slide-fade-left">
     <div class="tool-box-top-left-container" v-if="isShowComponent" :style="isCompact">
       <icon-font type="iconback" class="icon-font" />
       <a-popover placement="bottom">
@@ -75,14 +75,14 @@ export default {
   }
 }
 
-.slide-fade-top-enter-active {
+.slide-fade-left-enter-active {
   transition: all 0.25s linear;
 }
-.slide-fade-top-leave-active {
+.slide-fade-left-leave-active {
   transition: all 0.25s linear;
 }
-.slide-fade-top-enter,
-.slide-fade-top-leave-to {
+.slide-fade-left-enter,
+.slide-fade-left-leave-to {
   transform: translateY(-100%);
   opacity: 0;
 }

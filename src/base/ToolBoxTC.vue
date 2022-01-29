@@ -177,6 +177,18 @@ export default {
     }
   }
 }
+
+.slide-fade-top-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-top-enter,
+.slide-fade-top-leave-to {
+  transform: translate(-50%, -100%);
+  opacity: 0;
+}
 </style>
 <style lang="less">
 .more-popover {
@@ -195,17 +207,5 @@ export default {
       color: #666666;
     }
   }
-}
-
-.slide-fade-top-enter-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-top-leave-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-top-enter,
-.slide-fade-top-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
 }
 </style>

@@ -10,8 +10,10 @@
   "dependencies": {
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.6.5",
+    "kity": "^2.0.5",
     "vue": "^2.6.11",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "kityminder-core": "^1.4.50"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
