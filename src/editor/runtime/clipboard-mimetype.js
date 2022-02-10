@@ -1,7 +1,7 @@
 /**
  * 新增一个用于处理系统ctrl+c ctrl+v等方式导入导出节点的MIMETYPE处理，如系统不支持clipboardEvent或者是FF则不初始化改class
  */
-import kity from 'kity'
+// import kity from 'kity'
 function MimeType() {
   const SPLIT_OR = '\uFEFF'
   const MIMETYPE = {
@@ -109,7 +109,7 @@ MimeType.prototype.whichMimeType = function (text) {
 }
 
 function MimeTypeRuntime() {
-  if (this.minder.supportClipboardEvent && !kity.Browser.gecko) {
+  if (this.minder.supportClipboardEvent && !window.kity.Browser.gecko) {
     this.MimeType = new MimeType()
   }
 }

@@ -2,7 +2,7 @@
  * 历史管理
  *
  */
-const jsonDiff = require('../tool/jsondiff')
+const jsonDiff = require('../tool/jsondiff').default
 
 export default function HistoryRuntime() {
   const minder = this.minder

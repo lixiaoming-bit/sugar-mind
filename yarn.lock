@@ -4527,6 +4527,11 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.npmmirror.com/hosted-git-info/download/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
   integrity sha1-3/wL+aIcAiCQkPKqaUKeFBTa8/k=
 
+hotbox-minder@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.npmmirror.com/hotbox-minder/-/hotbox-minder-1.0.15.tgz#e56aaf25285ee6da490f4229c0477e9443741db4"
+  integrity sha512-QKkOr39gSWJF5bxvxwa+HMDAWPv8bUuRVu2VXxuz4+1USu15mqzWpX0Oxb4kGLvyz8MxgRCcxVv/clL4gxn8Sg==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.nlark.com/hpack.js/download/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -5385,7 +5390,7 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.nlark.com/kind-of/download/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha1-B8BQNKbDSfoG4k+jWqdttFgM5N0=
 
-kity@^2.0.4, kity@^2.0.5:
+kity@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmmirror.com/kity/-/kity-2.0.4.tgz#e0a3579aad705f6ec174211d88b2a4bdfee03f1e"
   integrity sha512-u6jPit9N44gPTMzB7EiX3szurI7JB6HPswJESQiS0UnrNiceOeLxGRAm0mgGRuRnkGXwmA3Pzn7hZ1rauINpOA==

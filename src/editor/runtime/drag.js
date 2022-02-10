@@ -1,8 +1,8 @@
 /**
  * 用于拖拽节点时屏蔽键盘事件
  */
-import kity from 'kity'
-const Hotbox = require('../hotbox')
+// import kity from 'kity'
+const Hotbox = require('../hotbox').default
 // const Debug = require('../tool/debug')
 // const debug = new Debug('drag')
 
@@ -46,12 +46,12 @@ export default function DragRuntime() {
   function move(direction, speed) {
     if (!direction) {
       freeHorizon = freeVertical = false
-      frame && kity.releaseFrame(frame)
+      frame && window.kity.releaseFrame(frame)
       frame = null
       return
     }
     if (!frame) {
-      frame = kity.requestFrame(
+      frame = window.kity.requestFrame(
         (function (direction, speed, minder) {
           return function (frame) {
             switch (direction) {
@@ -143,5 +143,3 @@ export default function DragRuntime() {
     false
   )
 }
-
-return (module.exports = DragRuntime)

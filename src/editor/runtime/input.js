@@ -1,7 +1,7 @@
 /**
  * 文本输入支持
  */
-import kity from 'kity'
+// import kity from 'kity'
 import Debug from '../tool/debug'
 import polyfillInnerText from '../tool/inner-text'
 polyfillInnerText()
@@ -14,7 +14,7 @@ export default function InputRuntime() {
   let hotbox = this.hotbox
   let receiver = this.receiver
   let receiverElement = receiver.element
-  let isGecko = kity.Browser.gecko
+  let isGecko = window.kity.Browser.gecko
 
   // setup everything to go
   setupReceiverElement()
@@ -128,7 +128,7 @@ export default function InputRuntime() {
   function enterInputMode() {
     const node = minder.getSelectedNode()
     if (node) {
-      var fontSize = node.getData('font-size') || node.getStyle('font-size')
+      const fontSize = node.getData('font-size') || node.getStyle('font-size')
       receiverElement.style.fontSize = fontSize + 'px'
       receiverElement.style.minWidth = 0
       receiverElement.style.minWidth = receiverElement.clientWidth + 'px'
@@ -290,13 +290,13 @@ export default function InputRuntime() {
     try {
       minder.decodeData('text', text).then(function (json) {
         function importText(node, json, minder) {
-          var data = json.data
+          const data = json.data
 
           node.setText(data.text || '')
 
-          var childrenTreeData = json.children || []
-          for (var i = 0; i < childrenTreeData.length; i++) {
-            var childNode = minder.createNode(null, node)
+          const childrenTreeData = json.children || []
+          for (let i = 0; i < childrenTreeData.length; i++) {
+            const childNode = minder.createNode(null, node)
             importText(childNode, childrenTreeData[i], minder)
           }
           return node

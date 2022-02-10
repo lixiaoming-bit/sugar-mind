@@ -53,7 +53,7 @@ export default {
   // height: 100vh;
   // width: 100vw;
   position: fixed;
-  // z-index: 2;
+  z-index: 2;
 }
 </style>
 <style lang="css">

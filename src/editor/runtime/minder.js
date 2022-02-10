@@ -1,8 +1,7 @@
 /**
  * 脑图示例运行时
  */
-const Minder = window.kityminder.Minder
-
+const { Minder } = window.kityminder
 export default function MinderRuntime() {
   const minder = new Minder({
     enableKeyReceiver: false,

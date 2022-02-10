@@ -2,13 +2,13 @@
  * @Desc: 处理editor的clipboard事件，只在支持ClipboardEvent并且不是FF的情况下工作
  */
 
-import kity from 'kity'
+// import kity from 'kity'
 
 export default function ClipboardRuntime() {
   const minder = this.minder
   const minderSource = window.kityminder.data
 
-  if (!minder.supportClipboardEvent || kity.Browser.gecko) {
+  if (!minder.supportClipboardEvent || window.kity.Browser.gecko) {
     return
   }
 

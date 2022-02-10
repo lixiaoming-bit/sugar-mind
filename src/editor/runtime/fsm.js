@@ -1,7 +1,7 @@
 /**
  * 编辑器状态机
  */
-const Debug = require('../tool/debug')
+import Debug from '../tool/debug'
 const debug = new Debug('fsm')
 
 function handlerConditionMatch(condition, when, exit, enter) {
@@ -41,6 +41,7 @@ function FSM(defaultState) {
     }
 
     currentState = newState
+    console.log(debug)
     debug.log('[{0}] {1} -> {2}', reason, oldState, newState)
 
     // 跳转后

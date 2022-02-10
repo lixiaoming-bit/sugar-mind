@@ -2,7 +2,7 @@
  * 热盒 Runtime
  *
  */
-const Hotbox = require('../hotbox')
+const Hotbox = require('../hotbox').default
 
 export default function HotboxRuntime() {
   const fsm = this.fsm

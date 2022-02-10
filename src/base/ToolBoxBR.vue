@@ -89,6 +89,7 @@ export default {
   align-items: center;
   background: hsla(0, 0%, 100%, 0.6);
   border-radius: 6px;
+  box-shadow: 0 2px 16px 0 #0000000f;
   .option-one {
     display: inline-block;
     font-size: 18px;

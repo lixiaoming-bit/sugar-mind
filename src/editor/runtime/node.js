@@ -17,17 +17,13 @@ export default function NodeRuntime() {
   ]
 
   let AppendLock = 0
-  const afterAppend = i => {
-    if (!--i) {
-      runtime.editText()
-    }
-    minder.off('layoutallfinish', afterAppend)
-  }
+
   buttons.forEach(function (button) {
     const parts = button.split(':')
     const label = parts.shift()
     const key = parts.shift()
     const command = parts.shift()
+
     main.button({
       position: 'ring',
       label: label,
@@ -36,7 +32,14 @@ export default function NodeRuntime() {
         if (command.indexOf('Append') === 0) {
           AppendLock++
           minder.execCommand(command, '分支主题')
-          minder.on('layoutallfinish', afterAppend(AppendLock))
+          const afterAppend = function () {
+            if (!--AppendLock) {
+              // runtime.editText()
+              console.log('runtime: ', runtime)
+            }
+            minder.off('layoutallfinish', afterAppend)
+          }
+          minder.on('layoutallfinish', afterAppend)
         } else {
           minder.execCommand(command)
           fsm.jump('normal', 'command-executed')

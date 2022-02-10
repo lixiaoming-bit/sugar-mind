@@ -3,8 +3,8 @@
  */
 const runtime = []
 
-function assemble(runtime) {
-  runtime.push(runtime)
+function assemble(mod) {
+  runtime.push(mod)
 }
 
 function KMEditor(selector) {
@@ -18,19 +18,19 @@ function KMEditor(selector) {
 
 KMEditor.assemble = assemble
 
-assemble(require('./runtime/container'))
-assemble(require('./runtime/fsm'))
-assemble(require('./runtime/minder'))
-assemble(require('./runtime/receiver'))
-assemble(require('./runtime/hotbox'))
-assemble(require('./runtime/input'))
-assemble(require('./runtime/clipboard-mimetype'))
-assemble(require('./runtime/clipboard'))
-assemble(require('./runtime/drag'))
-assemble(require('./runtime/node'))
-assemble(require('./runtime/history'))
-assemble(require('./runtime/jumping'))
-assemble(require('./runtime/priority'))
-assemble(require('./runtime/progress'))
+assemble(require('./runtime/container').default)
+assemble(require('./runtime/fsm').default)
+assemble(require('./runtime/minder').default)
+assemble(require('./runtime/receiver').default)
+assemble(require('./runtime/hotbox').default)
+assemble(require('./runtime/input').default)
+assemble(require('./runtime/clipboard-mimetype').default)
+assemble(require('./runtime/clipboard').default)
+assemble(require('./runtime/drag').default)
+assemble(require('./runtime/node').default)
+assemble(require('./runtime/history').default)
+assemble(require('./runtime/jumping').default)
+assemble(require('./runtime/priority').default)
+assemble(require('./runtime/progress').default)
 
 export default KMEditor

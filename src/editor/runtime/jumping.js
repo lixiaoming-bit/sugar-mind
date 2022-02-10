@@ -1,8 +1,8 @@
 /**
  * 根据按键控制状态机的跳转
  */
-import kity from 'kity'
-const Hotbox = require('../hotbox')
+// import kity from 'kity'
+const Hotbox = require('../hotbox').default
 
 // Nice: http://unixpapa.com/js/key.html
 function isIntendToInput(e) {
@@ -48,7 +48,7 @@ export default function JumpingRuntime() {
     if (e.is('Space')) {
       e.preventDefault()
       // safari下Space触发hotbox,然而这时Space已在receiver上留下作案痕迹,因此抹掉
-      if (kity.Browser.safari) {
+      if (window.kity.Browser.safari) {
         receiverElement.innerHTML = ''
       }
       return fsm.jump('hotbox', 'space-trigger')

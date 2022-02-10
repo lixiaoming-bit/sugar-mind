@@ -93,6 +93,7 @@ export default {
   bottom: 10px;
   width: 340px;
   top: 100px;
+  z-index: 2;
   .theme-style-wrapper {
     padding: 20px;
     .style-title-wrapper {

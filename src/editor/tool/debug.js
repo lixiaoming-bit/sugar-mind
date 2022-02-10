@@ -1,10 +1,5 @@
 /**
- * @fileOverview
- *
  * 支持各种调试后门
- *
- * @author: techird
- * @copyright: Baidu FEX, 2014
  */
 import format from './format'
 
@@ -36,5 +31,7 @@ export default function debug(flag) {
       const output = format.apply(null, arguments)
       console.log(format('%c{0}%c{1}', flag, output), flagStyle, textStyle)
     }
+  } else {
+    this.log = function () {}
   }
 }
