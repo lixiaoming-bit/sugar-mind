@@ -32,7 +32,7 @@ utils.clone = function (source) {
 }
 
 utils.comparePlainObject = function (a, b) {
-  return JSON.stringify(a) == JSON.stringify(b)
+  return JSON.stringify(a) === JSON.stringify(b)
 }
 
 utils.encodeHtml = function (str, reg) {
@@ -59,7 +59,7 @@ utils.clearWhiteSpace = function (str) {
 
 utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], function (v) {
   utils['is' + v] = function (obj) {
-    return Object.prototype.toString.apply(obj) == '[object ' + v + ']'
+    return Object.prototype.toString.apply(obj) === '[object ' + v + ']'
   }
 })
 export default utils

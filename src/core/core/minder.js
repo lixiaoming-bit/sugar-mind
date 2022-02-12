@@ -15,7 +15,7 @@ const Minder = kity.createClass('Minder', {
     let initHook
     while (initHooks.length) {
       initHook = initHooks.shift()
-      if (typeof initHook == 'function') {
+      if (typeof initHook === 'function') {
         initHook.call(this, this._options)
       }
     }

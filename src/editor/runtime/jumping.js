@@ -21,7 +21,7 @@ function isIntendToInput(e) {
   if (e.keyCode != 108 && e.keyCode >= 96 && e.keyCode <= 111) return true
 
   // 输入法
-  if (e.keyCode == 229 || e.keyCode === 0) return true
+  if (e.keyCode === 229 || e.keyCode === 0) return true
 
   return false
 }
@@ -78,7 +78,7 @@ export default function JumpingRuntime() {
     receiver.disable()
     e.preventDefault()
     hotbox.dispatch(e)
-    if (hotbox.state() == Hotbox.STATE_IDLE && fsm.state() == 'hotbox') {
+    if (hotbox.state() === Hotbox.STATE_IDLE && fsm.state() === 'hotbox') {
       return fsm.jump('normal', 'hotbox-idle')
     }
   })
@@ -86,7 +86,7 @@ export default function JumpingRuntime() {
   // input => normal
   receiver.listen('input', function (e) {
     receiver.enable()
-    if (e.type == 'keydown') {
+    if (e.type === 'keydown') {
       if (e.is('Enter')) {
         e.preventDefault()
         return fsm.jump('normal', 'input-commit')
@@ -98,14 +98,14 @@ export default function JumpingRuntime() {
       if (e.is('Tab') || e.is('Shift + Tab')) {
         e.preventDefault()
       }
-    } else if (e.type == 'keyup' && e.is('Esc')) {
+    } else if (e.type === 'keyup' && e.is('Esc')) {
       e.preventDefault()
       if (!compositionLock) {
         return fsm.jump('normal', 'input-cancel')
       }
-    } else if (e.type == 'compositionstart') {
+    } else if (e.type === 'compositionstart') {
       compositionLock = true
-    } else if (e.type == 'compositionend') {
+    } else if (e.type === 'compositionend') {
       setTimeout(function () {
         compositionLock = false
       })
@@ -121,13 +121,13 @@ export default function JumpingRuntime() {
   container.addEventListener(
     'mousedown',
     function (e) {
-      if (e.button == MOUSE_RB) {
+      if (e.button === MOUSE_RB) {
         e.preventDefault()
       }
-      if (fsm.state() == 'hotbox') {
+      if (fsm.state() === 'hotbox') {
         hotbox.active(Hotbox.STATE_IDLE)
         fsm.jump('normal', 'blur')
-      } else if (fsm.state() == 'normal' && e.button == MOUSE_RB) {
+      } else if (fsm.state() === 'normal' && e.button === MOUSE_RB) {
         downX = e.clientX
         downY = e.clientY
       }
@@ -138,7 +138,7 @@ export default function JumpingRuntime() {
   container.addEventListener(
     'mousewheel',
     function () {
-      if (fsm.state() == 'hotbox') {
+      if (fsm.state() === 'hotbox') {
         hotbox.active(Hotbox.STATE_IDLE)
         fsm.jump('normal', 'mousemove-blur')
       }

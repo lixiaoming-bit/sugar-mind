@@ -28,7 +28,7 @@ export default function HotboxRuntime() {
   })
 
   fsm.when('normal -> normal', function (_, __, reason, e) {
-    if (reason == 'shortcut-handle') {
+    if (reason === 'shortcut-handle') {
       const handleResult = hotbox.dispatch(e)
       if (handleResult) {
         e.preventDefault()
@@ -39,7 +39,7 @@ export default function HotboxRuntime() {
   })
 
   fsm.when('modal -> normal', function (_, __, reason) {
-    if (reason == 'import-text-finish') {
+    if (reason === 'import-text-finish') {
       receiver.element.focus()
     }
   })

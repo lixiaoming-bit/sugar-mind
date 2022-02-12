@@ -101,7 +101,7 @@ export default function HistoryRuntime() {
   minder.on('import', reset)
   minder.on('patch', updateSelection)
 
-  var main = hotbox.state('main')
+  const main = hotbox.state('main')
   main.button({
     position: 'top',
     label: '撤销',

@@ -32,7 +32,7 @@ export default function ClipboardRuntime() {
   }
 
   const beforeCopy = e => {
-    if (document.activeElement == receiver.element) {
+    if (document.activeElement === receiver.element) {
       const clipBoardEvent = e
       const state = fsm.state()
 
@@ -82,7 +82,7 @@ export default function ClipboardRuntime() {
   }
 
   const beforeCut = e => {
-    if (document.activeElement == receiver.element) {
+    if (document.activeElement === receiver.element) {
       if (minder.getStatus() !== 'normal') {
         e.preventDefault()
         return
@@ -109,7 +109,7 @@ export default function ClipboardRuntime() {
   }
 
   const beforePaste = e => {
-    if (document.activeElement == receiver.element) {
+    if (document.activeElement === receiver.element) {
       if (minder.getStatus() !== 'normal') {
         e.preventDefault()
         return

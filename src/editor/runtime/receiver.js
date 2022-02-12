@@ -69,7 +69,7 @@ export default function ReceiverRuntime() {
 
   // 侦听指定状态下的事件，如果不传 state，侦听所有状态
   receiver.listen = function (state, listener) {
-    if (arguments.length == 1) {
+    if (arguments.length === 1) {
       listener = state
       state = '*'
     }
@@ -79,7 +79,7 @@ export default function ReceiverRuntime() {
 
   function dispatchKeyEvent(e) {
     e.is = function (keyExpression) {
-      var subs = keyExpression.split('|')
+      const subs = keyExpression.split('|')
       for (let i = 0; i < subs.length; i++) {
         if (key.is(this, subs[i])) return true
       }

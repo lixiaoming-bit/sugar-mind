@@ -12,7 +12,7 @@ template.register('filetree', {
   },
 
   getConnect: function (node) {
-    if (node.getLevel() == 1) {
+    if (node.getLevel() === 1) {
       return 'poly'
     }
     return 'l'

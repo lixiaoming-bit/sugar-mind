@@ -1,6 +1,6 @@
 import theme from '../core/theme'
 ;['classic', 'classic-compact'].forEach(function (name) {
-  const compact = name == 'classic-compact'
+  const compact = name === 'classic-compact'
 
   /* jscs:disable maximumLineLength */
   theme.register(name, {

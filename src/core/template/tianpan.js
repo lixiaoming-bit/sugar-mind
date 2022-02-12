@@ -6,7 +6,7 @@ import template from '../core/template'
 template.register('tianpan', {
   getLayout: function (node) {
     if (node.getData('layout')) return node.getData('layout')
-    var level = node.getLevel()
+    const level = node.getLevel()
 
     // 根节点
     if (level === 0) {

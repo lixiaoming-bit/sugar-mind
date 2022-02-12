@@ -57,7 +57,7 @@ export default function NodeRuntime() {
     key: 'Alt + V',
     enable: function () {
       const selectedNodes = minder.getSelectedNodes()
-      return selectedNodes.length == 1
+      return selectedNodes.length === 1
     },
     action: importNodeData,
     next: 'idle'
@@ -69,7 +69,7 @@ export default function NodeRuntime() {
     key: 'Alt + C',
     enable: function () {
       const selectedNodes = minder.getSelectedNodes()
-      return selectedNodes.length == 1
+      return selectedNodes.length === 1
     },
     action: exportNodeData,
     next: 'idle'

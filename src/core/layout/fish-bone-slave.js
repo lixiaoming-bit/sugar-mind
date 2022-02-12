@@ -51,7 +51,7 @@ Layout.register(
 
       this.move(children, xAdjust, yAdjust)
 
-      if (round == 2) {
+      if (round === 2) {
         children.forEach(function (child) {
           const m = child.getLayoutTransform()
           const cBox = child.getContentBox()

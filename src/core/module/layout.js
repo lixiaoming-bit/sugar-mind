@@ -1,92 +1,84 @@
+// 布局模块
+
+import Command from '../core/command'
+import Module from '../core/module'
+const kity = window.kity
 /**
- * @fileOverview
- *
- * 布局模块
- *
- * @author: techird
- * @copyright: Baidu FEX, 2014
+ * @command Layout
+ * @description 设置选中节点的布局
+ *     允许使用的布局可以使用 `kityminder.Minder.getLayoutList()` 查询
+ * @param {string} name 布局的名称，设置为 null 则使用继承或默认的布局
+ * @state
+ *   0: 当前有选中的节点
+ *  -1: 当前没有选中的节点
+ * @return 返回首个选中节点的布局名称
  */
+const LayoutCommand = kity.createClass('LayoutCommand', {
+  base: Command,
 
-define(function(require, exports, module) {
-    var kity = require('../core/kity');
-    var Command = require('../core/command');
-    var Module = require('../core/module');
+  execute: function (minder, name) {
+    const nodes = minder.getSelectedNodes()
+    nodes.forEach(function (node) {
+      node.layout(name)
+    })
+  },
 
-    /**
-     * @command Layout
-     * @description 设置选中节点的布局
-     *     允许使用的布局可以使用 `kityminder.Minder.getLayoutList()` 查询
-     * @param {string} name 布局的名称，设置为 null 则使用继承或默认的布局
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 返回首个选中节点的布局名称
-     */
-    var LayoutCommand = kity.createClass('LayoutCommand', {
-        base: Command,
+  queryValue: function (minder) {
+    const node = minder.getSelectedNode()
+    if (node) {
+      return node.getData('layout')
+    }
+  },
 
-        execute: function(minder, name) {
-            var nodes = minder.getSelectedNodes();
-            nodes.forEach(function(node) {
-                node.layout(name);
-            });
-        },
+  queryState: function (minder) {
+    return minder.getSelectedNode() ? 0 : -1
+  }
+})
 
-        queryValue: function(minder) {
-            var node = minder.getSelectedNode();
-            if (node) {
-                return node.getData('layout');
-            }
-        },
+/**
+ * @command ResetLayout
+ * @description 重设选中节点的布局，如果当前没有选中的节点，重设整个脑图的布局
+ * @state
+ *   0: 始终可用
+ * @return 返回首个选中节点的布局名称
+ */
+const ResetLayoutCommand = kity.createClass('ResetLayoutCommand', {
+  base: Command,
 
-        queryState: function(minder) {
-            return minder.getSelectedNode() ? 0 : -1;
+  execute: function (minder) {
+    let nodes = minder.getSelectedNodes()
+
+    if (!nodes.length) nodes = [minder.getRoot()]
+
+    nodes.forEach(function (node) {
+      node.traverse(function (child) {
+        child.resetLayoutOffset()
+        if (!child.isRoot()) {
+          child.setData('layout', null)
         }
-    });
+      })
+    })
+    minder.layout(300)
+  },
 
-    /**
-     * @command ResetLayout
-     * @description 重设选中节点的布局，如果当前没有选中的节点，重设整个脑图的布局
-     * @state
-     *   0: 始终可用
-     * @return 返回首个选中节点的布局名称
-     */
-    var ResetLayoutCommand = kity.createClass('ResetLayoutCommand', {
-        base: Command,
+  enableReadOnly: true
+})
 
-        execute: function(minder) {
-            var nodes = minder.getSelectedNodes();
+Module.register('LayoutModule', {
+  commands: {
+    layout: LayoutCommand,
+    resetlayout: ResetLayoutCommand
+  },
+  contextmenu: [
+    {
+      command: 'resetlayout'
+    },
+    {
+      divider: true
+    }
+  ],
 
-            if (!nodes.length) nodes = [minder.getRoot()];
-
-            nodes.forEach(function(node) {
-                node.traverse(function(child) {
-                    child.resetLayoutOffset();
-                    if (!child.isRoot()) {
-                        child.setData('layout', null);
-                    }
-                });
-            });
-            minder.layout(300);
-        },
-
-        enableReadOnly: true
-    });
-
-    Module.register('LayoutModule', {
-        commands: {
-            'layout': LayoutCommand,
-            'resetlayout': ResetLayoutCommand
-        },
-        contextmenu: [{
-            command: 'resetlayout'
-        }, {
-            divider: true
-        }],
-
-        commandShortcutKeys: {
-            'resetlayout': 'Ctrl+Shift+L'
-        }
-    });
-
-});
+  commandShortcutKeys: {
+    resetlayout: 'Ctrl+Shift+L'
+  }
+})

@@ -57,6 +57,6 @@
         (h = !1),
         p(),
         (i.onreadystatechange = function () {
-          'complete' == i.readyState && ((i.onreadystatechange = null), v())
+          'complete' === i.readyState && ((i.onreadystatechange = null), v())
         }))
 })(window)

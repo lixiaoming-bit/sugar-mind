@@ -18,7 +18,7 @@ function getMetaKeyCode(unknown) {
   const SHIFT_MASK = 0x4000
   let metaKeyCode = 0
 
-  if (typeof unknown == 'string') {
+  if (typeof unknown === 'string') {
     // unknown as string
     unknown
       .toLowerCase()
@@ -57,10 +57,10 @@ function getMetaKeyCode(unknown) {
 }
 kity.extendClass(MinderEvent, {
   isShortcutKey: function (keyCombine) {
-    var keyEvent = this.originEvent
+    const keyEvent = this.originEvent
     if (!keyEvent) return false
 
-    return getMetaKeyCode(keyCombine) == getMetaKeyCode(keyEvent)
+    return getMetaKeyCode(keyCombine) === getMetaKeyCode(keyEvent)
   }
 })
 
@@ -126,7 +126,7 @@ kity.extendClass(Minder, {
   },
 
   getCommandShortcutKey: function (cmd) {
-    var binds = this._commandShortcutKeys
+    const binds = this._commandShortcutKeys
     return (binds && binds[cmd]) || null
   },
 

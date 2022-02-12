@@ -16,7 +16,7 @@ utils.extend(Minder, {
 kity.extendClass(
   Minder,
   (function () {
-    var originGetTheme = Minder.prototype.getTheme
+    const originGetTheme = Minder.prototype.getTheme
     return {
       useTemplate: function (name, duration) {
         this.setTemplate(name)

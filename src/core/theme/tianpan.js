@@ -1,6 +1,6 @@
 import theme from '../core/theme'
 ;['tianpan', 'tianpan-compact'].forEach(function (name) {
-  var compact = name == 'tianpan-compact'
+  const compact = name === 'tianpan-compact'
 
   theme.register(name, {
     background:

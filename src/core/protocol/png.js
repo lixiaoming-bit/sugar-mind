@@ -233,7 +233,7 @@ function encode(json, minder, option) {
       })
       .then(
         function ($images) {
-          for (var i = 0; i < $images.length; i++) {
+          for (let i = 0; i < $images.length; i++) {
             drawImage(
               ctx,
               $images[i].element,
@@ -246,7 +246,7 @@ function encode(json, minder, option) {
 
           DomURL.revokeObjectURL(svgDataUrl)
           document.body.appendChild(canvas)
-          var pngBase64 = generateDataUrl(canvas)
+          const pngBase64 = generateDataUrl(canvas)
 
           document.body.removeChild(canvas)
           return pngBase64

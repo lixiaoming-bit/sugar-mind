@@ -22,7 +22,7 @@ function cleanSVG(svgDom, x, y) {
     let strArr = []
     let pattern = []
     let cache = []
-    for (var i = 0, l = d.length; i < l; i++) {
+    for (let i = 0, l = d.length; i < l; i++) {
       switch (d[i]) {
         case 'M':
         case 'L':

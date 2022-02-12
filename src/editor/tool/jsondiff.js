@@ -52,7 +52,7 @@ const generate = (mirror, obj, patches, path) => {
     }
   }
 
-  if (!deleted && newKeys.length == oldKeys.length) {
+  if (!deleted && newKeys.length === oldKeys.length) {
     return
   }
   for (let t = 0; t < newKeys.length; t++) {

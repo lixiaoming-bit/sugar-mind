@@ -10,7 +10,7 @@ Layout.register(
     base: Layout,
 
     doLayout: function (parent, children) {
-      if (children.length == 0) return
+      if (children.length === 0) return
 
       const layout = this
       const pBox = parent.getContentBox()

@@ -34,7 +34,7 @@ kity.extendClass(Minder, {
 
       // 执行模块初始化，抛出后续处理对象
 
-      if (typeof modulesPool[name] == 'function') {
+      if (typeof modulesPool[name] === 'function') {
         moduleDeals = modulesPool[name].call(self)
       } else {
         moduleDeals = modulesPool[name]
@@ -112,7 +112,7 @@ kity.extendClass(Minder, {
 
     this._garbage()
 
-    for (var key in modules) {
+    for (const key in modules) {
       if (!modules[key].reset) continue
       modules[key].reset.call(this)
     }

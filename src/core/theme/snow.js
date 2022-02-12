@@ -1,6 +1,6 @@
 import theme from '../core/theme'
 ;['snow', 'snow-compact'].forEach(function (name) {
-  var compact = name == 'snow-compact'
+  const compact = name === 'snow-compact'
 
   /* jscs:disable maximumLineLength */
   theme.register(name, {

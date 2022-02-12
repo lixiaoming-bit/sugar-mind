@@ -87,11 +87,11 @@ function FSM(defaultState) {
     let enter
 
     resolved = condition.split(BEFORE_ARROW)
-    if (resolved.length == 2) {
+    if (resolved.length === 2) {
       when = 'before'
     } else {
       resolved = condition.split(AFTER_ARROW)
-      if (resolved.length == 2) {
+      if (resolved.length === 2) {
         when = 'after'
       }
     }

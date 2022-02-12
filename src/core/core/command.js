@@ -58,9 +58,9 @@ kity.extendClass(Minder, {
   },
 
   _queryCommand: function (name, type, args) {
-    var cmd = this._getCommand(name)
+    const cmd = this._getCommand(name)
     if (cmd) {
-      var queryCmd = cmd['query' + type]
+      const queryCmd = cmd['query' + type]
       if (queryCmd) return queryCmd.apply(cmd, [this].concat(args))
     }
     return 0

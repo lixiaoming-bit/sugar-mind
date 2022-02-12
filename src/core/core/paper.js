@@ -33,7 +33,7 @@ kity.extendClass(Minder, {
   },
 
   renderTo: function (target) {
-    if (typeof target == 'string') {
+    if (typeof target === 'string') {
       target = document.querySelector(target)
     }
     if (target) {

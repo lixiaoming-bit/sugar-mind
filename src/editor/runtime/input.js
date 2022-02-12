@@ -42,13 +42,13 @@ export default function InputRuntime() {
 
     // lost focus to commit
     receiver.onblur(function () {
-      if (fsm.state() == 'input') {
+      if (fsm.state() === 'input') {
         fsm.jump('normal', 'input-commit')
       }
     })
 
     minder.on('beforemousedown', function () {
-      if (fsm.state() == 'input') {
+      if (fsm.state() === 'input') {
         fsm.jump('normal', 'input-commit')
       }
     })
@@ -72,7 +72,7 @@ export default function InputRuntime() {
 
     minder.on('layoutallfinish viewchange viewchanged selectionchange', function (e) {
       // viewchange event is too frequented, lazy it
-      if (e.type == 'viewchange' && fsm.state() != 'input') return
+      if (e.type === 'viewchange' && fsm.state() != 'input') return
 
       updatePosition()
     })
@@ -336,7 +336,7 @@ export default function InputRuntime() {
     textNodes = commitInputText(textNodes)
     commitInputNode(node, textNodes)
 
-    if (node.type == 'root') {
+    if (node.type === 'root') {
       const rootText = minder.getRoot().getText()
       minder.fire('initChangeRoot', { text: rootText })
     }

@@ -79,7 +79,7 @@ function applyPatch(minder, patch) {
         field = path.shift()
         data[field] = patch.value
       }
-      if (field == 'expandState') {
+      if (field === 'expandState') {
         node.renderTree()
       } else {
         node.render()

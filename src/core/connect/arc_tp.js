@@ -43,7 +43,7 @@ connect.register('arc_tp', function (node, parent, connection, width, color) {
 
   let jl = Math.sqrt(Math.pow(start.x - end.x, 2) + Math.pow(start.y - end.y, 2)) //两圆中心点距离
 
-  jl = node.getIndex() == 0 ? jl * 0.4 : jl
+  jl = node.getIndex() === 0 ? jl * 0.4 : jl
 
   // vector = kity.Vector.fromPoints(start, end)
   pathData.push('M', start)

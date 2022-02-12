@@ -126,7 +126,7 @@ kity.extendClass(Minder, {
 
     function importChildren(node, children) {
       for (let i = 0, l = children.length; i < l; i++) {
-        var childNode = minder.createNode(null, node)
+        const childNode = minder.createNode(null, node)
         childNode.setData('text', children[i].data.text || '')
         importChildren(childNode, children[i].children)
       }

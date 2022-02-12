@@ -8,7 +8,7 @@ const kity = window.kity
 const MinderEvent = kity.createClass('MindEvent', {
   constructor: function (type, params, stop) {
     params = params || {}
-    if (params.getType && params.getType() == 'ShapeEvent') {
+    if (params.getType && params.getType() === 'ShapeEvent') {
       // 如果事件是从一个 kity 的事件派生的，会有 kityEvent 属性指向原来的 kity 事件
       this.kityEvent = params
 
@@ -39,7 +39,7 @@ const MinderEvent = kity.createClass('MindEvent', {
    */
   getPosition: function (refer) {
     if (!this.kityEvent) return
-    if (!refer || refer == 'minder') {
+    if (!refer || refer === 'minder') {
       return this.kityEvent.getPosition(this.minder.getRenderContainer())
     }
     return this.kityEvent.getPosition.call(this.kityEvent, refer)
@@ -96,8 +96,8 @@ const MinderEvent = kity.createClass('MindEvent', {
     if (!this.originEvent) {
       return false
     }
-    if ('which' in this.originEvent) isRightMB = this.originEvent.which == 3
-    else if ('button' in this.originEvent) isRightMB = this.originEvent.button == 2
+    if ('which' in this.originEvent) isRightMB = this.originEvent.which === 3
+    else if ('button' in this.originEvent) isRightMB = this.originEvent.button === 2
     return isRightMB
   },
   getKeyCode: function () {
@@ -145,7 +145,7 @@ kity.extendClass(Minder, {
     let preEvent
     let executeEvent
 
-    if (e.type == 'DOMMouseScroll') {
+    if (e.type === 'DOMMouseScroll') {
       e.type = 'mousewheel'
       e.wheelDelta = e.originEvent.wheelDelta = e.originEvent.detail * -10
       e.wheelDeltaX = e.originEvent.mozMovementX
@@ -227,7 +227,7 @@ kity.extendClass(Minder, {
       if (callbacks) {
         removeIndex = null
         for (let j = 0; j < callbacks.length; j++) {
-          if (callbacks[j] == callback) {
+          if (callbacks[j] === callback) {
             removeIndex = j
           }
         }

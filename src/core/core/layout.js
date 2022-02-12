@@ -99,7 +99,7 @@ const Layout = kity.createClass('Layout', {
 
       const matrix = node.getLayoutTransform()
 
-      if (axis == 'x') {
+      if (axis === 'x') {
         matrix.translate(position - offset, 0)
       } else {
         matrix.translate(0, position - offset)
@@ -499,7 +499,7 @@ kity.extendClass(Minder, {
         consume()
       }
 
-      for (var i = 0; i < node.children.length; i++) {
+      for (let i = 0; i < node.children.length; i++) {
         apply(node.children[i], matrix)
       }
     }

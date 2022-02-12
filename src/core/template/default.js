@@ -6,7 +6,7 @@ template.register('default', {
   getLayout: function (node) {
     if (node.getData('layout')) return node.getData('layout')
 
-    var level = node.getLevel()
+    const level = node.getLevel()
 
     // 根节点
     if (level === 0) {
@@ -22,7 +22,7 @@ template.register('default', {
   },
 
   getConnect: function (node) {
-    if (node.getLevel() == 1) return 'arc'
+    if (node.getLevel() === 1) return 'arc'
     return 'under'
   }
 })

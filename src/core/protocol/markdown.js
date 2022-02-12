@@ -42,7 +42,7 @@ function _build(node, level) {
 }
 
 function _generateHeaderSharp(level) {
-  var sharps = ''
+  let sharps = ''
   while (level--) sharps += '#'
   return sharps
 }
@@ -119,8 +119,8 @@ function _resolveLine(line) {
   return {
     level: (match[1] && match[1].length) || null,
     content: match[2],
-    noteStart: line == NOTE_MARK_START,
-    noteClose: line == NOTE_MARK_CLOSE,
+    noteStart: line === NOTE_MARK_START,
+    noteClose: line === NOTE_MARK_CLOSE,
     codeBlock: /^\s*```/.test(line)
   }
 }
@@ -130,7 +130,7 @@ function _cleanUp(node) {
     node.data.note = null
     delete node.data.note
   } else {
-    var notes = node.data.note.split('\n')
+    const notes = node.data.note.split('\n')
     while (notes.length && !/\S/.test(notes[0])) notes.shift()
     while (notes.length && !/\S/.test(notes[notes.length - 1])) notes.pop()
     node.data.note = notes.join('\n')

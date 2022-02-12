@@ -16,13 +16,13 @@ connect.register('under', function (node, parent, connection, width, color) {
 
   // const radius = node.getStyle('connect-radius')
   const underY = box.bottom + 3
-  const startY = parent.getType() == 'sub' ? pBox.bottom + 3 : pBox.cy
+  const startY = parent.getType() === 'sub' ? pBox.bottom + 3 : pBox.cy
   let p1
   let p2
   let p3
   let mx
 
-  if (side == 'right') {
+  if (side === 'right') {
     p1 = new kity.Point(pBox.right, startY)
     p2 = new kity.Point(box.left - 10, underY)
     p3 = new kity.Point(box.right, underY)

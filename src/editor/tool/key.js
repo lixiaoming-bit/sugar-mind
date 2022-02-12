@@ -55,11 +55,11 @@ function hashKeyExpression(keyExpression) {
 }
 
 export const hash = unknown => {
-  if (typeof unknown == 'string') {
+  if (typeof unknown === 'string') {
     return hashKeyExpression(unknown)
   }
   return hashKeyEvent(unknown)
 }
 export const is = (a, b) => {
-  return a && b && hash(a) == hash(b)
+  return a && b && hash(a) === hash(b)
 }

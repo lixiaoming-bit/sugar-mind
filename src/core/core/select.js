@@ -95,7 +95,7 @@ kity.extendClass(Minder, {
   },
 
   isSingleSelect: function () {
-    return this._selectedNodes.length == 1
+    return this._selectedNodes.length === 1
   },
 
   getSelectedAncestors: function (includeRoot) {

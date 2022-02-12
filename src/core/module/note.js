@@ -1,116 +1,102 @@
 /**
- * @fileOverview
- *
  * 支持节点详细信息（HTML）格式
- *
- * @author: techird
- * @copyright: Baidu FEX, 2014
  */
-define(function(require, exports, module) {
-    var kity = require('../core/kity');
-    var utils = require('../core/utils');
+import Command from '../core/command'
+import Module from '../core/module'
+import Renderer from '../core/render'
+const kity = window.kity
+Module.register('NoteModule', function () {
+  const NOTE_PATH =
+    'M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11'
 
-    var Minder = require('../core/minder');
-    var MinderNode = require('../core/node');
-    var Command = require('../core/command');
-    var Module = require('../core/module');
-    var Renderer = require('../core/render');
+  /**
+   * @command Note
+   * @description 设置节点的备注信息
+   * @param {string} note 要设置的备注信息，设置为 null 则移除备注信息
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
+  const NoteCommand = kity.createClass('NoteCommand', {
+    base: Command,
 
-    Module.register('NoteModule', function() {
+    execute: function (minder, note) {
+      const node = minder.getSelectedNode()
+      node.setData('note', note)
+      node.render()
+      node.getMinder().layout(300)
+    },
 
-        var NOTE_PATH = 'M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11';
+    queryState: function (minder) {
+      return minder.getSelectedNodes().length === 1 ? 0 : -1
+    },
 
+    queryValue: function (minder) {
+      const node = minder.getSelectedNode()
+      return node && node.getData('note')
+    }
+  })
 
-        /**
-         * @command Note
-         * @description 设置节点的备注信息
-         * @param {string} note 要设置的备注信息，设置为 null 则移除备注信息
-         * @state
-         *    0: 当前有选中的节点
-         *   -1: 当前没有选中的节点
-         */
-        var NoteCommand = kity.createClass('NoteCommand', {
-            base: Command,
+  const NoteIcon = kity.createClass('NoteIcon', {
+    base: kity.Group,
 
-            execute: function(minder, note) {
-                var node = minder.getSelectedNode();
-                node.setData('note', note);
-                node.render();
-                node.getMinder().layout(300);
-            },
+    constructor: function () {
+      this.callBase()
+      this.width = 16
+      this.height = 17
+      this.rect = new kity.Rect(16, 17, 0.5, -8.5, 2).fill('transparent')
+      this.path = new kity.Path().setPathData(NOTE_PATH).setTranslate(2.5, -6.5)
+      this.addShapes([this.rect, this.path])
 
-            queryState: function(minder) {
-                return minder.getSelectedNodes().length === 1 ? 0 : -1;
-            },
+      this.on('mouseover', function () {
+        this.rect.fill('rgba(255, 255, 200, .8)')
+      }).on('mouseout', function () {
+        this.rect.fill('transparent')
+      })
 
-            queryValue: function(minder) {
-                var node = minder.getSelectedNode();
-                return node && node.getData('note');
-            }
-        });
+      this.setStyle('cursor', 'pointer')
+    }
+  })
 
-        var NoteIcon = kity.createClass('NoteIcon', {
-            base: kity.Group,
+  const NoteIconRenderer = kity.createClass('NoteIconRenderer', {
+    base: Renderer,
 
-            constructor: function() {
-                this.callBase();
-                this.width = 16;
-                this.height = 17;
-                this.rect = new kity.Rect(16, 17, 0.5, -8.5, 2).fill('transparent');
-                this.path = new kity.Path().setPathData(NOTE_PATH).setTranslate(2.5, -6.5);
-                this.addShapes([this.rect, this.path]);
+    create: function (node) {
+      const icon = new NoteIcon()
+      icon.on('mousedown', function (e) {
+        e.preventDefault()
+        node.getMinder().fire('editnoterequest')
+      })
+      icon.on('mouseover', function () {
+        node.getMinder().fire('shownoterequest', { node: node, icon: icon })
+      })
+      icon.on('mouseout', function () {
+        node.getMinder().fire('hidenoterequest', { node: node, icon: icon })
+      })
+      return icon
+    },
 
-                this.on('mouseover', function() {
-                    this.rect.fill('rgba(255, 255, 200, .8)');
-                }).on('mouseout', function() {
-                    this.rect.fill('transparent');
-                });
+    shouldRender: function (node) {
+      return node.getData('note')
+    },
 
-                this.setStyle('cursor', 'pointer');
-            }
-        });
+    update: function (icon, node, box) {
+      const x = box.right + node.getStyle('space-left')
+      const y = box.cy
 
-        var NoteIconRenderer = kity.createClass('NoteIconRenderer', {
-            base: Renderer,
+      icon.path.fill(node.getStyle('color'))
+      icon.setTranslate(x, y)
 
-            create: function(node) {
-                var icon = new NoteIcon();
-                icon.on('mousedown', function(e) {
-                    e.preventDefault();
-                    node.getMinder().fire('editnoterequest');
-                });
-                icon.on('mouseover', function() {
-                    node.getMinder().fire('shownoterequest', {node: node, icon: icon});
-                });
-                icon.on('mouseout', function() {
-                    node.getMinder().fire('hidenoterequest', {node: node, icon: icon});
-                });
-                return icon;
-            },
+      return new kity.Box(x, Math.round(y - icon.height / 2), icon.width, icon.height)
+    }
+  })
 
-            shouldRender: function(node) {
-                return node.getData('note');
-            },
-
-            update: function(icon, node, box) {
-                var x = box.right + node.getStyle('space-left');
-                var y = box.cy;
-
-                icon.path.fill(node.getStyle('color'));
-                icon.setTranslate(x, y);
-
-                return new kity.Box(x, Math.round(y - icon.height / 2), icon.width, icon.height);
-            }
-
-        });
-
-        return {
-            renderers: {
-                right: NoteIconRenderer
-            },
-            commands: {
-                'note': NoteCommand
-            }
-        };
-    });
-});
+  return {
+    renderers: {
+      right: NoteIconRenderer
+    },
+    commands: {
+      note: NoteCommand
+    }
+  }
+})

@@ -232,7 +232,7 @@ kity.extendClass(MinderNode, {
   getRenderer: function (type) {
     const rs = this._renderers
     if (!rs) return null
-    for (var i = 0; i < rs.length; i++) {
+    for (let i = 0; i < rs.length; i++) {
       if (rs[i].getType() === type) return rs[i]
     }
     return null

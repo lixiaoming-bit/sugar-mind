@@ -118,7 +118,7 @@ const MinderNode = kity.createClass('MinderNode', {
   isAncestorOf: function (test) {
     let ancestor = test.parent
     while (ancestor) {
-      if (ancestor == this) return true
+      if (ancestor === this) return true
       ancestor = ancestor.parent
     }
     return false
@@ -245,7 +245,7 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   contains: function (node) {
-    return this == node || this.isAncestorOf(node)
+    return this === node || this.isAncestorOf(node)
   },
 
   clone: function () {

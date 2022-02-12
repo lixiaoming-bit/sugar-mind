@@ -4,8 +4,8 @@ const kity = window.kity
 ;['left', 'right', 'top', 'bottom'].forEach(registerLayoutForDirection)
 
 function registerLayoutForDirection(name) {
-  const axis = name == 'left' || name == 'right' ? 'x' : 'y'
-  const dir = name == 'left' || name == 'top' ? -1 : 1
+  const axis = name === 'left' || name === 'right' ? 'x' : 'y'
+  const dir = name === 'left' || name === 'top' ? -1 : 1
 
   const opposite = {
     left: 'right',
@@ -21,7 +21,7 @@ function registerLayoutForDirection(name) {
     const box = node.getLayoutBox()
     let offset = 5
 
-    if (axis == 'x') {
+    if (axis === 'x') {
       hint.push({
         type: 'up',
         node: node,
@@ -81,7 +81,7 @@ function registerLayoutForDirection(name) {
       doLayout: function (parent, children) {
         const pBox = parent.getContentBox()
 
-        if (axis == 'x') {
+        if (axis === 'x') {
           parent.setVertexOut(new kity.Point(pBox[name], pBox.cy))
           parent.setLayoutVectorOut(new kity.Vector(dir, 0))
         } else {
@@ -97,7 +97,7 @@ function registerLayoutForDirection(name) {
           const cBox = child.getContentBox()
           child.setLayoutTransform(new kity.Matrix())
 
-          if (axis == 'x') {
+          if (axis === 'x') {
             child.setVertexIn(new kity.Point(cBox[opposite[name]], cBox.cy))
             child.setLayoutVectorIn(new kity.Vector(dir, 0))
           } else {
@@ -113,7 +113,7 @@ function registerLayoutForDirection(name) {
         let xAdjust = 0
         let yAdjust = 0
 
-        if (axis == 'x') {
+        if (axis === 'x') {
           xAdjust = pBox[name]
           xAdjust += dir * parent.getStyle('margin-' + name)
           xAdjust += dir * children[0].getStyle('margin-' + opposite[name])
