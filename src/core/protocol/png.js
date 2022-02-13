@@ -278,13 +278,10 @@ function encode(json, minder, option) {
     return drawSVG()
   }
 }
-data.registerProtocol(
-  'png',
-  (module.exports = {
-    fileDescription: 'PNG 图片',
-    fileExtension: '.png',
-    mineType: 'image/png',
-    dataType: 'base64',
-    encode: encode
-  })
-)
+data.registerProtocol('png', {
+  fileDescription: 'PNG 图片',
+  fileExtension: '.png',
+  mineType: 'image/png',
+  dataType: 'base64',
+  encode: encode
+})

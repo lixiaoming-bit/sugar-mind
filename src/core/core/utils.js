@@ -1,4 +1,4 @@
-const kity = require('./kity')
+const kity = window.kity
 const uuidMap = {}
 const utils = {}
 utils.extend = kity.Utils.extend.bind(kity.Utils)

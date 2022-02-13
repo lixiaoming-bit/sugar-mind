@@ -3,35 +3,34 @@
  */
 
 const kityminder = {
-  version: require('./core/minder').version
+  version: require('./core/minder').default.version
 }
 
 // 核心导出，大写的部分导出类，小写的部分简单 require 一下
 // 这里顺序是有讲究的，调整前先弄清楚依赖关系。
 require('./core/utils')
-kityminder.Minder = require('./core/minder')
-kityminder.Command = require('./core/command')
-kityminder.Node = require('./core/node')
+kityminder.Minder = require('./core/minder').default
+kityminder.Command = require('./core/command').default
+kityminder.Node = require('./core/node').default
 require('./core/option')
 require('./core/animate')
-kityminder.Event = require('./core/event')
-kityminder.data = require('./core/data')
+kityminder.Event = require('./core/event').default
+kityminder.data = require('./core/data').default
 require('./core/compatibility')
-kityminder.KeyMap = require('./core/keymap')
+kityminder.KeyMap = require('./core/keymap').default
 require('./core/shortcut')
 require('./core/status')
 require('./core/paper')
 require('./core/select')
 require('./core/focus')
 require('./core/keyreceiver')
-kityminder.Module = require('./core/module')
+kityminder.Module = require('./core/module').default
 require('./core/readonly')
-kityminder.Render = require('./core/render')
-kityminder.Connect = require('./core/connect')
-kityminder.Layout = require('./core/layout')
-kityminder.Theme = require('./core/theme')
-kityminder.Template = require('./core/template')
-kityminder.Promise = require('./core/promise')
+kityminder.Render = require('./core/render').default
+kityminder.Connect = require('./core/connect').default
+kityminder.Layout = require('./core/layout').default
+kityminder.Theme = require('./core/theme').default
+kityminder.Template = require('./core/template').default
 require('./core/_boxv')
 require('./core/patch')
 

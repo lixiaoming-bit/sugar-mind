@@ -5,7 +5,7 @@ const kity = window.kity
 
 const protocols = {}
 
-export function registerProtocol(name, protocol) {
+function registerProtocol(name, protocol) {
   protocols[name] = protocol
   for (const pname in protocols) {
     if (Object.hasOwnProperty.call(protocols, pname)) {
@@ -14,7 +14,7 @@ export function registerProtocol(name, protocol) {
   }
 }
 
-export function getRegisterProtocol(name) {
+function getRegisterProtocol(name) {
   return name === undefined ? protocols : protocols[name] || null
 }
 
@@ -348,3 +348,5 @@ kity.extendClass(Minder, {
     return Promise.resolve(protocol.decode(data, this, option))
   }
 })
+
+export default { registerProtocol, getRegisterProtocol }

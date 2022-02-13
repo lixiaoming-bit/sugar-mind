@@ -210,48 +210,45 @@ function cleanSVG(svgDom, x, y) {
   replaceWithNode(svgDom, x || 0, y || 0)
   svgDom.style.visibility = 'visible'
 }
-data.registerProtocol(
-  'svg',
-  (module.exports = {
-    fileDescription: 'SVG 矢量图',
-    fileExtension: '.svg',
-    mineType: 'image/svg+xml',
-    dataType: 'text',
-    encode: function (json, minder) {
-      const paper = minder.getPaper()
-      const paperTransform = paper.shapeNode.getAttribute('transform')
-      let svgXml
-      let svgContainer
-      let svgDom
-      const renderContainer = minder.getRenderContainer()
-      const renderBox = renderContainer.getRenderBox()
-      const width = renderBox.width
-      const height = renderBox.height
-      const padding = 20
-      paper.shapeNode.setAttribute('transform', 'translate(0.5, 0.5)')
-      svgXml = paper.container.innerHTML
-      paper.shapeNode.setAttribute('transform', paperTransform)
-      svgContainer = document.createElement('div')
-      document.body.appendChild(svgContainer)
-      svgContainer.innerHTML = svgXml
-      svgDom = svgContainer.querySelector('svg')
-      svgDom.setAttribute('width', (width + padding * 2) | 0)
-      svgDom.setAttribute('height', (height + padding * 2) | 0)
-      svgDom.setAttribute('style', 'background: ' + minder.getStyle('background')) //"font-family: Arial, Microsoft Yahei, Heiti SC; " +
-      svgDom.setAttribute(
-        'viewBox',
-        [0, 0, (width + padding * 2) | 0, (height + padding * 2) | 0].join(' ')
-      )
-      const tempSvgContainer = document.createElement('div')
-      cleanSVG(svgDom, (renderBox.x - padding) | 0, (renderBox.y - padding) | 0)
-      document.body.removeChild(svgContainer)
-      tempSvgContainer.appendChild(svgDom)
-      // need a xml with width and height
-      svgXml = tempSvgContainer.innerHTML
-      // svg 含有 &nbsp; 符号导出报错 Entity 'nbsp' not defined
-      svgXml = svgXml.replace(/&nbsp;/g, '&#xa0;')
-      // svg 含有 &nbsp; 符号导出报错 Entity 'nbsp' not defined
-      return svgXml
-    }
-  })
-)
+data.registerProtocol('svg', {
+  fileDescription: 'SVG 矢量图',
+  fileExtension: '.svg',
+  mineType: 'image/svg+xml',
+  dataType: 'text',
+  encode: function (json, minder) {
+    const paper = minder.getPaper()
+    const paperTransform = paper.shapeNode.getAttribute('transform')
+    let svgXml
+    let svgContainer
+    let svgDom
+    const renderContainer = minder.getRenderContainer()
+    const renderBox = renderContainer.getRenderBox()
+    const width = renderBox.width
+    const height = renderBox.height
+    const padding = 20
+    paper.shapeNode.setAttribute('transform', 'translate(0.5, 0.5)')
+    svgXml = paper.container.innerHTML
+    paper.shapeNode.setAttribute('transform', paperTransform)
+    svgContainer = document.createElement('div')
+    document.body.appendChild(svgContainer)
+    svgContainer.innerHTML = svgXml
+    svgDom = svgContainer.querySelector('svg')
+    svgDom.setAttribute('width', (width + padding * 2) | 0)
+    svgDom.setAttribute('height', (height + padding * 2) | 0)
+    svgDom.setAttribute('style', 'background: ' + minder.getStyle('background')) //"font-family: Arial, Microsoft Yahei, Heiti SC; " +
+    svgDom.setAttribute(
+      'viewBox',
+      [0, 0, (width + padding * 2) | 0, (height + padding * 2) | 0].join(' ')
+    )
+    const tempSvgContainer = document.createElement('div')
+    cleanSVG(svgDom, (renderBox.x - padding) | 0, (renderBox.y - padding) | 0)
+    document.body.removeChild(svgContainer)
+    tempSvgContainer.appendChild(svgDom)
+    // need a xml with width and height
+    svgXml = tempSvgContainer.innerHTML
+    // svg 含有 &nbsp; 符号导出报错 Entity 'nbsp' not defined
+    svgXml = svgXml.replace(/&nbsp;/g, '&#xa0;')
+    // svg 含有 &nbsp; 符号导出报错 Entity 'nbsp' not defined
+    return svgXml
+  }
+})

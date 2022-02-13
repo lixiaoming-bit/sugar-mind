@@ -163,6 +163,8 @@ Minder.registerInitHook(function () {
   this.setTheme()
 })
 
-export function register(name, theme) {
+function register(name, theme) {
   _themes[name] = theme
 }
+
+export default { register }

@@ -89,6 +89,7 @@ Module.register('TemplateModule', {
   }
 })
 
-export function register(name, supports) {
+function register(name, supports) {
   _templates[name] = supports
 }
+export default { register }

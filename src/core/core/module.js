@@ -5,10 +5,6 @@ const kity = window.kity
 /* 已注册的模块 */
 const _modules = {}
 
-export function register(name, module) {
-  _modules[name] = module
-}
-
 /* 模块初始化 */
 Minder.registerInitHook(function () {
   this._initModules()
@@ -118,3 +114,8 @@ kity.extendClass(Minder, {
     }
   }
 })
+
+function register(name, module) {
+  _modules[name] = module
+}
+export default { register }

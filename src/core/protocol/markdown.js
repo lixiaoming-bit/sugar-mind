@@ -138,20 +138,17 @@ function _cleanUp(node) {
   if (node.children) node.children.forEach(_cleanUp)
 }
 
-data.registerProtocol(
-  'markdown',
-  (module.exports = {
-    fileDescription: 'Markdown/GFM 格式',
-    fileExtension: '.md',
-    mineType: 'text/markdown',
-    dataType: 'text',
+data.registerProtocol('markdown', {
+  fileDescription: 'Markdown/GFM 格式',
+  fileExtension: '.md',
+  mineType: 'text/markdown',
+  dataType: 'text',
 
-    encode: function (json) {
-      return encode(json.root)
-    },
+  encode: function (json) {
+    return encode(json.root)
+  },
 
-    decode: function (markdown) {
-      return decode(markdown)
-    }
-  })
-)
+  decode: function (markdown) {
+    return decode(markdown)
+  }
+})

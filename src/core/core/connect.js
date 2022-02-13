@@ -116,4 +116,4 @@ Module.register('Connect', {
   }
 })
 
-export default register
+export default { register }

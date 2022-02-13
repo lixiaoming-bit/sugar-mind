@@ -213,24 +213,21 @@ function Node2Text(node) {
   return encode(exportNode(node))
 }
 
-data.registerProtocol(
-  'text',
-  (module.exports = {
-    fileDescription: '大纲文本',
-    fileExtension: '.txt',
-    dataType: 'text',
-    mineType: 'text/plain',
+data.registerProtocol('text', {
+  fileDescription: '大纲文本',
+  fileExtension: '.txt',
+  dataType: 'text',
+  mineType: 'text/plain',
 
-    encode: function (json) {
-      return encode(json.root, 0)
-    },
+  encode: function (json) {
+    return encode(json.root, 0)
+  },
 
-    decode: function (local) {
-      return decode(local)
-    },
+  decode: function (local) {
+    return decode(local)
+  },
 
-    Node2Text: function (node) {
-      return Node2Text(node)
-    }
-  })
-)
+  Node2Text: function (node) {
+    return Node2Text(node)
+  }
+})

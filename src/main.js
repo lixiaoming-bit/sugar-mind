@@ -8,6 +8,8 @@ import './icon/iconfont'
 import './common/common.css'
 
 import './icon/iconfont'
+import KityMinder from '../src/core/kityminder'
+console.log('KityMinder: ', KityMinder)
 
 // import ' '
 const IconFont = Icon.createFromIconfontCN({
