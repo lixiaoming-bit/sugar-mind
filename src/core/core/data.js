@@ -1,5 +1,6 @@
 import Minder from './minder'
 import MinderEvent from './event'
+import MinderNode from './node'
 import compatibility from './compatibility'
 const kity = window.kity
 
@@ -82,7 +83,7 @@ kity.extendClass(Minder, {
    *      13123
    */
   Text2Children: function (node, text) {
-    if (!(node instanceof window.kityminder.Node)) {
+    if (!(node instanceof MinderNode)) {
       return
     }
     let children = []

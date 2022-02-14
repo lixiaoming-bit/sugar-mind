@@ -94,4 +94,5 @@ require('./template/right')
 require('./template/fish-bone')
 require('./template/tianpan')
 
+window.kityminder = kityminder
 export default kityminder
