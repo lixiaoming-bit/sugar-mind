@@ -9,7 +9,7 @@ import 'hotbox-minder/hotbox.css'
 import hotbox from 'hotbox-minder/hotbox'
 import kity from 'kity'
 // import kityminder from 'kityminder-core'
-import '../core/kityminder.core'
+import '../core/kityminder'
 import '../core/kityminder.css'
 console.log('window', window.kityminder)
 import KMEditor from '../editor/editor'

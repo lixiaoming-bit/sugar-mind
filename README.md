@@ -1,24 +1,35 @@
 # sugar-mind
 
-## Project setup
-```
-npm install
-```
+## 第一阶段目标
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- [ ] 支持节点新增
+- [ ] 支持节点编辑
+- [ ] 支持节点删除
+- [ ] 支持节点拖拽
+- [ ] 支持dom节点的插入
+- [ ] 支持关联线
+- [ ] 支持概要
+- [ ] 支持插入备注
+- [ ] 支持插入图片，可以将粘贴板中的图片快速粘贴上传
+- [ ] 支持插入图标
+- [ ] 支持插入超链接
+- [ ] 支持插入公式
+- [ ] 支持修改背景图片
+- [ ] 支持背景添加水印
+- [ ] 支持撤销操作
+- [ ] 支持导出svg，png图片等
+- [ ] 支持导航器
+- [ ] 支持定位聚焦
+- [ ] 支持缩略图
+- [ ] 支持放大缩小
+- [ ] 支持案件键盘功能
+- [ ] 至少支持一种经典风格
+- [ ] 至少支持一种布局方式
+- [ ] 支持统计字数与节点数目
+- [ ] 支持自由节点
+- [ ] 支持自由拖拽
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 第二阶段目标
+- [ ] 支持多人协作
+- [ ] 支持多版本导入导出
+- [ ] 支持多个模板、主题

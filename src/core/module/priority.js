@@ -30,7 +30,12 @@ Module.register('PriorityModule', function () {
     base: kity.Group,
 
     constructor: function () {
-      this.callBase()
+      kity.Group.call(this)
+      try {
+        this.callBase()
+      } catch (error) {
+        console.log('error: ', error)
+      }
       this.setSize(20)
       this.create()
       this.setId(utils.uuid('node_priority'))

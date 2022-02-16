@@ -275,7 +275,12 @@ Module.register('Resource', function () {
     base: kity.Group,
 
     constructor: function () {
-      this.callBase()
+      kity.Group.call(this)
+      try {
+        this.callBase()
+      } catch (error) {
+        console.log('error: ', error)
+      }
       this.rect = new kity.Rect().setRadius(4)
       const rect = this.rect
       this.text = new kity.Text().setFontSize(12).setVerticalAlign('middle')

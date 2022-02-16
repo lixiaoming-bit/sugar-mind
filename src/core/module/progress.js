@@ -36,7 +36,12 @@ Module.register('ProgressModule', function () {
     base: kity.Group,
 
     constructor: function (value) {
-      this.callBase()
+      kity.Group.call(this)
+      try {
+        this.callBase()
+      } catch (error) {
+        console.log('error: ', error)
+      }
       this.setSize(20)
       this.create()
       this.setValue(value)

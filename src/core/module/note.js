@@ -41,7 +41,12 @@ Module.register('NoteModule', function () {
     base: kity.Group,
 
     constructor: function () {
-      this.callBase()
+      kity.Group.call(this)
+      try {
+        this.callBase()
+      } catch (error) {
+        console.log('error: ', error)
+      }
       this.width = 16
       this.height = 17
       this.rect = new kity.Rect(16, 17, 0.5, -8.5, 2).fill('transparent')

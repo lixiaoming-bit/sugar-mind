@@ -10,7 +10,7 @@ export default function MinderRuntime() {
 
   // 渲染，初始化
   minder.renderTo(this.selector)
-  minder.setTheme(null)
+  minder.setTheme('classic')
   minder.select(minder.getRoot(), true)
   minder.execCommand('text', '中心主题')
 

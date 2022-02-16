@@ -127,7 +127,12 @@ Module.register('Expand', function () {
     base: kity.Group,
 
     constructor: function (node) {
-      this.callBase()
+      kity.Group.call(this)
+      try {
+        this.callBase()
+      } catch (error) {
+        console.log('error: ', error)
+      }
       this.radius = 6
       this.outline = new kity.Circle(this.radius).stroke('gray').fill('white')
       this.sign = new kity.Path().stroke('gray')

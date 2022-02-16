@@ -24,7 +24,17 @@ const DropHinter = kity.createClass('DropHinter', {
   base: kity.Group,
 
   constructor: function () {
-    this.callBase()
+    // console.log('kity.Group: ', kity.Group)
+    // kity.Group.call(this)
+    kity.Group.call(this)
+    // this.callBase()
+    // this.prototype = kity.Group
+    try {
+      this.callBase()
+    } catch (err) {
+      console.log('err: ', err)
+    }
+
     this.rect = new kity.Rect()
     this.addShape(this.rect)
   },
@@ -48,7 +58,12 @@ const OrderHinter = kity.createClass('OrderHinter', {
   base: kity.Group,
 
   constructor: function () {
-    this.callBase()
+    kity.Group.call(this)
+    try {
+      this.callBase()
+    } catch (err) {
+      console.log('err: ', err)
+    }
     this.area = new kity.Rect()
     this.path = new kity.Path()
     this.addShapes([this.area, this.path])
