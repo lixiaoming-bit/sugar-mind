@@ -32,28 +32,21 @@ Module.register('ProgressModule', function () {
   minder.getPaper().addResource(FRAME_GRAD)
 
   // 进度图标的图形
-  const ProgressIcon = kity.createClass('ProgressIcon', {
-    base: kity.Group,
 
-    constructor: function (value) {
-      kity.Group.call(this)
-      try {
-        this.callBase()
-      } catch (error) {
-        console.log('error: ', error)
-      }
+  class ProgressIcon extends kity.Group {
+    constructor(value) {
+      super()
       this.setSize(20)
       this.create()
       this.setValue(value)
       this.setId(utils.uuid('node_progress'))
       this.translate(0.5, 0.5)
-    },
-
-    setSize: function (size) {
+    }
+    setSize(size) {
       this.width = this.height = size
-    },
+    }
 
-    create: function () {
+    create() {
       const bg = new kity.Circle(9).fill(BG_COLOR)
       const pie = new kity.Pie(9, 0).fill(PIE_COLOR)
       const shadow = new kity.Path()
@@ -66,13 +59,55 @@ Module.register('ProgressModule', function () {
       this.addShapes([bg, pie, shadow, check, frame])
       this.pie = pie
       this.check = check
-    },
+    }
 
-    setValue: function (value) {
+    setValue(value) {
       this.pie.setAngle((-360 * (value - 1)) / 8)
       this.check.setVisible(value === 9)
     }
-  })
+  }
+
+  // const ProgressIcon = kity.createClass('ProgressIcon', {
+  //   base: kity.Group,
+
+  //   constructor: function (value) {
+  //     kity.Group.call(this)
+  //     try {
+  //       this.callBase()
+  //     } catch (error) {
+  //       console.log('error: ')
+  //     }
+  //     this.setSize(20)
+  //     this.create()
+  //     this.setValue(value)
+  //     this.setId(utils.uuid('node_progress'))
+  //     this.translate(0.5, 0.5)
+  //   },
+
+  //   setSize: function (size) {
+  //     this.width = this.height = size
+  //   },
+
+  //   create: function () {
+  //     const bg = new kity.Circle(9).fill(BG_COLOR)
+  //     const pie = new kity.Pie(9, 0).fill(PIE_COLOR)
+  //     const shadow = new kity.Path()
+  //       .setPathData(SHADOW_PATH)
+  //       .setTranslate(-10, -10)
+  //       .fill(SHADOW_COLOR)
+  //     const frame = new kity.Path().setTranslate(-10, -10).setPathData(FRAME_PATH).fill(FRAME_GRAD)
+  //     const check = new kity.Path().setTranslate(-10, -10).setPathData(CHECK_PATH).fill(CHECK_COLOR)
+
+  //     this.addShapes([bg, pie, shadow, check, frame])
+  //     this.pie = pie
+  //     this.check = check
+  //   },
+
+  //   setValue: function (value) {
+  //     this.pie.setAngle((-360 * (value - 1)) / 8)
+  //     this.check.setVisible(value === 9)
+  //   }
+  // })
 
   /**
    * @command Progress

@@ -271,25 +271,18 @@ Module.register('Resource', function () {
    *
    * 该类为一个资源以指定的颜色渲染一个动态的覆盖图形
    */
-  const ResourceOverlay = kity.createClass('ResourceOverlay', {
-    base: kity.Group,
 
-    constructor: function () {
-      kity.Group.call(this)
-      try {
-        this.callBase()
-      } catch (error) {
-        console.log('error: ', error)
-      }
+  class ResourceOverlay extends kity.Group {
+    constructor() {
+      super()
       this.rect = new kity.Rect().setRadius(4)
       const rect = this.rect
       this.text = new kity.Text().setFontSize(12).setVerticalAlign('middle')
       const text = this.text
 
       this.addShapes([rect, text])
-    },
-
-    setValue: function (resourceName, color) {
+    }
+    setValue(resourceName, color) {
       const paddingX = 8
       const paddingY = 4
       //   const borderRadius = 4
@@ -316,12 +309,11 @@ Module.register('Resource', function () {
       rect.setSize(this.width, this.height)
       rect.fill(color)
     }
-  })
-
+  }
   /**
    * @class 资源渲染器
    */
-  var ResourceRenderer = kity.createClass('ResourceRenderer', {
+  const ResourceRenderer = kity.createClass('ResourceRenderer', {
     base: Renderer,
 
     create: function () {

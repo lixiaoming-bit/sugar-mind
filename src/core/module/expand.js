@@ -123,26 +123,18 @@ Module.register('Expand', function () {
     }
   })
 
-  const Expander = kity.createClass('Expander', {
-    base: kity.Group,
-
-    constructor: function (node) {
-      kity.Group.call(this)
-      try {
-        this.callBase()
-      } catch (error) {
-        console.log('error: ', error)
-      }
-      this.radius = 6
+  class Expander extends kity.Group {
+    constructor(node) {
+      super()
+      this.radius = 7
       this.outline = new kity.Circle(this.radius).stroke('gray').fill('white')
       this.sign = new kity.Path().stroke('gray')
       this.addShapes([this.outline, this.sign])
       this.initEvent(node)
       this.setId(utils.uuid('node_expander'))
       this.setStyle('cursor', 'pointer')
-    },
-
-    initEvent: function (node) {
+    }
+    initEvent(node) {
       this.on('mousedown', function (e) {
         minder.select([node], true)
         if (node.isExpanded()) {
@@ -159,9 +151,9 @@ Module.register('Expand', function () {
         e.stopPropagation()
         e.preventDefault()
       })
-    },
+    }
 
-    setState: function (state) {
+    setState(state) {
       if (state === 'hide') {
         this.setVisible(false)
         return
@@ -173,7 +165,7 @@ Module.register('Expand', function () {
       }
       this.sign.setPathData(pathData)
     }
-  })
+  }
 
   const ExpanderRenderer = kity.createClass('ExpanderRenderer', {
     base: Renderer,

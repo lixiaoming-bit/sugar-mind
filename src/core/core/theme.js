@@ -133,7 +133,7 @@ kity.extendClass(MinderNode, {
 
 Module.register('Theme', {
   defaultOptions: {
-    defaultTheme: 'fresh-blue'
+    defaultTheme: 'classic'
   },
   commands: {
     /**

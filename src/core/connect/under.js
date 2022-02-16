@@ -6,8 +6,7 @@
 import connect from '../core/connect'
 const kity = window.kity
 
-connect.register('under', function (node, parent, connection, width, color) {
-  console.log('width, color: ', width, color)
+connect.register('under', function (node, parent, connection) {
   const box = node.getLayoutBox()
   const pBox = parent.getLayoutBox()
 

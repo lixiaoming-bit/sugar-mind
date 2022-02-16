@@ -26,26 +26,19 @@ Module.register('PriorityModule', function () {
   const PRIORITY_DATA = 'priority'
 
   // 优先级图标的图形
-  const PriorityIcon = kity.createClass('PriorityIcon', {
-    base: kity.Group,
 
-    constructor: function () {
-      kity.Group.call(this)
-      try {
-        this.callBase()
-      } catch (error) {
-        console.log('error: ', error)
-      }
+  class PriorityIcon extends kity.Group {
+    constructor() {
+      super()
       this.setSize(20)
       this.create()
       this.setId(utils.uuid('node_priority'))
-    },
-
-    setSize: function (size) {
+    }
+    setSize(size) {
       this.width = this.height = size
-    },
+    }
 
-    create: function () {
+    create() {
       //   const white = new kity.Path().setPathData(MASK_PATH).fill('white')
       const back = new kity.Path().setPathData(BACK_PATH).setTranslate(0.5, 0.5)
       const mask = new kity.Path().setPathData(MASK_PATH).setOpacity(0.8).setTranslate(0.5, 0.5)
@@ -63,9 +56,9 @@ Module.register('PriorityModule', function () {
       this.mask = mask
       this.back = back
       this.number = number
-    },
+    }
 
-    setValue: function (value) {
+    setValue(value) {
       const back = this.back
       const mask = this.mask
       const number = this.number
@@ -79,7 +72,61 @@ Module.register('PriorityModule', function () {
 
       number.setContent(value)
     }
-  })
+  }
+  // const PriorityIcon = kity.createClass('PriorityIcon', {
+  //   base: kity.Group,
+
+  //   constructor: function () {
+  //     kity.Group.call(this)
+  //     try {
+  //       this.callBase()
+  //     } catch (error) {
+  //       console.log('error: ')
+  //     }
+  //     this.setSize(20)
+  //     this.create()
+  //     this.setId(utils.uuid('node_priority'))
+  //   },
+
+  //   setSize: function (size) {
+  //     this.width = this.height = size
+  //   },
+
+  //   create: function () {
+  //     //   const white = new kity.Path().setPathData(MASK_PATH).fill('white')
+  //     const back = new kity.Path().setPathData(BACK_PATH).setTranslate(0.5, 0.5)
+  //     const mask = new kity.Path().setPathData(MASK_PATH).setOpacity(0.8).setTranslate(0.5, 0.5)
+
+  //     const number = new kity.Text()
+  //       .setX(this.width / 2 - 0.5)
+  //       .setY(this.height / 2)
+  //       .setTextAnchor('middle')
+  //       .setVerticalAlign('middle')
+  //       .setFontItalic(true)
+  //       .setFontSize(12)
+  //       .fill('white')
+
+  //     this.addShapes([back, mask, number])
+  //     this.mask = mask
+  //     this.back = back
+  //     this.number = number
+  //   },
+
+  //   setValue: function (value) {
+  //     const back = this.back
+  //     const mask = this.mask
+  //     const number = this.number
+
+  //     const color = PRIORITY_COLORS[value]
+
+  //     if (color) {
+  //       back.fill(color[1])
+  //       mask.fill(color[0])
+  //     }
+
+  //     number.setContent(value)
+  //   }
+  // })
 
   /**
    * @command Priority

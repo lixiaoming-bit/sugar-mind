@@ -83,8 +83,8 @@ kity.extendClass(Minder, {
 
     const provider = node.getConnectProvider()
 
-    const strokeColor = node.getStyle('connect-color') || 'white',
-      strokeWidth = node.getStyle('connect-width') || 2
+    const strokeColor = node.getStyle('connect-color') || 'white'
+    const strokeWidth = node.getStyle('connect-width') || 2
 
     connection.stroke(strokeColor, strokeWidth)
 
