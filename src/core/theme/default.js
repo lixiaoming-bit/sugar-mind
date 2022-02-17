@@ -14,7 +14,7 @@ theme.register('classic', {
   'main-color': '#000000',
   'main-background': '#f0f2f5',
   'main-stroke': 'none',
-  'main-font-size': 16,
+  'main-font-size': 20,
   'main-padding': [18, 25],
   'main-margin': 20,
   'main-radius': 8,
@@ -24,7 +24,7 @@ theme.register('classic', {
   'sub-color': '#000000',
   'sub-background': 'transparent',
   'sub-stroke': 'none',
-  'sub-font-size': 12,
+  'sub-font-size': 14,
   'sub-padding': [5, 10],
   'sub-margin': [15, 20],
   'sub-tree-margin': 30,
@@ -38,6 +38,7 @@ theme.register('classic', {
 
   // 'selected-background': 'none',
   'selected-stroke': '#4B6DF9',
+  'selected-stroke-width': 2,
   // 'selected-color': 'inherit',
 
   'marquee-background': 'rgba(204,224,255, .5)',

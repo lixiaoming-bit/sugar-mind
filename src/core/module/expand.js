@@ -185,16 +185,12 @@ Module.register('Expand', function () {
 
     update: function (expander, node) {
       if (!node.parent) return
-
       const visible = node.parent.isExpanded()
-
       expander.setState(visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide')
-
       const vector = node
         .getLayoutVectorIn()
         .normalize(expander.radius + node.getStyle('stroke-width'))
-      const position = node.getVertexIn().offset(vector.reverse())
-
+      const position = node.getVertexOut().offset(vector)
       this.expander.setTranslate(position)
     }
   })
