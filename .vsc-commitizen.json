@@ -1,0 +1,16 @@
+{
+  "scopes": [
+    {
+      "label": "core",
+      "description": "minder-core"
+    },
+    {
+      "label": "editor",
+      "description": "minder-editor"
+    },
+    {
+      "label": "view",
+      "description": "minder-view"
+    }
+  ]
+}
