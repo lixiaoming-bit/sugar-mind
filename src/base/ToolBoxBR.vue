@@ -67,7 +67,6 @@ export default {
       ]
     }
   },
-  watch: {},
   mounted() {},
   created() {},
   methods: {

@@ -127,11 +127,21 @@ Module.register('Expand', function () {
     constructor(node) {
       super()
       this.radius = 7
-      this.outline = new kity.Circle(this.radius).stroke('gray').fill('white')
-      this.sign = new kity.Path().stroke('gray')
-      this.addShapes([this.outline, this.sign])
+      const PATH = ['M', 1.5 - this.radius, 0, 'L', this.radius - 1.5, 0]
+      this.outline = new kity.Circle(this.radius).stroke('black').fill('white')
+      this.textOutLint = new kity.Circle(10).stroke('black').fill('white')
+      this.sign = new kity.Path(PATH).stroke('gray')
+      this.number = new kity.Text()
+        .setY(-0.5)
+        .setX(-0.5)
+        .setTextAnchor('middle')
+        .setVerticalAlign('middle')
+        .setFontSize(12)
+      this.textOutLint.setVisible(false)
+      this.addShapes([this.outline, this.textOutLint, this.sign, this.number])
       this.initEvent(node)
       this.setId(utils.uuid('node_expander'))
+      this.addClass('node-expander')
       this.setStyle('cursor', 'pointer')
     }
     initEvent(node) {
@@ -159,11 +169,19 @@ Module.register('Expand', function () {
         return
       }
       this.setVisible(true)
-      const pathData = ['M', 1.5 - this.radius, 0, 'L', this.radius - 1.5, 0]
-      if (state === STATE_COLLAPSE) {
-        pathData.push(['M', 0, 1.5 - this.radius, 'L', 0, this.radius - 1.5])
-      }
-      this.sign.setPathData(pathData)
+      this.toggleSymbolState(true)
+      state === STATE_COLLAPSE && this.toggleSymbolState(false)
+    }
+
+    setContent(number) {
+      this.number.setContent(number)
+    }
+
+    toggleSymbolState(flag) {
+      this.sign.setVisible(flag)
+      this.outline.setVisible(flag)
+      this.number.setVisible(!flag)
+      this.textOutLint.setVisible(!flag)
     }
   }
 
@@ -186,10 +204,14 @@ Module.register('Expand', function () {
     update: function (expander, node) {
       if (!node.parent) return
       const visible = node.parent.isExpanded()
-      expander.setState(visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide')
+      const state = visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide'
+      console.log('state: ', state)
+      const number = node.getComplex() - 1
+      expander.setState(state)
+      expander.setContent(number)
       const vector = node
         .getLayoutVectorIn()
-        .normalize(expander.radius + node.getStyle('stroke-width'))
+        .normalize(expander.radius + node.getStyle('stroke-width') + 5)
       const position = node.getVertexOut().offset(vector)
       this.expander.setTranslate(position)
     }

@@ -96,7 +96,7 @@ kity.extendClass(Minder, {
     if (item in items) return items[item]
 
     // 尝试匹配 CSS 数组形式的值
-    // 比如 item 为 'pading-left'
+    // 比如 item 为 'padding-left'
     // theme 里有 {'padding': [10, 20]} 的定义，则可以返回 20
     let segment = item.split('-')
     if (segment.length < 2) return null

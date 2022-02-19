@@ -41,35 +41,6 @@ class DropHinter extends kity.Group {
   }
 }
 
-// const DropHinter = kity.createClass('DropHinter', {
-//   base: kity.Group,
-
-//   constructor: function () {
-//     kity.Group.call(this)
-//     try {
-//       this.callBase()
-//     } catch (err) {
-//       console.log('err: ')
-//     }
-
-//     this.rect = new kity.Rect()
-//     this.addShape(this.rect)
-//   },
-
-//   render: function (target) {
-//     this.setVisible(!!target)
-//     if (target) {
-//       this.rect
-//         .setBox(target.getLayoutBox())
-//         .setRadius(target.getStyle('radius') || 0)
-//         .stroke(
-//           target.getStyle('drop-hint-color') || 'yellow',
-//           target.getStyle('drop-hint-width') || 2
-//         )
-//       this.bringTop()
-//     }
-//   }
-// })
 class OrderHinter extends kity.Group {
   constructor() {
     super()
@@ -92,34 +63,6 @@ class OrderHinter extends kity.Group {
     }
   }
 }
-// const OrderHinter = kity.createClass('OrderHinter', {
-//   base: kity.Group,
-
-//   constructor: function () {
-//     kity.Group.call(this)
-//     try {
-//       this.callBase()
-//     } catch (err) {
-//       console.log('err: ', err)
-//     }
-//     this.area = new kity.Rect()
-//     this.path = new kity.Path()
-//     this.addShapes([this.area, this.path])
-//   },
-
-//   render: function (hint) {
-//     this.setVisible(!!hint)
-//     if (hint) {
-//       this.area.setBox(hint.area)
-//       this.area.fill(hint.node.getStyle('order-hint-area-color') || 'rgba(0, 255, 0, .5)')
-//       this.path.setPathData(hint.path)
-//       this.path.stroke(
-//         hint.node.getStyle('order-hint-path-color') || '#0f0',
-//         hint.node.getStyle('order-hint-path-width') || 1
-//       )
-//     }
-//   }
-// })
 
 // 对拖动对象的一个替代盒子，控制整个拖放的逻辑，包括：
 //    1. 从节点列表计算出拖动部分

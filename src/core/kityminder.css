@@ -1,3 +1,8 @@
+.minder-node:hover .node-outline {
+  stroke: var(--stroke);
+  stroke-width: var(--stroke-width);
+}
+
 .km-view {
   font-family: 'STHeitiSC-Light', 'STHeiti', 'Hei', 'Heiti SC', 'Microsoft Yahei', Arial, sans-serif;
   -webkit-user-select: none;

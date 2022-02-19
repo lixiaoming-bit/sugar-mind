@@ -33,6 +33,9 @@ export default {
     init() {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
+      this.editor.minder.on('zoom', value => {
+        console.log(value)
+      })
       // this.editor = new window.kityminder.Minder()
       // this.editor.renderTo(el)
       // this.editor.setTheme(null)

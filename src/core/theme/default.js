@@ -28,7 +28,7 @@ theme.register('classic', {
   'sub-padding': [5, 10],
   'sub-margin': [15, 20],
   'sub-tree-margin': 30,
-  'sub-radius': 5,
+  'sub-radius': 8,
   'sub-space': 5,
 
   'connect-color': '#333333',
@@ -36,13 +36,14 @@ theme.register('classic', {
   'main-connect-width': 3,
   'connect-radius': 10,
 
-  // 'selected-background': 'none',
-  'selected-stroke': '#4B6DF9',
-  'selected-stroke-width': 2,
-  // 'selected-color': 'inherit',
+  'selected-background': 'none',
+  'selected-stroke': '#5EC7F8',
+  'selected-stroke-width': 1,
+  'selected-padding': [3, 3],
+  'selected-radius': 8,
 
   'marquee-background': 'rgba(204,224,255, .5)',
-  'marquee-stroke': '#4B6DF9',
+  'marquee-stroke': '#5EC7F8',
 
   'drop-hint-color': 'yellow',
   'sub-drop-hint-width': 2,

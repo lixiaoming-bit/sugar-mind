@@ -2,16 +2,16 @@ import utils from '../core/utils'
 import Module from '../core/module'
 import Renderer from '../core/render'
 const kity = window.kity
-const OutlineRenderer = kity.createClass('OutlineRenderer', {
+const EntityRenderer = kity.createClass('EntityRenderer', {
   base: Renderer,
 
   create: function () {
-    const outline = new kity.Rect().setId(utils.uuid('node_outline'))
+    const outline = new kity.Rect().setId(utils.uuid('node_entity'))
     this.bringToBack = true
     return outline
   },
 
-  update: function (outline, node, box) {
+  update: function (entity, node, box) {
     const shape = node.getStyle('shape')
     const paddingLeft = node.getStyle('padding-left')
     const paddingRight = node.getStyle('padding-right')
@@ -39,56 +39,69 @@ const OutlineRenderer = kity.createClass('OutlineRenderer', {
       outlineBox.height = 2 * radius
     }
 
+    // const prefix = node.isSelected()
+    //   ? node.getMinder().isFocused()
+    //     ? 'selected-'
+    //     : 'blur-selected-'
+    //   : ''
+    entity
+      .setPosition(outlineBox.x, outlineBox.y)
+      .setSize(outlineBox.width, outlineBox.height)
+      .setRadius(radius)
+      .fill(node.getData('background') || node.getStyle('background'))
+      .stroke(node.getStyle('stroke'), node.getStyle('stroke-width'))
+    return new kity.Box(outlineBox)
+  }
+})
+
+const OutlineRenderer = kity.createClass('OutlineRenderer', {
+  base: Renderer,
+
+  create: function () {
+    this.bringToBack = true
+    const outline = new kity.Rect().setId(utils.uuid('node_outline'))
+    return outline
+  },
+
+  // shouldRender: function (node) {
+  //   return (node.isSelected() || node.getMinder().isFocused()) && node.getStyle('selected')
+  // },
+
+  update: function (outline, node, box) {
+    const shape = node.getStyle('shape')
+
     const prefix = node.isSelected()
       ? node.getMinder().isFocused()
         ? 'selected-'
         : 'blur-selected-'
       : ''
+    const paddingLeft = node.getStyle('selected-padding-left') || 4
+    const paddingTop = node.getStyle('selected-padding-top') || 4
+    const radius = node.getStyle(prefix + 'radius')
+    const background = node.getStyle('selected-background') || 'none'
+    const stroke = node.getStyle(prefix + 'stroke')
+    const strokeWidth = node.getStyle(prefix + 'stroke-width')
+    const selectedStroke = node.getStyle('selected-stroke')
+    const selectedStrokeWidth = node.getStyle('selected-stroke-width')
+
     outline
-      .setPosition(outlineBox.x, outlineBox.y)
-      .setSize(outlineBox.width, outlineBox.height)
-      .setRadius(radius)
-      .fill(
-        node.getData('background') ||
-          node.getStyle(prefix + 'background') ||
-          node.getStyle('background')
-      )
-      .stroke(
-        node.getStyle(prefix + 'stroke' || node.getStyle('stroke')),
-        node.getStyle(prefix + 'stroke-width')
-      )
+      .addClass('node-outline')
+      .setAttr('style', `--stroke: ${selectedStroke};--stroke-width:${selectedStrokeWidth};`)
+      .setPosition(box.x - paddingLeft, box.y - paddingTop)
+      .fill(background)
+      .stroke(stroke, strokeWidth)
 
-    return new kity.Box(outlineBox)
-  }
-})
-
-const ShadowRenderer = kity.createClass('ShadowRenderer', {
-  base: Renderer,
-
-  create: function () {
-    this.bringToBack = true
-    return new kity.Rect()
-  },
-
-  shouldRender: function (node) {
-    return node.getStyle('shadow')
-  },
-
-  update: function (shadow, node, box) {
-    shadow.setPosition(box.x + 4, box.y + 5).fill(node.getStyle('shadow'))
-
-    const shape = node.getStyle('shape')
     if (!shape) {
-      shadow.setSize(box.width, box.height)
-      shadow.setRadius(node.getStyle('radius'))
-    } else if (shape == 'circle') {
-      const width = Math.max(box.width, box.height)
-      shadow.setSize(width, width)
-      shadow.setRadius(width / 2)
+      outline.setSize(box.width + paddingLeft * 2, box.height + paddingTop * 2).setRadius(radius)
+    } else if (shape === 'circle') {
+      const width = Math.max(box.width + paddingLeft * 2, box.height + paddingTop * 2)
+      outline.setSize(width, width)
+      outline.setRadius(width / 2)
     }
   }
 })
 
+// 调试模式
 const marker = new kity.Marker()
 
 marker.setWidth(10)
@@ -132,23 +145,27 @@ const WireframeRenderer = kity.createClass('WireframeRenderer', {
   }
 })
 
+const wireEvents = !wireframeOption
+  ? null
+  : {
+      ready: function () {
+        this.getPaper().addResource(marker)
+      },
+      layoutallfinish: function () {
+        this.getRoot().traverse(function (node) {
+          node.getRenderer('WireframeRenderer').update(null, node, node.getContentBox())
+        })
+      }
+    }
+
 Module.register('OutlineModule', function () {
   return {
-    events: !wireframeOption
-      ? null
-      : {
-          ready: function () {
-            this.getPaper().addResource(marker)
-          },
-          layoutallfinish: function () {
-            this.getRoot().traverse(function (node) {
-              node.getRenderer('WireframeRenderer').update(null, node, node.getContentBox())
-            })
-          }
-        },
+    events: {
+      ...wireEvents
+    },
     renderers: {
-      outline: OutlineRenderer,
-      outside: [ShadowRenderer, WireframeRenderer]
+      outline: EntityRenderer,
+      outside: [OutlineRenderer, WireframeRenderer]
     }
   }
 })
