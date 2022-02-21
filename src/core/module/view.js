@@ -107,6 +107,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
           'inputready.mousedown inputready.touchstart ' +
           'readonly.mousedown readonly.touchstart',
         function (e) {
+          console.log('e1: ', e)
           if (e.originEvent.button === 2) {
             e.originEvent.preventDefault() // 阻止中键拉动
           }
@@ -127,6 +128,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
           'readonly.mousemove readonly.touchmove ' +
           'inputready.mousemove inputready.touchmove',
         function (e) {
+          console.log('e2: ', e)
           if (e.type === 'touchmove') {
             e.preventDefault() // 阻止浏览器的后退事件
           }
@@ -141,6 +143,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
       )
 
       .on('hand.beforemousedown hand.beforetouchstart', function (e) {
+        console.log('e3: ', e)
         // 已经被用户打开拖放模式
         if (dragger.isEnabled()) {
           lastPosition = e.getPosition('view')
@@ -151,6 +154,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
       })
 
       .on('hand.beforemousemove hand.beforetouchmove', function (e) {
+        console.log('e4: ', e)
         if (lastPosition) {
           currentPosition = e.getPosition('view')
 
@@ -184,7 +188,7 @@ Module.register('View', function () {
   const ToggleHandCommand = kity.createClass('ToggleHandCommand', {
     base: Command,
     execute: function (minder) {
-      if (minder.getStatus() != 'hand') {
+      if (minder.getStatus() !== 'hand') {
         minder.setStatus('hand', true)
       } else {
         minder.rollbackStatus()
@@ -330,7 +334,6 @@ Module.register('View', function () {
         const minder = this
 
         /*
-         * Added by zhangbobell 2015.9.9
          * windows 10 的 edge 浏览器在全部动画停止后，优先级图标不显示 text，
          * 因此再次触发一次 render 事件，让浏览器重绘
          * */

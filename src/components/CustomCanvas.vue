@@ -13,6 +13,7 @@ import '../core/kityminder'
 import '../core/kityminder.css'
 console.log('window', window.kityminder)
 import KMEditor from '../editor/editor'
+import { mapMutations } from 'vuex'
 export default {
   name: 'CustomCanvas',
   filters: {},
@@ -30,11 +31,16 @@ export default {
   },
   created() {},
   methods: {
+    ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER']),
     init() {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
-      this.editor.minder.on('zoom', value => {
-        console.log(value)
+      const { minder } = this.editor
+      console.log('minder: ', minder)
+      this.SET_MINDER(minder)
+      minder.on('zoom', event => {
+        const { zoom } = event
+        this.SET_MINDER_ZOOM(zoom)
       })
       // this.editor = new window.kityminder.Minder()
       // this.editor.renderTo(el)

@@ -5,10 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    minder: {},
+    minderZoom: 100,
     visibleModal: null,
     displayMode: 'normal' // compact | pure
   },
   mutations: {
+    SET_MINDER(state, payload) {
+      state.minder = payload
+    },
+    SET_MINDER_ZOOM(state, payload) {
+      state.minderZoom = payload
+    },
     SET_VISIBLE_MODAL(state, payload = null) {
       state.visibleModal = payload
     },
@@ -24,6 +32,13 @@ export default new Vuex.Store({
     },
     displayMode(state) {
       return state.displayMode
+    },
+    minderInfo(state) {
+      const { minderZoom: zoom } = state
+      return { zoom }
+    },
+    minder(state) {
+      return state.minder
     }
   }
 })

@@ -2,8 +2,8 @@
   <transition name="slide-fade-bottom">
     <div class="tool-box-bottom-right-container" v-show="isShowComponent" :style="isCompact">
       <a-popover placement="top">
-        <template slot="content">点击图标，切换左右键拖动</template>
-        <icon-font type="iconicon_common_mouse_r" class="option-one" />
+        <template slot="content">点击图标，切换左右键拖动与框选</template>
+        <icon-font :type="minderHandStatus.type" class="option-one" @click="toggleHandler" />
       </a-popover>
       <a-popover placement="top">
         <template slot="content">导航器</template>
@@ -11,12 +11,15 @@
       </a-popover>
       <a-popover placement="top">
         <template slot="content">缩小</template>
-        <icon-font type="iconicon_common_narrow2" class="option-one" />
+        <icon-font type="iconicon_common_narrow2" class="option-one" @click="handleZoomOut" />
       </a-popover>
-      <span class="option-one">100%</span>
+      <a-popover placement="top">
+        <template slot="content">回到视图中心</template>
+        <span class="option-one zoom-value" @click="handleCamera">{{ minderZoomValue }}</span>
+      </a-popover>
       <a-popover placement="top">
         <template slot="content">放大</template>
-        <icon-font type="iconicon_common_enlarge1" class="option-one" />
+        <icon-font type="iconicon_common_enlarge1" class="option-one" @click="handleZoomIn" />
       </a-popover>
       <a-popover placement="top">
         <template slot="content">全屏</template>
@@ -49,7 +52,17 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['displayMode']),
+    ...mapGetters(['displayMode', 'minder']),
+    minderZoomValue() {
+      return this.minder._zoomValue + '%'
+    },
+    minderHandStatus() {
+      const isMove = this.minder.queryCommandState?.('hand') === 1
+      return {
+        type: isMove ? 'iconicon_common_mouse_r' : 'iconicon_common_mouse_l'
+      }
+    },
+
     isShowComponent() {
       return this.displayMode !== 'pure'
     },
@@ -71,6 +84,22 @@ export default {
   created() {},
   methods: {
     // 处理疑问帮助，偏好设置
+    // 切换手柄
+    toggleHandler() {
+      // this.minder.execCommand('hand')
+    },
+    // 放大
+    handleZoomIn() {
+      this.minder.execCommand('zoomin')
+    },
+    // 缩小
+    handleZoomOut() {
+      this.minder.execCommand('zoomout')
+    },
+    // 回到页面
+    handleCamera() {
+      this.minder.execCommand('camera', this.minder.getRoot(), 600)
+    }
   }
 }
 </script>
@@ -83,6 +112,7 @@ export default {
   width: 263px;
   height: var(--layout-height);
   padding: 0 8px;
+  user-select: none;
   display: inline-flex;
   justify-content: space-around;
   align-items: center;
@@ -103,6 +133,14 @@ export default {
       color: #12bb37;
       transition: color 0.2s ease;
     }
+  }
+  .zoom-value {
+    font-size: 16px;
+    cursor: pointer;
+    min-width: 40px;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
   }
 }
 
