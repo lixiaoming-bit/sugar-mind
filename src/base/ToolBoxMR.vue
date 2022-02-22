@@ -17,7 +17,9 @@
             :class="{ 'is-active': visibleModal === item.childComponent }"
           >
             <icon-font :type="item.icon" class="one-option-icon" />
-            <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+            <transition name="scale-in">
+              <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+            </transition>
           </div>
         </a-popover>
       </div>
@@ -122,6 +124,7 @@ export default {
     font-weight: 500;
     color: #464646;
     cursor: pointer;
+    transition: width 0.5s ease;
     &:hover {
       background-color: #f5f5f5;
     }
@@ -158,5 +161,22 @@ export default {
 .slide-fade-right-leave-to {
   transform: translate(100%, -50%);
   opacity: 0;
+}
+
+.scale-in-enter,
+.scale-in-leave-to {
+  height: 0;
+  opacity: 0;
+  transform: scale(0);
+}
+.scale-in-enter-to,
+.scale-in-leave {
+  height: 18px;
+  opacity: 1;
+  transform: scale(1);
+}
+.scale-in-leave-active,
+.scale-in-enter-active {
+  transition: transform 0.25s ease, opacity 0.25s ease, height 0.25s ease;
 }
 </style>

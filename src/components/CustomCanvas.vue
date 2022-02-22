@@ -16,20 +16,14 @@ import KMEditor from '../editor/editor'
 import { mapMutations } from 'vuex'
 export default {
   name: 'CustomCanvas',
-  filters: {},
-  components: {},
-  props: {},
   data() {
     return {
       editor: null
     }
   },
-  computed: {},
-  watch: {},
   mounted() {
     this.init()
   },
-  created() {},
   methods: {
     ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER']),
     init() {

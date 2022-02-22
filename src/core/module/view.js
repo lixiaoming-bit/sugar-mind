@@ -128,7 +128,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
           'readonly.mousemove readonly.touchmove ' +
           'inputready.mousemove inputready.touchmove',
         function (e) {
-          console.log('e2: ', e)
           if (e.type === 'touchmove') {
             e.preventDefault() // 阻止浏览器的后退事件
           }
@@ -143,7 +142,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
       )
 
       .on('hand.beforemousedown hand.beforetouchstart', function (e) {
-        console.log('e3: ', e)
         // 已经被用户打开拖放模式
         if (dragger.isEnabled()) {
           lastPosition = e.getPosition('view')
@@ -154,7 +152,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
       })
 
       .on('hand.beforemousemove hand.beforetouchmove', function (e) {
-        console.log('e4: ', e)
         if (lastPosition) {
           currentPosition = e.getPosition('view')
 

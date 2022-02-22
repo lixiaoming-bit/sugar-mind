@@ -8,7 +8,9 @@
           </template>
           <div class="center">
             <icon-font :type="item.icon" class="one-option-icon" />
-            <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+            <transition name="scale-in">
+              <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+            </transition>
           </div>
         </a-popover>
       </div>
@@ -22,7 +24,9 @@
           </template>
           <div class="center">
             <icon-font type="iconicon_draw_share" class="one-option-icon" />
-            <div class="one-option-title" v-if="isShowTitle">分享协作</div>
+            <transition name="scale-in">
+              <div class="one-option-title" v-if="isShowTitle">分享协作</div>
+            </transition>
           </div>
         </a-popover>
       </div>
@@ -110,6 +114,7 @@ export default {
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
+  transition: height 0.5s ease;
 }
 .one-option {
   cursor: pointer;
@@ -120,6 +125,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: width 0.5s ease;
   &:hover {
     background-color: #f5f5f5;
   }
@@ -134,6 +140,8 @@ export default {
   .one-option-title {
     color: #666;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   &.disabled {
@@ -151,6 +159,23 @@ export default {
 .slide-fade-right-leave-to {
   transform: translateY(-100%);
   opacity: 0;
+}
+
+.scale-in-enter,
+.scale-in-leave-to {
+  height: 0;
+  opacity: 0;
+  transform: scale(0);
+}
+.scale-in-enter-to,
+.scale-in-leave {
+  height: 18px;
+  opacity: 1;
+  transform: scale(1);
+}
+.scale-in-leave-active,
+.scale-in-enter-active {
+  transition: transform 0.25s ease, opacity 0.25s ease, height 0.25s ease;
 }
 </style>
 <style lang="less">

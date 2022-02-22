@@ -2,12 +2,12 @@
   <transition name="slide-fade-bottom">
     <div class="tool-box-bottom-right-container" v-show="isShowComponent" :style="isCompact">
       <a-popover placement="top">
-        <template slot="content">点击图标，切换左右键拖动与框选</template>
-        <icon-font :type="minderHandStatus.type" class="option-one" @click="toggleHandler" />
+        <template slot="content">{{ layoutText }}，点击切换布局</template>
+        <icon-font :type="minderHandStatus.type" class="option-one" @click="toggleLayout" />
       </a-popover>
       <a-popover placement="top">
         <template slot="content">导航器</template>
-        <icon-font type="iconicon_common_navigation1" class="option-one" />
+        <icon-font type="iconicon_common_navigation1" class="option-one" @click="toggleNavigator" />
       </a-popover>
       <a-popover placement="top">
         <template slot="content">缩小</template>
@@ -37,19 +37,25 @@
           </a-menu>
         </a-dropdown>
       </a-popover>
+      <navigator v-if="isShowNavigator"></navigator>
     </div>
   </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import Navigator from './Navigator'
 export default {
   name: 'ToolBoxBR',
   filters: {},
-  components: {},
+  components: {
+    Navigator
+  },
   props: {},
   data() {
-    return {}
+    return {
+      isShowNavigator: false
+    }
   },
   computed: {
     ...mapGetters(['displayMode', 'minder']),
@@ -66,11 +72,17 @@ export default {
     isShowComponent() {
       return this.displayMode !== 'pure'
     },
+
     isCompact() {
       return {
         '--layout-height': this.displayMode === 'compact' ? '30px' : '45px'
       }
     },
+
+    layoutText() {
+      return this.displayMode === 'compact' ? '迷你布局' : '普通布局'
+    },
+
     options() {
       return [
         {
@@ -80,13 +92,13 @@ export default {
       ]
     }
   },
-  mounted() {},
-  created() {},
   methods: {
+    ...mapMutations(['SET_DISPLAY_MODE']),
     // 处理疑问帮助，偏好设置
     // 切换手柄
-    toggleHandler() {
-      // this.minder.execCommand('hand')
+    toggleLayout() {
+      const layout = this.displayMode === 'normal' ? 'compact' : 'normal'
+      this.SET_DISPLAY_MODE(layout)
     },
     // 放大
     handleZoomIn() {
@@ -99,6 +111,10 @@ export default {
     // 回到页面
     handleCamera() {
       this.minder.execCommand('camera', this.minder.getRoot(), 600)
+    },
+    // 切换导航器显示
+    toggleNavigator() {
+      this.isShowNavigator = !this.isShowNavigator
     }
   }
 }
@@ -111,6 +127,7 @@ export default {
   right: 16px;
   width: 263px;
   height: var(--layout-height);
+  transition: height 0.5s ease;
   padding: 0 8px;
   user-select: none;
   display: inline-flex;

@@ -42,6 +42,7 @@ export default {
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   height: var(--layout-height);
+  transition: height 0.5s ease;
   display: flex;
   flex-direction: row;
   width: 280px;

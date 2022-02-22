@@ -205,7 +205,6 @@ Module.register('Expand', function () {
       if (!node.parent) return
       const visible = node.parent.isExpanded()
       const state = visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide'
-      console.log('state: ', state)
       const number = node.getComplex() - 1
       expander.setState(state)
       expander.setContent(number)
