@@ -1,5 +1,7 @@
 <template>
-  <div class="navigator-container" :style="isCompact"></div>
+  <transition name="scale-in">
+    <div class="navigator-container" :style="isCompact"></div>
+  </transition>
 </template>
 
 <script>

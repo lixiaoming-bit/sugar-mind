@@ -37,7 +37,9 @@
           </a-menu>
         </a-dropdown>
       </a-popover>
-      <navigator v-if="isShowNavigator"></navigator>
+      <transition name="scale-in">
+        <navigator v-if="isShowNavigator"></navigator>
+      </transition>
     </div>
   </transition>
 </template>
@@ -171,5 +173,20 @@ export default {
 .slide-fade-bottom-leave-to {
   transform: translateY(100%);
   opacity: 0;
+}
+
+.scale-in-enter,
+.scale-in-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.scale-in-enter-to,
+.scale-in-leave {
+  opacity: 1;
+  transform: scale(1);
+}
+.scale-in-leave-active,
+.scale-in-enter-active {
+  transition: transform 0.25s ease, opacity 0.25s ease, height 0.25s ease;
 }
 </style>
