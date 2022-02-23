@@ -1,7 +1,13 @@
 <template>
   <transition name="slide-fade-top">
     <div class="tool-box-top-center-container" v-if="isShowComponent" :style="isCompact">
-      <div class="one-option" v-for="(item, index) in options" :key="index" :class="item.class">
+      <div
+        class="one-option"
+        v-for="item in options"
+        :key="item.key"
+        :class="item.class"
+        @click="handleUserAction(item)"
+      >
         <a-popover placement="bottom">
           <template slot="content">
             {{ item.tips }}
@@ -17,7 +23,13 @@
       <div class="one-option">
         <a-popover placement="bottom" :trigger="['click']" overlay-class-name="more-popover">
           <template slot="content">
-            <div class="more-one-option" v-for="item in moreOptions" :key="item.title">
+            <div
+              class="more-one-option"
+              v-for="item in moreOptions"
+              :key="item.key"
+              :class="item.class"
+              @click="handleUserAction(item)"
+            >
               <icon-font :type="item.icon" />
               <span class="more-one-option-title">{{ item.title }}</span>
             </div>
@@ -60,87 +72,145 @@ export default {
       }
     },
     options() {
-      console.log('minder', this.minder)
+      const checkDisabled = command =>
+        this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
       return [
         {
+          key: 'undo',
           icon: 'iconicon_draw_revocation',
           title: '撤回',
           tips: '快捷操作：Command+Z',
           class: this.history.hasUndo() ? '' : 'disabled'
         },
         {
+          key: 'redo',
           icon: 'iconicon_draw_recovery',
           title: '恢复',
           tips: '快捷操作：Command+Y',
           class: this.history.hasRedo() ? '' : 'disabled'
         },
         {
+          key: 'copy-style',
           icon: 'iconicon_draw_brush',
           title: '格式刷',
           tips: '选中主题-点格式刷-点其他主题',
-          class: this.minder.queryCommandState('copystyle') === -1 ? 'disabled' : ''
+          class: checkDisabled('copystyle')
         },
         {
+          key: 'append-sibling',
           icon: 'iconicon_draw_topic',
           title: '主题',
           tips: '添加同级主题（enter）',
-          class: this.minder.queryCommandState('AppendSiblingNode') === -1 ? 'disabled' : ''
+          class: checkDisabled('AppendSiblingNode')
         },
         {
+          key: 'append-child',
           icon: 'iconicon_draw_subtheme',
           title: '子主题',
           tips: '添加下级主题（tab）',
-          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
+          class: checkDisabled('AppendChildNode')
         },
         {
+          key: 'connect',
           icon: 'iconicon_draw_association',
           title: '关联线',
           tips: '选择主题-点关联线-点其他主题',
-          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
+          class: checkDisabled('ConnectionNode')
         },
         {
+          key: 'summary',
           icon: 'iconicon_draw_summary',
           title: '概要',
           tips: '选中主题-点击概要',
-          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
+          class: checkDisabled('AppendChildNode')
         },
         {
+          key: 'note',
           icon: 'iconicon_draw_remark',
           title: '备注',
           tips: '用于注释主题的文本',
-          class: this.minder.queryCommandState('node') === -1 ? 'disabled' : ''
+          class: checkDisabled('note')
         },
         {
+          key: 'image',
           icon: 'iconicon_draw_photo',
           title: '图片',
           tips: '图文并茂',
-          class: this.minder.queryCommandState('Image') === -1 ? 'disabled' : ''
+          class: checkDisabled('Image')
         },
         {
+          key: 'priority',
           icon: 'iconicon_draw_emoji',
           title: '图标',
           tips: '表达优先级、进度、心情等',
-          class: this.minder.queryCommandState('priority') === -1 ? 'disabled' : ''
+          class: checkDisabled('priority')
         }
       ]
     },
     moreOptions() {
+      const checkDisabled = command =>
+        this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
       return [
         {
+          key: 'hyperlink',
           icon: 'iconicon_draw_link',
-          title: '超链接'
+          title: '超链接',
+          class: checkDisabled('HyperLink')
         },
         {
+          key: 'matrix',
           icon: 'iconicon_draw_more_math',
-          title: '公式'
+          title: '公式',
+          class: checkDisabled('Matrix')
         }
       ]
     }
   },
-  watch: {},
-  mounted() {},
-  created() {},
-  methods: {}
+  methods: {
+    // 处理用户点击事件
+    handleUserAction(item) {
+      if (item.class === 'disabled') return
+      switch (item.key) {
+        case 'undo':
+          this.history.undo()
+          break
+        case 'redo':
+          this.history.redo()
+          break
+        case 'copy-style':
+          this.minder.execCommand('copystyle')
+          break
+        case 'append-sibling':
+          this.minder.execCommand('AppendSiblingNode', '分支主题')
+          break
+        case 'append-child':
+          this.minder.execCommand('AppendChildNode', '分支主题')
+          break
+        case 'connect':
+          this.minder.execCommand('ConnectionNode')
+          break
+        case 'summary':
+          this.minder.execCommand('AppendChildNode')
+          break
+        case 'note':
+          // this.modal.open()
+          break
+        case 'image':
+          this.minder.execCommand('Image')
+          break
+        case 'priority':
+          this.minder.execCommand('priority')
+          break
+        case 'hyperlink':
+          this.minder.execCommand('HyperLink')
+          break
+        case 'matrix':
+          break
+        default:
+          break
+      }
+    }
+  }
 }
 </script>
 
@@ -190,6 +260,7 @@ export default {
     }
 
     &.disabled {
+      cursor: not-allowed;
       color: #bcbcbc !important;
       .one-option-title {
         color: inherit;
@@ -233,12 +304,16 @@ export default {
     cursor: pointer;
     padding: 3px 5px;
     border-radius: 2px;
-    // &.disabled {
-    //   color: #bcbcbc !important;
-    // }
-    // &:hover {
-    //   background-color: #f5f5f5;
-    // }
+    &.disabled {
+      cursor: not-allowed;
+      color: #bcbcbc !important;
+      .more-one-option-title {
+        color: #bcbcbc;
+      }
+    }
+    &:hover {
+      background-color: #f5f5f5;
+    }
     .more-one-option-title {
       margin-left: 12px;
       color: #666666;
