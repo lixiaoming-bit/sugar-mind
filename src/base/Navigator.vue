@@ -9,9 +9,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Navigator',
-  filters: {},
-  components: {},
-  props: {},
   data() {
     return {
       paper: null,
@@ -113,7 +110,7 @@ export default {
       this.connectionThumb = this.paper.put(new kity.Path())
 
       // 表示可视区域的矩形
-      this.visibleRect = this.paper.put(new kity.Rect(100, 100).stroke('#fda4af', '1%'))
+      this.visibleRect = this.paper.put(new kity.Rect(100, 100).stroke('#e673AB', '1%'))
 
       this.contentView = new kity.Box()
       this.visibleView = new kity.Box()

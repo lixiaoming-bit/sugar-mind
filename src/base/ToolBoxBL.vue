@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-bottom">
-    <div class="tool-box-bottom-left-container" v-show="isShowComponent">
+    <div class="tool-box-bottom-left-container" v-if="isShowComponent">
       <span class="text">字数</span>
       <span class="number">640</span>
       <span class="text">节点</span>

@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade-top">
-    <div class="tool-box-top-center-container" v-show="isShowComponent" :style="isCompact">
-      <div class="one-option" v-for="(item, index) in options" :key="index">
+    <div class="tool-box-top-center-container" v-if="isShowComponent" :style="isCompact">
+      <div class="one-option" v-for="(item, index) in options" :key="index" :class="item.class">
         <a-popover placement="bottom">
           <template slot="content">
             {{ item.tips }}
@@ -46,7 +46,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['displayMode']),
+    ...mapGetters(['displayMode', 'history', 'minder']),
     isShowComponent() {
       return this.displayMode !== 'pure'
     },
@@ -60,56 +60,67 @@ export default {
       }
     },
     options() {
+      console.log('minder', this.minder)
       return [
         {
           icon: 'iconicon_draw_revocation',
           title: '撤回',
-          tips: '快捷操作：Command+Z'
+          tips: '快捷操作：Command+Z',
+          class: this.history.hasUndo() ? '' : 'disabled'
         },
         {
           icon: 'iconicon_draw_recovery',
           title: '恢复',
-          tips: '快捷操作：Command+Y'
+          tips: '快捷操作：Command+Y',
+          class: this.history.hasRedo() ? '' : 'disabled'
         },
         {
           icon: 'iconicon_draw_brush',
           title: '格式刷',
-          tips: '选中主题-点格式刷-点其他主题'
+          tips: '选中主题-点格式刷-点其他主题',
+          class: this.minder.queryCommandState('copystyle') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_topic',
           title: '主题',
-          tips: '添加同级主题（enter）'
+          tips: '添加同级主题（enter）',
+          class: this.minder.queryCommandState('AppendSiblingNode') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_subtheme',
           title: '子主题',
-          tips: '添加下级主题（tab）'
+          tips: '添加下级主题（tab）',
+          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_association',
           title: '关联线',
-          tips: '选择主题-点关联线-点其他主题'
+          tips: '选择主题-点关联线-点其他主题',
+          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_summary',
           title: '概要',
-          tips: '选中主题-点击概要'
+          tips: '选中主题-点击概要',
+          class: this.minder.queryCommandState('AppendChildNode') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_remark',
           title: '备注',
-          tips: '用于注释主题的文本'
+          tips: '用于注释主题的文本',
+          class: this.minder.queryCommandState('node') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_photo',
           title: '图片',
-          tips: '图文并茂'
+          tips: '图文并茂',
+          class: this.minder.queryCommandState('Image') === -1 ? 'disabled' : ''
         },
         {
           icon: 'iconicon_draw_emoji',
           title: '图标',
-          tips: '表达优先级、进度、心情等'
+          tips: '表达优先级、进度、心情等',
+          class: this.minder.queryCommandState('priority') === -1 ? 'disabled' : ''
         }
       ]
     },
@@ -180,6 +191,9 @@ export default {
 
     &.disabled {
       color: #bcbcbc !important;
+      .one-option-title {
+        color: inherit;
+      }
     }
   }
 }
@@ -219,12 +233,12 @@ export default {
     cursor: pointer;
     padding: 3px 5px;
     border-radius: 2px;
-    &.disabled {
-      color: #bcbcbc !important;
-    }
-    &:hover {
-      background-color: #f5f5f5;
-    }
+    // &.disabled {
+    //   color: #bcbcbc !important;
+    // }
+    // &:hover {
+    //   background-color: #f5f5f5;
+    // }
     .more-one-option-title {
       margin-left: 12px;
       color: #666666;

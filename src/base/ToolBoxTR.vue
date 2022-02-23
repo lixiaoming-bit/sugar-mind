@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-right">
-    <div class="tool-box-top-right-container" v-show="isShowComponent" :style="isCompact">
+    <div class="tool-box-top-right-container" v-if="isShowComponent" :style="isCompact">
       <div class="one-option" v-for="(item, index) in options" :key="index">
         <a-popover placement="bottom">
           <template slot="content">
@@ -144,8 +144,11 @@ export default {
     overflow: hidden;
   }
 
-  &.disabled {
+  .disabled {
     color: #bcbcbc !important;
+    .one-option-title {
+      color: inherit;
+    }
   }
 }
 

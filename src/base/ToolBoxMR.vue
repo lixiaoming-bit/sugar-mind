@@ -2,7 +2,7 @@
   <transition name="slide-fade-right">
     <div
       class="tool-box-middle-right-container"
-      v-show="isShowComponent"
+      v-if="isShowComponent"
       :style="isCompact"
       key="tool-box-container"
     >

@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-bottom">
-    <div class="tool-box-bottom-right-container" v-show="isShowComponent" :style="isCompact">
+    <div class="tool-box-bottom-right-container" v-if="isShowComponent" :style="isCompact">
       <a-popover placement="top">
         <template slot="content">{{ layoutText }}，点击切换布局</template>
         <icon-font :type="minderHandStatus.type" class="option-one" @click="toggleLayout" />
