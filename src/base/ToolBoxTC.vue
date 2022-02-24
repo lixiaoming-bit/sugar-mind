@@ -8,9 +8,10 @@
         :class="item.class"
         @click="handleUserAction(item)"
       >
-        <a-popover placement="bottom">
+        <a-popover placement="bottom" @visibleChange="handleVisibleChange">
           <template slot="content">
-            {{ item.tips }}
+            <a-textarea v-if="item.key === 'note' && isShowNote" v-model="note"></a-textarea>
+            <span v-else>{{ item.tips }}</span>
           </template>
           <div class="center">
             <icon-font :type="item.icon" class="one-option-icon" />
@@ -55,7 +56,11 @@ export default {
   components: {},
   props: {},
   data() {
-    return {}
+    return {
+      note: null,
+      timer: null,
+      isShowNote: false
+    }
   },
   computed: {
     ...mapGetters(['displayMode', 'history', 'minder']),
@@ -77,72 +82,83 @@ export default {
       return [
         {
           key: 'undo',
-          icon: 'iconicon_draw_revocation',
           title: '撤回',
+          visible: false,
           tips: '快捷操作：Command+Z',
+          icon: 'iconicon_draw_revocation',
           class: this.history.hasUndo() ? '' : 'disabled'
         },
         {
           key: 'redo',
-          icon: 'iconicon_draw_recovery',
           title: '恢复',
+          visible: false,
           tips: '快捷操作：Command+Y',
+          icon: 'iconicon_draw_recovery',
           class: this.history.hasRedo() ? '' : 'disabled'
         },
         {
           key: 'copy-style',
-          icon: 'iconicon_draw_brush',
           title: '格式刷',
+          visible: false,
           tips: '选中主题-点格式刷-点其他主题',
+          icon: 'iconicon_draw_brush',
           class: checkDisabled('copystyle')
         },
         {
           key: 'append-sibling',
-          icon: 'iconicon_draw_topic',
           title: '主题',
+          visible: false,
+
           tips: '添加同级主题（enter）',
+          icon: 'iconicon_draw_topic',
           class: checkDisabled('AppendSiblingNode')
         },
         {
           key: 'append-child',
-          icon: 'iconicon_draw_subtheme',
           title: '子主题',
+          visible: false,
           tips: '添加下级主题（tab）',
+          icon: 'iconicon_draw_subtheme',
           class: checkDisabled('AppendChildNode')
         },
         {
           key: 'connect',
-          icon: 'iconicon_draw_association',
           title: '关联线',
+          visible: false,
           tips: '选择主题-点关联线-点其他主题',
+          icon: 'iconicon_draw_association',
           class: checkDisabled('ConnectionNode')
         },
         {
           key: 'summary',
-          icon: 'iconicon_draw_summary',
           title: '概要',
+          visible: false,
           tips: '选中主题-点击概要',
+          icon: 'iconicon_draw_summary',
           class: checkDisabled('AppendChildNode')
         },
         {
           key: 'note',
-          icon: 'iconicon_draw_remark',
           title: '备注',
+          visible: false,
           tips: '用于注释主题的文本',
+          icon: 'iconicon_draw_remark',
           class: checkDisabled('note')
         },
         {
           key: 'image',
-          icon: 'iconicon_draw_photo',
           title: '图片',
+          visible: false,
           tips: '图文并茂',
+          icon: 'iconicon_draw_photo',
           class: checkDisabled('Image')
         },
         {
           key: 'priority',
-          icon: 'iconicon_draw_emoji',
           title: '图标',
+          visible: false,
           tips: '表达优先级、进度、心情等',
+          icon: 'iconicon_draw_emoji',
           class: checkDisabled('priority')
         }
       ]
@@ -193,6 +209,7 @@ export default {
           this.minder.execCommand('AppendChildNode')
           break
         case 'note':
+          this.isShowNote = true
           // this.modal.open()
           break
         case 'image':
@@ -209,7 +226,21 @@ export default {
         default:
           break
       }
+    },
+    // 关闭的操作
+    handleVisibleChange(visible) {
+      if (!visible) {
+        clearTimeout(this.timer)
+        this.timer = null
+        this.timer = setTimeout(() => {
+          this.isShowNote = false
+        }, 300)
+      }
     }
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer)
+    this.timer = null
   }
 }
 </script>

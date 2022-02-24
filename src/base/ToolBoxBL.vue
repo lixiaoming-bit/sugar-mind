@@ -1,10 +1,11 @@
 <template>
   <transition name="slide-fade-bottom">
     <div class="tool-box-bottom-left-container" v-if="isShowComponent">
-      <span class="text">字数</span>
-      <span class="number">640</span>
       <span class="text">节点</span>
-      <span class="number">100</span>
+      <span class="number">{{ nodeLength }}</span>
+      <a-divider type="vertical"></a-divider>
+      <span class="text">选中</span>
+      <span class="number" style="color: #11bb37">{{ selectedNodeLength }}</span>
     </div>
   </transition>
 </template>
@@ -20,9 +21,15 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['displayMode']),
+    ...mapGetters(['displayMode', 'minder']),
     isShowComponent() {
       return this.displayMode !== 'pure'
+    },
+    nodeLength() {
+      return this.minder.getAllNode().length
+    },
+    selectedNodeLength() {
+      return this.minder.getSelectedNodes().length
     }
   },
   watch: {},
@@ -39,12 +46,12 @@ export default {
   left: 0;
   z-index: 12;
   display: flex;
-  border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 2px;
   margin: 20px 16px;
   font-size: 14px;
   padding: 3px 5px;
+  align-items: center;
   .text {
     color: #555;
     &:nth-child(3) {
