@@ -106,8 +106,8 @@ export default {
       this.paper = new kity.Paper(element)
 
       // 用两个路径来挥之节点和连线的缩略图
-      this.nodeThumb = this.paper.put(new kity.Path())
       this.connectionThumb = this.paper.put(new kity.Path())
+      this.nodeThumb = this.paper.put(new kity.Path())
 
       // 表示可视区域的矩形
       this.visibleRect = this.paper.put(new kity.Rect(100, 100).stroke('#e673AB', '1%'))

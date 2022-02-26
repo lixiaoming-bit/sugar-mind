@@ -1,5 +1,5 @@
 <template>
-  <component :is="visibleModal" v-if="visibleModal"></component>
+  <component :is="visibleModal"></component>
 </template>
 
 <script>

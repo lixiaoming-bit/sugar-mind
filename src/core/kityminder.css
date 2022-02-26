@@ -3,6 +3,20 @@
   stroke-width: var(--stroke-width);
 }
 
+.delete-image,
+.open-image {
+  display: none;
+}
+
+.upload-image-group:hover .delete-image {
+  cursor: pointer;
+  display: block;
+}
+.upload-image-group:hover .open-image {
+  cursor: pointer;
+  display: block;
+}
+
 .km-view {
   font-family: 'STHeitiSC-Light', 'STHeiti', 'Hei', 'Heiti SC', 'Microsoft Yahei', Arial, sans-serif;
   -webkit-user-select: none;

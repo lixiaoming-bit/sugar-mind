@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'ToolBoxTC',
@@ -185,6 +185,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['SET_VISIBLE_MODAL']),
     // 检查当前的状态
     handleCheckDisabled(command) {
       return this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
@@ -217,10 +218,10 @@ export default {
         case 'note':
           this.note = this.minder.queryCommandValue('note') || ''
           this.isShowNote = true
-          console.log('this.node: ', this.note)
           break
         case 'image':
-          this.minder.execCommand('Image')
+          this.SET_VISIBLE_MODAL('InsertImagesModal')
+          // this.minder.execCommand('Image')
           break
         case 'priority':
           this.minder.execCommand('priority')

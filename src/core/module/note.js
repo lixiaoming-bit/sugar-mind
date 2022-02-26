@@ -45,7 +45,6 @@ Module.register('NoteModule', function () {
       this.height = 18
       this.rect = new kity.Rect(18, 18, 0, -8, 2).fill('transparent')
       this.path = new kity.Path().setPathData(NOTE_PATH).setTranslate(1, -8).setScale(0.017)
-      console.log('this.path: ', this.path);
       this.addShapes([this.rect, this.path])
 
       this.on('mouseover', function () {

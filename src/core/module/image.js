@@ -1,3 +1,4 @@
+import utils from '../core/utils'
 import Command from '../core/command'
 import Module from '../core/module'
 import Renderer from '../core/render'
@@ -93,14 +94,32 @@ Module.register('image', function () {
     base: Renderer,
 
     create: function (node) {
-      return new kity.Image(node.getData('image'))
+      const deleteImageUrl = require('@/assets/images/preview-group/delete.png')
+      const openImageUrl = require('@/assets/images/preview-group/open.png')
+
+      const group = new kity.Group()
+        .setId(utils.uuid('minder_image_group'))
+        .addClass('upload-image-group')
+
+      const uploadImage = new kity.Image(node.getData('image'))
+      const deleteImage = new kity.Image(deleteImageUrl, 22, 22).addClass('delete-image')
+      const openImage = new kity.Image(openImageUrl, 22, 22).addClass('open-image')
+
+      deleteImage.on('dblclick', e => e.stopPropagation())
+      openImage.on('dblclick', e => e.stopPropagation())
+
+      group.addShapes([uploadImage, deleteImage, openImage])
+      return group
     },
 
     shouldRender: function (node) {
       return node.getData('image')
     },
 
-    update: function (image, node, box) {
+    update: function (group, node, box) {
+      const [uploadImage, deleteImage, openImage] = group.getItems()
+      console.log('deleteImage, openImage: ', deleteImage, openImage)
+
       const url = node.getData('image')
       const title = node.getData('imageTitle')
       const size = node.getData('imageSize')
@@ -109,13 +128,16 @@ Module.register('image', function () {
       if (!size) return
 
       if (title) {
-        image.node.setAttributeNS('http://www.w3.org/1999/xlink', 'title', title)
+        uploadImage.node.setAttributeNS('http://www.w3.org/1999/xlink', 'title', title)
       }
 
       const x = box.cx - size.width / 2
       const y = box.y - size.height - spaceTop
-
-      image
+      deleteImage.setX((box.cx + size.width / 2 - deleteImage.getWidth()) | 0).setY(y | 0)
+      openImage
+        .setX((box.cx + size.width / 2 - openImage.getWidth()) | 0)
+        .setY((box.y - spaceTop - openImage.getHeight()) | 0)
+      uploadImage
         .setUrl(url)
         .setX(x | 0)
         .setY(y | 0)
