@@ -56,37 +56,12 @@ Module.register('NoteModule', function () {
     }
   }
 
-  // const NoteIcon = kity.createClass('NoteIcon', {
-  //   base: kity.Group,
-
-  //   constructor: function () {
-  //     kity.Group.call(this)
-  //     try {
-  //       this.callBase()
-  //     } catch (error) {
-  //       console.log('error: ')
-  //     }
-  //     this.width = 16
-  //     this.height = 17
-  //     this.rect = new kity.Rect(16, 17, 0.5, -8.5, 2).fill('transparent')
-  //     this.path = new kity.Path().setPathData(NOTE_PATH).setTranslate(2.5, -6.5)
-  //     this.addShapes([this.rect, this.path])
-
-  //     this.on('mouseover', function () {
-  //       this.rect.fill('rgba(255, 255, 200, .8)')
-  //     }).on('mouseout', function () {
-  //       this.rect.fill('transparent')
-  //     })
-
-  //     this.setStyle('cursor', 'pointer')
-  //   }
-  // })
-
   const NoteIconRenderer = kity.createClass('NoteIconRenderer', {
     base: Renderer,
 
     create: function (node) {
       const icon = new NoteIcon()
+      console.log('icon: ', icon);
       icon.on('mousedown', function (e) {
         e.preventDefault()
         node.getMinder().fire('editnoterequest')
@@ -94,7 +69,7 @@ Module.register('NoteModule', function () {
       icon.on('mouseover', function () {
         node.getMinder().fire('shownoterequest', { node: node, icon: icon })
       })
-      icon.on('mouseout', function () {
+      icon.on('mouseleave', function () {
         node.getMinder().fire('hidenoterequest', { node: node, icon: icon })
       })
       return icon

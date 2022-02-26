@@ -2519,13 +2519,6 @@ clean-css@4.2.x:
   dependencies:
     source-map "~0.6.0"
 
-cli-color@~0.1.6:
-  version "0.1.7"
-  resolved "https://registry.npmmirror.com/cli-color/-/cli-color-0.1.7.tgz#adc3200fa471cc211b0da7f566b71e98b9d67347"
-  integrity sha512-xNaQxWYgI6DD4xIJLn8GY2zDZVbrN0vsU1fEbDNAHZRyceWhpj7A08mYcG1AY92q1Aw0geYkVfiAcEYIZtuTSg==
-  dependencies:
-    es5-ext "0.8.x"
-
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.nlark.com/cli-cursor/download/cli-cursor-2.1.0.tgz?cache=0&sync_timestamp=1629747382582&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcli-cursor%2Fdownload%2Fcli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -3287,13 +3280,6 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-difflib@~0.2.1:
-  version "0.2.4"
-  resolved "https://registry.npmmirror.com/difflib/-/difflib-0.2.4.tgz#b5e30361a6db023176d562892db85940a718f47e"
-  integrity sha512-9YVwmMb0wQHQNr5J9m6BSj6fk4pfGITGQOOs+D9Fl+INODWFOfvhIU1hNv6GgR1RBoC/9NJcwu77zShxV0kT7w==
-  dependencies:
-    heap ">= 0.2.0"
-
 dir-glob@^2.0.0, dir-glob@^2.2.2:
   version "2.2.2"
   resolved "https://registry.nlark.com/dir-glob/download/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
@@ -3429,13 +3415,6 @@ dotenv@^8.2.0:
   version "8.6.0"
   resolved "https://registry.npmmirror.com/dotenv/download/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
-
-dreamopt@~0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmmirror.com/dreamopt/-/dreamopt-0.6.0.tgz#d813ccdac8d39d8ad526775514a13dda664d6b4b"
-  integrity sha512-KRJa47iBEK0y6ZtgCgy2ykuvMT8c9gj3ua9Dv7vCkclFJJeH2FjhGY2xO5qBoWGahsjCGMlk4Cq9wJYeWxuYhQ==
-  dependencies:
-    wordwrap ">=0.0.2"
 
 duplexer@^0.1.1:
   version "0.1.2"
@@ -3599,11 +3578,6 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
-
-es5-ext@0.8.x:
-  version "0.8.2"
-  resolved "https://registry.npmmirror.com/es5-ext/-/es5-ext-0.8.2.tgz#aba8d9e1943a895ac96837a62a39b3f55ecd94ab"
-  integrity sha512-H19ompyhnKiBdjHR1DPHvf5RHgHPmJaY9JNzFGbMbPgdsUkvnUCN1Ke8J4Y0IMyTwFM2M9l4h2GoHwzwpSmXbA==
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -4493,11 +4467,6 @@ he@1.2.x, he@^1.1.0:
   resolved "https://registry.nlark.com/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
 
-"heap@>= 0.2.0":
-  version "0.2.7"
-  resolved "https://registry.npmmirror.com/heap/-/heap-0.2.7.tgz#1e6adf711d3f27ce35a81fe3b7bd576c2260a8fc"
-  integrity sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==
-
 hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.nlark.com/hex-color-regex/download/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
@@ -5274,15 +5243,6 @@ jsesc@~0.5.0:
   resolved "https://registry.nlark.com/jsesc/download/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-json-diff@^0.5.2:
-  version "0.5.5"
-  resolved "https://registry.npmmirror.com/json-diff/-/json-diff-0.5.5.tgz#24658ad200dbdd64ae8a56baf4d87b2b33d7196e"
-  integrity sha512-B2RSfPv8Y5iqm6/9aKC3cOhXPzjYupKDpGuqT5py9NRulL8J0UoB/zKXUo70xBsuxPcIFgtsGgEdXLrNp0GL7w==
-  dependencies:
-    cli-color "~0.1.6"
-    difflib "~0.2.1"
-    dreamopt "~0.6.0"
-
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/json-parse-better-errors/download/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -5394,15 +5354,6 @@ kity@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmmirror.com/kity/-/kity-2.0.4.tgz#e0a3579aad705f6ec174211d88b2a4bdfee03f1e"
   integrity sha512-u6jPit9N44gPTMzB7EiX3szurI7JB6HPswJESQiS0UnrNiceOeLxGRAm0mgGRuRnkGXwmA3Pzn7hZ1rauINpOA==
-
-kityminder-core@^1.4.50:
-  version "1.4.50"
-  resolved "https://registry.npmmirror.com/kityminder-core/-/kityminder-core-1.4.50.tgz#16f14c6851feb7e5988f6afd56252cdcf4466f89"
-  integrity sha512-HMXTLOqpyvnDVZiRJOt1TghF7hiWWxm2NKc40L9IL31Ev5Rkm4CHyY2m+1RP3YLHW00MWH/IX0KETuYIXnToTw==
-  dependencies:
-    json-diff "^0.5.2"
-    kity "^2.0.4"
-    seajs "^2.3.0"
 
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
@@ -7450,11 +7401,6 @@ schema-utils@^2.0.0, schema-utils@^2.5.0, schema-utils@^2.6.5, schema-utils@^2.7
     ajv "^6.12.4"
     ajv-keywords "^3.5.2"
 
-seajs@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npmmirror.com/seajs/-/seajs-2.3.0.tgz#fa29d0fe1fcd42c018a2aeb56707035460596c8b"
-  integrity sha512-sRPNUpUjcSRH/JBPrLFz5l4MJ7x755/OHZsKRPjyMqqj0+3Xb0UrsdQ2Yt30PPY7NwKIfFjLGBQWD09kBHwtVA==
-
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/select-hose/download/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -8823,11 +8769,6 @@ word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.nlark.com/word-wrap/download/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
   integrity sha1-YQY29rH3A4kb00dxzLF/uTtHB5w=
-
-wordwrap@>=0.0.2:
-  version "1.0.0"
-  resolved "https://registry.npmmirror.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
-  integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
 worker-farm@^1.7.0:
   version "1.7.0"

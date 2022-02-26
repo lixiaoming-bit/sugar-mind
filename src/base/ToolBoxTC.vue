@@ -10,7 +10,13 @@
       >
         <a-popover placement="bottom" @visibleChange="handleVisibleChange">
           <template slot="content">
-            <a-textarea v-if="item.key === 'note' && isShowNote" v-model="note"></a-textarea>
+            <a-textarea
+              v-if="item.key === 'note' && isShowNote"
+              v-model="note"
+              class="note-textarea"
+              placeholder="请填写备注内容"
+              @blur="handleTextAreaBlur"
+            ></a-textarea>
             <span v-else>{{ item.tips }}</span>
           </template>
           <div class="center">
@@ -77,8 +83,6 @@ export default {
       }
     },
     options() {
-      const checkDisabled = command =>
-        this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
       return [
         {
           key: 'undo',
@@ -102,7 +106,7 @@ export default {
           visible: false,
           tips: '选中主题-点格式刷-点其他主题',
           icon: 'iconicon_draw_brush',
-          class: checkDisabled('copystyle')
+          class: this.handleCheckDisabled('copystyle')
         },
         {
           key: 'append-sibling',
@@ -111,7 +115,7 @@ export default {
 
           tips: '添加同级主题（enter）',
           icon: 'iconicon_draw_topic',
-          class: checkDisabled('AppendSiblingNode')
+          class: this.handleCheckDisabled('AppendSiblingNode')
         },
         {
           key: 'append-child',
@@ -119,7 +123,7 @@ export default {
           visible: false,
           tips: '添加下级主题（tab）',
           icon: 'iconicon_draw_subtheme',
-          class: checkDisabled('AppendChildNode')
+          class: this.handleCheckDisabled('AppendChildNode')
         },
         {
           key: 'connect',
@@ -127,7 +131,7 @@ export default {
           visible: false,
           tips: '选择主题-点关联线-点其他主题',
           icon: 'iconicon_draw_association',
-          class: checkDisabled('ConnectionNode')
+          class: this.handleCheckDisabled('ConnectionNode')
         },
         {
           key: 'summary',
@@ -135,7 +139,7 @@ export default {
           visible: false,
           tips: '选中主题-点击概要',
           icon: 'iconicon_draw_summary',
-          class: checkDisabled('AppendChildNode')
+          class: this.handleCheckDisabled('AppendChildNode')
         },
         {
           key: 'note',
@@ -143,7 +147,7 @@ export default {
           visible: false,
           tips: '用于注释主题的文本',
           icon: 'iconicon_draw_remark',
-          class: checkDisabled('note')
+          class: this.handleCheckDisabled('note')
         },
         {
           key: 'image',
@@ -151,7 +155,7 @@ export default {
           visible: false,
           tips: '图文并茂',
           icon: 'iconicon_draw_photo',
-          class: checkDisabled('Image')
+          class: this.handleCheckDisabled('Image')
         },
         {
           key: 'priority',
@@ -159,30 +163,32 @@ export default {
           visible: false,
           tips: '表达优先级、进度、心情等',
           icon: 'iconicon_draw_emoji',
-          class: checkDisabled('priority')
+          class: this.handleCheckDisabled('priority')
         }
       ]
     },
     moreOptions() {
-      const checkDisabled = command =>
-        this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
       return [
         {
           key: 'hyperlink',
           icon: 'iconicon_draw_link',
           title: '超链接',
-          class: checkDisabled('HyperLink')
+          class: this.handleCheckDisabled('HyperLink')
         },
         {
           key: 'matrix',
           icon: 'iconicon_draw_more_math',
           title: '公式',
-          class: checkDisabled('Matrix')
+          class: this.handleCheckDisabled('Matrix')
         }
       ]
     }
   },
   methods: {
+    // 检查当前的状态
+    handleCheckDisabled(command) {
+      return this.minder.queryCommandState(command) === -1 ? 'disabled' : ''
+    },
     // 处理用户点击事件
     handleUserAction(item) {
       if (item.class === 'disabled') return
@@ -209,8 +215,9 @@ export default {
           this.minder.execCommand('AppendChildNode')
           break
         case 'note':
+          this.note = this.minder.queryCommandValue('note') || ''
           this.isShowNote = true
-          // this.modal.open()
+          console.log('this.node: ', this.note)
           break
         case 'image':
           this.minder.execCommand('Image')
@@ -236,6 +243,13 @@ export default {
           this.isShowNote = false
         }, 300)
       }
+    },
+    // 处理note blur事件
+    handleTextAreaBlur() {
+      const status = this.handleCheckDisabled('note') === 'disabled'
+      if (status) return
+      const note = this.note.trim() === '' ? null : this.note
+      this.minder.execCommand('note', note)
     }
   },
   beforeDestroy() {
@@ -266,6 +280,7 @@ export default {
   text-align: center;
   transition: height 0.5s ease;
   .one-option {
+    user-select: none;
     cursor: pointer;
     height: 100%;
     width: var(--layout-width);
@@ -298,6 +313,11 @@ export default {
       }
     }
   }
+}
+
+.note-textarea {
+  min-height: 150px;
+  width: 150px;
 }
 
 .slide-fade-top-enter-active {

@@ -1,5 +1,8 @@
 <template>
-  <div class="custom-canvas-container"></div>
+  <div class="custom-canvas-container">
+    <!-- 全局备注预览器 -->
+    <note-previewer v-if="isShowChildComponent"></note-previewer>
+  </div>
 </template>
 
 <script>
@@ -11,14 +14,24 @@ import kity from 'kity'
 // import kityminder from 'kityminder-core'
 import '../core/kityminder'
 import '../core/kityminder.css'
-console.log('window', window.kityminder)
 import KMEditor from '../editor/editor'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+
+import NotePreviewer from '@/base/NotePreviewer'
 export default {
   name: 'CustomCanvas',
+  components: {
+    NotePreviewer
+  },
   data() {
     return {
       editor: null
+    }
+  },
+  computed: {
+    ...mapGetters(['displayMode']),
+    isShowChildComponent() {
+      return this.displayMode === 'normal'
     }
   },
   mounted() {
@@ -37,11 +50,6 @@ export default {
         const { zoom } = event
         this.SET_MINDER_ZOOM(zoom)
       })
-      // this.editor = new window.kityminder.Minder()
-      // this.editor.renderTo(el)
-      // this.editor.setTheme(null)
-      // this.editor.select(this.editor.getRoot(), true)
-      // this.editor.execCommand('text', '中心主题')
     }
   }
 }
