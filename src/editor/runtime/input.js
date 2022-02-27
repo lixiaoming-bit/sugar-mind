@@ -216,6 +216,7 @@ export default function InputRuntime() {
         }
         // 若标签为image标签，则判断是否为合法url，是将其加载进来
         case '[object HTMLImageElement]': {
+          console.log('str: ', str)
           if (str.src) {
             if (/http(|s):\/\//.test(str.src)) {
               minder.execCommand('Image', str.src, str.alt)

@@ -101,8 +101,25 @@ Module.register('ImageViewer', function () {
     events: {
       'normal.dblclick': function (e) {
         const shape = e.kityEvent.targetShape
+        const isForbidden =
+          shape.node.className.animVal === 'delete-image' ||
+          shape.node.className.animVal === 'open-image'
+        if (isForbidden) return
         if (shape.__KityClassName === 'Image' && shape.url) {
           this.viewer.open(shape.url)
+        }
+      },
+      'normal.click': function (e) {
+        e.stopPropagation()
+        const shape = e.kityEvent.targetShape
+        const isAllowedDeleteImage = shape.node.className.animVal === 'delete-image'
+        const isAllowedOpenImage = shape.node.className.animVal === 'open-image'
+        if (isAllowedDeleteImage) {
+          this.execCommand('Image', '')
+          // shape.container.remove()
+        }
+        if (isAllowedOpenImage) {
+          console.log(' this.viewer', this.viewer)
         }
       }
     }

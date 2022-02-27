@@ -50,20 +50,22 @@ Module.register('image', function () {
     execute: function (km, url, title) {
       const nodes = km.getSelectedNodes()
 
-      loadImageSize(url, function (width, height) {
-        nodes.forEach(function (n) {
+      loadImageSize(url, (width, height) => {
+        nodes.forEach(node => {
           const size = fitImageSize(
             width,
             height,
             km.getOption('maxImageWidth'),
             km.getOption('maxImageHeight')
           )
-          n.setData('image', url)
-          n.setData('imageTitle', url && title)
-          n.setData('imageSize', url && size)
-          n.render()
+          node
+            .setData('image', url)
+            .setData('imageTitle', url && title)
+            .setData('imageSize', url && size)
+            .render()
         })
-        km.fire('saveScene')
+        km.fire('contentchange')
+        km.select(nodes[0], true)
         km.layout(300)
       })
     },
@@ -105,21 +107,24 @@ Module.register('image', function () {
       const deleteImage = new kity.Image(deleteImageUrl, 22, 22).addClass('delete-image')
       const openImage = new kity.Image(openImageUrl, 22, 22).addClass('open-image')
 
-      deleteImage.on('dblclick', e => e.stopPropagation())
-      openImage.on('dblclick', e => e.stopPropagation())
+      // deleteImage.on('click', e => {
+      //   node.setData('image', '').setData('imageTitle', '').setData('imageSize', '')
+      //   e.fire('contentchange')
+      //   this.getRenderShape().remove()
+      //   node.render()
+      // })
 
       group.addShapes([uploadImage, deleteImage, openImage])
       return group
     },
 
+    // 需要优化设置图片样式为空时 svg中的image节点并未清除
     shouldRender: function (node) {
       return node.getData('image')
     },
 
     update: function (group, node, box) {
       const [uploadImage, deleteImage, openImage] = group.getItems()
-      console.log('deleteImage, openImage: ', deleteImage, openImage)
-
       const url = node.getData('image')
       const title = node.getData('imageTitle')
       const size = node.getData('imageSize')

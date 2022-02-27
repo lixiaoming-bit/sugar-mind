@@ -156,6 +156,7 @@ export default function ClipboardRuntime() {
           ) {
             const imageFile = clipBoardEvent.clipboardData.items[0].getAsFile()
             console.log('imageFile: ', imageFile)
+            alert('当前无图片服务器')
             // 执行上传图片的动作
             // return serverService.uploadImage(imageFile).then(function (json) {
             //   var resp = json.data

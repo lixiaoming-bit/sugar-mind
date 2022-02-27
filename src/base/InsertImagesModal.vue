@@ -15,7 +15,17 @@
         <p class="ant-upload-text">点击或者拖拽文件到此处上传</p>
       </a-upload-dragger>
       <div class="title">方法二</div>
-      <a-input v-model.trim="imgUrl" placeholder="输入图片地址"></a-input>
+      <a-popover :trigger="['focus']" placement="topLeft">
+        <template slot="content">
+          <img :src="imgUrl" v-if="imgUrl" style="max-width: 150px; max-height: 150px" />
+          <span v-else>输入图片地址, 预览图片</span>
+        </template>
+        <a-input
+          v-model.trim.lazy="imgUrl"
+          placeholder="输入图片地址"
+          class="upload-image-url"
+        ></a-input>
+      </a-popover>
       <div class="title">方法三</div>
       <span>1.截图 > 2.选择主题 > 3.粘贴（Command + V)</span>
     </div>
@@ -41,8 +51,10 @@ export default {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     // 插入图片
     handleInsetImage() {
-      if (this.imgUrl) {
-        this.minder.execCommand('image', this.imgUrl, '新建图片')
+      const reg =
+        /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/
+      if (this.imgUrl && reg.test(this.imgUrl)) {
+        this.minder.execCommand('Image', this.imgUrl)
       }
       this.SET_VISIBLE_MODAL('')
     },
