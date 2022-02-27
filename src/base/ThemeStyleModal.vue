@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade-left">
     <div class="theme-style-modal-container">
-      <basic-modal title="风格" :visible="true">
+      <basic-modal title="风格">
         <template slot="content">
           <div class="theme-style-wrapper">
             <div

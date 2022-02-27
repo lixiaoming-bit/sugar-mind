@@ -9,6 +9,7 @@ const COMMAND_STATE_ACTIVATED = 1
 /**
  * 表示一个命令，包含命令的查询及执行
  */
+
 const Command = kity.createClass('Command', {
   constructor: function () {
     this._isContentChange = true

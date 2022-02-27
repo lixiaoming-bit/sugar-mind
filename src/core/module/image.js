@@ -103,7 +103,7 @@ Module.register('image', function () {
         .setId(utils.uuid('minder_image_group'))
         .addClass('upload-image-group')
 
-      const uploadImage = new kity.Image(node.getData('image'))
+      const uploadImage = new kity.Image(node.getData('image')).addClass('upload-image')
       const deleteImage = new kity.Image(deleteImageUrl, 22, 22).addClass('delete-image')
       const openImage = new kity.Image(openImageUrl, 22, 22).addClass('open-image')
 

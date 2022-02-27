@@ -5,72 +5,35 @@ import Renderer from '../core/render'
 const kity = window.kity
 
 Module.register('PriorityModule', function () {
-  // [MASK, BACK]
-  const PRIORITY_COLORS = [
-    null,
-    ['#FF1200', '#840023'], // 1 - red
-    ['#0074FF', '#01467F'], // 2 - blue
-    ['#00AF00', '#006300'], // 3 - green
-    ['#FF962E', '#B25000'], // 4 - orange
-    ['#A464FF', '#4720C4'], // 5 - purple
-    ['#A3A3A3', '#515151'], // 6,7,8,9 - gray
-    ['#A3A3A3', '#515151'],
-    ['#A3A3A3', '#515151'],
-    ['#A3A3A3', '#515151']
-  ] // hue from 1 to 5
-
-  const BACK_PATH = 'M0,13c0,3.866,3.134,7,7,7h6c3.866,0,7-3.134,7-7V7H0V13z'
-  const MASK_PATH =
-    'M20,10c0,3.866-3.134,7-7,7H7c-3.866,0-7-3.134-7-7V7c0-3.866,3.134-7,7-7h6c3.866,0,7,3.134,7,7V10z'
-
   const PRIORITY_DATA = 'priority'
+  let PRIORITY_IMAGES = []
 
   // 优先级图标的图形
 
   class PriorityIcon extends kity.Group {
     constructor() {
       super()
-      this.setSize(20)
+      this.setSize(24)
       this.create()
       this.setId(utils.uuid('node_priority'))
     }
     setSize(size) {
-      this.width = this.height = size
+      this.width = size
+      this.height = size
     }
 
     create() {
-      //   const white = new kity.Path().setPathData(MASK_PATH).fill('white')
-      const back = new kity.Path().setPathData(BACK_PATH).setTranslate(0.5, 0.5)
-      const mask = new kity.Path().setPathData(MASK_PATH).setOpacity(0.8).setTranslate(0.5, 0.5)
-
-      const number = new kity.Text()
-        .setX(this.width / 2 - 0.5)
-        .setY(this.height / 2)
-        .setTextAnchor('middle')
-        .setVerticalAlign('middle')
-        .setFontItalic(true)
-        .setFontSize(12)
-        .fill('white')
-
-      this.addShapes([back, mask, number])
-      this.mask = mask
-      this.back = back
-      this.number = number
+      const priorityImage = new kity.Image('', 24, 24)
+      this.addShape(priorityImage)
+      this.priorityImage = priorityImage
     }
 
     setValue(value) {
-      const back = this.back
-      const mask = this.mask
-      const number = this.number
+      const url = PRIORITY_IMAGES[value]
 
-      const color = PRIORITY_COLORS[value]
-
-      if (color) {
-        back.fill(color[1])
-        mask.fill(color[0])
+      if (url) {
+        this.priorityImage.setUrl(url)
       }
-
-      number.setContent(value)
     }
   }
   /**
@@ -86,9 +49,10 @@ Module.register('PriorityModule', function () {
   const PriorityCommand = kity.createClass('SetPriorityCommand', {
     base: Command,
     execute: function (km, value) {
+      PRIORITY_IMAGES = km.getOption('priorityImages')
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
-        nodes[i].setData(PRIORITY_DATA, value || null).render()
+        nodes[i].setData(PRIORITY_DATA, value ?? null).render()
       }
       km.layout()
     },
@@ -106,40 +70,45 @@ Module.register('PriorityModule', function () {
       return km.getSelectedNodes().length ? 0 : -1
     }
   })
+
+  const PriorityRenderer = kity.createClass('PriorityRenderer', {
+    base: Renderer,
+
+    create: function () {
+      return new PriorityIcon()
+    },
+
+    shouldRender: function (node) {
+      return PRIORITY_IMAGES[node.getData(PRIORITY_DATA)]
+    },
+
+    update: function (icon, node, box) {
+      const data = node.getData(PRIORITY_DATA)
+      const spaceLeft = node.getStyle('space-left')
+
+      icon.setValue(data)
+      const x = box.left - icon.width - spaceLeft
+      const y = -icon.height / 2 + 2
+
+      icon.setTranslate(x, y)
+
+      return new kity.Box({
+        x: x,
+        y: y,
+        width: icon.width,
+        height: icon.height
+      })
+    }
+  })
   return {
     commands: {
       priority: PriorityCommand
     },
     renderers: {
-      left: kity.createClass('PriorityRenderer', {
-        base: Renderer,
-
-        create: function () {
-          return new PriorityIcon()
-        },
-
-        shouldRender: function (node) {
-          return node.getData(PRIORITY_DATA)
-        },
-
-        update: function (icon, node, box) {
-          const data = node.getData(PRIORITY_DATA)
-          const spaceLeft = node.getStyle('space-left')
-
-          icon.setValue(data)
-          const x = box.left - icon.width - spaceLeft
-          const y = -icon.height / 2
-
-          icon.setTranslate(x, y)
-
-          return new kity.Box({
-            x: x,
-            y: y,
-            width: icon.width,
-            height: icon.height
-          })
-        }
-      })
+      left: PriorityRenderer
+    },
+    defaultOptions: {
+      priorityImages: []
     }
   }
 })

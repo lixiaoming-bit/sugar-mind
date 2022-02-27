@@ -101,11 +101,8 @@ Module.register('ImageViewer', function () {
     events: {
       'normal.dblclick': function (e) {
         const shape = e.kityEvent.targetShape
-        const isForbidden =
-          shape.node.className.animVal === 'delete-image' ||
-          shape.node.className.animVal === 'open-image'
-        if (isForbidden) return
-        if (shape.__KityClassName === 'Image' && shape.url) {
+        const isAllowed = shape.node.className.animVal === 'upload-image'
+        if (shape.__KityClassName === 'Image' && isAllowed && shape.url) {
           this.viewer.open(shape.url)
         }
       },

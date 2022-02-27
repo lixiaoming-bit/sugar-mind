@@ -224,7 +224,8 @@ export default {
           // this.minder.execCommand('Image')
           break
         case 'priority':
-          this.minder.execCommand('priority')
+          this.SET_VISIBLE_MODAL('InsertIconModal')
+          // this.minder.execCommand('priority')
           break
         case 'hyperlink':
           this.minder.execCommand('HyperLink')

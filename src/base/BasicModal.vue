@@ -36,6 +36,7 @@ export default {
 
 <style scoped lang="less">
 .basic-modal-container {
+  user-select: none;
   height: 100%;
   width: 100%;
   z-index: 1000;
