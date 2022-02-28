@@ -192,6 +192,12 @@ const TextRenderer = kity.createClass('TextRenderer', {
         } else {
           textShape.setAttr('dominant-baseline', 'text-before-edge')
         }
+        // console.log('textGroup1: ', document.getElementById('node_text1'))
+
+        // const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
+        // console.log('element: ', element)
+        // console.log('textGroup: ', textGroup.node.appendChild(element))
+
         textGroup.addItem(textShape)
       }
     }

@@ -6,7 +6,7 @@
     @cancel="handleCancel"
     centered
   >
-    <a-input v-model="hyperLink" placeholder="请输入您需要插入的链接"></a-input>
+    <a-input v-model="hyperLink" placeholder="支持http(s):// 或 ftp://的链接"></a-input>
   </a-modal>
 </template>
 
@@ -18,13 +18,14 @@ export default {
   props: {},
   data() {
     return {
+      hyperLinkText: '',
       hyperLink: ''
     }
   },
   computed: {
-    ...mapGetters(['visibleModal']),
+    ...mapGetters(['visibleModal', 'minder']),
     visible() {
-      return this.visibleModal === 'InsertImagesModal'
+      return this.visibleModal === 'InsertUrlModal'
     }
   },
   methods: {
@@ -33,7 +34,7 @@ export default {
       const reg =
         /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/
       if (this.hyperLink && reg.test(this.hyperLink)) {
-        this.minder.execCommand('HyperLink', this.hyperLink)
+        this.minder.execCommand('HyperLink', this.hyperLink, '链接')
       }
       this.SET_VISIBLE_MODAL('')
     },

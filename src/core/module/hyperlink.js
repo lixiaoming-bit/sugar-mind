@@ -62,18 +62,19 @@ Module.register('hyperlink', {
         const linkShape = new kity.Path()
         const outline = new kity.Rect(24, 22, -2, -6, 4).fill('rgba(255, 255, 255, 0)')
 
-        linkShape.setPathData(linkShapePath).fill('#666')
+        linkShape.setPathData(linkShapePath).fill('#f5f5f5')
         link.addShape(outline)
         link.addShape(linkShape)
         link.setTarget('_blank')
         link.setStyle('cursor', 'pointer')
-
         link
           .on('mouseover', function () {
             outline.fill('rgba(255, 255, 200, .8)')
+            linkShape.fill('#999999')
           })
           .on('mouseout', function () {
             outline.fill('rgba(255, 255, 255, 0)')
+            linkShape.fill('#f5f5f5')
           })
         return link
       },
