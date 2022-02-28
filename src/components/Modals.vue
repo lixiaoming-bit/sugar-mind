@@ -7,6 +7,8 @@
 import InsertIconModal from '@/base/InsertIconModal'
 // 插入图片
 import InsertImagesModal from '@/base/InsertImagesModal'
+// 插入URL
+import InsertUrlModal from '@/base/InsertUrlModal'
 // 风格
 import ThemeStyleModal from '@/base/ThemeStyleModal'
 // 字体
@@ -22,6 +24,7 @@ export default {
   components: {
     InsertIconModal,
     InsertImagesModal,
+    InsertUrlModal,
     ThemeStyleModal,
     FontStyleModal,
     CanvasStructModal,

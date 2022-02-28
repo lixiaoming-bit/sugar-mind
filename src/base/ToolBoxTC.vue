@@ -228,7 +228,8 @@ export default {
           // this.minder.execCommand('priority')
           break
         case 'hyperlink':
-          this.minder.execCommand('HyperLink')
+          this.SET_VISIBLE_MODAL('InsertUrlModal')
+          // this.minder.execCommand('HyperLink')
           break
         case 'matrix':
           break
