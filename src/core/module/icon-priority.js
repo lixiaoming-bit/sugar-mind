@@ -88,7 +88,7 @@ Module.register('PriorityModule', function () {
 
       icon.setValue(data)
       const x = box.left - icon.width - spaceLeft
-      const y = -icon.height / 2 + 2
+      const y = -icon.height / 2
 
       icon.setTranslate(x, y)
 
@@ -101,14 +101,14 @@ Module.register('PriorityModule', function () {
     }
   })
   return {
+    defaultOptions: {
+      priorityImages: []
+    },
     commands: {
       priority: PriorityCommand
     },
     renderers: {
       left: PriorityRenderer
-    },
-    defaultOptions: {
-      priorityImages: []
     }
   }
 })

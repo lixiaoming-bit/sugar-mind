@@ -3,6 +3,10 @@
   stroke-width: var(--stroke-width);
 }
 
+.upload-image {
+  cursor: zoom-in;
+}
+
 .delete-image,
 .open-image {
   display: none;
@@ -34,9 +38,9 @@
   margin: 0;
 }
 
-.km-view image {
+/* .km-view image {
   cursor: zoom-in;
-}
+} */
 
 .km-image-viewer {
   position: fixed;

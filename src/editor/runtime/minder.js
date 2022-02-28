@@ -1,8 +1,7 @@
 /**
  * 脑图示例运行时
  */
-// emojiIcons, processIcons, markIcons
-import { levelIcons, processIcons } from '@/assets/images'
+import { levelIcons, emojiIcons, processIcons, markIcons } from '@/assets/images'
 
 const { Minder } = window.kityminder
 export default function MinderRuntime() {
@@ -12,7 +11,9 @@ export default function MinderRuntime() {
     enableAnimation: true,
     zoom,
     priorityImages: levelIcons,
-    processImages: processIcons
+    progressImages: processIcons,
+    emojiImages: emojiIcons,
+    markImages: markIcons
   })
 
   // 渲染，初始化

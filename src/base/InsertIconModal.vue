@@ -40,12 +40,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['visibleModal', 'minder']),
-    visible() {
-      return this.visibleModal === 'InsertIconModal'
-    }
+    ...mapGetters(['minder'])
   },
-  mounted() {},
   created() {
     this.initConfig()
   },
@@ -78,7 +74,11 @@ export default {
     },
     // 插入图标
     handleInsetIcon(type, index) {
-      this.minder.execCommand(type, index)
+      if (this.minder.queryCommandState(type) !== -1) {
+        this.minder.execCommand(type, index)
+      } else {
+        this.$message.warning('请选择节点')
+      }
     },
     // 取消插入图标
     handleCancel() {
