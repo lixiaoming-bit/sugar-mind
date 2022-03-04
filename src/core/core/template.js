@@ -1,4 +1,4 @@
-import utils from './utils'
+// import utils from './utils'
 import Minder from './minder'
 import Command from './command'
 import MinderNode from './node'
@@ -7,7 +7,7 @@ const kity = window.kity
 
 const _templates = {}
 
-utils.extend(Minder, {
+kity.extendClass(Minder, {
   getTemplateList: function () {
     return _templates
   }

@@ -86,7 +86,7 @@ Module.register('ProgressModule', function () {
 
       icon.setValue(data)
 
-      const x = box.left - icon.width - spaceLeft
+      const x = box.left - icon.width - spaceLeft / 2
       const y = -icon.height / 2
 
       icon.setTranslate(x, y)

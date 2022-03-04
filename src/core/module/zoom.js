@@ -158,6 +158,7 @@ Module.register('Zoom', function () {
         const delta = e.originEvent.wheelDelta
         const self = this
         // 稀释
+        console.log('Math.abs(delta): ', Math.abs(delta))
         if (Math.abs(delta) > 100) {
           clearTimeout(this._wheelZoomTimeout)
         } else {
@@ -171,7 +172,7 @@ Module.register('Zoom', function () {
           } else if (delta < 0) {
             self.execCommand('zoomout')
           }
-        }, 100)
+        }, 20)
 
         e.originEvent.preventDefault()
       }
