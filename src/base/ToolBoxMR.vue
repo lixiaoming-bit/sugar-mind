@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade-right">
+  <transition name="slide-fade-left">
     <div
       class="tool-box-middle-right-container"
       v-if="isShowComponent"
@@ -57,8 +57,6 @@ export default {
       this.$el.style.opacity = opacity
     }
   },
-  mounted() {},
-  created() {},
   methods: {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     // 选择
@@ -76,7 +74,7 @@ export default {
 <style scoped lang="less">
 .tool-box-middle-right-container {
   position: fixed;
-  left: 5px;
+  right: 5px;
   width: 60px;
   top: 50%;
   transform: translateY(-50%);
@@ -131,14 +129,14 @@ export default {
   }
 }
 
-.slide-fade-right-enter-active {
+.slide-fade-left-enter-active {
   transition: all 0.25s linear;
 }
-.slide-fade-right-leave-active {
+.slide-fade-left-leave-active {
   transition: all 0.25s linear;
 }
-.slide-fade-right-enter,
-.slide-fade-right-leave-to {
+.slide-fade-left-enter,
+.slide-fade-left-leave-to {
   transform: translate(100%, -50%);
   opacity: 0;
 }

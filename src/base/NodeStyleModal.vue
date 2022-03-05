@@ -59,8 +59,8 @@ export default {
 <style scoped lang="less">
 .node-style-modal-container {
   position: fixed;
-  left: 10px;
-  bottom: 60px;
+  right: 10px;
+  bottom: 80px;
   width: 340px;
   top: 100px;
   z-index: 2;
@@ -88,7 +88,7 @@ export default {
 }
 .slide-fade-left-enter,
 .slide-fade-left-leave-to {
-  transform: translateX(-100%);
+  transform: translateX(100%);
   opacity: 0;
 }
 </style>
