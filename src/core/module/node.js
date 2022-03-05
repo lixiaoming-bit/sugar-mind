@@ -79,11 +79,10 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
   base: Command,
   execute: function (km) {
     const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
-    console.log('nodes: ', nodes);
+    console.log('nodes: ', nodes)
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
     const index = nodes[0].getIndex()
 
-    
     nodes.forEach(function (node) {
       if (!node.isRoot()) km.removeNode(node)
     })
@@ -97,7 +96,7 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
   },
   queryState: function (km) {
     const selectedNode = km.getSelectedNode()
-    return selectedNode && !selectedNode.isRoot() ? 0 : -1
+    return selectedNode ? 0 : -1
   }
 })
 /**

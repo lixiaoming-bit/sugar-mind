@@ -7,9 +7,9 @@ const { Minder } = window.kityminder
 export default function MinderRuntime() {
   const zoom = new Array(20).fill().map((_, index) => (index + 1) * 10)
   const minder = new Minder({
-    enableKeyReceiver: false,
-    enableAnimation: true,
     zoom,
+    enableKeyReceiver: false,
+    enableAnimation: false,
     priorityImages: levelIcons,
     progressImages: processIcons,
     emojiImages: emojiIcons,
