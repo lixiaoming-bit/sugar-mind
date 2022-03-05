@@ -1,9 +1,9 @@
 <template>
   <transition name="slide-fade-bottom">
-    <div class="tool-box-bottom-right-container" v-if="isShowComponent" :style="isCompact">
+    <div class="tool-box-bottom-right-container" v-if="isShowComponent" :style="layout">
       <a-popover placement="top">
         <template slot="content">{{ layoutText }}，点击切换布局</template>
-        <icon-font :type="minderHandStatus.type" class="option-one" @click="toggleLayout" />
+        <icon-font type="iconicon_common_mouse_l" class="option-one" @click="toggleLayout" />
       </a-popover>
       <a-popover placement="top">
         <template slot="content">导航器</template>
@@ -60,38 +60,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['displayMode', 'minder']),
+    ...mapGetters(['isShowComponent', 'isCompact', 'minder']),
     minderZoomValue() {
       return this.minder._zoomValue + '%'
     },
-    minderHandStatus() {
-      const isMove = this.minder.queryCommandState?.('hand') === 1
+    layout() {
       return {
-        type: isMove ? 'iconicon_common_mouse_r' : 'iconicon_common_mouse_l'
+        '--layout-height': this.isCompact ? '30px' : '45px'
       }
     },
-
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
-
-    isCompact() {
-      return {
-        '--layout-height': this.displayMode === 'compact' ? '30px' : '45px'
-      }
-    },
-
     layoutText() {
-      return this.displayMode === 'compact' ? '迷你布局' : '普通布局'
-    },
-
-    options() {
-      return [
-        {
-          icon: 'iconicon_common_mouse_r',
-          tips: ''
-        }
-      ]
+      return this.isCompact ? '迷你布局' : '普通布局'
     }
   },
   methods: {
@@ -99,7 +78,7 @@ export default {
     // 处理疑问帮助，偏好设置
     // 切换手柄
     toggleLayout() {
-      const layout = this.displayMode === 'normal' ? 'compact' : 'normal'
+      const layout = this.isCompact ? 'normal' : 'compact'
       this.SET_DISPLAY_MODE(layout)
     },
     // 放大

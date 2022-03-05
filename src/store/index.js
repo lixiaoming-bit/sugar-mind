@@ -44,6 +44,12 @@ export default new Vuex.Store({
     },
     history(state) {
       return state.history
+    },
+    isShowComponent(state) {
+      return state.displayMode !== 'pure'
+    },
+    isCompact(state) {
+      return state.displayMode === 'compact'
     }
   }
 })

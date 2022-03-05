@@ -40,4 +40,25 @@ export default {
   overflow: hidden;
   background-color: #f2f6f9;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 12px;
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  display: block;
+  min-height: 12px;
+  min-width: 8px;
+  border-radius: 6px;
+  background-color: rgb(217, 217, 217);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  display: block;
+  min-height: 12px;
+  min-width: 8px;
+  border-radius: 6px;
+  background-color: rgb(159, 159, 159);
+}
 </style>

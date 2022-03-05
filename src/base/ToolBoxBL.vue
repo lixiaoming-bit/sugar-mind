@@ -21,10 +21,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['displayMode', 'minder']),
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
+    ...mapGetters(['isShowComponent', 'minder']),
     nodeLength() {
       return this.minder.getAllNode().length
     },
@@ -47,7 +44,7 @@ export default {
   z-index: 12;
   display: flex;
   background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 2px;
+  border-radius: 6px;
   margin: 20px 16px;
   font-size: 14px;
   padding: 3px 5px;

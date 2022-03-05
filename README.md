@@ -60,6 +60,8 @@
 - [ ] 修改脑图线条形状
 - [ ] 支持关联线
 - [ ] 支持概要
+- [ ] 不同平台中文字体排版问题 [typo.css](https://github.com/sofish/typo.css) [font.css](https://github.com/zenozeng/fonts.css)
+  
 
 ## 第二阶段任务
 - [ ] 改造图片预览功能

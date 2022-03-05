@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-left">
-    <div class="tool-box-top-left-container" v-if="isShowComponent" :style="isCompact">
+    <div class="tool-box-top-left-container" v-if="isShowComponent" :style="layout">
       <icon-font type="iconback" class="icon-font" />
       <a-popover placement="bottom">
         <template slot="content">自定义标题</template>
@@ -19,13 +19,10 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'ToolBoxTL',
   computed: {
-    ...mapGetters(['displayMode']),
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
-    isCompact() {
+    ...mapGetters(['isShowComponent', 'isCompact']),
+    layout() {
       return {
-        '--layout-height': this.displayMode === 'compact' ? '40px' : '60px'
+        '--layout-height': this.isCompact ? '40px' : '60px'
       }
     }
   }

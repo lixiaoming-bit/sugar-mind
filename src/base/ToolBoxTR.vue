@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-right">
-    <div class="tool-box-top-right-container" v-if="isShowComponent" :style="isCompact">
+    <div class="tool-box-top-right-container" v-if="isShowComponent" :style="layout">
       <div class="one-option" v-for="(item, index) in options" :key="index">
         <a-popover placement="bottom">
           <template slot="content">
@@ -9,7 +9,7 @@
           <div class="center">
             <icon-font :type="item.icon" class="one-option-icon" />
             <transition name="scale-in">
-              <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+              <div class="one-option-title" v-if="!isCompact">{{ item.title }}</div>
             </transition>
           </div>
         </a-popover>
@@ -25,7 +25,7 @@
           <div class="center">
             <icon-font type="iconicon_draw_share" class="one-option-icon" />
             <transition name="scale-in">
-              <div class="one-option-title" v-if="isShowTitle">分享协作</div>
+              <div class="one-option-title" v-if="!isCompact">分享协作</div>
             </transition>
           </div>
         </a-popover>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { generateToolBoxTopRightOptions, TOOL_BOX_TR } from '@/config'
 import { mapGetters } from 'vuex'
 export default {
   name: 'ToolBoxTR',
@@ -45,48 +46,19 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['displayMode']),
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
-    isShowTitle() {
-      return this.displayMode !== 'compact'
-    },
-    isCompact() {
+    ...mapGetters(['isShowComponent', 'isCompact']),
+    layout() {
+      const value = this.isCompact ? '40px' : '60px'
       return {
-        '--layout-height': this.displayMode === 'compact' ? '40px' : '60px',
-        '--layout-width': this.displayMode === 'compact' ? '40px' : '60px'
+        '--layout-height': value,
+        '--layout-width': value
       }
     },
     options() {
-      return [
-        {
-          icon: 'iconicon_draw_save',
-          title: '保存',
-          tips: '手动保存Cmd+S'
-        },
-        {
-          icon: 'iconicon_draw_export',
-          title: '导出',
-          tips: '导出高清晰度文件'
-        }
-      ]
+      return generateToolBoxTopRightOptions().slice()
     },
     moreOptions() {
-      return [
-        {
-          icon: 'iconicon_draw_tool_share_key',
-          title: '链接分享'
-        },
-        {
-          icon: 'iconicon_draw_tool_share_team',
-          title: '多人协作'
-        },
-        {
-          icon: 'iconicon_draw_tool_share_template',
-          title: '发布模板'
-        }
-      ]
+      return TOOL_BOX_TR.slice()
     }
   },
   watch: {},
@@ -186,7 +158,7 @@ export default {
   .more-one-option {
     cursor: pointer;
     padding: 3px 5px;
-    border-radius: 2px;
+    border-radius: 6px;
     &.disabled {
       color: #bcbcbc !important;
     }

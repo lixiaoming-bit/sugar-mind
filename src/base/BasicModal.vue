@@ -49,7 +49,16 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border-bottom: 1px solid #eeeeee;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      height: 1px;
+      background-color: #e8e8e8;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+    }
     &-title {
       font-size: 14px;
     }

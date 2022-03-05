@@ -3,7 +3,7 @@
     <div
       class="tool-box-middle-right-container"
       v-if="isShowComponent"
-      :style="isCompact"
+      :style="layout"
       key="tool-box-container"
     >
       <div class="one-option" v-for="(item, index) in options" :key="index">
@@ -14,11 +14,11 @@
           <div
             class="center"
             @click="handleSelected(item)"
-            :class="{ 'is-active': visibleModal === item.childComponent }"
+            :class="{ 'is-active': visibleModal === item.component }"
           >
             <icon-font :type="item.icon" class="one-option-icon" />
             <transition name="scale-in">
-              <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+              <div class="one-option-title" v-if="!isCompact">{{ item.title }}</div>
             </transition>
           </div>
         </a-popover>
@@ -28,60 +28,33 @@
 </template>
 
 <script>
+import { TOOL_BOX_MR } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'ToolBoxMR',
   computed: {
-    ...mapGetters(['displayMode', 'visibleModal']),
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
-    isShowTitle() {
-      return this.displayMode !== 'compact'
-    },
-    isCompact() {
+    ...mapGetters(['isShowComponent', 'isCompact', 'visibleModal']),
+    layout() {
       return {
-        '--layout-width': this.displayMode === 'compact' ? '40px' : '60px'
+        '--layout-width': this.isCompact ? '40px' : '60px'
       }
     },
     options() {
-      return [
-        {
-          icon: 'iconicon_draw_style',
-          title: '风格',
-          tips: '一键切换好看的风格',
-          childComponent: 'ThemeStyleModal'
-        },
-        {
-          icon: 'iconicon_draw_format_new',
-          title: '样式',
-          tips: '选中主题-个性化每一个元素',
-          childComponent: 'FontStyleModal'
-        },
-        {
-          icon: 'iconicon_draw_canvas',
-          title: '画布',
-          tips: '切换结构、背景',
-          childComponent: 'CanvasStructModal'
-        },
-        {
-          icon: 'iconicon_draw_outline',
-          title: '大纲',
-          tips: '大纲编辑文本',
-          childComponent: 'SynopsisModal'
-        }
-      ]
+      return TOOL_BOX_MR.slice()
     }
   },
   watch: {
     visibleModal(newVal) {
       let offset = 5
-      const flag = this.options.findIndex(item => item.childComponent === newVal) !== -1
+      let opacity = 0.2
+      const flag = this.options.findIndex(item => item.component === newVal) !== -1
       if (flag) {
         offset = 360
+        opacity = 1
       }
       this.$el.style.right = `${offset}px`
+      this.$el.style.opacity = opacity
     }
   },
   mounted() {},
@@ -90,11 +63,11 @@ export default {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     // 选择
     handleSelected(item) {
-      if (this.visibleModal === item.childComponent) {
+      if (this.visibleModal === item.component) {
         this.SET_VISIBLE_MODAL()
         return
       }
-      this.SET_VISIBLE_MODAL(item.childComponent)
+      this.SET_VISIBLE_MODAL(item.component)
     }
   }
 }
@@ -103,7 +76,8 @@ export default {
 <style scoped lang="less">
 .tool-box-middle-right-container {
   position: fixed;
-  right: 5px;
+  left: 5px;
+  width: 60px;
   top: 50%;
   transform: translateY(-50%);
   text-align: center;
@@ -114,9 +88,15 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: right 0.25s linear;
+  transition: right 0.25s linear, opacity 0.25s linear;
+  opacity: 0.2;
+  &:hover {
+    opacity: 1 !important;
+    transition: right 0.25s linear, opacity 0.25s linear;
+  }
   .one-option {
     padding: 8px 0;
+    height: 60px;
     width: var(--layout-width);
     text-align: center;
     font-size: 13px;

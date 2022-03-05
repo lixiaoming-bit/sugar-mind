@@ -8,10 +8,10 @@
               <div class="title">{{ item.title }}</div>
               <div class="img-wrapper">
                 <img
-                  class="img-icon"
                   :src="icon"
-                  v-for="(icon, index) in item.urls"
                   :key="index"
+                  class="img-icon"
+                  v-for="(icon, index) in item.urls"
                   @click="handleInsetIcon(item.type, index)"
                 />
               </div>
@@ -24,9 +24,8 @@
 </template>
 
 <script>
+import { ICONS } from '@/config'
 import BasicModal from './BasicModal'
-
-import { levelIcons, emojiIcons, processIcons, markIcons } from '@/assets/images'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -49,28 +48,7 @@ export default {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     // 初始化配置
     initConfig() {
-      this.icons = [
-        {
-          type: 'priority',
-          title: '优先级图标',
-          urls: levelIcons
-        },
-        {
-          type: 'progress',
-          title: '进度条图标',
-          urls: processIcons
-        },
-        {
-          type: 'emoji',
-          title: '表情图标',
-          urls: emojiIcons
-        },
-        {
-          type: 'mark',
-          title: '标记图标',
-          urls: markIcons
-        }
-      ]
+      this.icons = ICONS.slice()
     },
     // 插入图标
     handleInsetIcon(type, index) {
@@ -91,11 +69,12 @@ export default {
 <style scoped lang="less">
 .select-icon-modal-container {
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  left: 10px;
+  bottom: 60px;
   width: 340px;
   top: 100px;
   z-index: 2;
+  box-shadow: 0 2px 16px 0 #0000000f;
   .icon-wrapper {
     padding: 0 20px;
   }
@@ -135,7 +114,7 @@ export default {
 }
 .slide-fade-left-enter,
 .slide-fade-left-leave-to {
-  transform: translateX(100%);
+  transform: translateX(-100%);
   opacity: 0;
 }
 </style>

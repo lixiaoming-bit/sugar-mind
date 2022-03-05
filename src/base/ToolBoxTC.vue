@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-top">
-    <div class="tool-box-top-center-container" v-if="isShowComponent" :style="isCompact">
+    <div class="tool-box-top-center-container" v-if="isShowComponent" :style="layout">
       <div
         class="one-option"
         v-for="item in options"
@@ -22,7 +22,7 @@
           <div class="center">
             <icon-font :type="item.icon" class="one-option-icon" />
             <transition name="scale-in">
-              <div class="one-option-title" v-if="isShowTitle">{{ item.title }}</div>
+              <div class="one-option-title" v-if="!isCompact">{{ item.title }}</div>
             </transition>
           </div>
         </a-popover>
@@ -44,7 +44,7 @@
           <div class="center">
             <icon-font type="iconicon_draw_tools_more" class="one-option-icon" />
             <transition name="scale-in">
-              <div class="one-option-title" v-if="isShowTitle">更多</div>
+              <div class="one-option-title" v-if="!isCompact">更多</div>
             </transition>
           </div>
         </a-popover>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { generateToolBoxTopCenterOptions, generateToolBoxTopCenterMoreOptions } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -69,119 +70,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['displayMode', 'history', 'minder']),
-    isShowComponent() {
-      return this.displayMode !== 'pure'
-    },
-    isShowTitle() {
-      return this.displayMode !== 'compact'
-    },
-    isCompact() {
+    ...mapGetters(['isShowComponent', 'isCompact', 'history', 'minder']),
+    layout() {
       return {
-        '--layout-height': this.displayMode === 'compact' ? '40px' : '60px',
-        '--layout-width': this.displayMode === 'compact' ? '40px' : '60px'
+        '--layout-height': this.isCompact ? '40px' : '60px',
+        '--layout-width': this.isCompact ? '40px' : '60px'
       }
     },
     options() {
-      return [
-        {
-          key: 'undo',
-          title: '撤回',
-          visible: false,
-          tips: '快捷操作：Command+Z',
-          icon: 'iconicon_draw_revocation',
-          class: this.history.hasUndo() ? '' : 'disabled'
-        },
-        {
-          key: 'redo',
-          title: '恢复',
-          visible: false,
-          tips: '快捷操作：Command+Y',
-          icon: 'iconicon_draw_recovery',
-          class: this.history.hasRedo() ? '' : 'disabled'
-        },
-        {
-          key: 'copy-style',
-          title: '格式刷',
-          visible: false,
-          tips: '选中主题-点格式刷-点其他主题',
-          icon: 'iconicon_draw_brush',
-          class: this.handleCheckDisabled('copystyle')
-        },
-        {
-          key: 'append-sibling',
-          title: '主题',
-          visible: false,
-
-          tips: '添加同级主题（enter）',
-          icon: 'iconicon_draw_topic',
-          class: this.handleCheckDisabled('AppendSiblingNode')
-        },
-        {
-          key: 'append-child',
-          title: '子主题',
-          visible: false,
-          tips: '添加下级主题（tab）',
-          icon: 'iconicon_draw_subtheme',
-          class: this.handleCheckDisabled('AppendChildNode')
-        },
-        {
-          key: 'connect',
-          title: '关联线',
-          visible: false,
-          tips: '选择主题-点关联线-点其他主题',
-          icon: 'iconicon_draw_association',
-          class: this.handleCheckDisabled('ConnectionNode')
-        },
-        {
-          key: 'summary',
-          title: '概要',
-          visible: false,
-          tips: '选中主题-点击概要',
-          icon: 'iconicon_draw_summary',
-          class: this.handleCheckDisabled('AppendChildNode')
-        },
-        {
-          key: 'note',
-          title: '备注',
-          visible: false,
-          tips: '用于注释主题的文本',
-          icon: 'iconicon_draw_remark',
-          class: this.handleCheckDisabled('note')
-        },
-        {
-          key: 'image',
-          title: '图片',
-          visible: false,
-          tips: '图文并茂',
-          icon: 'iconicon_draw_photo',
-          class: this.handleCheckDisabled('Image')
-        },
-        {
-          key: 'priority',
-          title: '图标',
-          visible: false,
-          tips: '表达优先级、进度、心情等',
-          icon: 'iconicon_draw_emoji',
-          class: this.handleCheckDisabled('priority')
-        }
-      ]
+      const {
+        handleCheckDisabled,
+        history: { hasUndo, hasRedo }
+      } = this
+      return generateToolBoxTopCenterOptions(hasUndo, hasRedo, handleCheckDisabled).slice()
     },
     moreOptions() {
-      return [
-        {
-          key: 'hyperlink',
-          icon: 'iconicon_draw_link',
-          title: '超链接',
-          class: this.handleCheckDisabled('HyperLink')
-        },
-        {
-          key: 'matrix',
-          icon: 'iconicon_draw_more_math',
-          title: '公式',
-          class: this.handleCheckDisabled('Matrix')
-        }
-      ]
+      return generateToolBoxTopCenterMoreOptions(this.handleCheckDisabled).slice()
     }
   },
   methods: {
@@ -357,7 +261,7 @@ export default {
   .more-one-option {
     cursor: pointer;
     padding: 3px 5px;
-    border-radius: 2px;
+    border-radius: 6px;
     &.disabled {
       cursor: not-allowed;
       color: #bcbcbc !important;

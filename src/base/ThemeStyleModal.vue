@@ -89,13 +89,14 @@ export default {
 <style scoped lang="less">
 .theme-style-modal-container {
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  left: 10px;
+  bottom: 60px;
   width: 340px;
   top: 100px;
   z-index: 2;
+  box-shadow: 0 2px 16px 0 #0000000f;
   .theme-style-wrapper {
-    padding: 20px;
+    padding: 16px 8px;
     .style-title-wrapper {
       display: flex;
       position: relative;
@@ -140,7 +141,7 @@ export default {
 }
 .slide-fade-left-enter,
 .slide-fade-left-leave-to {
-  transform: translateX(100%);
+  transform: translateX(-100%);
   opacity: 0;
 }
 </style>

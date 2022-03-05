@@ -13,6 +13,7 @@
     "hotbox-minder": "^1.0.15",
     "kity": "^2.0.4",
     "vue": "^2.6.11",
+    "vue-color": "^2.8.1",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

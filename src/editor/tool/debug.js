@@ -22,7 +22,7 @@ export default function debug(flag) {
         'color: hsl({0}, 100%, 30%); ' +
         'padding: 2px 3px; ' +
         'margin: 1px 3px 0 0;' +
-        'border-radius: 2px;',
+        'border-radius: 6px;',
       h
     )
 
