@@ -22,7 +22,7 @@
         <icon-font type="iconicon_common_enlarge1" class="option-one" @click="handleZoomIn" />
       </a-popover>
       <a-popover placement="top">
-        <template slot="content">全屏</template>
+        <template slot="content">沉浸模式</template>
         <icon-font type="iconicon_common_full-screen1" class="option-one" />
       </a-popover>
       <a-popover placement="topLeft">
