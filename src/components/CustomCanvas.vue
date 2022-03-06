@@ -1,7 +1,13 @@
 <template>
-  <div class="custom-canvas-container">
+  <div class="custom-canvas-container" v-contextmenu:contextmenu>
     <!-- 全局备注预览器 -->
     <note-previewer v-if="isShowChildComponent"></note-previewer>
+    <!-- 全局菜单 -->
+    <v-contextmenu ref="contextmenu">
+      <v-contextmenu-item>菜单1</v-contextmenu-item>
+      <v-contextmenu-item>菜单2</v-contextmenu-item>
+      <v-contextmenu-item>菜单3</v-contextmenu-item>
+    </v-contextmenu>
   </div>
 </template>
 
@@ -18,6 +24,7 @@ import KMEditor from '../editor/editor'
 import { mapGetters, mapMutations } from 'vuex'
 
 import NotePreviewer from '@/base/NotePreviewer'
+
 export default {
   name: 'CustomCanvas',
   components: {

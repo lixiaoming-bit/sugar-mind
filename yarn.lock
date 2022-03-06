@@ -8458,6 +8458,11 @@ uuid@^8.3.2:
   resolved "https://registry.npmmirror.com/uuid/download/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
+v-contextmenu@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.npmmirror.com/v-contextmenu/-/v-contextmenu-2.9.0.tgz#1753a7afc42051f1ed5cb75c20498a16fd7ec332"
+  integrity sha512-8FnZXOfELGvfX9Zv8mmdmsxpZzS83kSS6eNyxMekHN+yo1+cZM2oeKOdpLH/Rs/n2LSJkhfxxzgS6EeGGRQyVA==
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.nlark.com/v8-compile-cache/download/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
@@ -8547,6 +8552,11 @@ vue-ref@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/vue-ref/download/vue-ref-2.0.0.tgz#483084d732abed11da796778a8266a3af0ea1a9c"
   integrity sha1-SDCE1zKr7RHaeWd4qCZqOvDqGpw=
+
+vue-runtime-helpers@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmmirror.com/vue-runtime-helpers/-/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
+  integrity sha512-pZfGp+PW/IXEOyETE09xQHR1CKkR9HfHZdnMD/FVLUNI+HxYTa82evx5WrF6Kz4s82qtqHvMZ8MZpbk2zT2E1Q==
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.3"

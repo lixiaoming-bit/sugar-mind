@@ -37,7 +37,8 @@ export default {
     ...mapGetters(['isShowComponent', 'isCompact', 'visibleModal']),
     layout() {
       return {
-        '--layout-width': this.isCompact ? '40px' : '60px'
+        '--layout-width': this.isCompact ? '40px' : '60px',
+        '--layout-height': this.isCompact ? '40px' : '60px'
       }
     },
     options() {
@@ -75,7 +76,6 @@ export default {
 .tool-box-middle-right-container {
   position: fixed;
   right: 5px;
-  width: 60px;
   top: 50%;
   transform: translateY(-50%);
   text-align: center;
@@ -94,7 +94,7 @@ export default {
   }
   .one-option {
     padding: 8px 0;
-    height: 60px;
+    height: var(--layout-height);
     width: var(--layout-width);
     text-align: center;
     font-size: 13px;
@@ -102,7 +102,7 @@ export default {
     font-weight: 500;
     color: #464646;
     cursor: pointer;
-    transition: width 0.5s ease;
+    transition: width 0.5s ease, height 0.5s ease;
     &:hover {
       background-color: #f5f5f5;
     }

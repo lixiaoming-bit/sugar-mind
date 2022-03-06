@@ -1,7 +1,7 @@
 <template>
   <transition name="scale-in">
     <div class="note-previewer-container" :style="previewerStyle" v-show="showNotePreviewer">
-    {{ noteContent }}
+      {{ noteContent }}
     </div>
   </transition>
 </template>
@@ -16,7 +16,7 @@ export default {
     return {
       noteContent: '',
       previewerStyle: {},
-      showNotePreviewer: false,
+      showNotePreviewer: false
     }
   },
   mounted() {
@@ -29,7 +29,7 @@ export default {
     // 绑定监听事件
     bindEvents() {
       this.minder.on('shownoterequest', e => {
-        if(this.showNotePreviewer) return false
+        if (this.showNotePreviewer) return false
         this.handlePreview(e.node, e.keyword)
       })
       this.minder.on('hidenoterequest', () => {
@@ -39,6 +39,7 @@ export default {
       document.addEventListener('mousedown', this.handleClose)
       document.addEventListener('mousewheel', this.handleClose)
       document.addEventListener('DOMMouseScroll', this.handleClose)
+      if (!element) return
       element.addEventListener('mousedown', this.handleStopPropagation)
       element.addEventListener('mousewheel', this.handleStopPropagation)
       element.addEventListener('DOMMouseScroll', this.handleStopPropagation)
@@ -51,6 +52,7 @@ export default {
       document.removeEventListener('mousedown', this.handleClose)
       document.removeEventListener('mousewheel', this.handleClose)
       document.removeEventListener('DOMMouseScroll', this.handleClose)
+      if (!element) return
       element.removeEventListener('mousedown', this.handleStopPropagation)
       element.removeEventListener('mousewheel', this.handleStopPropagation)
       element.removeEventListener('DOMMouseScroll', this.handleStopPropagation)
