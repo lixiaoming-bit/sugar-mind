@@ -70,23 +70,24 @@ Minder.registerInitHook(function () {
 
 kity.extendClass(Minder, {
   _initShortcutKey: function () {
-    this._bindShortcutKeys()
+    this._shortcutKeys = {}
   },
 
-  _bindShortcutKeys: function () {
-    const map = (this._shortcutKeys = {})
-    this.on('keydown', function (e) {
-      for (const keys in map) {
-        if (!Object.hasOwnProperty.call(map, keys)) continue
-        if (e.isShortcutKey(keys)) {
-          const fn = map[keys]
-          if (fn.__statusCondition && fn.__statusCondition !== this.getStatus()) return
-          fn()
-          e.preventDefault()
-        }
-      }
-    })
-  },
+  // _bindShortcutKeys: function () {
+  // const map = ()
+  // this.on('keydown', function (e) {
+  //   console.log('map: ', map)
+  //   for (const keys in map) {
+  //     if (!Object.hasOwnProperty.call(map, keys)) continue
+  //     if (e.isShortcutKey(keys)) {
+  //       const fn = map[keys]
+  //       if (fn.__statusCondition && fn.__statusCondition !== this.getStatus()) return
+  //       fn()
+  //       e.preventDefault()
+  //     }
+  //   }
+  // })
+  // },
 
   addShortcut: function (keys, fn) {
     const binds = this._shortcutKeys
@@ -98,8 +99,12 @@ kity.extendClass(Minder, {
         status = parts[0]
         fn.__statusCondition = status
       }
+      if (!combine) return
       binds[combine] = fn
     })
+  },
+  getShortcutKeys: function () {
+    return this._shortcutKeys
   },
 
   addCommandShortcutKeys: function (cmd, keys) {

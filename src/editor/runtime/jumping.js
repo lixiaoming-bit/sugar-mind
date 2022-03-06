@@ -2,7 +2,7 @@
  * 根据按键控制状态机的跳转
  */
 // import kity from 'kity'
-const Hotbox = require('../hotbox').default
+// const Hotbox = require('../hotbox').default
 
 // Nice: http://unixpapa.com/js/key.html
 function isIntendToInput(e) {
@@ -87,7 +87,7 @@ export default function JumpingRuntime() {
   receiver.listen('input', function (e) {
     receiver.enable()
     if (e.type === 'keydown') {
-      if (e.is('Enter')) {
+      if (e.is('enter')) {
         e.preventDefault()
         return fsm.jump('normal', 'input-commit')
       }
@@ -95,7 +95,7 @@ export default function JumpingRuntime() {
         e.preventDefault()
         return fsm.jump('normal', 'input-cancel')
       }
-      if (e.is('Tab') || e.is('Shift + Tab')) {
+      if (e.is('tab') || e.is('shift + tab')) {
         e.preventDefault()
       }
     } else if (e.type === 'keyup' && e.is('Esc')) {

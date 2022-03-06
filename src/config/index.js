@@ -79,7 +79,7 @@ export const EN_FONT_FAMILY = [
 export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60, 72]
 
 // 字体图标
-export const generateFontIcons = (shortcutText = 'Ctrl') => [
+export const generateFontIcons = (shortcutText = 'ctrl') => [
   {
     title: '文本设置字体颜色',
     icon: 'font-colors'
@@ -126,7 +126,7 @@ export const generateToolBoxTopCenterOptions = (
   hasUndo,
   hasRedo,
   handleCheckDisabled,
-  shortcutText = 'Ctrl'
+  shortcutText = 'ctrl'
 ) => [
   {
     key: 'undo',
@@ -225,7 +225,7 @@ export const generateToolBoxTopCenterMoreOptions = handleCheckDisabled => [
 ]
 
 //  ToolBoxTR tooltip
-export const generateToolBoxTopRightOptions = (shortcutText = 'Ctrl') => [
+export const generateToolBoxTopRightOptions = (shortcutText = 'ctrl') => [
   {
     icon: 'iconicon_draw_save',
     title: '保存',

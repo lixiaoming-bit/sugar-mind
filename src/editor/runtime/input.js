@@ -11,7 +11,7 @@ const debug = new Debug('input')
 export default function InputRuntime() {
   let fsm = this.fsm
   let minder = this.minder
-  let hotbox = this.hotbox
+  // let hotbox = this.hotbox
   let receiver = this.receiver
   let receiverElement = receiver.element
   let isGecko = window.kity.Browser.gecko
@@ -82,15 +82,15 @@ export default function InputRuntime() {
 
   // edit entrance in hotbox
   function setupHotbox() {
-    hotbox.state('main').button({
-      position: 'center',
-      label: '编辑',
-      key: 'F2',
-      enable: function () {
-        return minder.queryCommandState('text') != -1
-      },
-      action: editText
-    })
+    // hotbox.state('main').button({
+    //   position: 'center',
+    //   label: '编辑',
+    //   key: 'F2',
+    //   enable: function () {
+    //     return minder.queryCommandState('text') != -1
+    //   },
+    //   action: editText
+    // })
   }
 
   /**

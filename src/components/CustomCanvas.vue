@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-canvas-container" v-contextmenu:contextmenu>
+  <div class="custom-canvas-container mousetrap" v-contextmenu:contextmenu>
     <!-- 全局备注预览器 -->
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
@@ -14,8 +14,8 @@
 <script>
 /* eslint-disable no-unused-vars */
 
-import 'hotbox-minder/hotbox.css'
-import hotbox from 'hotbox-minder/hotbox'
+// import 'hotbox-minder/hotbox.css'
+// import hotbox from 'hotbox-minder/hotbox'
 import kity from 'kity'
 // import kityminder from 'kityminder-core'
 import '../core/kityminder'

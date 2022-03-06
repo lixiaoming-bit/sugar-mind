@@ -1,9 +1,9 @@
 const keymap = {
-  Backspace: 8,
-  Tab: 9,
-  Enter: 13,
+  backspace: 8,
+  tab: 9,
+  enter: 13,
 
-  Shift: 16,
+  shift: 16,
   Control: 17,
   Alt: 18,
   CapsLock: 20,
@@ -17,12 +17,12 @@ const keymap = {
   End: 35,
   Home: 36,
 
-  Insert: 45,
+  ins: 45,
 
-  Left: 37,
-  Up: 38,
-  Right: 39,
-  Down: 40,
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
 
   direction: {
     37: 1,
@@ -31,7 +31,7 @@ const keymap = {
     40: 1
   },
 
-  Del: 46,
+  del: 46,
 
   NumLock: 144,
 

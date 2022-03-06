@@ -3,13 +3,14 @@
  */
 import { levelIcons, emojiIcons, processIcons, markIcons } from '@/assets/images'
 
+// const Mousetrap = require('mousetrap')
 const { Minder } = window.kityminder
 export default function MinderRuntime() {
   const zoom = new Array(20).fill().map((_, index) => (index + 1) * 10)
   const minder = new Minder({
     zoom,
-    enableKeyReceiver: false,
-    enableAnimation: false,
+    enableKeyReceiver: true,
+    enableAnimation: true,
     priorityImages: levelIcons,
     progressImages: processIcons,
     emojiImages: emojiIcons,

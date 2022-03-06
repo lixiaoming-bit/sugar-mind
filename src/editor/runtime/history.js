@@ -6,7 +6,7 @@ const jsonDiff = require('../tool/jsondiff').default
 
 export default function HistoryRuntime() {
   const minder = this.minder
-  const hotbox = this.hotbox
+  // const hotbox = this.hotbox
 
   let MAX_HISTORY = 100
 
@@ -101,22 +101,22 @@ export default function HistoryRuntime() {
   minder.on('import', reset)
   minder.on('patch', updateSelection)
 
-  const main = hotbox.state('main')
-  main.button({
-    position: 'top',
-    label: '撤销',
-    key: 'Ctrl + Z',
-    enable: hasUndo,
-    action: undo,
-    next: 'idle'
-  })
-  main.button({
-    position: 'top',
-    label: '重做',
-    key: 'Ctrl + Y',
-    enable: hasRedo,
-    action: redo,
-    next: 'idle'
-  })
+  // const main = hotbox.state('main')
+  // main.button({
+  //   position: 'top',
+  //   label: '撤销',
+  //   key: 'ctrl + Z',
+  //   enable: hasUndo,
+  //   action: undo,
+  //   next: 'idle'
+  // })
+  // main.button({
+  //   position: 'top',
+  //   label: '重做',
+  //   key: 'ctrl + Y',
+  //   enable: hasRedo,
+  //   action: redo,
+  //   next: 'idle'
+  // })
 }
 // window.diff = jsonDiff

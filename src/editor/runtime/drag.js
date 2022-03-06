@@ -2,9 +2,7 @@
  * 用于拖拽节点时屏蔽键盘事件
  */
 // import kity from 'kity'
-const Hotbox = require('../hotbox').default
-// const Debug = require('../tool/debug')
-// const debug = new Debug('drag')
+// const Hotbox = require('../hotbox').default
 
 // listen the fsm changes, make action.
 function setupFsm(fsm) {
@@ -23,7 +21,7 @@ function setupFsm(fsm) {
 export default function DragRuntime() {
   const fsm = this.fsm
   const minder = this.minder
-  const hotbox = this.hotbox
+  // const hotbox = this.hotbox
 
   // setup everything to go
   setupFsm(fsm)
@@ -124,7 +122,8 @@ export default function DragRuntime() {
         Math.abs(downY - e.originEvent.clientY) > BOUND_CHECK)
     ) {
       if (fsm.state() === 'hotbox') {
-        hotbox.active(Hotbox.STATE_IDLE)
+        // hotbox.active(Hotbox.STATE_IDLE)
+        alert('drag')
       }
 
       return fsm.jump('drag', 'user-drag')

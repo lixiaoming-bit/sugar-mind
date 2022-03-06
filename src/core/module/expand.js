@@ -236,7 +236,8 @@ Module.register('Expand', function () {
         node.getRenderContainer().setVisible(visible)
         if (!visible) e.stopPropagation()
       },
-      'normal.keydown': function (e) {
+      'document.keydown': function (e) {
+        console.log('e: ', e)
         if (this.getStatus() === 'textedit') return
         if (e.originEvent.keyCode === keymap['/']) {
           const node = this.getSelectedNode()
@@ -301,9 +302,6 @@ Module.register('Expand', function () {
         fn: function (minder) {
           minder.execCommand('expandtolevel', 3)
         }
-      },
-      {
-        divider: true
       }
     ]
   }

@@ -12,7 +12,7 @@ const kity = window.kity
  */
 const AppendChildCommand = kity.createClass('AppendChildCommand', {
   base: Command,
-  execute: function (km, text) {
+  execute: function (km, text = '分支主题') {
     const parent = km.getSelectedNode()
     if (!parent) {
       return null
@@ -46,7 +46,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
  */
 const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
   base: Command,
-  execute: function (km, text) {
+  execute: function (km, text = '分支主题') {
     const sibling = km.getSelectedNode()
     const parent = sibling.parent
     const siblingIndex = sibling.getIndex()
@@ -69,37 +69,6 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
 })
 
 /**
- * @command RemoveNode
- * @description 移除选中的节点
- * @state
- *    0: 当前有选中的节点
- *   -1: 当前没有选中的节点
- */
-const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
-  base: Command,
-  execute: function (km) {
-    const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
-    console.log('nodes: ', nodes)
-    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
-    const index = nodes[0].getIndex()
-
-    nodes.forEach(function (node) {
-      if (!node.isRoot()) km.removeNode(node)
-    })
-    if (nodes.length === 1) {
-      const selectBack = ancestor.children[index - 1] || ancestor.children[index]
-      km.select(selectBack || ancestor || km.getRoot(), true)
-    } else {
-      km.select(ancestor || km.getRoot(), true)
-    }
-    km.layout(600)
-  },
-  queryState: function (km) {
-    const selectedNode = km.getSelectedNode()
-    return selectedNode ? 0 : -1
-  }
-})
-/**
  * @command AppendParent
  * @description 添加父级节点
  * @state
@@ -108,7 +77,7 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
  */
 const AppendParentCommand = kity.createClass('AppendParentCommand', {
   base: Command,
-  execute: function (km, text) {
+  execute: function (km, text = '分支主题') {
     const nodes = km.getSelectedNodes()
 
     nodes.sort(function (a, b) {
@@ -116,6 +85,7 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
     })
     const parent = nodes[0].parent
 
+    text = text + nodes.length
     const newParent = km.createNode(text, parent, nodes[0].getIndex())
     nodes.forEach(function (node) {
       newParent.appendChild(node)
@@ -137,6 +107,37 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
   }
 })
 
+/**
+ * @command RemoveNode
+ * @description 移除选中的节点
+ * @state
+ *    0: 当前有选中的节点
+ *   -1: 当前没有选中的节点
+ */
+const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
+  base: Command,
+  execute: function (km) {
+    const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
+    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
+    const index = nodes[0].getIndex()
+
+    nodes.forEach(function (node) {
+      if (!node.isRoot()) km.removeNode(node)
+    })
+    if (nodes.length === 1) {
+      const selectBack = ancestor.children[index - 1] || ancestor.children[index]
+      km.select(selectBack || ancestor || km.getRoot(), true)
+    } else {
+      km.select(ancestor || km.getRoot(), true)
+    }
+    km.layout(600)
+  },
+  queryState: function (km) {
+    const selectedNode = km.getSelectedNode()
+    return selectedNode ? 0 : -1
+  }
+})
+
 Module.register('NodeModule', function () {
   return {
     commands: {
@@ -147,10 +148,10 @@ Module.register('NodeModule', function () {
     },
 
     commandShortcutKeys: {
-      appendsiblingnode: 'normal::Enter',
-      appendchildnode: 'normal::Insert|Tab',
-      appendparentnode: 'normal::Shift+Tab|normal::Shift+Insert',
-      removenode: 'normal::Del|Backspace'
+      appendsiblingnode: 'normal::enter',
+      appendchildnode: 'normal::ins|tab',
+      appendparentnode: 'normal::shift+tab|normal::shift+ins',
+      removenode: 'normal::del|backspace'
     }
   }
 })

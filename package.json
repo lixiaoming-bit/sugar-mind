@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "hotbox-minder": "^1.0.15",
     "kity": "^2.0.4",
+    "mousetrap": "^1.6.5",
     "v-contextmenu": "^2.9.0",
     "vue": "^2.6.11",
     "vue-color": "^2.8.1",

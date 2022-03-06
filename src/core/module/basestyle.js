@@ -26,7 +26,7 @@ Module.register('basestylemodule', function () {
       /**
        * @command Bold
        * @description 加粗选中的节点
-       * @shortcut Ctrl + B
+       * @shortcut ctrl + B
        * @state
        *   0: 当前有选中的节点
        *  -1: 当前没有选中的节点
@@ -66,7 +66,7 @@ Module.register('basestylemodule', function () {
       /**
        * @command Italic
        * @description 加斜选中的节点
-       * @shortcut Ctrl + I
+       * @shortcut ctrl + I
        * @state
        *   0: 当前有选中的节点
        *  -1: 当前没有选中的节点

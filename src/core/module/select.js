@@ -1,5 +1,20 @@
 import Module from '../core/module'
+import Command from '../core/command'
+
 const kity = window.kity
+
+const SelectAll = kity.createClass('SelectAll', {
+  base: Command,
+  execute: function (km) {
+    const selectedNodes = []
+
+    km.getRoot().traverse(function (node) {
+      selectedNodes.push(node)
+    })
+    km.select(selectedNodes, true)
+  }
+})
+
 Module.register('Select', function () {
   const minder = this
   const rc = minder.getRenderContainer()
@@ -125,7 +140,7 @@ Module.register('Select', function () {
 
         // 点中了节点，并且按了 shift 键：
         //     被点中的节点切换选中状态
-        else if (e.isShortcutKey('Ctrl')) {
+        else if (e.isShortcutKey('ctrl')) {
           this.toggleSelect(downNode)
         }
 
@@ -157,19 +172,13 @@ Module.register('Select', function () {
 
         // 清理一下选择状态
         marqueeActivator.selectEnd(e)
-      },
-      //全选操作
-      'normal.keydown': function (e) {
-        if (e.isShortcutKey('ctrl+a')) {
-          const selectedNodes = []
-
-          this.getRoot().traverse(function (node) {
-            selectedNodes.push(node)
-          })
-          this.select(selectedNodes, true)
-          e.preventDefault()
-        }
       }
+    },
+    commands: {
+      SelectAll: SelectAll
+    },
+    commandShortcutKeys: {
+      selectall: 'normal::ctrl+a'
     }
   }
 })

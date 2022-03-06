@@ -69,16 +69,13 @@ Module.register('LayoutModule', {
     layout: LayoutCommand,
     resetlayout: ResetLayoutCommand
   },
-  contextmenu: [
-    {
-      command: 'resetlayout'
-    },
-    {
-      divider: true
-    }
-  ],
+  // contextmenu: [
+  //   {
+  //     command: 'resetlayout'
+  //   }
+  // ],
 
   commandShortcutKeys: {
-    resetlayout: 'Ctrl+Shift+L'
+    resetlayout: 'ctrl+shift+l'
   }
 })

@@ -41,7 +41,7 @@ Module.register('ClipboardModule', function () {
   /**
    * @command Copy
    * @description 复制当前选中的节点
-   * @shortcut Ctrl + C
+   * @shortcut ctrl + C
    * @state
    *   0: 当前有选中的节点
    *  -1: 当前没有选中的节点
@@ -58,7 +58,7 @@ Module.register('ClipboardModule', function () {
   /**
    * @command Cut
    * @description 剪切当前选中的节点
-   * @shortcut Ctrl + X
+   * @shortcut ctrl + X
    * @state
    *   0: 当前有选中的节点
    *  -1: 当前没有选中的节点
@@ -86,7 +86,7 @@ Module.register('ClipboardModule', function () {
   /**
    * @command Paste
    * @description 粘贴已复制的节点到每一个当前选中的节点上
-   * @shortcut Ctrl + V
+   * @shortcut ctrl + V
    * @state
    *   0: 当前有选中的节点
    *  -1: 当前没有选中的节点
@@ -120,45 +120,58 @@ Module.register('ClipboardModule', function () {
   /**
    * @Desc: 若支持原生clipboadr事件则基于原生扩展，否则使用km的基础事件只处理节点的粘贴复制
    */
-  if (km.supportClipboardEvent && !kity.Browser.gecko) {
-    const Copy = function (e) {
-      this.fire('beforeCopy', e)
-    }
+  // if (km.supportClipboardEvent && !kity.Browser.gecko) {
+  //   const Copy = function (e) {
+  //     this.fire('beforeCopy', e)
+  //   }
 
-    const Cut = function (e) {
-      this.fire('beforeCut', e)
-    }
+  //   const Cut = function (e) {
+  //     this.fire('beforeCut', e)
+  //   }
 
-    const Paste = function (e) {
-      this.fire('beforePaste', e)
-    }
+  //   const Paste = function (e) {
+  //     this.fire('beforePaste', e)
+  //   }
 
-    return {
-      commands: {
-        copy: CopyCommand,
-        cut: CutCommand,
-        paste: PasteCommand
-      },
-      clipBoardEvents: {
-        copy: Copy.bind(km),
-        cut: Cut.bind(km),
-        paste: Paste.bind(km)
-      },
-      sendToClipboard: sendToClipboard
-    }
-  } else {
-    return {
-      commands: {
-        copy: CopyCommand,
-        cut: CutCommand,
-        paste: PasteCommand
-      },
-      commandShortcutKeys: {
-        copy: 'normal::ctrl+c|',
-        cut: 'normal::ctrl+x',
-        paste: 'normal::ctrl+v'
-      },
-      sendToClipboard: sendToClipboard
-    }
+  //   return {
+  //     commands: {
+  //       copy: CopyCommand,
+  //       cut: CutCommand,
+  //       paste: PasteCommand
+  //     },
+  //     clipBoardEvents: {
+  //       copy: Copy.bind(km),
+  //       cut: Cut.bind(km),
+  //       paste: Paste.bind(km)
+  //     },
+  //     sendToClipboard: sendToClipboard
+  //   }
+  // } else {
+  //   return {
+  //     commands: {
+  //       copy: CopyCommand,
+  //       cut: CutCommand,
+  //       paste: PasteCommand
+  //     },
+  //     commandShortcutKeys: {
+  //       copy: 'normal::ctrl+c|',
+  //       cut: 'normal::ctrl+x',
+  //       paste: 'normal::ctrl+v'
+  //     },
+  //     sendToClipboard: sendToClipboard
+  //   }
+  // }
+  return {
+    commands: {
+      copy: CopyCommand,
+      cut: CutCommand,
+      paste: PasteCommand
+    },
+    commandShortcutKeys: {
+      copy: 'normal::ctrl+c|',
+      cut: 'normal::ctrl+x',
+      paste: 'normal::ctrl+v'
+    },
+    sendToClipboard: sendToClipboard
   }
 })

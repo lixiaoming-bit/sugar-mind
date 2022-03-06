@@ -15,7 +15,7 @@ function hashKeyEvent(keyEvent) {
   if (keyEvent.shiftKey) {
     hashCode |= SHIFT_MASK
   }
-  // Shift, Control, Alt KeyCode ignored.
+  // shift, Control, Alt KeyCode ignored.
   if ([16, 17, 18, 91].indexOf(keyEvent.keyCode) === -1) {
     /**
      * 解决浏览器输入法状态下对keyDown的keyCode判断不准确的问题,使用keyIdentifier,

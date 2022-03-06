@@ -140,7 +140,8 @@ Module.register('KeyboardModule', function () {
         const root = this.getRoot()
         buildPositionNetwork(root)
       },
-      'normal.keydown readonly.keydown': function (e) {
+      'keydown readonly.keydown': function (e) {
+        console.log('e: ', e)
         const minder = this
         ;['left', 'right', 'up', 'down'].forEach(function (key) {
           if (e.isShortcutKey(key)) {

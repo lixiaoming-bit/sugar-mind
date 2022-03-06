@@ -107,7 +107,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
           'inputready.mousedown inputready.touchstart ' +
           'readonly.mousedown readonly.touchstart',
         function (e) {
-          console.log('e1: ', e)
           if (e.originEvent.button === 2) {
             e.originEvent.preventDefault() // 阻止中键拉动
           }

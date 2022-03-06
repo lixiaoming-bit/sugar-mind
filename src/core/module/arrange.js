@@ -31,7 +31,7 @@ function desc(nodeA, nodeB) {
 /**
  * @command ArrangeUp
  * @description 向上调整选中节点的位置
- * @shortcut Alt + Up
+ * @shortcut Alt + up
  * @state
  *    0: 当前选中了具有相同父亲的节点
  *   -1: 其它情况
@@ -60,7 +60,7 @@ const ArrangeUpCommand = kity.createClass('ArrangeUpCommand', {
 /**
  * @command ArrangeDown
  * @description 向下调整选中节点的位置
- * @shortcut Alt + Down
+ * @shortcut Alt + down
  * @state
  *    0: 当前选中了具有相同父亲的节点
  *   -1: 其它情况
@@ -144,19 +144,16 @@ Module.register('ArrangeModule', {
     arrangedown: ArrangeDownCommand,
     arrange: ArrangeCommand
   },
-  contextmenu: [
-    {
-      command: 'arrangeup'
-    },
-    {
-      command: 'arrangedown'
-    },
-    {
-      divider: true
-    }
-  ],
+  // contextmenu: [
+  //   {
+  //     command: 'arrangeup'
+  //   },
+  //   {
+  //     command: 'arrangedown'
+  //   }
+  // ],
   commandShortcutKeys: {
-    arrangeup: 'normal::alt+Up',
-    arrangedown: 'normal::alt+Down'
+    arrangeup: 'normal::alt+up',
+    arrangedown: 'normal::alt+down'
   }
 })

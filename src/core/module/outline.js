@@ -39,11 +39,6 @@ const EntityRenderer = kity.createClass('EntityRenderer', {
       outlineBox.height = 2 * radius
     }
 
-    // const prefix = node.isSelected()
-    //   ? node.getMinder().isFocused()
-    //     ? 'selected-'
-    //     : 'blur-selected-'
-    //   : ''
     entity
       .setPosition(outlineBox.x, outlineBox.y)
       .setSize(outlineBox.width, outlineBox.height)
@@ -64,7 +59,7 @@ const OutlineRenderer = kity.createClass('OutlineRenderer', {
   },
 
   // shouldRender: function (node) {
-  //   return (node.isSelected() || node.getMinder().isFocused()) && node.getStyle('selected')
+  //   return node.isSelected()
   // },
 
   update: function (outline, node, box) {
