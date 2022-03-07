@@ -76,6 +76,6 @@ Module.register('LayoutModule', {
   // ],
 
   commandShortcutKeys: {
-    resetlayout: 'ctrl+shift+l'
+    resetlayout: 'ctrl|command+shift+l'
   }
 })

@@ -106,8 +106,8 @@ Module.register('basestylemodule', function () {
       })
     },
     commandShortcutKeys: {
-      bold: 'ctrl+b', //bold
-      italic: 'ctrl+i' //italic
+      bold: 'ctrl|command+b', //bold
+      italic: 'ctrl|command+i' //italic
     }
   }
 })

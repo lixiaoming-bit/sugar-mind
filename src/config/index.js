@@ -76,7 +76,7 @@ export const EN_FONT_FAMILY = [
 ]
 
 // 字体大小
-export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60, 72]
+export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
 
 // 字体图标
 export const generateFontIcons = (shortcutText = 'ctrl') => [

@@ -179,8 +179,8 @@ Module.register('Zoom', function () {
     },
 
     commandShortcutKeys: {
-      zoomin: 'ctrl+=',
-      zoomout: 'ctrl+-'
+      zoomin: 'ctrl|command+=',
+      zoomout: 'ctrl|command+-'
     }
   }
 })
