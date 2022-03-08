@@ -1,4 +1,8 @@
+import Mousetrap from 'mousetrap'
+// import Command from '../core/command'
 import Module from '../core/module'
+// const kity = window.kity
+
 Module.register('KeyboardModule', function () {
   const { min, max, sqrt } = Math
 
@@ -133,22 +137,24 @@ Module.register('KeyboardModule', function () {
     }
   }
 
-  // 稀释
+  // 绑定快捷键
+  function bindShortcuts(km) {
+    ;['up', 'down', 'left', 'right'].forEach(key => {
+      Mousetrap.bind(key, e => {
+        const direction = key === 'up' ? 'top' : key
+        navigateTo(km, direction)
+        e.preventDefault()
+        e.stopPropagation()
+      })
+    })
+  }
+
   return {
     events: {
-      layoutallfinish: function () {
+      layoutallfinish: function (e) {
         const root = this.getRoot()
         buildPositionNetwork(root)
-      },
-      'keydown readonly.keydown': function (e) {
-        console.log('e: ', e)
-        const minder = this
-        ;['left', 'right', 'up', 'down'].forEach(function (key) {
-          if (e.isShortcutKey(key)) {
-            navigateTo(minder, key === 'up' ? 'top' : key)
-            e.preventDefault()
-          }
-        })
+        bindShortcuts(e.minder)
       }
     }
   }

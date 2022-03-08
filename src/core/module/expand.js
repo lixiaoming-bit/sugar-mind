@@ -1,5 +1,5 @@
 import utils from '../core/utils'
-import keymap from '../core/keymap'
+// import keymap from '../core/keymap'
 import MinderNode from '../core/node'
 import Command from '../core/command'
 import Module from '../core/module'
@@ -222,6 +222,9 @@ Module.register('Expand', function () {
       expandtolevel: ExpandToLevelCommand,
       collapse: CollapseCommand
     },
+    // commandShortcutKeys: {
+    //   expandtolevel: 'alt+'
+    // },
     events: {
       layoutapply: function (e) {
         const r = e.node.getRenderer('ExpanderRenderer')
@@ -235,33 +238,33 @@ Module.register('Expand', function () {
 
         node.getRenderContainer().setVisible(visible)
         if (!visible) e.stopPropagation()
-      },
-      'document.keydown': function (e) {
-        console.log('e: ', e)
-        if (this.getStatus() === 'textedit') return
-        if (e.originEvent.keyCode === keymap['/']) {
-          const node = this.getSelectedNode()
-          if (!node || node === this.getRoot()) return
-          const expanded = node.isExpanded()
-          this.getSelectedNodes().forEach(function (node) {
-            if (expanded) node.collapse()
-            else node.expand()
-            node.renderTree()
-          })
-          this.layout(100)
-          this.fire('contentchange')
-          e.preventDefault()
-          e.stopPropagationImmediately()
-        }
-        if (e.isShortcutKey('Alt+`')) {
-          this.execCommand('expandtolevel', 9999)
-        }
-        for (let i = 1; i < 6; i++) {
-          if (e.isShortcutKey('Alt+' + i)) {
-            this.execCommand('expandtolevel', i)
-          }
-        }
       }
+      // 'document.keydown': function (e) {
+      //   console.log('e: ', e)
+      //   if (this.getStatus() === 'textedit') return
+      //   if (e.originEvent.keyCode === keymap['/']) {
+      //     const node = this.getSelectedNode()
+      //     if (!node || node === this.getRoot()) return
+      //     const expanded = node.isExpanded()
+      //     this.getSelectedNodes().forEach(function (node) {
+      //       if (expanded) node.collapse()
+      //       else node.expand()
+      //       node.renderTree()
+      //     })
+      //     this.layout(100)
+      //     this.fire('contentchange')
+      //     e.preventDefault()
+      //     e.stopPropagationImmediately()
+      //   }
+      //   if (e.isShortcutKey('Alt+`')) {
+      //     this.execCommand('expandtolevel', 9999)
+      //   }
+      //   for (let i = 1; i < 6; i++) {
+      //     if (e.isShortcutKey('Alt+' + i)) {
+      //       this.execCommand('expandtolevel', i)
+      //     }
+      //   }
+      // }
     },
     renderers: {
       outside: ExpanderRenderer

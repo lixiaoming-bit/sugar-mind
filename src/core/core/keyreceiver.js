@@ -21,7 +21,6 @@ kity.extendClass(Minder, {
       if (Object.hasOwnProperty.call(shortcutKeys, key)) {
         const fn = shortcutKeys[key]
         Mousetrap.bind([key], e => {
-          console.log('e: ', e)
           fn(e)
           e.preventDefault()
           e.stopPropagation()

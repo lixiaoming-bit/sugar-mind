@@ -331,8 +331,6 @@ Module.register('Resource', function () {
       const overlays = this.overlays
 
       /*  修复 resource 数组中出现 null 的 bug
-       *  @Author zhangbobell
-       *  @date 2016-01-15
        */
       const resource = node.getData('resource').filter(function (ele) {
         return ele !== null
