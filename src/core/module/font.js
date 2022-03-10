@@ -2,9 +2,8 @@ import Command from '../core/command'
 import Module from '../core/module'
 import TextRenderer from './text'
 const kity = window.kity
-function getNodeDataOrStyle(node, name) {
-  return node.getData(name) || node.getStyle(name)
-}
+
+const getNodeDataOrStyle = (node, name) => node.getData(name) || node.getStyle(name)
 
 TextRenderer.registerStyleHook(function (node, textGroup) {
   const dataColor = node.getData('color')

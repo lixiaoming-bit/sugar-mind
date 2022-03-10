@@ -62,4 +62,5 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], functi
     return Object.prototype.toString.apply(obj) === '[object ' + v + ']'
   }
 })
+
 export default utils

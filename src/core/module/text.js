@@ -5,6 +5,23 @@ import Module from '../core/module'
 import Renderer from '../core/render'
 const kity = window.kity
 
+// 创建一个foreignObject节点
+class CreateForeignObject {
+  constructor() {
+    const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
+    this.element = element
+    this.init()
+  }
+  init() {
+    const element = document.createElement('div')
+    this.subElement = element
+    this.element.appendChild(element)
+  }
+  setContent(text) {
+    this.subElement.innerText = text
+  }
+}
+
 /**
  * 针对不同系统、不同浏览器、不同字体做居中兼容性处理
  * 暂时未增加Linux的处理
@@ -132,9 +149,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
   },
 
   update: function (textGroup, node) {
-    function getDataOrStyle(name) {
-      return node.getData(name) || node.getStyle(name)
-    }
+    const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
 
     const nodeText = node.getText()
     const textArr = nodeText ? nodeText.split('\n') : [' ']
@@ -187,17 +202,16 @@ const TextRenderer = kity.createClass('TextRenderer', {
       let growth = textLength - textGroupLength
       while (growth--) {
         textShape = new kity.Text().setAttr('text-rendering', 'inherit')
+        console.log('textShape: ', textShape)
         if (kity.Browser.ie || kity.Browser.edge) {
           textShape.setVerticalAlign('top')
         } else {
           textShape.setAttr('dominant-baseline', 'text-before-edge')
         }
-        // console.log('textGroup1: ', document.getElementById('node_text1'))
-
-        // const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
-        // console.log('element: ', element)
-        // console.log('textGroup: ', textGroup.node.appendChild(element))
-
+        const { element } = new CreateForeignObject()
+        console.log('element: ', element)
+        console.log('textGroup: ', textGroup)
+        textGroup.node.appendChild(element)
         textGroup.addItem(textShape)
       }
     }
