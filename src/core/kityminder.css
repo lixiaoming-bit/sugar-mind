@@ -44,6 +44,10 @@
   cursor: zoom-in;
 } */
 
+.receiver {
+  position: absolute;
+}
+
 .km-image-viewer {
   position: fixed;
   z-index: 99999;

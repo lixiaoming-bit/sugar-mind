@@ -16,7 +16,7 @@ export default function ReceiverRuntime() {
   // 增加tabIndex属性使得element的contentEditable不管是true 还是false都能有focus和blur事件
   element.setAttribute('tabindex', -1)
   element.classList.add('receiver')
-  element.onkeydown = element.onkeypress = element.onkeyup = dispatchKeyEvent
+  element.onkeydown = element.onkeyup = dispatchKeyEvent
   element.addEventListener('compositionstart', dispatchKeyEvent)
   // element.addEventListener('compositionend', dispatchKeyEvent);
   this.container.appendChild(element)
@@ -61,7 +61,6 @@ export default function ReceiverRuntime() {
     // 屏蔽minder的事件接受，删除receiver和hotbox
     minder.disable()
     window.editor.receiver.element.parentElement.removeChild(window.editor.receiver.element)
-    window.editor.hotbox.$container.removeChild(window.editor.hotbox.$element)
   })
 
   // 侦听器，接收到的事件会派发给所有侦听器

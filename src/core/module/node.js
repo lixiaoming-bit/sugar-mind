@@ -119,12 +119,12 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
   execute: function (km) {
     const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
-    const index = nodes[0].getIndex()
 
     nodes.forEach(function (node) {
       if (!node.isRoot()) km.removeNode(node)
     })
     if (nodes.length === 1) {
+      const index = nodes[0].getIndex()
       const selectBack = ancestor.children[index - 1] || ancestor.children[index]
       km.select(selectBack || ancestor || km.getRoot(), true)
     } else {

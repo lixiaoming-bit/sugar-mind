@@ -6,21 +6,6 @@ import Renderer from '../core/render'
 const kity = window.kity
 
 // 创建一个foreignObject节点
-class CreateForeignObject {
-  constructor() {
-    const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
-    this.element = element
-    this.init()
-  }
-  init() {
-    const element = document.createElement('div')
-    this.subElement = element
-    this.element.appendChild(element)
-  }
-  setContent(text) {
-    this.subElement.innerText = text
-  }
-}
 
 /**
  * 针对不同系统、不同浏览器、不同字体做居中兼容性处理
@@ -208,10 +193,6 @@ const TextRenderer = kity.createClass('TextRenderer', {
         } else {
           textShape.setAttr('dominant-baseline', 'text-before-edge')
         }
-        const { element } = new CreateForeignObject()
-        console.log('element: ', element)
-        console.log('textGroup: ', textGroup)
-        textGroup.node.appendChild(element)
         textGroup.addItem(textShape)
       }
     }
