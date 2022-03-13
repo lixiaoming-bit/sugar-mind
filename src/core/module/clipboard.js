@@ -80,6 +80,9 @@ Module.register('ClipboardModule', function () {
       })
 
       km.layout(300)
+    },
+    queryState: function (km) {
+      return km.getSelectedNode().isRoot() ? -1 : 0
     }
   })
 

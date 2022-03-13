@@ -138,12 +138,48 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
   }
 })
 
+/**
+ * @command RemoveCurrentNode
+ * @description 移除选中的当前节点
+ * @state
+ *    0: 当前有选中的节点
+ *   -1: 当前没有选中的节点
+ */
+
+const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
+  base: Command,
+  execute: function (km) {
+    const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
+    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
+
+    nodes.forEach(function (node) {
+      if (!node.isRoot()) {
+        node.getParent().appendChild(node.getChildren())
+        km.removeNode(node)
+      }
+    })
+    if (nodes.length === 1) {
+      const index = nodes[0].getIndex()
+      const selectBack = ancestor.children[index - 1] || ancestor.children[index]
+      km.select(selectBack || ancestor || km.getRoot(), true)
+    } else {
+      km.select(ancestor || km.getRoot(), true)
+    }
+    km.layout(600)
+  },
+  queryState: function (km) {
+    const selectedNode = km.getSelectedNode()
+    return selectedNode ? 0 : -1
+  }
+})
+
 Module.register('NodeModule', function () {
   return {
     commands: {
       AppendChildNode: AppendChildCommand,
       AppendSiblingNode: AppendSiblingCommand,
       RemoveNode: RemoveNodeCommand,
+      RemoveCurrentNode: RemoveCurrentNodeCommand,
       AppendParentNode: AppendParentCommand
     },
 
@@ -151,7 +187,9 @@ Module.register('NodeModule', function () {
       appendsiblingnode: 'normal::enter',
       appendchildnode: 'normal::ins|normal::tab',
       appendparentnode: 'normal::shift+tab|normal::shift+ins',
-      removenode: 'normal::del|normal::backspace'
+      removenode: 'normal::del|normal::backspace',
+      removeCurrentNode:
+        'normal::ctrl+del|normal::ctrl+backspace|normal::command+del|normal::command+backspace'
     }
   }
 })

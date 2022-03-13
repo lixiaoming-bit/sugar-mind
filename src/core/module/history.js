@@ -99,7 +99,6 @@ Module.register('LayoutModule', function () {
 
   return {
     init: function () {
-      console.log('123')
       reset()
       minder.on('contentchange', changed)
       minder.on('import', reset)

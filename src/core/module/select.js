@@ -45,9 +45,7 @@ Module.register('Select', function () {
         startPosition = e.getPosition(rc).round()
       },
       selectMove: function (e) {
-        if (minder.getStatus() === 'textedit') {
-          return
-        }
+        if (minder.getStatus() === 'textedit') return
         if (!startPosition) return
 
         const p1 = startPosition

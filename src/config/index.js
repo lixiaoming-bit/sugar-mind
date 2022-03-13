@@ -79,17 +79,17 @@ export const EN_FONT_FAMILY = [
 export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
 
 // 字体图标
-export const generateFontIcons = (shortcutText = 'ctrl') => [
+export const generateFontIcons = (shortcutText = 'Ctrl') => [
   {
     title: '文本设置字体颜色',
     icon: 'font-colors'
   },
   {
-    title: `文本加粗，${shortcutText}+B`,
+    title: `文本加粗，${shortcutText} + b`,
     icon: 'bold'
   },
   {
-    title: `文本添加倾斜，${shortcutText}+I`,
+    title: `文本添加倾斜，${shortcutText} + i`,
     icon: 'italic'
   },
   {
@@ -122,12 +122,12 @@ export const FONT_ALIGN_ICONS = [
 ]
 
 // ToolBoxTC tooltip
-export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutText = 'ctrl') => [
+export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutText = 'Ctrl') => [
   {
     key: 'undo',
     title: '撤回',
     visible: false,
-    tips: `快捷操作：${shortcutText}+Z`,
+    tips: `快捷操作：${shortcutText} + z`,
     icon: 'iconicon_draw_revocation',
     class: handleCheckDisabled('historyundo')
   },
@@ -135,7 +135,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     key: 'redo',
     title: '恢复',
     visible: false,
-    tips: `快捷操作：${shortcutText}+Y`,
+    tips: `快捷操作：${shortcutText} + y`,
     icon: 'iconicon_draw_recovery',
     class: handleCheckDisabled('historyredo')
   },
@@ -220,11 +220,11 @@ export const generateToolBoxTopCenterMoreOptions = handleCheckDisabled => [
 ]
 
 //  ToolBoxTR tooltip
-export const generateToolBoxTopRightOptions = (shortcutText = 'ctrl') => [
+export const generateToolBoxTopRightOptions = (shortcutText = 'Ctrl') => [
   {
     icon: 'iconicon_draw_save',
     title: '保存',
-    tips: `手动保存：${shortcutText}+S`
+    tips: `手动保存：${shortcutText} + S`
   },
   {
     icon: 'iconicon_draw_export',
@@ -275,3 +275,97 @@ export const TOOL_BOX_MR = [
     component: 'SynopsisModal'
   }
 ]
+
+export const generateSelectedNodeContextmenu = (shortcutText = 'Ctrl', handleCheckDisabled) => {
+  return [
+    {
+      key: 'append-sibling',
+      title: '插入同级主题',
+      description: 'Enter',
+      disabled: handleCheckDisabled('AppendSiblingNode')
+    },
+    {
+      key: 'append-child',
+      title: '插入下级主题',
+      description: 'Tab',
+      disabled: handleCheckDisabled('AppendChildNode')
+    },
+    {
+      key: 'append-before',
+      title: '插入上级主题',
+      description: 'Shift + Tab',
+      disabled: handleCheckDisabled('AppendParentNode')
+    },
+    {
+      key: 'cut',
+      title: '剪切',
+      description: `${shortcutText} + X`,
+      disabled: handleCheckDisabled('cut')
+    },
+    {
+      key: 'copy',
+      title: '复制',
+      description: `${shortcutText} + C`,
+      disabled: handleCheckDisabled('copy')
+    },
+    {
+      key: 'paste',
+      title: '粘贴',
+      description: `${shortcutText} + V`,
+      disabled: handleCheckDisabled('paste')
+    },
+    {
+      key: 'connect',
+      title: '创建关联线',
+      description: '',
+      disabled: handleCheckDisabled('ConnectionNode')
+    },
+    {
+      key: 'delete',
+      title: '删除主题',
+      description: 'Backspace（回车）',
+      disabled: handleCheckDisabled('RemoveNode')
+    },
+    {
+      key: 'delete-current',
+      title: '仅删除当前节点',
+      description: `${shortcutText} + Backspace（回车）`,
+      disabled: handleCheckDisabled('RemoveCurrentNode')
+    }
+  ]
+}
+
+export const generateSelectedPaperContextmenu = (shortcutText = 'Ctrl', handleCheckDisabled) => {
+  return [
+    {
+      key: 'paste',
+      title: '粘贴',
+      description: `${shortcutText} + V`,
+      disabled: handleCheckDisabled('paste')
+    },
+    {
+      key: 'freedom-node',
+      title: '自由主题',
+      description: '鼠标双击画布'
+    },
+    {
+      key: 'camera',
+      title: '回到中心主题',
+      description: '粘贴画布'
+    },
+    {
+      key: 'compact',
+      title: '一键紧凑模式'
+    },
+    {
+      key: 'layout',
+      title: '一键整理布局',
+      description: `${shortcutText} + Shift + L`
+    },
+    {
+      key: 'expand-all',
+      title: '展开 / 收起所有主题',
+      description: `${shortcutText} + Alt + /`
+    }
+  ]
+}

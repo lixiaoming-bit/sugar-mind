@@ -1,6 +1,6 @@
 // 历史管理
 const MouseTrap = require('mousetrap')
-const jsonDiff = require('../tool/jsondiff').default
+const jsonDiff = require('../../core/utils/jsondiff/jsondiff').default
 
 export default function HistoryRuntime() {
   const minder = this.minder
