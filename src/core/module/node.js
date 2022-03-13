@@ -149,9 +149,9 @@ Module.register('NodeModule', function () {
 
     commandShortcutKeys: {
       appendsiblingnode: 'normal::enter',
-      appendchildnode: 'normal::ins|tab',
+      appendchildnode: 'normal::ins|normal::tab',
       appendparentnode: 'normal::shift+tab|normal::shift+ins',
-      removenode: 'normal::del|backspace'
+      removenode: 'normal::del|normal::backspace'
     }
   }
 })

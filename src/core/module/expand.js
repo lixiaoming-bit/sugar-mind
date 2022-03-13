@@ -1,5 +1,4 @@
 import utils from '../core/utils'
-// import keymap from '../core/keymap'
 import MinderNode from '../core/node'
 import Command from '../core/command'
 import Module from '../core/module'
@@ -80,25 +79,6 @@ Module.register('Expand', function () {
   })
 
   /**
-   * @command ExpandToLevel
-   * @description 展开脑图到指定的层级
-   * @param {number} level 指定展开到的层级，最少值为 1。
-   * @state
-   *   0: 一直可用
-   */
-  const ExpandToLevelCommand = kity.createClass('ExpandToLevelCommand', {
-    base: Command,
-    execute: function (km, level) {
-      km.getRoot().traverse(function (node) {
-        if (node.getLevel() < level) node.expand()
-        if (node.getLevel() === level && !node.isLeaf()) node.collapse()
-      })
-      km.refresh(100)
-    },
-    enableReadOnly: true
-  })
-
-  /**
    * @command Collapse
    * @description 收起当前节点的子树
    * @state
@@ -121,6 +101,55 @@ Module.register('Expand', function () {
       const node = km.getSelectedNode()
       return node && !node.isRoot() && node.isExpanded() ? 0 : -1
     }
+  })
+
+  /**
+   * @command Toggle
+   * @description 切换当前关闭折叠的节点
+   * @state
+   *   0: 当前有选中的节点
+   *  -1: 当前没有选中的节点
+   */
+
+  const ToggleExpandCommand = kity.createClass('ToggleExpandCommand', {
+    base: Command,
+
+    execute: function (km) {
+      const node = km.getSelectedNode()
+      if (!node) return
+      const expanded = node.isExpanded()
+      km.getSelectedNodes().forEach(function (node) {
+        if (expanded) node.collapse()
+        else node.expand()
+      })
+      node.renderTree()
+      km.layout(100)
+    },
+
+    queryState: function (km) {
+      const node = km.getSelectedNode()
+      return node && !node.isRoot() ? 0 : -1
+    }
+  })
+
+  /**
+   * @command ExpandToLevel
+   * @description 展开脑图到指定的层级
+   * @param {number} level 指定展开到的层级，最少值为 1。
+   * @state
+   *   0: 一直可用
+   */
+  const ExpandToLevelCommand = kity.createClass('ExpandToLevelCommand', {
+    base: Command,
+    execute: function (km, level) {
+      level = level ?? 9999
+      km.getRoot().traverse(function (node) {
+        if (node.getLevel() < level) node.expand()
+        if (node.getLevel() === level && !node.isLeaf()) node.collapse()
+      })
+      km.refresh(100)
+    },
+    enableReadOnly: true
   })
 
   class Expander extends kity.Group {
@@ -220,11 +249,13 @@ Module.register('Expand', function () {
     commands: {
       expand: ExpandCommand,
       expandtolevel: ExpandToLevelCommand,
-      collapse: CollapseCommand
+      collapse: CollapseCommand,
+      toggleexpand: ToggleExpandCommand
     },
-    // commandShortcutKeys: {
-    //   expandtolevel: 'alt+'
-    // },
+    commandShortcutKeys: {
+      expandtolevel: 'alt+|alt+1|alt+2|alt+3|alt+4|alt+5|alt+6',
+      toggleexpand: 'alt+/'
+    },
     events: {
       layoutapply: function (e) {
         const r = e.node.getRenderer('ExpanderRenderer')
@@ -239,32 +270,6 @@ Module.register('Expand', function () {
         node.getRenderContainer().setVisible(visible)
         if (!visible) e.stopPropagation()
       }
-      // 'document.keydown': function (e) {
-      //   console.log('e: ', e)
-      //   if (this.getStatus() === 'textedit') return
-      //   if (e.originEvent.keyCode === keymap['/']) {
-      //     const node = this.getSelectedNode()
-      //     if (!node || node === this.getRoot()) return
-      //     const expanded = node.isExpanded()
-      //     this.getSelectedNodes().forEach(function (node) {
-      //       if (expanded) node.collapse()
-      //       else node.expand()
-      //       node.renderTree()
-      //     })
-      //     this.layout(100)
-      //     this.fire('contentchange')
-      //     e.preventDefault()
-      //     e.stopPropagationImmediately()
-      //   }
-      //   if (e.isShortcutKey('Alt+`')) {
-      //     this.execCommand('expandtolevel', 9999)
-      //   }
-      //   for (let i = 1; i < 6; i++) {
-      //     if (e.isShortcutKey('Alt+' + i)) {
-      //       this.execCommand('expandtolevel', i)
-      //     }
-      //   }
-      // }
     },
     renderers: {
       outside: ExpanderRenderer

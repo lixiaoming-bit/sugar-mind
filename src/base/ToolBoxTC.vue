@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isShowComponent', 'isCompact', 'history', 'minder']),
+    ...mapGetters(['isShowComponent', 'isCompact', 'minder']),
     layout() {
       return {
         '--layout-height': this.isCompact ? '40px' : '60px',
@@ -78,11 +78,7 @@ export default {
       }
     },
     options() {
-      const {
-        handleCheckDisabled,
-        history: { hasUndo, hasRedo }
-      } = this
-      return generateToolBoxTopCenterOptions(hasUndo, hasRedo, handleCheckDisabled).slice()
+      return generateToolBoxTopCenterOptions(this.handleCheckDisabled).slice()
     },
     moreOptions() {
       return generateToolBoxTopCenterMoreOptions(this.handleCheckDisabled).slice()
@@ -99,10 +95,10 @@ export default {
       if (item.class === 'disabled') return
       switch (item.key) {
         case 'undo':
-          this.history.undo()
+          this.minder.execCommand('historyundo')
           break
         case 'redo':
-          this.history.redo()
+          this.minder.execCommand('historyredo')
           break
         case 'copy-style':
           this.minder.execCommand('copystyle')

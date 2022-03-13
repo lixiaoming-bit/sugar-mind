@@ -178,7 +178,7 @@ Module.register('Select', function () {
       SelectAll: SelectAll
     },
     commandShortcutKeys: {
-      selectall: 'normal::ctrl|command+a'
+      selectall: 'normal::ctrl+a|normal::command+a'
     }
   }
 })

@@ -58,6 +58,7 @@ require('./module/style')
 require('./module/text')
 require('./module/view')
 require('./module/zoom')
+require('./module/history')
 
 require('./protocol/json')
 require('./protocol/text')

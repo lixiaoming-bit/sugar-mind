@@ -45,13 +45,12 @@ export default {
     this.init()
   },
   methods: {
-    ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER', 'SET_HISTORY', 'SET_DISPLAY_MODE']),
+    ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER', 'SET_DISPLAY_MODE']),
     init() {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
-      const { minder, history } = this.editor
+      const { minder } = this.editor
       this.SET_MINDER(minder)
-      this.SET_HISTORY(history)
       this.SET_DISPLAY_MODE('normal')
       minder.on('zoom', event => {
         const { zoom } = event

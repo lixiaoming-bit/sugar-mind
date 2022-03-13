@@ -60,8 +60,12 @@
 - [ ] 修改脑图线条形状
 - [ ] 支持关联线
 - [ ] 支持概要
-- [ ] 不同平台中文字体排版问题 [typo.css](https://github.com/sofish/typo.css) [font.css](https://github.com/zenozeng/fonts.css)
-  
+- [ ] 不同平台中文字体排版问题 [typo.css](https://github.com/sofish/typo.css) [font.css](https://github.com/zenozeng/fonts.css
+
+## 问题记录
+1. 节点折叠的按钮事件未对接
+2. 当前绑定按键事件的逻辑需要重新整理成一个单独文件 方便管理
+3. 使用quill处理文本的采集输入问题，重写内部文本使用<text></text>标签处理的问题，替换为foreignObject文本插入dom节点（不兼容IE），需要修改text渲染逻辑，font渲染逻辑，需要修改导出文本逻辑
 
 ## 第二阶段任务
 - [ ] 改造图片预览功能

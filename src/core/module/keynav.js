@@ -1,7 +1,7 @@
-import Mousetrap from 'mousetrap'
-// import Command from '../core/command'
+// import Mousetrap from 'mousetrap'
+import Command from '../core/command'
 import Module from '../core/module'
-// const kity = window.kity
+const kity = window.kity
 
 Module.register('KeyboardModule', function () {
   const { min, max, sqrt } = Math
@@ -121,41 +121,43 @@ Module.register('KeyboardModule', function () {
     }
   }
 
-  function navigateTo(km, direction) {
-    const referNode = km.getSelectedNode()
-    if (!referNode) {
-      km.select(km.getRoot())
-      buildPositionNetwork(km.getRoot())
-      return
+  const NavigateCommand = kity.createClass('NavigateCommand', {
+    base: Command,
+    execute: function (km, keyCode) {
+      const directionMap = {
+        37: 'left',
+        38: 'top',
+        39: 'right',
+        40: 'down'
+      }
+      const direction = directionMap[keyCode]
+      if(!direction) return
+      const referNode = km.getSelectedNode()
+      if (!referNode) {
+        km.select(km.getRoot())
+        buildPositionNetwork(km.getRoot())
+        return
+      }
+      if (!referNode._nearestNodes) {
+        buildPositionNetwork(km.getRoot())
+      }
+      const nextNode = referNode._nearestNodes[direction]
+      if (nextNode) {
+        km.select(nextNode, true)
+      }
+    },
+    queryState: function (km) {
+      const selected = km.getSelectedNode()
+      return selected ? 0 : -1
     }
-    if (!referNode._nearestNodes) {
-      buildPositionNetwork(km.getRoot())
-    }
-    const nextNode = referNode._nearestNodes[direction]
-    if (nextNode) {
-      km.select(nextNode, true)
-    }
-  }
-
-  // 绑定快捷键
-  function bindShortcuts(km) {
-    ;['up', 'down', 'left', 'right'].forEach(key => {
-      Mousetrap.bind(key, e => {
-        const direction = key === 'up' ? 'top' : key
-        navigateTo(km, direction)
-        e.preventDefault()
-        e.stopPropagation()
-      })
-    })
-  }
+  })
 
   return {
-    events: {
-      layoutallfinish: function (e) {
-        const root = this.getRoot()
-        buildPositionNetwork(root)
-        bindShortcuts(e.minder)
-      }
-    }
+    commands: {
+      navigate: NavigateCommand
+    },
+    commandShortcutKeys: {
+      navigate: 'normal::up|normal::down|normal::left|normal::right'
+    },
   }
 })

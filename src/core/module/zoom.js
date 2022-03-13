@@ -146,11 +146,6 @@ Module.register('Zoom', function () {
       })
       setTextRendering()
     },
-    commands: {
-      zoomin: ZoomInCommand,
-      zoomout: ZoomOutCommand,
-      zoom: ZoomCommand
-    },
     events: {
       'normal.mousewheel readonly.mousewheel': function (e) {
         if (!e.originEvent.ctrlKey && !e.originEvent.metaKey) return
@@ -177,10 +172,14 @@ Module.register('Zoom', function () {
         e.originEvent.preventDefault()
       }
     },
-
+    commands: {
+      zoomin: ZoomInCommand,
+      zoomout: ZoomOutCommand,
+      zoom: ZoomCommand
+    },
     commandShortcutKeys: {
-      zoomin: 'ctrl|command+=',
-      zoomout: 'ctrl|command+-'
+      zoomin: 'ctrl+=|command+=',
+      zoomout: 'ctrl+-|command+-'
     }
   }
 })

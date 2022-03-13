@@ -3,12 +3,11 @@
  */
 import { levelIcons, emojiIcons, processIcons, markIcons } from '@/assets/images'
 
-// const Mousetrap = require('mousetrap')
 const { Minder } = window.kityminder
 export default function MinderRuntime() {
-  const zoom = new Array(20).fill().map((_, index) => (index + 1) * 10)
+  // const zoom = new Array(20).fill().map((_, index) => (index + 1) * 10)
   const minder = new Minder({
-    zoom,
+    // zoom,
     enableKeyReceiver: true,
     enableAnimation: true,
     priorityImages: levelIcons,
@@ -23,7 +22,7 @@ export default function MinderRuntime() {
   minder.setTemplate('right')
   console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
-  minder.execCommand('text', '中心\n主题')
+  minder.execCommand('text', '中心主题')
 
   // 导出给其它 Runtime 使用
   this.minder = minder

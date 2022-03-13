@@ -1,6 +1,4 @@
-/**
- * 打补丁
- */
+// 打补丁
 import Minder from './minder'
 const kity = window.kity
 

@@ -121,10 +121,13 @@ kity.extendClass(Minder, {
     utils.each(obj, function (keys, command) {
       binds[command] = keys
 
-      minder.addShortcut(keys, function execCommandByShortcut() {
+      minder.addShortcut(keys, function execCommandByShortcut(e) {
         // 之前判断有问题，由 === 0 改为 !== -1
         if (minder.queryCommandState(command) !== -1) {
-          minder.execCommand(command)
+          const condition = [1, 2, 3, 4, 5, 6, 37, 38, 39, 40]
+          condition.includes(e.keyCode)
+            ? minder.execCommand(command, e.keyCode)
+            : minder.execCommand(command)
         }
       })
     })

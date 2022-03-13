@@ -122,19 +122,14 @@ export const FONT_ALIGN_ICONS = [
 ]
 
 // ToolBoxTC tooltip
-export const generateToolBoxTopCenterOptions = (
-  hasUndo,
-  hasRedo,
-  handleCheckDisabled,
-  shortcutText = 'ctrl'
-) => [
+export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutText = 'ctrl') => [
   {
     key: 'undo',
     title: '撤回',
     visible: false,
     tips: `快捷操作：${shortcutText}+Z`,
     icon: 'iconicon_draw_revocation',
-    class: hasUndo() ? '' : 'disabled'
+    class: handleCheckDisabled('historyundo')
   },
   {
     key: 'redo',
@@ -142,7 +137,7 @@ export const generateToolBoxTopCenterOptions = (
     visible: false,
     tips: `快捷操作：${shortcutText}+Y`,
     icon: 'iconicon_draw_recovery',
-    class: hasRedo() ? '' : 'disabled'
+    class: handleCheckDisabled('historyredo')
   },
   {
     key: 'copy-style',

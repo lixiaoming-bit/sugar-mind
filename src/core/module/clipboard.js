@@ -168,9 +168,9 @@ Module.register('ClipboardModule', function () {
       paste: PasteCommand
     },
     commandShortcutKeys: {
-      copy: 'normal::ctrl|command+c|',
-      cut: 'normal::ctrl|command+x',
-      paste: 'normal::ctrl|command+v'
+      copy: 'normal::ctrl+c|normal::command+c',
+      cut: 'normal::ctrl+x|normal::command+x',
+      paste: 'normal::ctrl+v|normal::command+v'
     },
     sendToClipboard: sendToClipboard
   }
