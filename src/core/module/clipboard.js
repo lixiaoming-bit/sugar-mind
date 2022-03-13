@@ -52,6 +52,9 @@ Module.register('ClipboardModule', function () {
     execute: function (km) {
       sendToClipboard(km.getSelectedAncestors(true))
       this.setContentChanged(false)
+    },
+    queryState: function (km) {
+      return km.getSelectedNode() ? 0 : -1
     }
   })
 
@@ -101,9 +104,10 @@ Module.register('ClipboardModule', function () {
       if (_clipboardNodes.length) {
         const nodes = km.getSelectedNodes()
         if (!nodes.length) return
-
-        for (var i = 0, ni; (ni = _clipboardNodes[i]); i++) {
-          for (var j = 0, node; (node = nodes[j]); j++) {
+        let ni
+        for (let i = 0; (ni = _clipboardNodes[i]); i++) {
+          let node
+          for (let j = 0; (node = nodes[j]); j++) {
             appendChildNode(node, ni.clone())
           }
         }
@@ -116,7 +120,7 @@ Module.register('ClipboardModule', function () {
     },
 
     queryState: function (km) {
-      return km.getSelectedNode() ? 0 : -1
+      return km.getSelectedNode() && _clipboardNodes.length ? 0 : -1
     }
   })
 
