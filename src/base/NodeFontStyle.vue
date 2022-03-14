@@ -65,6 +65,7 @@ import {
   generateFontIcons,
   FONT_ALIGN_ICONS
 } from '@/config'
+import { mapGetters } from 'vuex'
 
 export default {
   // 节点字体样式
@@ -78,6 +79,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['macosCommandText']),
     cnFontFamily() {
       return CN_FONT_FAMILY.slice()
     },
@@ -94,7 +96,7 @@ export default {
       })
     },
     fontStyleIcons() {
-      return generateFontIcons().slice()
+      return generateFontIcons(this.macosCommandText).slice()
     },
     fontAlignIcons() {
       return FONT_ALIGN_ICONS.slice()

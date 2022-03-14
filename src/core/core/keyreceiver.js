@@ -16,6 +16,7 @@ Minder.registerInitHook(function () {
 kity.extendClass(Minder, {
   _initKeyReceiver: function () {
     const shortcutKeys = this.getShortcutKeys()
+    console.log('shortcutKeys: ', shortcutKeys)
     for (const key in shortcutKeys) {
       if (Object.hasOwnProperty.call(shortcutKeys, key)) {
         const fn = shortcutKeys[key]

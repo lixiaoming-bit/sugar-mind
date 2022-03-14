@@ -153,11 +153,13 @@ const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
 
     nodes.forEach(function (node) {
-      if (!node.isRoot()) {
-        node.getParent().appendChild(node.getChildren())
-        km.removeNode(node)
-      }
+      node
+        .getChildren()
+        .slice()
+        .forEach(sub => ancestor.appendChild(sub))
+      km.removeNode(node)
     })
+    ancestor.renderTree()
     if (nodes.length === 1) {
       const index = nodes[0].getIndex()
       const selectBack = ancestor.children[index - 1] || ancestor.children[index]

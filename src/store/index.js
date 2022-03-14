@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { getBrowserType } from '@/utils'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -44,6 +44,14 @@ export default new Vuex.Store({
     },
     isCompact(state) {
       return state.displayMode === 'compact'
+    },
+    macosCommandText() {
+      const { system } = getBrowserType()
+      return system === 'macos' ? 'Cmd' : 'Ctrl'
+    },
+    macosOptionText() {
+      const { system } = getBrowserType()
+      return system === 'macos' ? 'Option' : 'Alt'
     }
   }
 })

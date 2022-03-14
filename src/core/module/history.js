@@ -3,7 +3,7 @@ import Command from '../core/command'
 import Module from '../core/module'
 const kity = window.kity
 
-Module.register('LayoutModule', function () {
+Module.register('HistoryModule', function () {
   const minder = this
   const DEFAULT_MAX_HISTORY = 100
 

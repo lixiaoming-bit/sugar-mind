@@ -68,13 +68,6 @@ Module.register('hyperlink', {
         link.addShape(linkShape)
         link.setTarget('_blank')
         link.setStyle('cursor', 'pointer')
-        link
-          .on('mouseover', function () {
-            outline.fill('rgba(255, 255, 200, .8)')
-          })
-          .on('mouseout', function () {
-            outline.fill('rgba(255, 255, 255, 0)')
-          })
         return link
       },
 

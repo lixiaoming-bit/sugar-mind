@@ -1,4 +1,3 @@
-// import Mousetrap from 'mousetrap'
 import Command from '../core/command'
 import Module from '../core/module'
 const kity = window.kity
@@ -131,7 +130,7 @@ Module.register('KeyboardModule', function () {
         40: 'down'
       }
       const direction = directionMap[keyCode]
-      if(!direction) return
+      if (!direction) return
       const referNode = km.getSelectedNode()
       if (!referNode) {
         km.select(km.getRoot())
@@ -158,6 +157,6 @@ Module.register('KeyboardModule', function () {
     },
     commandShortcutKeys: {
       navigate: 'normal::up|normal::down|normal::left|normal::right'
-    },
+    }
   }
 })

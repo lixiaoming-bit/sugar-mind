@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isShowComponent', 'isCompact', 'minder']),
+    ...mapGetters(['isShowComponent', 'isCompact', 'minder', 'macosCommandText']),
     layout() {
       return {
         '--layout-height': this.isCompact ? '40px' : '60px',
@@ -78,7 +78,10 @@ export default {
       }
     },
     options() {
-      return generateToolBoxTopCenterOptions(this.handleCheckDisabled).slice()
+      return generateToolBoxTopCenterOptions(
+        this.handleCheckDisabled,
+        this.macosCommandText
+      ).slice()
     },
     moreOptions() {
       return generateToolBoxTopCenterMoreOptions(this.handleCheckDisabled).slice()

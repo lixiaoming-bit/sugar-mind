@@ -46,7 +46,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['isShowComponent', 'isCompact']),
+    ...mapGetters(['isShowComponent', 'isCompact', 'macosCommandText']),
     layout() {
       const value = this.isCompact ? '40px' : '60px'
       return {
@@ -55,7 +55,7 @@ export default {
       }
     },
     options() {
-      return generateToolBoxTopRightOptions().slice()
+      return generateToolBoxTopRightOptions(this.macosCommandText).slice()
     },
     moreOptions() {
       return TOOL_BOX_TR.slice()

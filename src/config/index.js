@@ -85,11 +85,11 @@ export const generateFontIcons = (shortcutText = 'Ctrl') => [
     icon: 'font-colors'
   },
   {
-    title: `文本加粗，${shortcutText} + b`,
+    title: `文本加粗，${shortcutText} + B`,
     icon: 'bold'
   },
   {
-    title: `文本添加倾斜，${shortcutText} + i`,
+    title: `文本添加倾斜，${shortcutText} + I`,
     icon: 'italic'
   },
   {
@@ -127,7 +127,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     key: 'undo',
     title: '撤回',
     visible: false,
-    tips: `快捷操作：${shortcutText} + z`,
+    tips: `快捷操作：${shortcutText} + Z`,
     icon: 'iconicon_draw_revocation',
     class: handleCheckDisabled('historyundo')
   },
@@ -135,7 +135,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     key: 'redo',
     title: '恢复',
     visible: false,
-    tips: `快捷操作：${shortcutText} + y`,
+    tips: `快捷操作：${shortcutText} + Y`,
     icon: 'iconicon_draw_recovery',
     class: handleCheckDisabled('historyredo')
   },
@@ -276,96 +276,114 @@ export const TOOL_BOX_MR = [
   }
 ]
 
-export const generateSelectedNodeContextmenu = (shortcutText = 'Ctrl', handleCheckDisabled) => {
+export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutText = 'Ctrl') => {
   return [
     {
       key: 'append-sibling',
       title: '插入同级主题',
       description: 'Enter',
+      command: 'AppendSiblingNode',
       disabled: handleCheckDisabled('AppendSiblingNode')
     },
     {
       key: 'append-child',
       title: '插入下级主题',
       description: 'Tab',
+      command: 'AppendChildNode',
       disabled: handleCheckDisabled('AppendChildNode')
     },
     {
       key: 'append-before',
       title: '插入上级主题',
       description: 'Shift + Tab',
+      command: 'AppendParentNode',
       disabled: handleCheckDisabled('AppendParentNode')
     },
     {
       key: 'cut',
       title: '剪切',
       description: `${shortcutText} + X`,
+      command: 'cut',
       disabled: handleCheckDisabled('cut')
     },
     {
       key: 'copy',
       title: '复制',
       description: `${shortcutText} + C`,
+      command: 'copy',
       disabled: handleCheckDisabled('copy')
     },
     {
       key: 'paste',
       title: '粘贴',
       description: `${shortcutText} + V`,
+      command: 'paste',
       disabled: handleCheckDisabled('paste')
     },
     {
       key: 'connect',
       title: '创建关联线',
       description: '',
-      disabled: handleCheckDisabled('ConnectionNode')
+      disabled: true
     },
     {
       key: 'delete',
       title: '删除主题',
       description: 'Backspace（回车）',
+      command: 'RemoveNode',
       disabled: handleCheckDisabled('RemoveNode')
     },
     {
       key: 'delete-current',
       title: '仅删除当前节点',
       description: `${shortcutText} + Backspace（回车）`,
+      command: 'RemoveCurrentNode',
       disabled: handleCheckDisabled('RemoveCurrentNode')
     }
   ]
 }
 
-export const generateSelectedPaperContextmenu = (shortcutText = 'Ctrl', handleCheckDisabled) => {
+export const generateSelectedPaperContextmenu = (
+  handleCheckDisabled,
+  shortcutText = 'Ctrl',
+  optionText = 'Alt'
+) => {
   return [
     {
       key: 'paste',
       title: '粘贴',
       description: `${shortcutText} + V`,
+      command: 'paste',
       disabled: handleCheckDisabled('paste')
     },
     {
       key: 'freedom-node',
       title: '自由主题',
-      description: '鼠标双击画布'
+      description: '鼠标双击画布',
+      disabled: true
     },
     {
       key: 'camera',
       title: '回到中心主题',
-      description: '粘贴画布'
+      description: '粘贴画布',
+      command: 'camera'
     },
     {
       key: 'compact',
-      title: '一键紧凑模式'
+      title: '一键紧凑模式',
+      disabled: true
     },
     {
       key: 'layout',
       title: '一键整理布局',
-      description: `${shortcutText} + Shift + L`
+      description: `${shortcutText} + Shift + L`,
+      command: 'resetlayout'
     },
     {
       key: 'expand-all',
       title: '展开 / 收起所有主题',
-      description: `${shortcutText} + Alt + /`
+      description: `${shortcutText} + ${optionText} + /`,
+      command: 'expandtolevel'
     }
   ]
 }

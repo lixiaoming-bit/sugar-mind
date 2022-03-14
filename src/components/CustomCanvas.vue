@@ -4,7 +4,12 @@
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
     <v-contextmenu ref="contextmenu" :disabled="!contextmenuList.length">
-      <v-contextmenu-item v-for="item in contextmenuList" :key="item.key" :disabled="item.disabled">
+      <v-contextmenu-item
+        :key="item.key"
+        :disabled="item.disabled"
+        @click="handleContextmenuClick(item)"
+        v-for="item in contextmenuList"
+      >
         <div class="contextmenu-item">
           <div class="title">{{ item.title }}</div>
           <div class="description">{{ item.description }}</div>
@@ -38,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['displayMode']),
+    ...mapGetters(['displayMode', 'macosCommandText', 'macosOptionText']),
     isShowChildComponent() {
       return this.displayMode === 'normal'
     },
@@ -53,13 +58,13 @@ export default {
     ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER', 'SET_DISPLAY_MODE']),
     // 检查当前的状态
     handleCheckDisabled(command) {
-      console.log('command: ', command, this.editor.minder.queryCommandState(command) === -1)
       return this.editor.minder.queryCommandState(command) === -1
     },
     // 检查当前是否未根节点
     handleCheckIsRoot() {
       return this.editor.minder.getSelectedNode().isRoot()
     },
+    // 初始化
     init() {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
@@ -72,19 +77,21 @@ export default {
       })
       minder.on('contextmenu', event => {
         const selectedNode = event.minder.getSelectedNode()
-        console.log(event.minder.queryCommandState('AppendParentCommand'))
         this.contextmenuList = selectedNode
-          ? generateSelectedNodeContextmenu(
-              'Ctrl',
-              this.handleCheckDisabled,
-              this.handleCheckIsRoot
-            )
+          ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
           : generateSelectedPaperContextmenu(
-              'Ctrl',
               this.handleCheckDisabled,
-              this.handleCheckIsRoot
+              this.macosCommandText,
+              this.macosOptionText
             )
       })
+    },
+    // 菜单点击事件
+    handleContextmenuClick(item) {
+      if (item.command) {
+        console.log('item.command: ', item.command)
+        this.editor.minder.execCommand(item.command)
+      }
     }
   }
 }
