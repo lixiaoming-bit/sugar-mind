@@ -6,7 +6,11 @@
     @cancel="handleCancel"
     centered
   >
-    <a-input v-model="hyperLink" placeholder="支持http(s):// 或 ftp://的链接"></a-input>
+    <a-input
+      v-model="hyperLink"
+      placeholder="支持http(s):// 或 ftp://的链接，回车保存"
+      @keyup.enter="handleInsertUrl"
+    ></a-input>
   </a-modal>
 </template>
 

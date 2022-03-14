@@ -224,27 +224,32 @@ export const generateToolBoxTopRightOptions = (shortcutText = 'Ctrl') => [
   {
     icon: 'iconicon_draw_save',
     title: '保存',
-    tips: `手动保存：${shortcutText} + S`
+    tips: `手动保存：${shortcutText} + S`,
+    command: 'save'
   },
   {
     icon: 'iconicon_draw_export',
     title: '导出',
-    tips: '导出高清晰度文件'
+    tips: '导出高清晰度文件',
+    command: 'export'
   }
 ]
 
 export const TOOL_BOX_TR = [
   {
     icon: 'iconicon_draw_tool_share_key',
-    title: '链接分享'
+    title: '链接分享',
+    command: 'share'
   },
   {
     icon: 'iconicon_draw_tool_share_team',
-    title: '多人协作'
+    title: '多人协作',
+    command: 'cooperation'
   },
   {
     icon: 'iconicon_draw_tool_share_template',
-    title: '发布模板'
+    title: '发布模板',
+    command: 'minder-template'
   }
 ]
 
@@ -329,14 +334,14 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
     {
       key: 'delete',
       title: '删除主题',
-      description: 'Backspace（回车）',
+      description: 'Backspace [回车]',
       command: 'RemoveNode',
       disabled: handleCheckDisabled('RemoveNode')
     },
     {
       key: 'delete-current',
       title: '仅删除当前节点',
-      description: `${shortcutText} + Backspace（回车）`,
+      description: `${shortcutText} + Backspace [回车]`,
       command: 'RemoveCurrentNode',
       disabled: handleCheckDisabled('RemoveCurrentNode')
     }
@@ -364,8 +369,8 @@ export const generateSelectedPaperContextmenu = (
     },
     {
       key: 'camera',
-      title: '回到中心主题',
-      description: '粘贴画布',
+      title: '回到主题中心',
+      description: '',
       command: 'camera'
     },
     {
@@ -387,3 +392,30 @@ export const generateSelectedPaperContextmenu = (
     }
   ]
 }
+
+export const EXPORT_TYPE_LIST = [
+  {
+    key: 'png',
+    title: '图片 文档（.png)'
+  },
+  {
+    key: 'pdf',
+    title: 'PDF 文档（.pdf)'
+  },
+  {
+    key: 'word',
+    title: 'Word 文档（.docx)'
+  },
+  {
+    key: 'excel',
+    title: 'Excel 文档（.xlsx)'
+  },
+  {
+    key: 'markdown',
+    title: 'Markdown 文档（.md)'
+  },
+  {
+    key: 'xmind',
+    title: 'Xmind 文档（.xmind)'
+  }
+]

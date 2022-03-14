@@ -17,6 +17,9 @@ import NodeStyleModal from '@/base/NodeStyleModal'
 import CanvasStructModal from '@/base/CanvasStructModal'
 // 大纲
 import SynopsisModal from '@/base/SynopsisModal'
+// 导出弹框
+import ExportMinderModal from '@/base/ExportMinderModal'
+
 import { mapGetters } from 'vuex'
 export default {
   name: 'Modals',
@@ -28,7 +31,8 @@ export default {
     ThemeStyleModal,
     NodeStyleModal,
     CanvasStructModal,
-    SynopsisModal
+    SynopsisModal,
+    ExportMinderModal
   },
   computed: {
     ...mapGetters(['visibleModal'])

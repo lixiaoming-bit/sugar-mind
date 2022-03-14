@@ -6,7 +6,7 @@
           <template slot="content">
             {{ item.tips }}
           </template>
-          <div class="center">
+          <div class="center" @click="handleClick(item)">
             <icon-font :type="item.icon" class="one-option-icon" />
             <transition name="scale-in">
               <div class="one-option-title" v-if="!isCompact">{{ item.title }}</div>
@@ -17,7 +17,12 @@
       <div class="one-option">
         <a-popover placement="bottomLeft" overlay-class-name="more-popover">
           <template slot="content">
-            <div class="more-one-option" v-for="item in moreOptions" :key="item.title">
+            <div
+              class="more-one-option"
+              v-for="item in moreOptions"
+              :key="item.title"
+              @click="handleClick(item)"
+            >
               <icon-font :type="item.icon" />
               <span class="more-one-option-title">{{ item.title }}</span>
             </div>
@@ -36,7 +41,7 @@
 
 <script>
 import { generateToolBoxTopRightOptions, TOOL_BOX_TR } from '@/config'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'ToolBoxTR',
   filters: {},
@@ -64,7 +69,24 @@ export default {
   watch: {},
   mounted() {},
   created() {},
-  methods: {}
+  methods: {
+    ...mapMutations(['SET_VISIBLE_MODAL']),
+    // 处理左上角
+    handleClick(item) {
+      switch (item.command) {
+        case 'export':
+          this.openExportModal()
+          break
+        default:
+          this.$message.warning('功能开发ing...')
+          break
+      }
+    },
+    // 打开导出modal
+    openExportModal() {
+      this.SET_VISIBLE_MODAL('ExportMinderModal')
+    }
+  }
 }
 </script>
 
