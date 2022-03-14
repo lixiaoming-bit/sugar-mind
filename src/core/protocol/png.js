@@ -166,8 +166,10 @@ function getSVGInfo(minder) {
 
 function encode(json, minder, option) {
   /* 绘制 PNG 的画布及上下文 */
+  const ratio = window.devicePixelRatio || 1
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
+  ctx.imageSmoothingEnabled = false
 
   /* 尝试获取背景图片 URL 或背景颜色 */
   const bgDeclare = minder.getStyle('background').toString()
@@ -192,8 +194,9 @@ function encode(json, minder, option) {
   /* 画布的填充大小 */
   const padding = 20
 
-  canvas.width = width + padding * 2
-  canvas.height = height + padding * 2
+  canvas.width = (width + padding * 2) * ratio
+  canvas.height = (height + padding * 2) * ratio
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
 
   function fillBackground(ctx, style) {
     ctx.save()
@@ -203,6 +206,7 @@ function encode(json, minder, option) {
   }
 
   function drawImage(ctx, image, x, y, width, height) {
+    console.log('width && height: ', width && height)
     if (width && height) {
       ctx.drawImage(image, x + padding, y + padding, width, height)
     } else {
@@ -211,7 +215,7 @@ function encode(json, minder, option) {
   }
 
   function generateDataUrl(canvas) {
-    return canvas.toDataURL('image/png')
+    return canvas.toDataURL('image/png', 1)
   }
 
   // 加载节点上的图片

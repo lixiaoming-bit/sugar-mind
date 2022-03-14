@@ -36,7 +36,19 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_VISIBLE_MODAL']),
-    handleExport() {},
+    handleExport() {
+      if (this.selectedExportType === 'png') {
+        this.minder
+          .exportData(this.selectedExportType)
+          .then(res => {
+            console.log('res: ', res)
+          })
+          .catch(err => {
+            console.log('err: ', err)
+          })
+      }
+      this.SET_VISIBLE_MODAL('')
+    },
     handleCancel() {
       this.SET_VISIBLE_MODAL('')
     }
