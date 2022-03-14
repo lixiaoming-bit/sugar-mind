@@ -166,10 +166,16 @@ function getSVGInfo(minder) {
 
 function encode(json, minder, option) {
   /* 绘制 PNG 的画布及上下文 */
-  const ratio = window.devicePixelRatio || 1
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
-  ctx.imageSmoothingEnabled = false
+  const backingStore =
+    ctx.backingStorePixelRatio ||
+    ctx.webkitBackingStorePixelRatio ||
+    ctx.mozBackingStorePixelRatio ||
+    ctx.msBackingStorePixelRatio ||
+    ctx.oBackingStorePixelRatio ||
+    1
+  const ratio = (window.devicePixelRatio || 1) / backingStore
 
   /* 尝试获取背景图片 URL 或背景颜色 */
   const bgDeclare = minder.getStyle('background').toString()
@@ -196,6 +202,8 @@ function encode(json, minder, option) {
 
   canvas.width = (width + padding * 2) * ratio
   canvas.height = (height + padding * 2) * ratio
+  canvas.style.width = `${width + padding * 2}px`
+  canvas.style.height = `${height + padding * 2}px`
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
 
   function fillBackground(ctx, style) {
@@ -206,7 +214,6 @@ function encode(json, minder, option) {
   }
 
   function drawImage(ctx, image, x, y, width, height) {
-    console.log('width && height: ', width && height)
     if (width && height) {
       ctx.drawImage(image, x + padding, y + padding, width, height)
     } else {
