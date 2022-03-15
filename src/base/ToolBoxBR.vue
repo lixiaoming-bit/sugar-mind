@@ -32,7 +32,7 @@
           <icon-font type="iconicon_smalltool_more" class="option-one" />
           <a-menu slot="overlay">
             <a-menu-item>新手入门</a-menu-item>
-            <a-menu-item>快捷键查看</a-menu-item>
+            <a-menu-item @click="handleShortcut">快捷键查看</a-menu-item>
             <a-menu-item>偏好设置</a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_DISPLAY_MODE']),
+    ...mapMutations(['SET_DISPLAY_MODE', 'SET_VISIBLE_MODAL']),
     // 处理疑问帮助，偏好设置
     // 切换手柄
     toggleLayout() {
@@ -96,6 +96,11 @@ export default {
     // 切换导航器显示
     toggleNavigator() {
       this.isShowNavigator = !this.isShowNavigator
+    },
+    // 快捷键查看
+    handleShortcut() {
+      console.log('kauijei')
+      this.SET_VISIBLE_MODAL('ShortcutModal')
     }
   }
 }

@@ -425,3 +425,199 @@ export const EXPORT_TYPE_LIST = [
     disabled: true
   }
 ]
+
+export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'Alt') => {
+  // alt对应option  ctrl对应command
+  // eslint-disable-next-line prettier/prettier
+  return [{
+      title: '主题操作',
+      contents: [{
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_1',
+          title: '插入下级主题',
+          description: 'Tab'
+        },
+        {
+          key: 'append-before',
+          icon: 'iconicon_shortcuts_2',
+          title: '插入同级主题',
+          description: 'Enter'
+        },
+        {
+          key: 'append-before',
+          icon: 'iconicon_shortcuts_3',
+          title: '插入上级主题',
+          description: 'Tab'
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_edit',
+          title: '进入编辑',
+          description: 'Space空格键'
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_4',
+          title: '展开/收起主题',
+          description: `${shortcutText} + / `
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_draw_keyboard_unfold',
+          title: '一键展开/收起主题',
+          description: `${optionText} + ${shortcutText} + /`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_5',
+          title: '上移主题',
+          description: `${optionText} + ↑`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_6',
+          title: '下移主题',
+          description: `${optionText} + ↓`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_7',
+          title: '主题导航',
+          description: '↑/↓/←/→'
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconoutline_input_search',
+          title: '查找替换',
+          description: `${shortcutText} + F`
+        }
+      ]
+    },
+    // {
+    //   title: '大纲操作',
+    //   contents: [{
+    //       key: 'append-sibling',
+    //       icon: 'iconicon_shortcuts_outline_add',
+    //       title: '新增同级文本',
+    //       description: 'Enter'
+    //     },
+    //     {
+    //       key: 'append-before',
+    //       icon: 'iconicon_shortcuts_outline_right',
+    //       title: '向右缩进',
+    //       description: 'Tab'
+    //     },
+    //     {
+    //       key: 'append-sibling',
+    //       icon: 'iconicon_shortcuts_outline_left',
+    //       title: '取消缩进',
+    //       description: 'Shift+Tab'
+    //     }
+    //   ]
+    // },
+    {
+      title: '画布操作',
+      contents: [{
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_8',
+          title: '放大画布',
+          description: `${shortcutText} + "+"`
+        },
+        {
+          key: 'append-before',
+          icon: 'iconicon_shortcuts_9',
+          title: '缩小画布',
+          description: `${shortcutText} + "-"`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_10',
+          title: '拖动画布',
+          description: '按住鼠标右键'
+        }
+      ]
+    },
+    {
+      title: '编辑操作',
+      contents: [{
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_save',
+          title: '保存',
+          description: `${shortcutText} + S`
+        },
+        {
+          key: 'append-before',
+          icon: 'iconicon_shortcuts_11',
+          title: '撤销',
+          description: `${shortcutText} + Z`
+        },
+        {
+          key: 'append-before',
+          icon: 'iconicon_shortcuts_12',
+          title: '恢复',
+          description: `${shortcutText} + Y`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_13',
+          title: '换行',
+          description: 'Shift+Enter'
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_draw_keyboard_multipleselect1',
+          title: '多选',
+          description: `${shortcutText} + +鼠标左键点击 `
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_draw_keyboard_continuousselect',
+          title: '同级连选',
+          description: 'Shift+鼠标左键点击'
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_14',
+          title: '加粗',
+          description: `${shortcutText} + B`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_font-style_3',
+          title: '斜体',
+          description: `${shortcutText} + I`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_16',
+          title: '全选',
+          description: `${shortcutText} + A`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_17',
+          title: '复制',
+          description: `${shortcutText} + C`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_18',
+          title: '剪切',
+          description: `${shortcutText} + X`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_shortcuts_19',
+          title: '粘贴',
+          description: `${shortcutText} + V`
+        },
+        {
+          key: 'append-sibling',
+          icon: 'iconicon_home_recovery',
+          title: '删除',
+          description: 'Delete'
+        }
+      ]
+    }
+  ]
+}

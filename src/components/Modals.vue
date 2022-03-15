@@ -19,6 +19,8 @@ import CanvasStructModal from '@/base/CanvasStructModal'
 import SynopsisModal from '@/base/SynopsisModal'
 // 导出弹框
 import ExportMinderModal from '@/base/ExportMinderModal'
+// 快捷键弹窗
+import ShortcutModal from '@/base/ShortcutModal'
 
 import { mapGetters } from 'vuex'
 export default {
@@ -32,7 +34,8 @@ export default {
     NodeStyleModal,
     CanvasStructModal,
     SynopsisModal,
-    ExportMinderModal
+    ExportMinderModal,
+    ShortcutModal
   },
   computed: {
     ...mapGetters(['visibleModal'])

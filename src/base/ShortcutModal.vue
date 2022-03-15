@@ -2,30 +2,70 @@
   <transition name="slide-fade-left">
     <div class="shortcut-modal-container">
       <basic-modal title="快捷键">
-        <template slot="content"></template>
+        <template slot="content">
+          <div class="shortcut-wrapper">
+            <div class="one-configure" v-for="item in shortcutContainer" :key="item.title">
+              <div class="title">{{ item.title }}</div>
+              <div
+                class="configure-wrapper"
+                v-for="(childItem, index) in item.contents"
+                :key="index"
+              >
+                <div class="row-left">
+                  <icon-font :type="childItem.icon" class="option-icon" />
+                  <div>{{ childItem.title }}</div>
+                </div>
+                <div class="row-right">
+                  <div>{{ childItem.description }}</div>
+                </div>
+                <div class="border"></div>
+              </div>
+            </div>
+          </div>
+        </template>
       </basic-modal>
     </div>
   </transition>
 </template>
 
 <script>
+import { generateShortModalContext } from '@/config'
 import BasicModal from './BasicModal'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  name: 'ShortcutModal',
+  name: 'InsertIconModal',
   components: {
     BasicModal
   },
   data() {
-    return {}
+    return {
+      shortcutContainer: []
+    }
   },
   computed: {
-    ...mapGetters(['minder'])
+    ...mapGetters(['minder', 'macosCommandText', 'macosOptionText'])
   },
-  created() {},
+  created() {
+    this.initConfig()
+  },
   methods: {
     ...mapMutations(['SET_VISIBLE_MODAL']),
+    // 初始化配置
+    initConfig() {
+      this.shortcutContainer = generateShortModalContext(
+        this.macosCommandText,
+        this.macosOptionText
+      )
+    },
+    // 插入图标
+    handleInsetIcon(type, index) {
+      if (this.minder.queryCommandState(type) !== -1) {
+        this.minder.execCommand(type, index)
+      } else {
+        this.$message.warning('请选择节点')
+      }
+    },
     // 取消插入图标
     handleCancel() {
       this.SET_VISIBLE_MODAL('')
@@ -35,7 +75,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.select-icon-modal-container {
+.shortcut-modal-container {
   position: fixed;
   right: 10px;
   bottom: 80px;
@@ -43,10 +83,12 @@ export default {
   top: 100px;
   z-index: 2;
   box-shadow: 0 2px 16px 0 #0000000f;
-  .icon-wrapper {
+  .shortcut-wrapper {
     padding: 0 20px;
   }
-  .one-icon {
+  .one-configure {
+    border-bottom: 1px solid #e8e8e8;
+    padding: 16px 0;
     .title {
       font-family: PingFangSC-Regular, PingFang SC;
       font-size: 16px;
@@ -54,35 +96,27 @@ export default {
       color: rgba(26, 26, 26, 0.9);
       padding: 12px 0;
     }
-    .img-wrapper {
-      display: grid;
-      justify-content: space-between;
-      grid-template-columns: repeat(auto-fill, 36px);
-      grid-gap: 10px;
-      margin-bottom: 20px;
-      .img-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 0;
-        cursor: pointer;
-        &:hover {
-          background: #f0f0f0;
-          border-radius: 4px;
+    .configure-wrapper {
+      display: flex;
+      padding: 7px 0;
+      .row-left {
+        display: flex;
+        flex: 1;
+        color: #333;
+        align-items: center;
+        font-size: 15px;
+        .option-icon {
+          padding-right: 20px;
         }
+      }
+      .row-right {
+        color: #909090;
+        font-size: 13px;
       }
     }
   }
-}
-
-.slide-fade-left-enter-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-left-leave-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-left-enter,
-.slide-fade-left-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
+  .one-configure:last-child {
+    border: none;
+  }
 }
 </style>
