@@ -396,7 +396,7 @@ export const generateSelectedPaperContextmenu = (
 export const EXPORT_TYPE_LIST = [
   {
     key: 'png',
-    title: '图片 文档（.png)',
+    title: '超清图片文档（.png)',
     disabled: false
   },
   {

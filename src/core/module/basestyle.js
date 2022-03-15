@@ -10,16 +10,19 @@ Module.register('basestylemodule', function () {
   }
 
   TextRenderer.registerStyleHook(function (node, textGroup) {
-    const fontWeight = getNodeDataOrStyle(node, 'font-weight')
-    const fontStyle = getNodeDataOrStyle(node, 'font-style')
+    const color = getNodeDataOrStyle(node, 'color')
+    const fontSize = getNodeDataOrStyle(node, 'font-size') + 'px'
+    const fontFamily = getNodeDataOrStyle(node, 'font-family')
+
     // const styleHash = [fontWeight, fontStyle].join('/')
 
-    textGroup.eachItem(function (index, item) {
-      item.setFont({
-        weight: fontWeight,
-        style: fontStyle
-      })
-    })
+    // textGroup.eachItem(function (index, item) {
+    //   item.setFont({
+    //     weight: fontWeight,
+    //     style: fontStyle
+    //   })
+    // })
+    textGroup.foreign.setStyle({ color, fontSize, fontFamily })
   })
   return {
     commands: {

@@ -6,21 +6,23 @@ const kity = window.kity
 const getNodeDataOrStyle = (node, name) => node.getData(name) || node.getStyle(name)
 
 TextRenderer.registerStyleHook(function (node, textGroup) {
-  const dataColor = node.getData('color')
-  const selectedColor = node.getStyle('selected-color')
-  const styleColor = node.getStyle('color')
-  const foreColor = dataColor || (node.isSelected() && selectedColor ? selectedColor : styleColor)
+  // const dataColor = node.getData('color')
+  // const selectedColor = node.getStyle('selected-color')
+  const color = node.getStyle('color')
+  // const foreColor = dataColor || (node.isSelected() && selectedColor ? selectedColor : styleColor)
   const fontFamily = getNodeDataOrStyle(node, 'font-family')
   const fontSize = getNodeDataOrStyle(node, 'font-size')
 
-  textGroup.fill(foreColor)
+  textGroup.foreign.setStyle({ fontFamily, fontSize, color })
 
-  textGroup.eachItem(function (index, item) {
-    item.setFont({
-      family: fontFamily,
-      size: fontSize
-    })
-  })
+  // textGroup.fill(foreColor)
+
+  // textGroup.eachItem(function (index, item) {
+  //   item.setFont({
+  //     family: fontFamily,
+  //     size: fontSize
+  //   })
+  // })
 })
 
 Module.register('fontmodule', {

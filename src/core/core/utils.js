@@ -62,5 +62,32 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], functi
     return Object.prototype.toString.apply(obj) === '[object ' + v + ']'
   }
 })
+utils.getTextBoundary = (text, style) => {
+  const element = document.createElement('span')
+  element.innerHTML = text
+  element.style.visibility = 'hidden'
+  element.style.fontSize = style.fontSize
+  element.style.fontFamily = style.fontFamily
+  document.querySelector('body').appendChild(element)
+  const box = JSON.parse(JSON.stringify(element.getBoundingClientRect()))
+  // document.querySelector('body').removeChild(element)
+  element.remove()
+  return box
+}
+
+utils.styleToString = style => {
+  let s = []
+  for (const key in style) {
+    if (Object.hasOwnProperty.call(style, key)) {
+      const element = style[key]
+      if (element) {
+        const head = key.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
+        s.push(head + ':' + element)
+      }
+    }
+  }
+  s = s.join(';')
+  return s
+}
 
 export default utils
