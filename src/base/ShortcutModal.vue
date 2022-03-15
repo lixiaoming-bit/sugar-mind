@@ -57,18 +57,6 @@ export default {
         this.macosCommandText,
         this.macosOptionText
       )
-    },
-    // 插入图标
-    handleInsetIcon(type, index) {
-      if (this.minder.queryCommandState(type) !== -1) {
-        this.minder.execCommand(type, index)
-      } else {
-        this.$message.warning('请选择节点')
-      }
-    },
-    // 取消插入图标
-    handleCancel() {
-      this.SET_VISIBLE_MODAL('')
     }
   }
 }
