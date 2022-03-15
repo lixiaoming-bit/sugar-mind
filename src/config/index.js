@@ -396,26 +396,32 @@ export const generateSelectedPaperContextmenu = (
 export const EXPORT_TYPE_LIST = [
   {
     key: 'png',
-    title: '图片 文档（.png)'
+    title: '图片 文档（.png)',
+    disabled: false
   },
   {
     key: 'pdf',
-    title: 'PDF 文档（.pdf)'
+    title: 'PDF 文档（.pdf)',
+    disabled: true
   },
   {
     key: 'word',
-    title: 'Word 文档（.docx)'
+    title: 'Word 文档（.docx)',
+    disabled: true
   },
   {
     key: 'excel',
-    title: 'Excel 文档（.xlsx)'
+    title: 'Excel 文档（.xlsx)',
+    disabled: true
   },
   {
     key: 'markdown',
-    title: 'Markdown 文档（.md)'
+    title: 'Markdown 文档（.md)',
+    disabled: true
   },
   {
     key: 'xmind',
-    title: 'Xmind 文档（.xmind)'
+    title: 'Xmind 文档（.xmind)',
+    disabled: true
   }
 ]

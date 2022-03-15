@@ -140,3 +140,70 @@ export const getBrowserType = (lang = 'en') => {
     )
   }[lang]
 }
+
+/**
+ * desc: base64对象转blob文件对象
+ * @param urlData：数据的base64对象
+ * @param type：类型 png, pdf, doc, mp3等;
+ * @returns {Blob}：Blob文件对象
+ */
+const base64ToBlob = (urlData, type) => {
+  const arr = urlData.split(',')
+  const array = arr[0].match(/:(.*?);/)
+  const mime = (array && array.length > 1 ? array[1] : type) || type
+  // 去掉url的头，并转化为byte
+  const bytes = window.atob(arr[1])
+  // 处理异常,将ascii码小于0的转换为大于0
+  const ab = new ArrayBuffer(bytes.length)
+  // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
+  const ia = new Uint8Array(ab)
+  for (let i = 0; i < bytes.length; i++) {
+    ia[i] = bytes.charCodeAt(i)
+  }
+  return new Blob([ab], {
+    type: mime
+  })
+}
+
+/**
+ * desc: 下载导出文件
+ * @param blob  ：返回数据的blob对象或链接
+ * @param fileName  ：下载后文件名标记
+ * @param fileType  ：文件类 word(docx) excel(xlsx) ppt等
+ */
+const downloadExportFile = (blob, fileName, fileType) => {
+  let element = document.createElement('a')
+  let href = blob
+  if (typeof blob === 'string') {
+    element.target = '_blank'
+  } else {
+    //创建下载的链接
+    href = window.URL.createObjectURL(blob)
+  }
+  element.href = href
+  element.download = fileName + '.' + fileType
+  document.body.appendChild(element)
+  element.click() //触发点击下载
+  document.body.removeChild(element) //下载完成移除元素
+  if (typeof blob != 'string') {
+    window.URL.revokeObjectURL(href) //释放掉blob对象
+  }
+}
+
+/**
+ * desc: base64转文件并下载
+ * @param base64 {String} : base64数据
+ * @param fileType {String} : 要导出的文件类型 PNG、PDF、DOC等
+ * @param fileName {String} : 文件名
+ */
+export const downloadFile = (base64, fileName, fileType) => {
+  // 定义base64 头部文件类型
+  let typeHeader = ''
+  if (!/data:([\s\S]*?);base64/g.test(base64)) {
+    typeHeader = 'data:application/' + fileType + ';base64,'
+  }
+  // const typeHeader = 'data:application/' + fileType + ';base64,'
+  const convergedBase64 = typeHeader + base64 // 拼接最终的base64
+  let blob = base64ToBlob(convergedBase64, fileType) // 转成blob对象
+  downloadExportFile(blob, fileName, fileType) // 下载文件
+}

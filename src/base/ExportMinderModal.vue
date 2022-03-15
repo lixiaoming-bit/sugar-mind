@@ -2,6 +2,7 @@
   <a-modal :visible="visible" title="导出" @ok="handleExport" @cancel="handleCancel" centered>
     <a-radio-group v-model="selectedExportType">
       <a-radio
+        :disabled="item.disabled"
         class="custom-radio"
         v-for="item in exportTypeList"
         :value="item.key"
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+import { downloadFile } from '@/utils'
 import { EXPORT_TYPE_LIST } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -37,14 +39,17 @@ export default {
   methods: {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     handleExport() {
+      this.minder.removeAllSelectedNodes()
       if (this.selectedExportType === 'png') {
         this.minder
-          .exportData(this.selectedExportType)
+          .exportData('png')
           .then(res => {
             console.log('res: ', res)
+            downloadFile(res, new Date().toLocaleString(), 'png')
           })
           .catch(err => {
             console.log('err: ', err)
+            this.$message.warning('导出图片失败，请重新导出')
           })
       }
       this.SET_VISIBLE_MODAL('')

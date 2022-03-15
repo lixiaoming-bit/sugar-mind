@@ -7,18 +7,11 @@
   cursor: zoom-in;
 }
 
-.delete-image,
-.open-image {
-  display: none;
-}
-
 .upload-image-group:hover .delete-image {
   cursor: pointer;
-  display: block;
 }
 .upload-image-group:hover .open-image {
   cursor: pointer;
-  display: block;
 }
 
 .km-view {

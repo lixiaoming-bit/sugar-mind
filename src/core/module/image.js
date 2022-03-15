@@ -104,8 +104,12 @@ Module.register('image', function () {
         .addClass('upload-image-group')
 
       const uploadImage = new kity.Image(node.getData('image')).addClass('upload-image')
-      const deleteImage = new kity.Image(deleteImageUrl, 22, 22).addClass('delete-image')
-      const openImage = new kity.Image(openImageUrl, 22, 22).addClass('open-image')
+      const deleteImage = new kity.Image(deleteImageUrl, 22, 22)
+        .setVisible(false)
+        .addClass('delete-image')
+      const openImage = new kity.Image(openImageUrl, 22, 22)
+        .setVisible(false)
+        .addClass('open-image')
 
       // deleteImage.on('click', e => {
       //   node.setData('image', '').setData('imageTitle', '').setData('imageSize', '')
@@ -113,6 +117,14 @@ Module.register('image', function () {
       //   this.getRenderShape().remove()
       //   node.render()
       // })
+      group.on('mouseover', () => {
+        deleteImage.setVisible(true)
+        openImage.setVisible(true)
+      })
+      group.on('mouseleave', () => {
+        deleteImage.setVisible(false)
+        openImage.setVisible(false)
+      })
 
       group.addShapes([uploadImage, deleteImage, openImage])
       return group
