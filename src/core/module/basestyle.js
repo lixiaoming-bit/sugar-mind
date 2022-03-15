@@ -14,14 +14,6 @@ Module.register('basestylemodule', function () {
     const fontSize = getNodeDataOrStyle(node, 'font-size') + 'px'
     const fontFamily = getNodeDataOrStyle(node, 'font-family')
 
-    // const styleHash = [fontWeight, fontStyle].join('/')
-
-    // textGroup.eachItem(function (index, item) {
-    //   item.setFont({
-    //     weight: fontWeight,
-    //     style: fontStyle
-    //   })
-    // })
     textGroup.foreign.setStyle({ color, fontSize, fontFamily })
   })
   return {

@@ -7,8 +7,7 @@ const kity = window.kity
 
 // 创建一个foreignObject节点
 const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
-const DEFAULT_TEXT_STYLE =
-  'overflow: hidden;display:flex;align-items: center;height:100%;width:100%'
+const DEFAULT_TEXT_STYLE = 'pointer-events: none; overflow: hidden;'
 
 class CreateForeignObject {
   constructor() {
@@ -21,6 +20,8 @@ class CreateForeignObject {
     const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
     // element.setAttributeNS(null, 'xmlns', 'http://www.w3.org/2000/svg')
     element.setAttributeNS(null, 'id', utils.uuid('foreignObject'))
+    element.setAttributeNS(null, 'class', 'km-foreign-object')
+
     this.foreignElement = element
   }
   // 创建编辑器容器
@@ -60,6 +61,121 @@ class CreateForeignObject {
   }
 }
 
+const FONT_ADJUST = {
+  safari: {
+    '微软雅黑,Microsoft YaHei': -0.17,
+    '楷体,楷体_GB2312,SimKai': -0.1,
+    '隶书, SimLi': -0.1,
+    'comic sans ms': -0.23,
+    'impact,chicago': -0.15,
+    'times new roman': -0.1,
+    'arial black,avant garde': -0.17,
+    default: 0
+  },
+  ie: {
+    10: {
+      '微软雅黑,Microsoft YaHei': -0.17,
+      'comic sans ms': -0.17,
+      'impact,chicago': -0.08,
+      'times new roman': 0.04,
+      'arial black,avant garde': -0.17,
+      default: -0.15
+    },
+    11: {
+      '微软雅黑,Microsoft YaHei': -0.17,
+      'arial,helvetica,sans-serif': -0.17,
+      'comic sans ms': -0.17,
+      'impact,chicago': -0.08,
+      'times new roman': 0.04,
+      'sans-serif': -0.16,
+      'arial black,avant garde': -0.17,
+      default: -0.15
+    }
+  },
+  edge: {
+    '微软雅黑,Microsoft YaHei': -0.15,
+    'arial,helvetica,sans-serif': -0.17,
+    'comic sans ms': -0.17,
+    'impact,chicago': -0.08,
+    'sans-serif': -0.16,
+    'arial black,avant garde': -0.17,
+    default: -0.15
+  },
+  sg: {
+    '微软雅黑,Microsoft YaHei': -0.15,
+    'arial,helvetica,sans-serif': -0.05,
+    'comic sans ms': -0.22,
+    'impact,chicago': -0.16,
+    'times new roman': -0.03,
+    'arial black,avant garde': -0.22,
+    default: -0.15
+  },
+  chrome: {
+    Mac: {
+      'andale mono': -0.05,
+      'comic sans ms': -0.3,
+      'impact,chicago': -0.13,
+      'times new roman': -0.1,
+      'arial black,avant garde': -0.17,
+      default: 0
+    },
+    Win: {
+      '微软雅黑,Microsoft YaHei': -0.15,
+      'arial,helvetica,sans-serif': -0.02,
+      'arial black,avant garde': -0.2,
+      'comic sans ms': -0.2,
+      'impact,chicago': -0.12,
+      'times new roman': -0.02,
+      default: -0.15
+    },
+    Lux: {
+      'andale mono': -0.05,
+      'comic sans ms': -0.3,
+      'impact,chicago': -0.13,
+      'times new roman': -0.1,
+      'arial black,avant garde': -0.17,
+      default: 0
+    }
+  },
+  firefox: {
+    Mac: {
+      '微软雅黑,Microsoft YaHei': -0.2,
+      '宋体,SimSun': 0.05,
+      'comic sans ms': -0.2,
+      'impact,chicago': -0.15,
+      'arial black,avant garde': -0.17,
+      'times new roman': -0.1,
+      default: 0.05
+    },
+    Win: {
+      '微软雅黑,Microsoft YaHei': -0.16,
+      'andale mono': -0.17,
+      'arial,helvetica,sans-serif': -0.17,
+      'comic sans ms': -0.22,
+      'impact,chicago': -0.23,
+      'times new roman': -0.22,
+      'sans-serif': -0.22,
+      'arial black,avant garde': -0.17,
+      default: -0.16
+    },
+    Lux: {
+      '宋体,SimSun': -0.2,
+      '微软雅黑,Microsoft YaHei': -0.2,
+      '黑体, SimHei': -0.2,
+      '隶书, SimLi': -0.2,
+      '楷体,楷体_GB2312,SimKai': -0.2,
+      'andale mono': -0.2,
+      'arial,helvetica,sans-serif': -0.2,
+      'comic sans ms': -0.2,
+      'impact,chicago': -0.2,
+      'times new roman': -0.2,
+      'sans-serif': -0.2,
+      'arial black,avant garde': -0.2,
+      default: -0.16
+    }
+  }
+}
+
 const TextRenderer = kity.createClass('TextRenderer', {
   base: Renderer,
 
@@ -79,9 +195,30 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
     // const textArr = nodeText ? nodeText.split('\n') : [' ']
 
-    // const lineHeight = node.getStyle('line-height')
     const fontSize = getDataOrStyle('font-size')
     const fontFamily = getDataOrStyle('font-family') || 'default'
+
+    const Browser = kity.Browser
+    let adjust
+
+    if (Browser.chrome || Browser.opera || Browser.bd || Browser.lb === 'chrome') {
+      adjust = FONT_ADJUST['chrome'][Browser.platform][fontFamily]
+    } else if (Browser.gecko) {
+      adjust = FONT_ADJUST['firefox'][Browser.platform][fontFamily]
+    } else if (Browser.sg) {
+      adjust = FONT_ADJUST['sg'][fontFamily]
+    } else if (Browser.safari) {
+      adjust = FONT_ADJUST['safari'][fontFamily]
+    } else if (Browser.ie) {
+      adjust = FONT_ADJUST['ie'][Browser.version][fontFamily]
+    } else if (Browser.edge) {
+      adjust = FONT_ADJUST['edge'][fontFamily]
+    } else if (Browser.lb) {
+      // 猎豹浏览器的ie内核兼容性模式下
+      adjust = 0.9
+    }
+
+    textGroup.setTranslate(0, (adjust || 0) * fontSize)
 
     // 获取当前文本宽高
     const { width, height } = utils.getTextBoundary(nodeText, {
@@ -93,9 +230,10 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
     textGroup.foreign.setContent(nodeText)
 
-    element.setAttributeNS(null, 'width', width)
+    element.setAttributeNS(null, 'width', width + 2)
     element.setAttributeNS(null, 'height', height)
     element.setAttributeNS(null, 'y', yStart)
+    element.lastChild.style.lineHeight = height + 'px'
 
     let rBox = new kity.Box()
 
@@ -155,7 +293,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
       // })
       rBox = rBox.merge(new kity.Box(0, yStart, (height && width) || 1, fontSize))
 
-      const nBox = new kity.Box(r(rBox.x), r(rBox.y), r(rBox.width), r(rBox.height + 2))
+      const nBox = new kity.Box(r(rBox.x), r(rBox.y), r(rBox.width), r(rBox.height))
 
       node._currentTextGroupBox = nBox
       return nBox

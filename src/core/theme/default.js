@@ -38,7 +38,7 @@ theme.register('classic', {
 
   'selected-background': 'none',
   'selected-stroke': '#5EC7F8',
-  'selected-stroke-width': 1,
+  'selected-stroke-width': 2,
   'selected-padding': [3, 3],
   'selected-radius': 8,
 

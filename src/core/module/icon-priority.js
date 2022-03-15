@@ -87,8 +87,11 @@ Module.register('PriorityModule', function () {
       const spaceLeft = node.getStyle('space-left')
 
       icon.setValue(data)
+
+      const height = node.getTextGroup().getHeight()
+
       const x = box.left - icon.width - spaceLeft / 2
-      const y = -icon.height / 2
+      const y = -height / 2
 
       icon.setTranslate(x, y)
 

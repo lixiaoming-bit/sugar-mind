@@ -72,6 +72,7 @@ utils.getTextBoundary = (text, style) => {
   const box = JSON.parse(JSON.stringify(element.getBoundingClientRect()))
   // document.querySelector('body').removeChild(element)
   element.remove()
+  box.width = Math.round(box.width)
   return box
 }
 

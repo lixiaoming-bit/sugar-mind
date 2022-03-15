@@ -6,10 +6,7 @@ const kity = window.kity
 const getNodeDataOrStyle = (node, name) => node.getData(name) || node.getStyle(name)
 
 TextRenderer.registerStyleHook(function (node, textGroup) {
-  // const dataColor = node.getData('color')
-  // const selectedColor = node.getStyle('selected-color')
   const color = node.getStyle('color')
-  // const foreColor = dataColor || (node.isSelected() && selectedColor ? selectedColor : styleColor)
   const fontFamily = getNodeDataOrStyle(node, 'font-family')
   const fontSize = getNodeDataOrStyle(node, 'font-size')
 
