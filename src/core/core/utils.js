@@ -73,6 +73,7 @@ utils.getTextBoundary = (text, style) => {
   // document.querySelector('body').removeChild(element)
   element.remove()
   box.width = Math.round(box.width)
+  box.height = Math.round(box.height)
   return box
 }
 
