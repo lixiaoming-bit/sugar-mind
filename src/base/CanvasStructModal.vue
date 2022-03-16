@@ -5,11 +5,11 @@
         <template slot="content">
           <div class="canvas-wrapper">
             <div class="one-wrapper">
-              <h3 class="title">水印背景</h3>
+              <div class="title">水印背景</div>
               <a-input></a-input>
             </div>
             <div class="tow-wrapper">
-              <h3 class="title">自定义背景</h3>
+              <div class="title">自定义背景</div>
               <div>
                 <a-button>上传</a-button>
                 <a-button style="margin: 0 4px">设置</a-button>
