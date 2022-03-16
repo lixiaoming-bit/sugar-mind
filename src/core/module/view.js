@@ -119,6 +119,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
             lastPosition = e.getPosition('view')
             isTempDrag = true
           }
+          e.stopPropagation()
         }
       )
 
@@ -299,7 +300,7 @@ Module.register('View', function () {
 
         e.preventDefault()
       },
-      'normal.dblclick readonly.dblclick': function (e) {
+      'readonly.dblclick': function (e) {
         if (e.kityEvent.targetShape instanceof kity.Paper) {
           this.execCommand('camera', this.getRoot(), 800)
         }

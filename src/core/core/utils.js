@@ -70,7 +70,6 @@ utils.getTextBoundary = (text, style) => {
   element.style.fontFamily = style.fontFamily
   document.querySelector('body').appendChild(element)
   const box = JSON.parse(JSON.stringify(element.getBoundingClientRect()))
-  // document.querySelector('body').removeChild(element)
   element.remove()
   box.width = Math.round(box.width)
   box.height = Math.round(box.height)

@@ -8,7 +8,8 @@ const kity = window.kity
 // 创建一个foreignObject节点
 const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
 const DEFAULT_TEXT_STYLE =
-  'pointer-events: none; overflow: hidden;display:inline-block;line-height:initial;'
+  // pointer-events: none;
+  'overflow: hidden;display:inline-block;height: 100%;display:flex;align-items:center;'
 
 class CreateForeignObject {
   constructor() {
@@ -19,16 +20,13 @@ class CreateForeignObject {
   // 创建主容器
   createMainContainer() {
     const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
-    // element.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
     element.setAttribute('id', utils.uuid('foreignObject'))
     element.setAttribute('class', 'km-foreign-object')
-
     this.foreignElement = element
   }
   // 创建编辑器容器
   createEditorContainer() {
     const element = document.createElement('div')
-    // element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
     element.setAttribute('style', DEFAULT_EDITOR_STYLE)
     element.setAttribute('class', 'km-text-editor')
     this.editElement = element
@@ -60,7 +58,7 @@ class CreateForeignObject {
   // 设置样式
   setStyle(style) {
     style = utils.styleToString(style)
-    this.foreignElement.setAttributeNS(null, 'style', style)
+    this.foreignElement.setAttribute('style', style)
   }
 }
 
@@ -228,51 +226,17 @@ const TextRenderer = kity.createClass('TextRenderer', {
       fontSize: fontSize + 'px',
       fontFamily
     })
+    console.log('width, height: ', width, height)
 
     const yStart = -height / 2
 
     textGroup.foreign.setContent(nodeText)
 
-    element.setAttributeNS(null, 'width', width + 2)
-    element.setAttributeNS(null, 'height', height)
-    element.setAttributeNS(null, 'y', yStart)
+    element.setAttribute('width', width + 2)
+    element.setAttribute('height', height)
+    element.setAttribute('y', yStart)
 
-    let rBox = new kity.Box()
-
-    // const r = Math.round
-
-    // this.setTextStyle(node, textGroup)
-
-    // const textLength = textArr.length
-
-    // const textGroupLength = textGroup.getItems().length
-
-    // var i, ci, textShape, text
-
-    // if (textLength < textGroupLength) {
-    //   for (i = textLength, ci; (ci = textGroup.getItem(i)); ) {
-    //     textGroup.removeItem(i)
-    //   }
-    // } else if (textLength > textGroupLength) {
-    //   let growth = textLength - textGroupLength
-    //   while (growth--) {
-    //     textShape = new kity.Text().setAttr('text-rendering', 'inherit')
-    //     console.log('textShape: ', textShape)
-    //     if (kity.Browser.ie || kity.Browser.edge) {
-    //       textShape.setVerticalAlign('top')
-    //     } else {
-    //       textShape.setAttr('dominant-baseline', 'text-before-edge')
-    //     }
-    //     textGroup.addItem(textShape)
-    //   }
-    // }
-
-    // for (i = 0, text, textShape; (text = textArr[i]), (textShape = textGroup.getItem(i)); i++) {
-    //   textShape.setContent(text)
-    //   if (kity.Browser.ie || kity.Browser.edge) {
-    //     textShape.fixPosition()
-    //   }
-    // }
+    // let rBox = new kity.Box()
 
     this.setTextStyle(node, textGroup)
 
@@ -293,9 +257,9 @@ const TextRenderer = kity.createClass('TextRenderer', {
       //   textShape.setY(y)
       //   const bBox = textShape.getBoundaryBox()
       // })
-      rBox = rBox.merge(new kity.Box(0, yStart, (height && width) || 1, fontSize))
+      // rBox = rBox.merge(new kity.Box(0, yStart, (height && width) || 1, fontSize))
 
-      const nBox = new kity.Box(r(rBox.x), r(rBox.y), r(rBox.width), r(rBox.height))
+      const nBox = new kity.Box(0, r(yStart), width, height)
 
       node._currentTextGroupBox = nBox
       return nBox

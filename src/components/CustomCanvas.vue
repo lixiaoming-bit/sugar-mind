@@ -26,6 +26,7 @@ import kity from 'kity'
 import '../core/kityminder'
 import '../core/kityminder.css'
 import KMEditor from '../editor/editor'
+import Quill from 'quill'
 import { mapGetters, mapMutations } from 'vuex'
 
 import NotePreviewer from '@/base/NotePreviewer'
@@ -85,11 +86,24 @@ export default {
               this.macosOptionText
             )
       })
+      // 双击编辑节点
+      minder.on('normal.dblclick', e => {
+        const selectedNode = e.minder.getSelectedNode()
+        //
+        if (selectedNode) {
+          const textGroup = selectedNode.getTextGroup()
+          textGroup.foreign.editElement.setVisible(true)
+          textGroup.foreign.textElement.setVisible(false)
+          const quill = new Quill('.km-text-editor', {
+            theme: 'bubble' // Specify theme in configuration
+          })
+          console.log('quill: ', quill.focus())
+        }
+      })
     },
     // 菜单点击事件
     handleContextmenuClick(item) {
       if (item.command) {
-        console.log('item.command: ', item.command)
         this.editor.minder.execCommand(item.command)
       }
     }

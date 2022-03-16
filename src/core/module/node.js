@@ -171,7 +171,7 @@ const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
   },
   queryState: function (km) {
     const selectedNode = km.getSelectedNode()
-    return selectedNode ? 0 : -1
+    return selectedNode && !selectedNode.isRoot() ? 0 : -1
   }
 })
 
