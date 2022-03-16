@@ -18,18 +18,19 @@ class CreateForeignObject {
   // 创建主容器
   createMainContainer() {
     const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
-    // element.setAttributeNS(null, 'xmlns', 'http://www.w3.org/2000/svg')
-    element.setAttributeNS(null, 'id', utils.uuid('foreignObject'))
-    element.setAttributeNS(null, 'class', 'km-foreign-object')
+    // element.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    element.setAttribute('id', utils.uuid('foreignObject'))
+    element.setAttribute('class', 'km-foreign-object')
 
     this.foreignElement = element
   }
   // 创建编辑器容器
   createEditorContainer() {
     const element = document.createElement('div')
+    // element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
+    element.setAttribute('style', DEFAULT_EDITOR_STYLE)
+    element.setAttribute('class', 'km-text-editor')
     this.editElement = element
-    this.editElement.setAttribute('style', DEFAULT_EDITOR_STYLE)
-    this.editElement.setAttribute('class', 'km-text-editor')
     this.foreignElement.appendChild(this.editElement)
     this.editElement.setVisible = flag => {
       this.editElement.style.display = flag ? 'block' : 'none'
@@ -38,9 +39,10 @@ class CreateForeignObject {
   }
   // 创建
   createTextContainer() {
-    const element = document.createElementNS('http://www.w3.org/1999/xhtml', 'div')
+    const element = document.createElement('div')
+    element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
+    element.setAttribute('style', DEFAULT_TEXT_STYLE)
     this.textElement = element
-    this.textElement.setAttributeNS(null, 'style', DEFAULT_TEXT_STYLE)
     this.foreignElement.appendChild(this.textElement)
     this.textElement.setVisible = flag => {
       this.textElement.style.display = flag ? 'flex' : 'none'

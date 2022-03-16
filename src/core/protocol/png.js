@@ -108,16 +108,14 @@ function getSVGInfo(minder) {
   // fix title issue in safari
   // @ http://stackoverflow.com/questions/30273775/namespace-prefix-ns1-for-href-on-tagelement-is-not-defined-setattributens
   svgXml = svgXml.replace(/NS\d+:title/gi, 'xlink:title')
-  svgXml = svgXml.replace(/\n/g, '').replace(/\t/g, '').replace(/#/g, '%23')
-  console.log('svgXml: ', svgXml)
 
   const blob = new Blob([svgXml], {
     type: 'image/svg+xml'
   })
 
-  const svgUrl = DomURL.createObjectURL(blob)
+  let svgUrl = DomURL.createObjectURL(blob)
 
-  //svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgXml);
+  svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgXml)
 
   const imagesInfo = []
 
@@ -241,6 +239,7 @@ function encode(json, minder, option) {
 
     return loadImage(svgData)
       .then(function ($image) {
+        console.log('$image: ', $image)
         drawImage(ctx, $image.element, offsetX, offsetY, $image.width, $image.height)
         return loadImages(imagesInfo)
       })
