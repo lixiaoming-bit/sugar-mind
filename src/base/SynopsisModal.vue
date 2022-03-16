@@ -12,8 +12,8 @@
               :tree-data="treeData"
               :contenteditable="true"
             >
-              <a-icon slot="switcherIcon" type="caret-down" />
-              <icon-font class="childIcon" slot="child" type="iconicon_draw_outline_dots" />
+              <a-icon class="down" slot="switcherIcon" type="caret-down" />
+              <icon-font class="child-icon" slot="child" type="iconicon_draw_outline_dots" />
             </a-tree>
           </div>
         </template>
@@ -45,8 +45,17 @@ export default {
               children: [
                 {
                   key: '2-111',
-                  title: '2-111'
-                  // scopedSlots: { switcherIcon: 'child' }
+                  title: '2-111',
+                  children: [
+                    {
+                      key: '3-111',
+                      title: '3-111'
+                    },
+                    {
+                      key: '4-111',
+                      title: '4-111'
+                    }
+                  ]
                 }
               ]
             },
@@ -61,23 +70,44 @@ export default {
             {
               key: '1-555',
               title: '1-555'
+            },
+            {
+              key: '1-555',
+              title: '1-555',
+              children: [
+                {
+                  key: '3-111',
+                  title: '3-111'
+                },
+                {
+                  key: '4-111',
+                  title: '4-111'
+                }
+              ]
+            },
+            {
+              key: '1-555',
+              title: '1-555'
             }
           ]
         }
       ],
-      treeStyle: {}
+      treeStyle: {
+        // fontSize: '18px'
+      }
     }
   },
-  computed: {},
+  computed: {
+    // treeStyle() {
+    //   return {}
+    // }
+  },
   created() {
     const target = this.transformTreeData(this.treeData)
     console.log('target: ', target)
   },
   methods: {
     transformTreeData(data) {
-      // const scopedSlots = {
-      //   switcherIcon: 'child'
-      // }
       data.forEach(element => {
         if (element.children) {
           this.transformTreeData(element.children)
@@ -109,8 +139,11 @@ export default {
       .root {
         color: pink;
       }
-      .childIcon {
+      .child-icon {
         font-size: 25px;
+      }
+      .down {
+        color: #000000d9;
       }
     }
   }
@@ -121,9 +154,15 @@ export default {
   .ant-tree.ant-tree-show-line li:not(:last-child):before {
     border-left: 1px dashed #d9d9d9;
   }
-  .ant-tree > li:nth-child(3) {
-    color: pink;
-    font-size: 18px;
+  .ant-tree > li > .ant-tree-node-content-wrapper {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000d9;
+  }
+  .ant-tree > li > .ant-tree-child-tree > li > .ant-tree-node-content-wrapper {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000d9;
   }
 }
 </style>
