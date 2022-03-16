@@ -16,6 +16,7 @@ class CreateForeignObject {
     this.createMainContainer()
     this.createEditorContainer()
     this.createTextContainer()
+    this.setVisible(true)
   }
   // 创建主容器
   createMainContainer() {
@@ -31,10 +32,6 @@ class CreateForeignObject {
     element.setAttribute('class', 'km-text-editor')
     this.editElement = element
     this.foreignElement.appendChild(this.editElement)
-    this.editElement.setVisible = flag => {
-      this.editElement.style.display = flag ? 'block' : 'none'
-    }
-    this.editElement.setVisible(false)
   }
   // 创建
   createTextContainer() {
@@ -43,10 +40,21 @@ class CreateForeignObject {
     element.setAttribute('style', DEFAULT_TEXT_STYLE)
     this.textElement = element
     this.foreignElement.appendChild(this.textElement)
-    this.textElement.setVisible = flag => {
-      this.textElement.style.display = flag ? 'flex' : 'none'
+  }
+
+  // 切换编辑器
+  setVisible(flag) {
+    if (flag) {
+      this.editElement.innerHTML = null
+      this.editElement.style.display = 'none'
+      this.textElement.style.display = 'flex'
+    } else {
+      // this.textElement.innerHTML = null
+      this.textElement.style.display = 'none'
+      this.editElement.style.display = 'block'
     }
   }
+
   // 唤醒编辑器
   wakeUpEditor() {
     this.textElement.remove()
@@ -62,128 +70,16 @@ class CreateForeignObject {
   }
 }
 
-const FONT_ADJUST = {
-  safari: {
-    '微软雅黑,Microsoft YaHei': -0.17,
-    '楷体,楷体_GB2312,SimKai': -0.1,
-    '隶书, SimLi': -0.1,
-    'comic sans ms': -0.23,
-    'impact,chicago': -0.15,
-    'times new roman': -0.1,
-    'arial black,avant garde': -0.17,
-    default: 0
-  },
-  ie: {
-    10: {
-      '微软雅黑,Microsoft YaHei': -0.17,
-      'comic sans ms': -0.17,
-      'impact,chicago': -0.08,
-      'times new roman': 0.04,
-      'arial black,avant garde': -0.17,
-      default: -0.15
-    },
-    11: {
-      '微软雅黑,Microsoft YaHei': -0.17,
-      'arial,helvetica,sans-serif': -0.17,
-      'comic sans ms': -0.17,
-      'impact,chicago': -0.08,
-      'times new roman': 0.04,
-      'sans-serif': -0.16,
-      'arial black,avant garde': -0.17,
-      default: -0.15
-    }
-  },
-  edge: {
-    '微软雅黑,Microsoft YaHei': -0.15,
-    'arial,helvetica,sans-serif': -0.17,
-    'comic sans ms': -0.17,
-    'impact,chicago': -0.08,
-    'sans-serif': -0.16,
-    'arial black,avant garde': -0.17,
-    default: -0.15
-  },
-  sg: {
-    '微软雅黑,Microsoft YaHei': -0.15,
-    'arial,helvetica,sans-serif': -0.05,
-    'comic sans ms': -0.22,
-    'impact,chicago': -0.16,
-    'times new roman': -0.03,
-    'arial black,avant garde': -0.22,
-    default: -0.15
-  },
-  chrome: {
-    Mac: {
-      'andale mono': -0.05,
-      'comic sans ms': -0.3,
-      'impact,chicago': -0.13,
-      'times new roman': -0.1,
-      'arial black,avant garde': -0.17,
-      default: 0
-    },
-    Win: {
-      '微软雅黑,Microsoft YaHei': -0.15,
-      'arial,helvetica,sans-serif': -0.02,
-      'arial black,avant garde': -0.2,
-      'comic sans ms': -0.2,
-      'impact,chicago': -0.12,
-      'times new roman': -0.02,
-      default: -0.15
-    },
-    Lux: {
-      'andale mono': -0.05,
-      'comic sans ms': -0.3,
-      'impact,chicago': -0.13,
-      'times new roman': -0.1,
-      'arial black,avant garde': -0.17,
-      default: 0
-    }
-  },
-  firefox: {
-    Mac: {
-      '微软雅黑,Microsoft YaHei': -0.2,
-      '宋体,SimSun': 0.05,
-      'comic sans ms': -0.2,
-      'impact,chicago': -0.15,
-      'arial black,avant garde': -0.17,
-      'times new roman': -0.1,
-      default: 0.05
-    },
-    Win: {
-      '微软雅黑,Microsoft YaHei': -0.16,
-      'andale mono': -0.17,
-      'arial,helvetica,sans-serif': -0.17,
-      'comic sans ms': -0.22,
-      'impact,chicago': -0.23,
-      'times new roman': -0.22,
-      'sans-serif': -0.22,
-      'arial black,avant garde': -0.17,
-      default: -0.16
-    },
-    Lux: {
-      '宋体,SimSun': -0.2,
-      '微软雅黑,Microsoft YaHei': -0.2,
-      '黑体, SimHei': -0.2,
-      '隶书, SimLi': -0.2,
-      '楷体,楷体_GB2312,SimKai': -0.2,
-      'andale mono': -0.2,
-      'arial,helvetica,sans-serif': -0.2,
-      'comic sans ms': -0.2,
-      'impact,chicago': -0.2,
-      'times new roman': -0.2,
-      'sans-serif': -0.2,
-      'arial black,avant garde': -0.2,
-      default: -0.16
-    }
-  }
-}
-
 const TextRenderer = kity.createClass('TextRenderer', {
   base: Renderer,
 
-  create: function () {
+  create: function (km) {
     const fo = new CreateForeignObject()
     const group = new kity.Group().setId(utils.uuid('node_text'))
     group.node.appendChild(fo.foreignElement)
+    group.on('mousedown', e => {
+      if (km.minder.getStatus() === 'textedit') e.stopPropagation()
+    })
     group.foreign = fo
     return group
   },
@@ -198,28 +94,6 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
     const fontSize = getDataOrStyle('font-size')
     const fontFamily = getDataOrStyle('font-family') || 'default'
-
-    const Browser = kity.Browser
-    let adjust
-
-    if (Browser.chrome || Browser.opera || Browser.bd || Browser.lb === 'chrome') {
-      adjust = FONT_ADJUST['chrome'][Browser.platform][fontFamily]
-    } else if (Browser.gecko) {
-      adjust = FONT_ADJUST['firefox'][Browser.platform][fontFamily]
-    } else if (Browser.sg) {
-      adjust = FONT_ADJUST['sg'][fontFamily]
-    } else if (Browser.safari) {
-      adjust = FONT_ADJUST['safari'][fontFamily]
-    } else if (Browser.ie) {
-      adjust = FONT_ADJUST['ie'][Browser.version][fontFamily]
-    } else if (Browser.edge) {
-      adjust = FONT_ADJUST['edge'][fontFamily]
-    } else if (Browser.lb) {
-      // 猎豹浏览器的ie内核兼容性模式下
-      adjust = 0.9
-    }
-
-    textGroup.setTranslate(0, (adjust || 0) * fontSize)
 
     // 获取当前文本宽高
     const { width, height } = utils.getTextBoundary(nodeText, {

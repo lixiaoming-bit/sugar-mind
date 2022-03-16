@@ -88,7 +88,7 @@ Module.register('PriorityModule', function () {
 
       icon.setValue(data)
 
-      const height = node.getTextGroup().getHeight()
+      const height = icon.height
 
       const x = box.left - icon.width - spaceLeft / 2
       const y = -height / 2

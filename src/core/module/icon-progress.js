@@ -86,7 +86,7 @@ Module.register('ProgressModule', function () {
 
       icon.setValue(data)
 
-      const height = Math.max(node.getTextGroup().getHeight(), icon.height)
+      const height = icon.height
 
       const x = box.left - icon.width - spaceLeft / 2
       const y = -height / 2

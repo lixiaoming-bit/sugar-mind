@@ -22,7 +22,7 @@ export default function MinderRuntime() {
   minder.setTemplate('right')
   // console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
-  minder.execCommand('text', '中心主13123131231312322题')
+  minder.execCommand('text', '中心主题')
 
   // 导出给其它 Runtime 使用
   this.minder = minder

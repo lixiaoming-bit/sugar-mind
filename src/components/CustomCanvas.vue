@@ -31,6 +31,8 @@ import { mapGetters, mapMutations } from 'vuex'
 
 import NotePreviewer from '@/base/NotePreviewer'
 
+import { clickOutside, removeClickOutside } from '@/utils'
+
 import { generateSelectedNodeContextmenu, generateSelectedPaperContextmenu } from '@/config'
 export default {
   name: 'CustomCanvas',
@@ -91,15 +93,36 @@ export default {
         const selectedNode = e.minder.getSelectedNode()
         //
         if (selectedNode) {
+          const nodeText = selectedNode.getText()
           const textGroup = selectedNode.getTextGroup()
-          textGroup.foreign.editElement.setVisible(true)
-          textGroup.foreign.textElement.setVisible(false)
-          const quill = new Quill('.km-text-editor', {
+          textGroup.foreign.setVisible(false)
+          const quill = new Quill(textGroup.foreign.editElement, {
             theme: 'bubble' // Specify theme in configuration
           })
-          console.log('quill: ', quill.focus())
+          minder.setStatus('textedit')
+          quill.focus()
+          quill.setContents([{ insert: nodeText }])
+          // quill.on('text-change', function (delta, oldDelta, source) {
+
+          // })
+
+          clickOutside({
+            el: textGroup.foreign.editElement,
+            handler: () => {
+              minder.setStatus('normal')
+              quill.blur()
+              selectedNode.setText(quill.getText())
+              selectedNode.render()
+              removeClickOutside(textGroup.foreign.editElement)
+              textGroup.foreign.setVisible(true)
+            }
+          })
         }
       })
+      // 单击事件
+      // minder.on('click', () => {
+      //   console.log('出发了')
+      // })
     },
     // 菜单点击事件
     handleContextmenuClick(item) {
@@ -144,6 +167,7 @@ export default {
     font-weight: 400;
   }
 }
+
 .v-contextmenu--default {
   box-shadow: 0 4px 12px 0 #b0b0b080 !important;
   border-radius: 4px;
@@ -155,5 +179,22 @@ export default {
   .title {
     color: #808080;
   }
+}
+</style>
+<style>
+.ql-container {
+  height: 100%;
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+  pointer-events: all;
+  text-align: left;
+  top: 0;
+  width: 100%;
+}
+.ql-editor {
+  margin: 0;
+  outline: none;
+  padding: 0;
 }
 </style>
