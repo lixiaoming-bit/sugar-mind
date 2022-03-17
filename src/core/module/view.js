@@ -119,7 +119,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
             lastPosition = e.getPosition('view')
             isTempDrag = true
           }
-          e.stopPropagation()
         }
       )
 

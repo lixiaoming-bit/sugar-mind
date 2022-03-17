@@ -29,10 +29,12 @@ export default {
     // 绑定监听事件
     bindEvents() {
       this.minder.on('shownoterequest', e => {
+        console.log('shownoterequest:')
         if (this.showNotePreviewer) return false
         this.handlePreview(e.node, e.keyword)
       })
       this.minder.on('hidenoterequest', () => {
+        console.log('hidenoterequest:')
         this.showNotePreviewer = false
       })
       const element = document.querySelector('.note-previewer-container')

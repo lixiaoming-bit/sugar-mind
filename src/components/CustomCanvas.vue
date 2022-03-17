@@ -39,16 +39,14 @@ import kity from 'kity'
 import '../core/kityminder'
 import '../core/kityminder.css'
 import KMEditor from '../editor/editor'
-import Quill from 'quill'
 import { mapGetters, mapMutations } from 'vuex'
-
 import NotePreviewer from '@/base/NotePreviewer'
-import { clickOutside, removeClickOutside } from '@/utils'
 import {
   generateSelectedNodeContextmenu,
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
 } from '@/config'
+import generateEditor from '@/utils/quill-editor'
 export default {
   name: 'CustomCanvas',
   components: {
@@ -111,40 +109,8 @@ export default {
       })
       // 双击编辑节点
       minder.on('normal.dblclick', e => {
-        const selectedNode = e.minder.getSelectedNode()
-        //
-        if (selectedNode) {
-          const nodeText = selectedNode.getText()
-          const textGroup = selectedNode.getTextGroup()
-          textGroup.foreign.setVisible(false)
-          const quill = new Quill(textGroup.foreign.editElement, {
-            theme: 'bubble' // Specify theme in configuration
-          })
-          minder.setStatus('textedit')
-          quill.focus()
-          quill.setContents([{ insert: nodeText }])
-          quill.on('text-change', function (delta, oldDelta, source) {
-            const text = quill.getText()
-            selectedNode.setText(text)
-            selectedNode.render()
-            e.minder.layout(600)
-          })
-
-          clickOutside({
-            el: textGroup.foreign.editElement,
-            handler: () => {
-              minder.setStatus('normal')
-              quill.blur()
-              removeClickOutside(textGroup.foreign.editElement)
-              textGroup.foreign.setVisible(true)
-            }
-          })
-        }
+        generateEditor(e)
       })
-      // 单击事件
-      // minder.on('click', () => {
-      //   console.log('出发了')
-      // })
     },
     // 菜单点击事件
     handleContextmenuClick(item) {

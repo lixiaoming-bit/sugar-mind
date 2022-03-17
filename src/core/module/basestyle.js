@@ -12,8 +12,9 @@ Module.register('basestylemodule', function () {
   TextRenderer.registerStyleHook(function (node, textGroup) {
     const color = getNodeDataOrStyle(node, 'color')
     const fontSize = getNodeDataOrStyle(node, 'font-size') + 'px'
-    const fontFamily = getNodeDataOrStyle(node, 'font-family')
-    const lineHeight = textGroup.getHeight() + 'px'
+    const fontFamily = getNodeDataOrStyle(node, 'font-family') || "微软雅黑, 'Microsoft YaHei'"
+    // const lineHeight = textGroup.getHeight() + 'px'
+    const lineHeight = node.getStyle('line-height')
 
     textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight })
   })

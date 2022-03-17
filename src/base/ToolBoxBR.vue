@@ -99,7 +99,6 @@ export default {
     },
     // 快捷键查看
     handleShortcut() {
-      console.log('kauijei')
       this.SET_VISIBLE_MODAL('ShortcutModal')
     }
   }

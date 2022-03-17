@@ -7,20 +7,12 @@ const getNodeDataOrStyle = (node, name) => node.getData(name) || node.getStyle(n
 
 TextRenderer.registerStyleHook(function (node, textGroup) {
   const color = node.getStyle('color')
-  const fontFamily = getNodeDataOrStyle(node, 'font-family')
+  const fontFamily = getNodeDataOrStyle(node, 'font-family') || "微软雅黑, 'Microsoft YaHei'"
   const fontSize = getNodeDataOrStyle(node, 'font-size')
-  const lineHeight = textGroup.getHeight() + 'px'
+  // const lineHeight = textGroup.getHeight() + 'px'
+  const lineHeight = node.getStyle('line-height')
 
   textGroup.foreign.setStyle({ fontFamily, fontSize, color, lineHeight })
-
-  // textGroup.fill(foreColor)
-
-  // textGroup.eachItem(function (index, item) {
-  //   item.setFont({
-  //     family: fontFamily,
-  //     size: fontSize
-  //   })
-  // })
 })
 
 Module.register('fontmodule', {

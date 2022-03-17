@@ -1,4 +1,3 @@
-import { clickOutside, removeClickOutside } from './click-outside'
 /**
  * @description 获取用户浏览器版本及系统信息
  * @param {string='zh-cn' | 'en'} lang 返回中文的信息还是英文的
@@ -208,4 +207,3 @@ export const downloadFile = (base64, fileName, fileType) => {
   let blob = base64ToBlob(convergedBase64, fileType) // 转成blob对象
   downloadExportFile(blob, fileName, fileType) // 下载文件
 }
-export { clickOutside, removeClickOutside }

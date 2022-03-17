@@ -8,8 +8,7 @@ const kity = window.kity
 // 创建一个foreignObject节点
 const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
 const DEFAULT_TEXT_STYLE =
-  // pointer-events: none;
-  'overflow: hidden;display:inline-block;height: 100%;'
+  'pointer-events: none;overflow: hidden;display:inline-block;height: 100%;'
 
 class CreateForeignObject {
   constructor() {
@@ -81,9 +80,6 @@ const TextRenderer = kity.createClass('TextRenderer', {
     group.node.appendChild(fo.foreignElement)
     group.foreign = fo
 
-    // group.on('mousedown', e => {
-    //   if (km.minder.getStatus() === 'textedit') e.stopPropagation()
-    // })
     return group
   },
 
@@ -92,27 +88,28 @@ const TextRenderer = kity.createClass('TextRenderer', {
     const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
 
     const nodeText = node.getText()
-    console.log('nodeText: ', nodeText)
+
+    // const textArr = nodeText ? nodeText.split('\n') : [' ']
+    // const lineHeight = node.getStyle('line-height')
+    // const height = lineHeight * fontSize * textArr.length - (lineHeight - 1) * fontSize
 
     const fontSize = getDataOrStyle('font-size')
-    const fontFamily = getDataOrStyle('font-family') || 'default'
+    const fontFamily = getDataOrStyle('font-family') || "微软雅黑, 'Microsoft YaHei'"
 
     // 获取当前文本宽高
     const { width, height } = utils.getTextBoundary(nodeText, {
       fontSize: fontSize + 'px',
       fontFamily
     })
-    console.log('width, height: ', width, height)
 
     const yStart = -height / 2
 
     textGroup.foreign.setContent(nodeText)
 
-    element.setAttribute('width', width)
+    element.setAttribute('width', width + 2)
     element.setAttribute('height', height)
     element.setAttribute('y', yStart)
-
-    // let rBox = new kity.Box()
+    element.setAttribute('x', 0)
 
     this.setTextStyle(node, textGroup)
 

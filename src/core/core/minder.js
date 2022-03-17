@@ -24,7 +24,7 @@ const Minder = kity.createClass('Minder', {
   }
 })
 
-Minder.version = '1.4.43'
+Minder.version = '1.0.0'
 
 Minder.registerInitHook = function (hook) {
   _initHooks.push(hook)

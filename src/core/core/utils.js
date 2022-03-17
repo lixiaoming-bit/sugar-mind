@@ -63,15 +63,21 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], functi
   }
 })
 utils.getTextBoundary = (text, style) => {
-  const element = document.createElement('span')
+  if (!text) return { width: 0, height: 0 }
+  text = text.replaceAll('\n', '<br/>')
+  let element = document.querySelector('#check')
+  if (!element) {
+    element = document.createElement('span')
+    element.setAttribute('id', 'check')
+    element.style.visibility = 'hidden'
+    element.style.position = 'absolute'
+    element.style.opacity = '0'
+    document.querySelector('#app').appendChild(element)
+  }
+  element.style.fontSize = style.fontSize || ''
+  element.style.fontFamily = style.fontFamily || '微软雅黑, "Microsoft YaHei"'
   element.innerHTML = text
-  console.log('element.innerHTML: ', element.innerHTML)
-  element.style.visibility = 'hidden'
-  element.style.fontSize = style.fontSize
-  element.style.fontFamily = style.fontFamily
-  document.querySelector('body').appendChild(element)
-  const box = JSON.parse(JSON.stringify(element.getBoundingClientRect()))
-  element.remove()
+  const box = { width: element.offsetWidth, height: element.offsetHeight }
   box.width = Math.round(box.width)
   box.height = Math.round(box.height)
   return box

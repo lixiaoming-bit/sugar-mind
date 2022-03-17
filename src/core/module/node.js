@@ -50,7 +50,7 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     const sibling = km.getSelectedNode()
     const parent = sibling.parent
     const siblingIndex = sibling.getIndex()
-    const index = !parent ? 1 : siblingIndex + 2
+    const index = parent.getChildren().length + 1
     text = text + index.toString()
     if (!parent) {
       return km.execCommand('AppendChildNode', text)

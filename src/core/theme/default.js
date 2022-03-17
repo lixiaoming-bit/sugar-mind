@@ -22,7 +22,7 @@ theme.register('classic', {
   'main-shadow': 'none',
 
   'sub-color': '#000000',
-  'sub-background': '#f0f2f5',
+  'sub-background': 'transparent',
   'sub-stroke': 'none',
   'sub-font-size': 16,
   'sub-padding': [5, 10],
