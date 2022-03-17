@@ -104,3 +104,10 @@
 .km-image-viewer .km-image-viewer-close {
   background-position: 0 -44px;
 }
+
+.fo-text p {
+  word-wrap: normal;
+  margin: 0;
+  white-space: nowrap;
+  word-break: normal;
+}

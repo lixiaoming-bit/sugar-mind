@@ -102,17 +102,18 @@ export default {
           minder.setStatus('textedit')
           quill.focus()
           quill.setContents([{ insert: nodeText }])
-          // quill.on('text-change', function (delta, oldDelta, source) {
-
-          // })
+          quill.on('text-change', function (delta, oldDelta, source) {
+            const text = quill.getText()
+            selectedNode.setText(text)
+            selectedNode.render()
+            e.minder.layout(600)
+          })
 
           clickOutside({
             el: textGroup.foreign.editElement,
             handler: () => {
               minder.setStatus('normal')
               quill.blur()
-              selectedNode.setText(quill.getText())
-              selectedNode.render()
               removeClickOutside(textGroup.foreign.editElement)
               textGroup.foreign.setVisible(true)
             }
@@ -196,5 +197,12 @@ export default {
   margin: 0;
   outline: none;
   padding: 0;
+}
+.ql-container p,
+.ql-container p span {
+  word-wrap: normal;
+  margin: 0;
+  white-space: nowrap;
+  word-break: normal;
 }
 </style>

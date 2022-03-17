@@ -13,8 +13,9 @@ Module.register('basestylemodule', function () {
     const color = getNodeDataOrStyle(node, 'color')
     const fontSize = getNodeDataOrStyle(node, 'font-size') + 'px'
     const fontFamily = getNodeDataOrStyle(node, 'font-family')
+    const lineHeight = textGroup.getHeight() + 'px'
 
-    textGroup.foreign.setStyle({ color, fontSize, fontFamily })
+    textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight })
   })
   return {
     commands: {

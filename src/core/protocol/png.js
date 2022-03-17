@@ -105,6 +105,8 @@ function getSVGInfo(minder) {
   // eslint-disable-next-line no-control-regex
   svgXml = svgXml.replace(/&nbsp;|[\x00-\x1F\x7F-\x9F]/g, '')
 
+  svgXml = svgXml.replaceAll('<br>', '<br/>')
+
   // fix title issue in safari
   // @ http://stackoverflow.com/questions/30273775/namespace-prefix-ns1-for-href-on-tagelement-is-not-defined-setattributens
   svgXml = svgXml.replace(/NS\d+:title/gi, 'xlink:title')
@@ -235,7 +237,6 @@ function encode(json, minder, option) {
 
   function drawSVG() {
     const svgData = { url: svgDataUrl }
-    console.log('svgData: ', svgData)
 
     return loadImage(svgData)
       .then(function ($image) {

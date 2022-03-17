@@ -9,7 +9,7 @@ const kity = window.kity
 const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
 const DEFAULT_TEXT_STYLE =
   // pointer-events: none;
-  'overflow: hidden;display:inline-block;height: 100%;display:flex;align-items:center;'
+  'overflow: hidden;display:inline-block;height: 100%;'
 
 class CreateForeignObject {
   constructor() {
@@ -29,7 +29,7 @@ class CreateForeignObject {
   createEditorContainer() {
     const element = document.createElement('div')
     element.setAttribute('style', DEFAULT_EDITOR_STYLE)
-    element.setAttribute('class', 'km-text-editor')
+    element.addEventListener('mousedown', e => e.stopPropagation())
     this.editElement = element
     this.foreignElement.appendChild(this.editElement)
   }
@@ -37,6 +37,7 @@ class CreateForeignObject {
   createTextContainer() {
     const element = document.createElement('div')
     element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
+    element.setAttribute('class', 'fo-text')
     element.setAttribute('style', DEFAULT_TEXT_STYLE)
     this.textElement = element
     this.foreignElement.appendChild(this.textElement)
@@ -73,14 +74,16 @@ class CreateForeignObject {
 const TextRenderer = kity.createClass('TextRenderer', {
   base: Renderer,
 
-  create: function (km) {
+  create: function () {
+    // 创建dom节点
     const fo = new CreateForeignObject()
     const group = new kity.Group().setId(utils.uuid('node_text'))
     group.node.appendChild(fo.foreignElement)
-    group.on('mousedown', e => {
-      if (km.minder.getStatus() === 'textedit') e.stopPropagation()
-    })
     group.foreign = fo
+
+    // group.on('mousedown', e => {
+    //   if (km.minder.getStatus() === 'textedit') e.stopPropagation()
+    // })
     return group
   },
 
@@ -89,8 +92,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
     const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
 
     const nodeText = node.getText()
-
-    // const textArr = nodeText ? nodeText.split('\n') : [' ']
+    console.log('nodeText: ', nodeText)
 
     const fontSize = getDataOrStyle('font-size')
     const fontFamily = getDataOrStyle('font-family') || 'default'
@@ -106,7 +108,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
     textGroup.foreign.setContent(nodeText)
 
-    element.setAttribute('width', width + 2)
+    element.setAttribute('width', width)
     element.setAttribute('height', height)
     element.setAttribute('y', yStart)
 
@@ -118,20 +120,14 @@ const TextRenderer = kity.createClass('TextRenderer', {
       node.getText() +
       ['font-size', 'font-name', 'font-weight', 'font-style'].map(getDataOrStyle).join('/')
 
-    if (node._currentTextHash === textHash && node._currentTextGroupBox)
+    if (node._currentTextHash === textHash && node._currentTextGroupBox) {
       return node._currentTextGroupBox
+    }
 
     node._currentTextHash = textHash
 
     return function () {
       const r = Math.round
-
-      // textGroup.eachItem(function (i, textShape) {
-
-      //   textShape.setY(y)
-      //   const bBox = textShape.getBoundaryBox()
-      // })
-      // rBox = rBox.merge(new kity.Box(0, yStart, (height && width) || 1, fontSize))
 
       const nBox = new kity.Box(0, r(yStart), width, height)
 

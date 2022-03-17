@@ -65,6 +65,7 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], functi
 utils.getTextBoundary = (text, style) => {
   const element = document.createElement('span')
   element.innerHTML = text
+  console.log('element.innerHTML: ', element.innerHTML)
   element.style.visibility = 'hidden'
   element.style.fontSize = style.fontSize
   element.style.fontFamily = style.fontFamily

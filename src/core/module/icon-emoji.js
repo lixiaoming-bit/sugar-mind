@@ -85,7 +85,7 @@ Module.register('EmojiModule', function () {
 
       icon.setValue(data)
 
-      const height = icon.height
+      const height = node.getTextGroup().getHeight()
 
       const x = box.left - icon.width - spaceLeft / 2
       const y = -height / 2

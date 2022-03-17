@@ -9,8 +9,9 @@ TextRenderer.registerStyleHook(function (node, textGroup) {
   const color = node.getStyle('color')
   const fontFamily = getNodeDataOrStyle(node, 'font-family')
   const fontSize = getNodeDataOrStyle(node, 'font-size')
+  const lineHeight = textGroup.getHeight() + 'px'
 
-  textGroup.foreign.setStyle({ fontFamily, fontSize, color })
+  textGroup.foreign.setStyle({ fontFamily, fontSize, color, lineHeight })
 
   // textGroup.fill(foreColor)
 
