@@ -15,6 +15,19 @@
           <div class="description">{{ item.description }}</div>
         </div>
       </v-contextmenu-item>
+      <V-contextmenu-submenu title="移除图标" max-height="100" v-if="selectedNode">
+        <v-contextmenu-item
+          v-for="item in removeMenuList"
+          :key="item.key"
+          :disabled="item.disable"
+          @click="handleContextmenuClick(item)"
+        >
+          <div class="contextmenu-item">
+            <div class="title">{{ item.title }}</div>
+            <div class="description">{{ item.description }}</div>
+          </div>
+        </v-contextmenu-item>
+      </V-contextmenu-submenu>
     </v-contextmenu>
   </div>
 </template>
@@ -30,10 +43,12 @@ import Quill from 'quill'
 import { mapGetters, mapMutations } from 'vuex'
 
 import NotePreviewer from '@/base/NotePreviewer'
-
 import { clickOutside, removeClickOutside } from '@/utils'
-
-import { generateSelectedNodeContextmenu, generateSelectedPaperContextmenu } from '@/config'
+import {
+  generateSelectedNodeContextmenu,
+  generateSelectedPaperContextmenu,
+  removeNodeContextmenu
+} from '@/config'
 export default {
   name: 'CustomCanvas',
   components: {
@@ -42,7 +57,9 @@ export default {
   data() {
     return {
       contextmenuList: [],
-      editor: null
+      removeMenuList: [],
+      editor: null,
+      selectedNode: null
     }
   },
   computed: {
@@ -79,14 +96,18 @@ export default {
         this.SET_MINDER_ZOOM(zoom)
       })
       minder.on('contextmenu', event => {
-        const selectedNode = event.minder.getSelectedNode()
-        this.contextmenuList = selectedNode
+        this.selectedNode = event.minder.getSelectedNode()
+        console.log('selectedNode: ', this.selectedNode)
+        this.contextmenuList = this.selectedNode
           ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
           : generateSelectedPaperContextmenu(
               this.handleCheckDisabled,
               this.macosCommandText,
               this.macosOptionText
             )
+        this.removeMenuList = this.selectedNode
+          ? removeNodeContextmenu(this.handleCheckDisabled)
+          : ''
       })
       // 双击编辑节点
       minder.on('normal.dblclick', e => {

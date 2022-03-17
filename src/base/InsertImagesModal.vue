@@ -56,11 +56,11 @@ export default {
       if (this.imgUrl && reg.test(this.imgUrl)) {
         this.minder.execCommand('Image', this.imgUrl)
       }
-      this.SET_VISIBLE_MODAL('')
+      this.SET_VISIBLE_MODAL()
     },
     // 取消插入图片
     handleCancel() {
-      this.SET_VISIBLE_MODAL('')
+      this.SET_VISIBLE_MODAL()
     }
   }
 }

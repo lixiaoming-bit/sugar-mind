@@ -1,16 +1,15 @@
 <template>
   <transition name="slide-fade-left">
     <div class="synopsis-modal-container">
-      <basic-modal title="画布">
+      <basic-modal title="大纲">
         <template slot="content">
           <div class="synopsis-wrapper">
             <a-tree
               class="tree"
               tree-icon
               show-line
-              :style="treeStyle"
               :tree-data="treeData"
-              :contenteditable="true"
+              :replace-fields="replaceFields"
             >
               <a-icon class="down" slot="switcherIcon" type="caret-down" />
               <icon-font class="child-icon" slot="child" type="iconicon_draw_outline_dots" />
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import BasicModal from './BasicModal'
 
 export default {
@@ -32,79 +32,18 @@ export default {
   },
   data() {
     return {
-      treeData: [
-        {
-          key: '000',
-          title: '1111',
-          type: 'root',
-          children: [
-            {
-              key: '1-222',
-              title: '1-222',
-              type: 'main',
-              children: [
-                {
-                  key: '2-111',
-                  title: '2-111',
-                  children: [
-                    {
-                      key: '3-111',
-                      title: '3-111'
-                    },
-                    {
-                      key: '4-111',
-                      title: '4-111'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              key: '1-333',
-              title: '1-333'
-            },
-            {
-              key: '1-444',
-              title: '1-444'
-            },
-            {
-              key: '1-555',
-              title: '1-555'
-            },
-            {
-              key: '1-555',
-              title: '1-555',
-              children: [
-                {
-                  key: '3-111',
-                  title: '3-111'
-                },
-                {
-                  key: '4-111',
-                  title: '4-111'
-                }
-              ]
-            },
-            {
-              key: '1-555',
-              title: '1-555'
-            }
-          ]
-        }
-      ],
-      treeStyle: {
-        // fontSize: '18px'
+      treeData: [],
+      replaceFields: {
+        title: 'data'
       }
     }
   },
   computed: {
-    // treeStyle() {
-    //   return {}
-    // }
+    ...mapGetters(['minder'])
   },
   created() {
-    const target = this.transformTreeData(this.treeData)
-    console.log('target: ', target)
+    this.getTreeData()
+    this.transformTreeData(this.treeData)
   },
   methods: {
     transformTreeData(data) {
@@ -112,12 +51,19 @@ export default {
         if (element.children) {
           this.transformTreeData(element.children)
         } else {
-          console.log(element)
           element['scopedSlots'] = {
             switcherIcon: 'child'
           }
         }
       })
+    },
+    getTreeData() {
+      this.minder.exportData('json').then(res => {
+        const tree = JSON.parse(res)
+        this.treeData.push(tree.root)
+        console.log('this.treeData: ', this.treeData)
+      })
+      //
     }
   }
 }

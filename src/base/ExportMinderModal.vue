@@ -51,6 +51,9 @@ export default {
             console.log('err: ', err)
             this.$message.warning('导出图片失败，请重新导出')
           })
+        this.minder.exportData('json').then(res => {
+          console.log('res: ', res)
+        })
       }
       this.SET_VISIBLE_MODAL('')
     },

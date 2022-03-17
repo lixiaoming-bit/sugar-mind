@@ -60,7 +60,7 @@ export default {
     },
     // 取消插入图标
     handleCancel() {
-      this.SET_VISIBLE_MODAL('')
+      this.SET_VISIBLE_MODAL()
     }
   }
 }

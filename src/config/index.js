@@ -393,6 +393,38 @@ export const generateSelectedPaperContextmenu = (
   ]
 }
 
+export const removeNodeContextmenu = handleCheckDisabled => {
+  return [{
+      key: 'remove-priority',
+      title: '移除：优先级',
+      description: '',
+      command: 'priority',
+      disabled: handleCheckDisabled('priority')
+    },
+    {
+      key: 'remove-progress',
+      title: '移除：进度条',
+      description: '',
+      command: 'progress',
+      disabled: handleCheckDisabled('progress')
+    },
+    {
+      key: 'remove-emoji',
+      title: '移除：表情',
+      description: '',
+      command: 'emoji',
+      disabled: handleCheckDisabled('emoji')
+    },
+    {
+      key: 'remove-mark',
+      title: '移除：标记',
+      description: '',
+      command: 'mark',
+      disabled: handleCheckDisabled('mark')
+    }
+  ]
+}
+
 export const EXPORT_TYPE_LIST = [
   {
     key: 'png',

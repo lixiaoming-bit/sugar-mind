@@ -24,7 +24,7 @@ Module.register('ClipboardModule', function () {
     child.clearChildren()
 
     for (var i = 0, ci; (ci = children[i]); i++) {
-      appendChildNode(child, ci)
+      child, ci
     }
   }
 

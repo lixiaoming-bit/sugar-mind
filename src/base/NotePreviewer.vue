@@ -77,8 +77,9 @@ export default {
 
       this.previewerStyle = {
         left: Math.round(b.left) + 'px',
-        top: Math.round(b.top) + 30 + 'px'
+        top: Math.round(b.bottom) + 10 + 'px'
       }
+
       this.showNotePreviewer = true
     }
   },

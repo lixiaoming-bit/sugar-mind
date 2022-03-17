@@ -1,5 +1,7 @@
 <template>
-  <component :is="visibleModal"></component>
+  <keep-alive>
+    <component :is="visibleModal"></component>
+  </keep-alive>
 </template>
 
 <script>
