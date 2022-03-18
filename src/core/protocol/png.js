@@ -184,7 +184,6 @@ function encode(json, minder, option) {
 
   /* 获取 SVG 文件内容 */
   const svgInfo = getSVGInfo(minder)
-  console.log('svgInfo: ', svgInfo)
   const width =
     option && option.width && option.width > svgInfo.width ? option.width : svgInfo.width
   const height =
@@ -240,7 +239,6 @@ function encode(json, minder, option) {
 
     return loadImage(svgData)
       .then(function ($image) {
-        console.log('$image: ', $image)
         drawImage(ctx, $image.element, offsetX, offsetY, $image.width, $image.height)
         return loadImages(imagesInfo)
       })

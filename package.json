@@ -11,6 +11,7 @@
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.6.5",
     "hotbox-minder": "^1.0.15",
+    "jspdf": "^2.5.1",
     "kity": "^2.0.4",
     "mousetrap": "^1.6.5",
     "quill": "^1.3.7",

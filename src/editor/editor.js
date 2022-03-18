@@ -17,14 +17,14 @@ function KMEditor(selector) {
 KMEditor.assemble = assemble
 
 assemble(require('./runtime/container').default)
-// assemble(require('./runtime/fsm').default)
+assemble(require('./runtime/fsm').default)
 assemble(require('./runtime/minder').default)
 // assemble(require('./runtime/receiver').default)
 // assemble(require('./runtime/hotbox').default)
 // assemble(require('./runtime/input').default)
 // assemble(require('./runtime/clipboard-mimetype').default)
 // assemble(require('./runtime/clipboard').default)
-// assemble(require('./runtime/drag').default)
+assemble(require('./runtime/drag').default)
 // assemble(require('./runtime/node').default)
 // assemble(require('./runtime/history').default)
 // assemble(require('./runtime/jumping').default)

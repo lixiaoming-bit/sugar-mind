@@ -1,3 +1,5 @@
+import { jsPDF } from 'jspdf'
+
 /**
  * @description 获取用户浏览器版本及系统信息
  * @param {string='zh-cn' | 'en'} lang 返回中文的信息还是英文的
@@ -185,7 +187,7 @@ const downloadExportFile = (blob, fileName, fileType) => {
   document.body.appendChild(element)
   element.click() //触发点击下载
   document.body.removeChild(element) //下载完成移除元素
-  if (typeof blob != 'string') {
+  if (typeof blob !== 'string') {
     window.URL.revokeObjectURL(href) //释放掉blob对象
   }
 }
@@ -217,4 +219,24 @@ export const downloadFile = (base64, fileName, fileType) => {
 export const downloadMarkdown = (content, fileName) => {
   const blob = new Blob([content], { type: 'text/markdown' })
   downloadExportFile(blob, fileName, 'md')
+}
+
+/**
+ * desc: 下载pdf
+ * @param base64 {String} : base64 png
+ * @param fileName {String} : 文件名
+ */
+
+export const downloadPDF = (base64, fileName) => {
+  const img = new Image()
+  img.onload = () => {
+    const { width, height } = img
+    // 纵向 单位px FAST 压缩率高
+    const doc = new jsPDF('l', 'px', [width, height])
+    doc.addImage(base64, 'PNG', 0, 0, width, height, '', 'FAST')
+    doc.save(`${fileName}.pdf`).then(() => {
+      img.remove()
+    })
+  }
+  img.src = base64
 }

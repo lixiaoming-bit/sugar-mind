@@ -165,7 +165,6 @@ Module.register('Expand', function () {
         .setVerticalAlign('middle')
         .setFontSize(12)
         .setFontBold(true)
-      console.log('this.number: ', this.number)
       // .setFontWeight('bold')
       this.textOutLint.setVisible(false)
       this.addShapes([this.outline, this.textOutLint, this.sign, this.number])
