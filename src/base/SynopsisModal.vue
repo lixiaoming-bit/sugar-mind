@@ -10,6 +10,7 @@
               show-line
               :tree-data="treeData"
               :replace-fields="replaceFields"
+              :default-expand-all="true"
             >
               <a-icon class="down" slot="switcherIcon" type="caret-down" />
               <icon-font class="child-icon" slot="child" type="iconicon_draw_outline_dots" />
@@ -34,36 +35,39 @@ export default {
     return {
       treeData: [],
       replaceFields: {
-        title: 'data'
+        title: 'text'
       }
     }
   },
   computed: {
     ...mapGetters(['minder'])
   },
-  created() {
+  activated() {
     this.getTreeData()
-    this.transformTreeData(this.treeData)
   },
   methods: {
     transformTreeData(data) {
       data.forEach(element => {
-        if (element.children) {
+        if (element.children.length) {
           this.transformTreeData(element.children)
         } else {
-          element['scopedSlots'] = {
+          element.data['scopedSlots'] = {
             switcherIcon: 'child'
           }
         }
+        Object.assign(element, JSON.parse(JSON.stringify(element.data)))
+        delete element.data
       })
+      console.log('data: ', data)
     },
     getTreeData() {
       this.minder.exportData('json').then(res => {
+        const target = []
         const tree = JSON.parse(res)
-        this.treeData.push(tree.root)
-        console.log('this.treeData: ', this.treeData)
+        target.push(tree.root)
+        this.transformTreeData(target)
+        this.treeData = target.slice()
       })
-      //
     }
   }
 }
@@ -99,6 +103,9 @@ export default {
 .synopsis-wrapper {
   .ant-tree.ant-tree-show-line li:not(:last-child):before {
     border-left: 1px dashed #d9d9d9;
+  }
+  .ant-tree li {
+    margin-top: 8px;
   }
   .ant-tree > li > .ant-tree-node-content-wrapper {
     font-size: 20px;

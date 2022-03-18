@@ -15,7 +15,12 @@
           <div class="description">{{ item.description }}</div>
         </div>
       </v-contextmenu-item>
-      <V-contextmenu-submenu title="移除图标" max-height="100" v-if="selectedNode">
+      <V-contextmenu-submenu
+        title="移除主题内容"
+        max-height="100"
+        v-if="selectedNode"
+        :style="style"
+      >
         <v-contextmenu-item
           v-for="item in removeMenuList"
           :key="item.key"
@@ -57,7 +62,10 @@ export default {
       contextmenuList: [],
       removeMenuList: [],
       editor: null,
-      selectedNode: null
+      selectedNode: null,
+      style: {
+        color: '#1a1a1a'
+      }
     }
   },
   computed: {
@@ -115,6 +123,7 @@ export default {
     // 菜单点击事件
     handleContextmenuClick(item) {
       if (item.command) {
+        console.log('item.command: ', item.command)
         this.editor.minder.execCommand(item.command)
       }
     }

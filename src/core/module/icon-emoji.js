@@ -67,7 +67,6 @@ Module.register('EmojiModule', function () {
     queryState: function (km) {
       console.log('km.getSelectedNodes(): ', km.getSelectedNodes()[0].data)
       return km.getSelectedNodes().length ? 0 : -1
-      // return km.getSelectedNodes()[0].data['emoji'] ? 0 : -1
     }
   })
   const EmojiRenderer = kity.createClass('EmojiRenderer', {
