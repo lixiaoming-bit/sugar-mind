@@ -2,26 +2,34 @@
   <div class="node-font-style-container">
     <a-row type="flex" :gutter="[16, 16]">
       <a-col :span="14">
-        <a-select style="width: 100%">
+        <a-select
+          style="width: 100%"
+          v-model="nodeFontStyle.fontFamily"
+          @change="handleSelectFamilyChange"
+        >
           <a-icon slot="suffixIcon" type="caret-down" />
           <a-select-opt-group label="中 - cn">
             <a-select-option :key="item.value" v-for="item in cnFontFamily">
-              <span :style="item.value">{{ item.label }}</span>
+              <span :style="item.style">{{ item.label }}</span>
             </a-select-option>
           </a-select-opt-group>
 
           <a-select-opt-group label="英 - en">
             <a-select-option :key="item.value" v-for="item in enFontFamily">
-              <span :style="item.value">{{ item.label }}</span>
+              <span :style="item.style">{{ item.label }}</span>
             </a-select-option>
           </a-select-opt-group>
         </a-select>
       </a-col>
       <a-col :span="10">
-        <a-select style="width: 100%">
+        <a-select
+          style="width: 100%"
+          v-model="nodeFontStyle.fontSize"
+          @change="handleSelectFontSizeChange"
+        >
           <a-icon slot="suffixIcon" type="font-size" />
           <a-select-option :key="item.value" v-for="item in fontSize">
-            <span :style="item.value">{{ item.label }}</span>
+            <span :style="item.style">{{ item.label }}</span>
           </a-select-option>
         </a-select>
       </a-col>
@@ -37,7 +45,7 @@
         </a-popover>
       </div>
     </div>
-    <div class="align-group">
+    <!-- <div class="align-group">
       <a-radio-group default-value="align-left" button-style="solid">
         <a-radio-button :value="item.icon" v-for="item in fontAlignIcons" :key="item.title">
           <a-popover placement="top">
@@ -46,7 +54,7 @@
           </a-popover>
         </a-radio-button>
       </a-radio-group>
-    </div>
+    </div> -->
     <!-- <div class="font-icons-group align-group">
 
       <div class="one-font-icon" v-for="item in fontAlignIcons" :key="item.icon">
@@ -62,8 +70,8 @@ import {
   CN_FONT_FAMILY,
   EN_FONT_FAMILY,
   FONT_SIZE,
-  generateFontIcons,
-  FONT_ALIGN_ICONS
+  FONT_ALIGN_ICONS,
+  generateFontIcons
 } from '@/config'
 import { mapGetters } from 'vuex'
 
@@ -79,19 +87,32 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['macosCommandText']),
+    ...mapGetters(['macosCommandText', 'minder', 'nodeFontStyle']),
     cnFontFamily() {
-      return CN_FONT_FAMILY.slice()
+      const target = CN_FONT_FAMILY.slice()
+      return Array.from(target, item => {
+        return {
+          ...item,
+          style: `font-family: ${item.value}`
+        }
+      })
     },
     enFontFamily() {
-      return EN_FONT_FAMILY.slice()
+      const target = EN_FONT_FAMILY.slice()
+      return Array.from(target, item => {
+        return {
+          ...item,
+          style: `font-family: ${item.value}`
+        }
+      })
     },
     fontSize() {
       const target = FONT_SIZE.slice()
       return Array.from(target, item => {
         return {
           label: item,
-          value: `font-size: ${item}px;line-height: ${item}px;`
+          style: `font-size: ${item}px;line-height: ${item}px;`,
+          value: item
         }
       })
     },
@@ -100,6 +121,16 @@ export default {
     },
     fontAlignIcons() {
       return FONT_ALIGN_ICONS.slice()
+    }
+  },
+  methods: {
+    // 设置字体family
+    handleSelectFamilyChange(value) {
+      this.minder.execCommand('fontfamily', value)
+    },
+    // 设置字体font-size
+    handleSelectFontSizeChange(value) {
+      this.minder.execCommand('fontsize', value)
     }
   }
 }
@@ -112,7 +143,7 @@ export default {
   display: flex;
   cursor: pointer;
   margin-top: 16px;
-  border-radius: 6px;
+  border-radius: 2px;
   align-items: center;
   box-sizing: border-box;
   justify-content: center;

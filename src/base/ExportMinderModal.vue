@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { downloadFile } from '@/utils'
+import { downloadFile, downloadMarkdown } from '@/utils'
 import { EXPORT_TYPE_LIST } from '@/config'
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -40,19 +40,20 @@ export default {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     handleExport() {
       this.minder.removeAllSelectedNodes()
-      if (this.selectedExportType === 'png') {
+      if (this.selectedExportType === 'png' || this.selectedExportType === 'pdf') {
         this.minder
           .exportData('png')
-          .then(res => {
-            console.log('res: ', res)
-            downloadFile(res, new Date().toLocaleString(), 'png')
+          .then(base64 => {
+            downloadFile(base64, new Date().toLocaleString(), 'png')
           })
           .catch(err => {
             console.log('err: ', err)
             this.$message.warning('导出图片失败，请重新导出')
           })
-        this.minder.exportData('json').then(res => {
-          console.log('res: ', res)
+      }
+      if (this.selectedExportType === 'markdown') {
+        this.minder.exportData('markdown').then(content => {
+          downloadMarkdown(content, new Date().toLocaleString(), 'markdown')
         })
       }
       this.SET_VISIBLE_MODAL('')

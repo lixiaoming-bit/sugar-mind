@@ -3,19 +3,19 @@ import Module from '../core/module'
 import TextRenderer from './text'
 const kity = window.kity
 
-const getNodeDataOrStyle = (node, name) => node.getData(name) || node.getStyle(name)
-
 TextRenderer.registerStyleHook(function (node, textGroup) {
-  const color = node.getStyle('color')
-  const fontFamily = getNodeDataOrStyle(node, 'font-family') || "微软雅黑, 'Microsoft YaHei'"
-  const fontSize = getNodeDataOrStyle(node, 'font-size')
-  // const lineHeight = textGroup.getHeight() + 'px'
-  const lineHeight = node.getStyle('line-height')
+  const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+  const color = getDataOrStyle('color')
+  const fontSize = getDataOrStyle('font-size') + 'px'
+  const fontFamily = getDataOrStyle('font-family') || "微软雅黑, 'Microsoft YaHei'"
+  const lineHeight = getDataOrStyle('line-height')
+  const fontStyle = getDataOrStyle('font-style')
+  const fontWeight = getDataOrStyle('font-weight')
 
-  textGroup.foreign.setStyle({ fontFamily, fontSize, color, lineHeight })
+  textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight, fontStyle, fontWeight })
 })
 
-Module.register('fontmodule', {
+Module.register('fontModule', {
   commands: {
     /**
      * @command ForeColor
@@ -26,7 +26,7 @@ Module.register('fontmodule', {
      *  -1: 当前没有选中的节点
      * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 'mixed'。
      */
-    forecolor: kity.createClass('fontcolorCommand', {
+    forecolor: kity.createClass('fontColorCommand', {
       base: Command,
       execute: function (km, color) {
         const nodes = km.getSelectedNodes()
@@ -55,7 +55,7 @@ Module.register('fontmodule', {
      *  -1: 当前没有选中的节点
      * @return 如果只有一个节点选中，返回已选中节点的背景颜色；否则返回 'mixed'。
      */
-    background: kity.createClass('backgroudCommand', {
+    background: kity.createClass('backgroundCommand', {
       base: Command,
 
       execute: function (km, color) {
@@ -85,7 +85,7 @@ Module.register('fontmodule', {
      *  -1: 当前没有选中的节点
      * @return 返回首个选中节点的字体
      */
-    fontfamily: kity.createClass('fontfamilyCommand', {
+    fontfamily: kity.createClass('fontFamilyCommand', {
       base: Command,
 
       execute: function (km, family) {
@@ -115,7 +115,7 @@ Module.register('fontmodule', {
      *  -1: 当前没有选中的节点
      * @return 返回首个选中节点的字体大小
      */
-    fontsize: kity.createClass('fontsizeCommand', {
+    fontsize: kity.createClass('fontSizeCommand', {
       base: Command,
 
       execute: function (km, size) {

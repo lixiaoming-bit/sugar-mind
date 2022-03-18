@@ -107,4 +107,16 @@ export default {
     border: none;
   }
 }
+
+.slide-fade-left-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-left-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-left-enter,
+.slide-fade-left-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
 </style>

@@ -27,23 +27,23 @@ export const ICONS = [
 export const CN_FONT_FAMILY = [
   {
     label: '宋体',
-    value: 'font-family: 宋体, SimSun, "Songti SC";'
+    value: '宋体, SimSun, "Songti SC"'
   },
   {
     label: '微软雅黑',
-    value: 'font-family: 微软雅黑, "Microsoft YaHei";'
+    value: '微软雅黑, "Microsoft YaHei"'
   },
   {
     label: '楷体',
-    value: 'font-family: 楷体, 楷体_GB2312, SimKai, STKaiti;'
+    value: '楷体, 楷体_GB2312, SimKai, STKaiti'
   },
   {
     label: '黑体',
-    value: 'font-family: 黑体, SimHei, "Heiti SC";'
+    value: '黑体, SimHei, "Heiti SC"'
   },
   {
     label: '隶书',
-    value: 'font-family: 隶书, SimLi;'
+    value: '隶书, SimLi'
   }
 ]
 
@@ -51,27 +51,27 @@ export const CN_FONT_FAMILY = [
 export const EN_FONT_FAMILY = [
   {
     label: 'Andale Mono',
-    value: 'font-family: "andale mono";'
+    value: '"andale mono";'
   },
   {
     label: 'Arial',
-    value: 'font-family: arial, helvetica, sans-serif;'
+    value: 'arial, helvetica, sans-serif;'
   },
   {
     label: 'Comic Sans Ms',
-    value: 'font-family: "comic sans ms";'
+    value: '"comic sans ms";'
   },
   {
     label: 'Impact',
-    value: 'font-family: impact, chicago;'
+    value: 'impact, chicago;'
   },
   {
     label: 'Times New Roman',
-    value: 'font-family: "times new roman";'
+    value: '"times new roman";'
   },
   {
     label: 'Sans-Serif',
-    value: 'font-family: sans-serif;'
+    value: 'sans-serif;'
   }
 ]
 
@@ -81,7 +81,7 @@ export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
 // 字体图标
 export const generateFontIcons = (shortcutText = 'Ctrl') => [
   {
-    title: '文本设置字体颜色',
+    title: '文本字体颜色',
     icon: 'font-colors'
   },
   {
@@ -394,7 +394,8 @@ export const generateSelectedPaperContextmenu = (
 }
 
 export const removeNodeContextmenu = handleCheckDisabled => {
-  return [{
+  return [
+    {
       key: 'remove-priority',
       title: '移除：优先级',
       description: '',
@@ -446,7 +447,7 @@ export const EXPORT_TYPE_LIST = [
   {
     key: 'pdf',
     title: 'PDF 文档（.pdf)',
-    disabled: true
+    disabled: false
   },
   {
     key: 'word',
@@ -461,7 +462,7 @@ export const EXPORT_TYPE_LIST = [
   {
     key: 'markdown',
     title: 'Markdown 文档（.md)',
-    disabled: true
+    disabled: false
   },
   {
     key: 'xmind',
@@ -473,9 +474,11 @@ export const EXPORT_TYPE_LIST = [
 export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'Alt') => {
   // alt对应option  ctrl对应command
   // eslint-disable-next-line prettier/prettier
-  return [{
+  return [
+    {
       title: '主题操作',
-      contents: [{
+      contents: [
+        {
           key: 'append-sibling',
           icon: 'iconicon_shortcuts_1',
           title: '插入下级主题',
@@ -561,7 +564,8 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
     // },
     {
       title: '画布操作',
-      contents: [{
+      contents: [
+        {
           key: 'append-sibling',
           icon: 'iconicon_shortcuts_8',
           title: '放大画布',
@@ -583,7 +587,8 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
     },
     {
       title: '编辑操作',
-      contents: [{
+      contents: [
+        {
           key: 'append-sibling',
           icon: 'iconicon_shortcuts_save',
           title: '保存',
@@ -664,4 +669,13 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
       ]
     }
   ]
+}
+
+export const NODE_FONT_STYLE_SETTING = {
+  fontFamily: '微软雅黑, "Microsoft YaHei"',
+  fontSize: null,
+  color: '',
+  fontWeight: 'normal',
+  fontStyle: 'normal',
+  textDecoration: 'none'
 }

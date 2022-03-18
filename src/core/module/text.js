@@ -92,14 +92,23 @@ const TextRenderer = kity.createClass('TextRenderer', {
     // const textArr = nodeText ? nodeText.split('\n') : [' ']
     // const lineHeight = node.getStyle('line-height')
     // const height = lineHeight * fontSize * textArr.length - (lineHeight - 1) * fontSize
-
-    const fontSize = getDataOrStyle('font-size')
+    const color = getDataOrStyle('color')
+    const fontSize = getDataOrStyle('font-size') + 'px'
     const fontFamily = getDataOrStyle('font-family') || "微软雅黑, 'Microsoft YaHei'"
+    const lineHeight = getDataOrStyle('line-height')
+    const fontStyle = getDataOrStyle('font-style')
+    const fontWeight = getDataOrStyle('font-weight')
+
+    textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight, fontStyle, fontWeight })
 
     // 获取当前文本宽高
     const { width, height } = utils.getTextBoundary(nodeText, {
-      fontSize: fontSize + 'px',
-      fontFamily
+      color,
+      fontSize,
+      fontFamily,
+      fontStyle,
+      fontWeight,
+      lineHeight
     })
 
     const yStart = -height / 2

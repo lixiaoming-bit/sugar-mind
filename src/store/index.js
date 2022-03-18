@@ -3,9 +3,12 @@ import Vuex from 'vuex'
 import { getBrowserType } from '@/utils'
 Vue.use(Vuex)
 
+import { NODE_FONT_STYLE_SETTING } from '@/config'
+
 export default new Vuex.Store({
   state: {
     minder: {},
+    nodeFontStyle: { ...NODE_FONT_STYLE_SETTING },
     minderZoom: 100,
     visibleModal: null,
     displayMode: 'pure' // compact | pure
@@ -23,6 +26,9 @@ export default new Vuex.Store({
     },
     SET_DISPLAY_MODE(state, payload = 'normal') {
       state.displayMode = payload
+    },
+    SET_NODE_STYLE(state, payload = NODE_FONT_STYLE_SETTING) {
+      state.nodeFontStyle = payload
     }
   },
   getters: {
@@ -38,6 +44,9 @@ export default new Vuex.Store({
     },
     minder(state) {
       return state.minder
+    },
+    nodeFontStyle(state) {
+      return state.nodeFontStyle
     },
     isShowComponent(state) {
       return state.displayMode !== 'pure'

@@ -23,7 +23,11 @@
       </a-popover>
       <a-popover placement="top">
         <template slot="content">沉浸模式</template>
-        <icon-font type="iconicon_common_full-screen1" class="option-one" />
+        <icon-font
+          type="iconicon_common_full-screen1"
+          class="option-one"
+          @click="handleFullscreen"
+        />
       </a-popover>
       <a-popover placement="topLeft">
         <template slot="content">疑问帮助&偏好设置</template>
@@ -31,9 +35,9 @@
         <a-dropdown :trigger="['click']">
           <icon-font type="iconicon_smalltool_more" class="option-one" />
           <a-menu slot="overlay">
-            <a-menu-item>新手入门</a-menu-item>
+            <!-- <a-menu-item>新手入门</a-menu-item> -->
             <a-menu-item @click="handleShortcut">快捷键查看</a-menu-item>
-            <a-menu-item>偏好设置</a-menu-item>
+            <!-- <a-menu-item>偏好设置</a-menu-item> -->
           </a-menu>
         </a-dropdown>
       </a-popover>
@@ -45,6 +49,8 @@
 </template>
 
 <script>
+import screenfull from 'screenfull'
+
 import { mapGetters, mapMutations } from 'vuex'
 import Navigator from './Navigator'
 export default {
@@ -100,6 +106,13 @@ export default {
     // 快捷键查看
     handleShortcut() {
       this.SET_VISIBLE_MODAL('ShortcutModal')
+    },
+    // 设置全屏
+    handleFullscreen() {
+      console.log('screenfull: ', screenfull)
+      if (screenfull.isEnabled) {
+        screenfull.toggle()
+      }
     }
   }
 }

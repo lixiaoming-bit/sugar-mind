@@ -39,7 +39,6 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-
 import kity from 'kity'
 import '../core/kityminder'
 import '../core/kityminder.css'
@@ -47,6 +46,7 @@ import KMEditor from '../editor/editor'
 import { mapGetters, mapMutations } from 'vuex'
 import NotePreviewer from '@/base/NotePreviewer'
 import {
+  NODE_FONT_STYLE_SETTING,
   generateSelectedNodeContextmenu,
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
@@ -81,7 +81,13 @@ export default {
     this.init()
   },
   methods: {
-    ...mapMutations(['SET_MINDER_ZOOM', 'SET_MINDER', 'SET_DISPLAY_MODE']),
+    ...mapMutations([
+      'SET_MINDER_ZOOM',
+      'SET_MINDER',
+      'SET_DISPLAY_MODE',
+      'SET_VISIBLE_MODAL',
+      'SET_NODE_STYLE'
+    ]),
     // 检查当前的状态
     handleCheckDisabled(command) {
       return this.editor.minder.queryCommandState(command) === -1
@@ -103,7 +109,6 @@ export default {
       })
       minder.on('contextmenu', event => {
         this.selectedNode = event.minder.getSelectedNode()
-        console.log('selectedNode: ', this.selectedNode)
         this.contextmenuList = this.selectedNode
           ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
           : generateSelectedPaperContextmenu(
@@ -118,6 +123,25 @@ export default {
       // 双击编辑节点
       minder.on('normal.dblclick', e => {
         generateEditor(e)
+      })
+      // 处理全局单击事件 需要添加防抖
+      minder.on('normal.click', e => {
+        const node = e.minder.getSelectedNode()
+        if (node) {
+          const style = {}
+          const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+          for (const key in NODE_FONT_STYLE_SETTING) {
+            if (Object.hasOwnProperty.call(NODE_FONT_STYLE_SETTING, key)) {
+              const head = key.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
+              const target = getDataOrStyle(head) * 1
+              style[key] = target * 1 || target || NODE_FONT_STYLE_SETTING[key]
+            }
+          }
+          this.SET_NODE_STYLE(style)
+        } else {
+          this.SET_VISIBLE_MODAL()
+          this.SET_NODE_STYLE()
+        }
       })
     },
     // 菜单点击事件

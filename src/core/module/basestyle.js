@@ -5,18 +5,16 @@ const kity = window.kity
 Module.register('basestylemodule', function () {
   const km = this
 
-  function getNodeDataOrStyle(node, name) {
-    return node.getData(name) || node.getStyle(name)
-  }
-
   TextRenderer.registerStyleHook(function (node, textGroup) {
-    const color = getNodeDataOrStyle(node, 'color')
-    const fontSize = getNodeDataOrStyle(node, 'font-size') + 'px'
-    const fontFamily = getNodeDataOrStyle(node, 'font-family') || "微软雅黑, 'Microsoft YaHei'"
-    // const lineHeight = textGroup.getHeight() + 'px'
-    const lineHeight = node.getStyle('line-height')
+    const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+    const color = getDataOrStyle('color')
+    const fontSize = getDataOrStyle('font-size') + 'px'
+    const fontFamily = getDataOrStyle('font-family') || "微软雅黑, 'Microsoft YaHei'"
+    const lineHeight = getDataOrStyle('line-height')
+    const fontStyle = getDataOrStyle('font-style')
+    const fontWeight = getDataOrStyle('font-weight')
 
-    textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight })
+    textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight, fontStyle, fontWeight })
   })
   return {
     commands: {

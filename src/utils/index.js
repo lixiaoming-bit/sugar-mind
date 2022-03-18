@@ -193,7 +193,7 @@ const downloadExportFile = (blob, fileName, fileType) => {
 /**
  * desc: base64转文件并下载
  * @param base64 {String} : base64数据
- * @param fileType {String} : 要导出的文件类型 PNG、PDF、DOC等
+ * @param fileType {String} : 要导出的文件类型 PNG、PDF、DOC、MD等
  * @param fileName {String} : 文件名
  */
 export const downloadFile = (base64, fileName, fileType) => {
@@ -206,4 +206,15 @@ export const downloadFile = (base64, fileName, fileType) => {
   const convergedBase64 = typeHeader + base64 // 拼接最终的base64
   let blob = base64ToBlob(convergedBase64, fileType) // 转成blob对象
   downloadExportFile(blob, fileName, fileType) // 下载文件
+}
+
+/**
+ * desc: 下载markdown
+ * @param context {String} : 文本字符串
+ * @param fileName {String} : 文件名
+ */
+
+export const downloadMarkdown = (content, fileName) => {
+  const blob = new Blob([content], { type: 'text/markdown' })
+  downloadExportFile(blob, fileName, 'md')
 }

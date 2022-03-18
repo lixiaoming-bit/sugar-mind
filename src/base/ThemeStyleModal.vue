@@ -96,7 +96,7 @@ export default {
   z-index: 2;
   box-shadow: 0 2px 16px 0 #0000000f;
   .theme-style-wrapper {
-    padding: 16px 8px;
+    padding: 16px 16px;
     .style-title-wrapper {
       display: flex;
       position: relative;

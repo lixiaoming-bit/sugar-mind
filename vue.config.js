@@ -1,4 +1,5 @@
 module.exports = {
+  transpileDependencies: ['screenfull'],
   css: {
     loaderOptions: {
       less: {
