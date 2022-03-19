@@ -5,12 +5,15 @@
         <template slot="content">
           <div class="synopsis-wrapper">
             <a-tree
-              class="tree"
               tree-icon
               show-line
+              v-if="showSynopsis"
+              class="synopsis-tree"
               :tree-data="treeData"
               :replace-fields="replaceFields"
-              :default-expand-all="true"
+              :selected-keys.sync="selectedKeys"
+              :default-expanded-keys="defaultExpandedKeys"
+              @select="handleSelect"
             >
               <a-icon class="down" slot="switcherIcon" type="caret-down" />
               <icon-font class="child-icon" slot="child" type="iconicon_draw_outline_dots" />
@@ -33,9 +36,13 @@ export default {
   },
   data() {
     return {
+      showSynopsis: false,
+      selectedKeys: [],
+      defaultExpandedKeys: [],
       treeData: [],
       replaceFields: {
-        title: 'text'
+        title: 'text',
+        key: 'id'
       }
     }
   },
@@ -44,6 +51,7 @@ export default {
   },
   activated() {
     this.getTreeData()
+    this.minder.on('contentchange', () => this.getTreeData())
   },
   methods: {
     transformTreeData(data) {
@@ -58,16 +66,29 @@ export default {
         Object.assign(element, JSON.parse(JSON.stringify(element.data)))
         delete element.data
       })
-      console.log('data: ', data)
     },
+    // 获取树节点数据
     getTreeData() {
+      this.showSynopsis = false
       this.minder.exportData('json').then(res => {
         const target = []
         const tree = JSON.parse(res)
         target.push(tree.root)
         this.transformTreeData(target)
         this.treeData = target.slice()
+        // 设置初始值
+        const root = this.minder.getRoot()
+        const selectedNode = this.minder.getSelectedNode()
+        this.defaultExpandedKeys = [root.data.id]
+        if (selectedNode) {
+          this.selectedKeys = [selectedNode.data.id]
+        }
+        this.showSynopsis = true
       })
+    },
+    handleSelect(selectedKeys) {
+      this.minder.selectById(selectedKeys, true)
+      this.minder.execCommand('camera', this.minder.getSelectedNode(), 800)
     }
   }
 }
@@ -84,7 +105,7 @@ export default {
   box-shadow: 0 2px 16px 0 #0000000f;
   .synopsis-wrapper {
     padding: 0 20px;
-    .tree {
+    .synopsis-tree {
       outline: none;
       .root {
         color: pink;
@@ -97,6 +118,17 @@ export default {
       }
     }
   }
+}
+.slide-fade-left-enter-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-left-leave-active {
+  transition: all 0.25s linear;
+}
+.slide-fade-left-enter,
+.slide-fade-left-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
 }
 </style>
 <style lang="less">
@@ -116,6 +148,15 @@ export default {
     font-size: 16px;
     font-weight: 700;
     color: #000000d9;
+  }
+  .ant-tree .ant-tree-node-content-wrapper:hover {
+    background-color: #f5f5f5;
+  }
+  .ant-tree .ant-tree-node-content-wrapper {
+    width: calc(100% - 24px);
+  }
+  .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    background-color: #d2ffdc;
   }
 }
 </style>

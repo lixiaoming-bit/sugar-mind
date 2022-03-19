@@ -102,6 +102,10 @@ export default {
       position: relative;
       align-items: center;
       justify-content: space-around;
+      position: sticky;
+      top: 16px;
+      background: rgb(255, 255, 255);
+      z-index: 1;
       .is-active {
         color: #2cce51;
       }
@@ -125,6 +129,7 @@ export default {
     .style-body {
       margin: 20px 0px;
       padding: 0 5px;
+      min-height: 100vh;
       img {
         cursor: pointer;
         max-width: 100%;

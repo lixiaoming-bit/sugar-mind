@@ -4564,11 +4564,6 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.npmmirror.com/hosted-git-info/download/hosted-git-info-2.8.9.tgz"
   integrity sha1-3/wL+aIcAiCQkPKqaUKeFBTa8/k=
 
-hotbox-minder@^1.0.15:
-  version "1.0.15"
-  resolved "https://registry.npmmirror.com/hotbox-minder/-/hotbox-minder-1.0.15.tgz"
-  integrity sha512-QKkOr39gSWJF5bxvxwa+HMDAWPv8bUuRVu2VXxuz4+1USu15mqzWpX0Oxb4kGLvyz8MxgRCcxVv/clL4gxn8Sg==
-
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.npm.taobao.org/hpack.js/download/hpack.js-2.1.6.tgz"
