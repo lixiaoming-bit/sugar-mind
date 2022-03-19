@@ -37,8 +37,7 @@ export default function generateEditor(event) {
             custom: {
               key: 13,
               shiftKey: true,
-              handler: (range, context) => {
-                console.log('range, context: ', range, context)
+              handler: range => {
                 const content = quill.getText()
                 let target = content.split('')
                 target.splice(range.index, 0, '\n')
@@ -64,7 +63,7 @@ export default function generateEditor(event) {
     quill.setContents([{ insert: nodeText }])
 
     quill.focus()
-    quill.setSelection(quill.getLength())
+    quill.setSelection(0, quill.getLength())
 
     const close = () => {
       quill.blur()

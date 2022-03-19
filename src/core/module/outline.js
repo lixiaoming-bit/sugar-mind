@@ -65,11 +65,7 @@ const OutlineRenderer = kity.createClass('OutlineRenderer', {
   update: function (outline, node, box) {
     const shape = node.getStyle('shape')
 
-    const prefix = node.isSelected()
-      ? node.getMinder().isFocused()
-        ? 'selected-'
-        : 'blur-selected-'
-      : ''
+    const prefix = node.isSelected() ? 'selected-' : ''
     const paddingLeft = node.getStyle('selected-padding-left') || 4
     const paddingTop = node.getStyle('selected-padding-top') || 4
     const radius = node.getStyle(prefix + 'radius')

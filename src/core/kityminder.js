@@ -21,7 +21,7 @@ require('./core/shortcut')
 require('./core/status')
 require('./core/paper')
 require('./core/select')
-require('./core/focus')
+// require('./core/focus')
 require('./core/keyreceiver')
 kityminder.Module = require('./core/module').default
 require('./core/readonly')

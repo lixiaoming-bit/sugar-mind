@@ -28,6 +28,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
       parent.renderTree()
     }
     km.layout(600)
+    km.fire('textedit')
   },
   queryState: function (km) {
     const { 0: selectedNode, length } = km.getSelectedNodes() || []
@@ -60,6 +61,7 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     km.select(node, true)
     node.render()
     km.layout(600)
+    km.fire('textedit')
   },
   queryState: function (km) {
     const { 0: selectedNode, length } = km.getSelectedNodes() || []
@@ -94,6 +96,7 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
 
     km.select(newParent, true)
     km.layout(600)
+    km.fire('textedit')
   },
   queryState: function (km) {
     const nodes = km.getSelectedNodes()

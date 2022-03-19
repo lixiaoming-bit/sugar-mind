@@ -128,7 +128,7 @@ export default {
           : ''
       })
       // 监听双击编辑节点
-      minder.on('normal.dblclick', e => {
+      minder.on('normal.dblclick normal.textedit', e => {
         generateEditor(e)
       })
       // 监听处理全局单击事件 需要添加防抖
@@ -139,7 +139,6 @@ export default {
     // 菜单点击事件
     handleContextmenuClick(item) {
       if (item.command) {
-        console.log('item.command: ', item.command)
         this.editor.minder.execCommand(item.command)
       }
     },

@@ -77,11 +77,6 @@ Module.register('ImageViewer', function () {
       window.open(this.image.src)
     },
     open: function (src) {
-      const input = document.querySelector('input')
-      if (input) {
-        input.focus()
-        input.blur()
-      }
       this.image.src = src
       this.zoomImage(true)
       document.body.appendChild(this.viewer)
@@ -105,16 +100,19 @@ Module.register('ImageViewer', function () {
         if (shape.__KityClassName === 'Image' && isAllowed && shape.url) {
           this.viewer.open(shape.url)
         }
+        e.stopPropagation()
       },
       'normal.click': function (e) {
         e.stopPropagation()
         const shape = e.kityEvent.targetShape
         const isAllowedDeleteImage = shape.node.className.animVal === 'delete-image'
         const isAllowedOpenImage = shape.node.className.animVal === 'open-image'
+        // 删除
         if (isAllowedDeleteImage) {
           this.execCommand('Image', '')
           // shape.container.remove()
         }
+        // 缩放
         if (isAllowedOpenImage) {
           console.log(' this.viewer', this.viewer)
         }
