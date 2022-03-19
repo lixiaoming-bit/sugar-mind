@@ -3,8 +3,7 @@
  */
 import connect from '../core/connect'
 
-connect.register('poly', function (node, parent, connection, width) {
-  console.log('width: ', width)
+connect.register('poly', function (node, parent, connection) {
   // 连线起点和终点
   const po = parent.getLayoutVertexOut()
   const pi = node.getLayoutVertexIn()
@@ -21,15 +20,21 @@ connect.register('poly', function (node, parent, connection, width) {
   switch (true) {
     case abs(v.x) > abs(v.y) && v.x < 0:
       // left
+      var leftX = po.x - parent.getStyle('margin-left')
+      var leftY = pi.y - po.y
       pathData.push('h', -parent.getStyle('margin-left'))
-      pathData.push('v', pi.y - po.y)
+      pathData.push('v', leftY - Math.sign(leftY) * 10)
+      pathData.push('C', leftX, pi.y, leftX, pi.y, leftX - 10, pi.y)
       pathData.push('H', pi.x)
       break
 
     case abs(v.x) > abs(v.y) && v.x >= 0:
       // right
+      var rightX = po.x + parent.getStyle('margin-right')
+      var rightY = pi.y - po.y
       pathData.push('h', parent.getStyle('margin-right'))
-      pathData.push('v', pi.y - po.y)
+      pathData.push('v', rightY - Math.sign(rightY) * 10)
+      pathData.push('C', rightX, pi.y, rightX, pi.y, rightX + 10, pi.y)
       pathData.push('H', pi.x)
       break
 
@@ -42,6 +47,7 @@ connect.register('poly', function (node, parent, connection, width) {
 
     case abs(v.x) <= abs(v.y) && v.y >= 0:
       // bottom
+      console.log('bottom: ')
       pathData.push('v', parent.getStyle('margin-bottom'))
       pathData.push('h', pi.x - po.x)
       pathData.push('V', pi.y)

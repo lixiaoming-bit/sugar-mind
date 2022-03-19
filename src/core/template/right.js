@@ -10,6 +10,7 @@ template.register('right', {
 
   getConnect: function (node) {
     if (node.getLevel() === 1) return 'arc'
-    return 'bezier'
+    // return 'bezier'
+    return 'poly'
   }
 })

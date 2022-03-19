@@ -443,27 +443,27 @@ export const removeNodeContextmenu = handleCheckDisabled => {
 export const EXPORT_TYPE_LIST = [
   {
     key: 'png',
-    title: '超清图片文档（.png)',
+    title: '超清PNG图片',
     disabled: false
   },
   {
     key: 'pdf',
-    title: 'PDF 文档（.pdf)',
+    title: 'PDF 文档',
     disabled: false
   },
   {
     key: 'word',
-    title: 'Word 文档（.docx)',
+    title: 'Word 文档',
     disabled: true
   },
   {
     key: 'excel',
-    title: 'Excel 文档（.xlsx)',
+    title: 'Excel 文档',
     disabled: true
   },
   {
     key: 'markdown',
-    title: 'Markdown 文档（.md)',
+    title: 'Markdown 文档',
     disabled: false
   },
   {

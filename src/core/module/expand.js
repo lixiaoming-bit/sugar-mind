@@ -165,7 +165,7 @@ Module.register('Expand', function () {
         .setVerticalAlign('middle')
         .setFontSize(12)
         .setFontBold(true)
-      // .setFontWeight('bold')
+        .translate(0, -1)
       this.textOutLint.setVisible(false)
       this.addShapes([this.outline, this.textOutLint, this.sign, this.number])
       this.initEvent(node)
@@ -273,44 +273,44 @@ Module.register('Expand', function () {
     },
     renderers: {
       outside: ExpanderRenderer
-    },
-    contextmenu: [
-      {
-        command: 'expandtoleaf',
-        query: function () {
-          return !minder.getSelectedNode()
-        },
-        fn: function (minder) {
-          minder.execCommand('expandtolevel', 9999)
-        }
-      },
-      {
-        command: 'expandtolevel1',
-        query: function () {
-          return !minder.getSelectedNode()
-        },
-        fn: function (minder) {
-          minder.execCommand('expandtolevel', 1)
-        }
-      },
-      {
-        command: 'expandtolevel2',
-        query: function () {
-          return !minder.getSelectedNode()
-        },
-        fn: function (minder) {
-          minder.execCommand('expandtolevel', 2)
-        }
-      },
-      {
-        command: 'expandtolevel3',
-        query: function () {
-          return !minder.getSelectedNode()
-        },
-        fn: function (minder) {
-          minder.execCommand('expandtolevel', 3)
-        }
-      }
-    ]
+    }
+    // contextmenu: [
+    //   {
+    //     command: 'expandtoleaf',
+    //     query: function () {
+    //       return !minder.getSelectedNode()
+    //     },
+    //     fn: function (minder) {
+    //       minder.execCommand('expandtolevel', 9999)
+    //     }
+    //   },
+    //   {
+    //     command: 'expandtolevel1',
+    //     query: function () {
+    //       return !minder.getSelectedNode()
+    //     },
+    //     fn: function (minder) {
+    //       minder.execCommand('expandtolevel', 1)
+    //     }
+    //   },
+    //   {
+    //     command: 'expandtolevel2',
+    //     query: function () {
+    //       return !minder.getSelectedNode()
+    //     },
+    //     fn: function (minder) {
+    //       minder.execCommand('expandtolevel', 2)
+    //     }
+    //   },
+    //   {
+    //     command: 'expandtolevel3',
+    //     query: function () {
+    //       return !minder.getSelectedNode()
+    //     },
+    //     fn: function (minder) {
+    //       minder.execCommand('expandtolevel', 3)
+    //     }
+    //   }
+    // ]
   }
 })
