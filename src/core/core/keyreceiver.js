@@ -1,5 +1,5 @@
 import Minder from './minder'
-const Mousetrap = require('mousetrap')
+const Mousetrap = require('mousetrap-pause')(require('mousetrap'))
 const kity = window.kity
 
 Minder.registerInitHook(function () {
@@ -16,7 +16,6 @@ Minder.registerInitHook(function () {
 kity.extendClass(Minder, {
   _initKeyReceiver: function () {
     const shortcutKeys = this.getShortcutKeys()
-    console.log('shortcutKeys: ', shortcutKeys)
     for (const key in shortcutKeys) {
       if (Object.hasOwnProperty.call(shortcutKeys, key)) {
         const fn = shortcutKeys[key]

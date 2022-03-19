@@ -101,12 +101,19 @@ export default {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
       const { minder } = this.editor
+
       this.SET_MINDER(minder)
       this.SET_DISPLAY_MODE('normal')
+
+      // 初始化设置
+      this.handleStoreNodeFontStyle(minder)
+
+      // 监听缩放
       minder.on('zoom', event => {
         const { zoom } = event
         this.SET_MINDER_ZOOM(zoom)
       })
+      // 监听左键菜单
       minder.on('contextmenu', event => {
         this.selectedNode = event.minder.getSelectedNode()
         this.contextmenuList = this.selectedNode
@@ -120,28 +127,13 @@ export default {
           ? removeNodeContextmenu(this.handleCheckDisabled)
           : ''
       })
-      // 双击编辑节点
+      // 监听双击编辑节点
       minder.on('normal.dblclick', e => {
         generateEditor(e)
       })
-      // 处理全局单击事件 需要添加防抖
+      // 监听处理全局单击事件 需要添加防抖
       minder.on('normal.click', e => {
-        const node = e.minder.getSelectedNode()
-        if (node) {
-          const style = {}
-          const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
-          for (const key in NODE_FONT_STYLE_SETTING) {
-            if (Object.hasOwnProperty.call(NODE_FONT_STYLE_SETTING, key)) {
-              const head = key.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
-              const target = getDataOrStyle(head) * 1
-              style[key] = target * 1 || target || NODE_FONT_STYLE_SETTING[key]
-            }
-          }
-          this.SET_NODE_STYLE(style)
-        } else {
-          this.SET_VISIBLE_MODAL()
-          this.SET_NODE_STYLE()
-        }
+        this.handleStoreNodeFontStyle(e.minder)
       })
     },
     // 菜单点击事件
@@ -149,6 +141,25 @@ export default {
       if (item.command) {
         console.log('item.command: ', item.command)
         this.editor.minder.execCommand(item.command)
+      }
+    },
+    // 处理选中的节点 将节点的信息传入到store中
+    handleStoreNodeFontStyle(minder) {
+      const node = minder.getSelectedNode()
+      if (node) {
+        const style = {}
+        const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+        for (const key in NODE_FONT_STYLE_SETTING) {
+          if (Object.hasOwnProperty.call(NODE_FONT_STYLE_SETTING, key)) {
+            const head = key.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
+            const target = getDataOrStyle(head) * 1
+            style[key] = target * 1 || target || NODE_FONT_STYLE_SETTING[key]
+          }
+        }
+        this.SET_NODE_STYLE(style)
+      } else {
+        this.SET_VISIBLE_MODAL()
+        this.SET_NODE_STYLE()
       }
     }
   }
@@ -201,6 +212,10 @@ export default {
     color: #808080;
   }
 }
+.v-contextmenu-item.v-contextmenu-submenu {
+  font-size: 14px;
+  line-height: 26px;
+}
 </style>
 <style>
 .ql-container {
@@ -220,6 +235,13 @@ export default {
 }
 .ql-container p,
 .ql-container p span {
+  word-wrap: normal;
+  margin: 0;
+  white-space: nowrap;
+  word-break: normal;
+}
+.fo-text p,
+.fo-text p span {
   word-wrap: normal;
   margin: 0;
   white-space: nowrap;

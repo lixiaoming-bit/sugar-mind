@@ -30,31 +30,45 @@ function loadImage(info) {
  */
 function xhrLoadImage(info) {
   return Promise(function (resolve) {
-    const xmlHttp = new XMLHttpRequest()
+    if (info.url.indexOf('data:') === 0) {
+      const image = document.createElement('img')
+      image.src = info.url
+      image.onload = () => {
+        DomURL.revokeObjectURL(image.src)
+        resolve({
+          element: image,
+          x: info.x,
+          y: info.y,
+          width: info.width,
+          height: info.height
+        })
+      }
+    } else {
+      const xmlHttp = new XMLHttpRequest()
 
-    xmlHttp.open('GET', info.url + '?_=' + Date.now(), true)
-    xmlHttp.responseType = 'blob'
-    xmlHttp.onreadystatechange = function () {
-      if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-        const blob = xmlHttp.response
+      xmlHttp.open('GET', info.url + '?_=' + Date.now(), true)
+      xmlHttp.responseType = 'blob'
+      xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+          const blob = xmlHttp.response
 
-        const image = document.createElement('img')
+          const image = document.createElement('img')
 
-        image.src = DomURL.createObjectURL(blob)
-        image.onload = function () {
-          DomURL.revokeObjectURL(image.src)
-          resolve({
-            element: image,
-            x: info.x,
-            y: info.y,
-            width: info.width,
-            height: info.height
-          })
+          image.src = DomURL.createObjectURL(blob)
+          image.onload = function () {
+            DomURL.revokeObjectURL(image.src)
+            resolve({
+              element: image,
+              x: info.x,
+              y: info.y,
+              width: info.width,
+              height: info.height
+            })
+          }
         }
       }
+      xmlHttp.send()
     }
-
-    xmlHttp.send()
   })
 }
 

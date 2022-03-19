@@ -422,13 +422,15 @@ export const removeNodeContextmenu = handleCheckDisabled => {
       description: '',
       command: 'mark',
       disabled: handleCheckDisabled('mark')
-    }, {
+    },
+    {
       key: 'remove-note',
       title: '移除：备注',
       description: '',
       command: 'note',
       disabled: handleCheckDisabled('note')
-    }, {
+    },
+    {
       key: 'remove-image',
       title: '移除：图片',
       description: '',

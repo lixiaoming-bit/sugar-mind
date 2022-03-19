@@ -5556,6 +5556,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.npmmirror.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.nlark.com/lodash.debounce/download/lodash.debounce-4.0.8.tgz"
@@ -5880,6 +5885,11 @@ moment@^2.21.0:
   version "2.29.1"
   resolved "https://registry.npmmirror.com/moment/download/moment-2.29.1.tgz"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+
+mousetrap-pause@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/mousetrap-pause/-/mousetrap-pause-1.0.0.tgz#91c429f2f5f9ad71508fa0561bb53be3fdf9a9d0"
+  integrity sha512-/92qasq/TIkogCZKRYZdX+XAiPOD8dBDIipaar+caXSdKrfhYQIe6UmweiXO9yQeETjhNAUWdopwLsU6po/IPw==
 
 mousetrap@^1.6.5:
   version "1.6.5"

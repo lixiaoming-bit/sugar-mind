@@ -252,6 +252,8 @@ const MinderNode = kity.createClass('MinderNode', {
     const cloned = new MinderNode()
 
     cloned.data = utils.clone(this.data)
+    cloned.data.id = utils.guid()
+    cloned.data.created = +new Date()
 
     this.children.forEach(function (child) {
       cloned.appendChild(child.clone())

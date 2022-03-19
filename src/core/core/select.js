@@ -64,6 +64,9 @@ kity.extendClass(Minder, {
     return this
   },
   select: function (nodes, isSingleSelect) {
+    // 设置activeElement 为body 防止键盘事件不能正常触发
+    document.querySelector('body').blur()
+
     const lastSelect = this.getSelectedNodes().slice(0)
     if (isSingleSelect) {
       this._selectedNodes = []
