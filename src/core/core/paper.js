@@ -18,6 +18,8 @@ kity.extendClass(Minder, {
     }
     this._paper.shapeNode.setAttribute('transform', 'translate(0.5, 0.5)')
 
+    this._initBg()
+
     this._addRenderContainer()
 
     this.setRoot(this.createNode())
@@ -30,6 +32,41 @@ kity.extendClass(Minder, {
   _addRenderContainer: function () {
     this._rc = new kity.Group().setId(utils.uuid('minder'))
     this._paper.addShape(this._rc)
+  },
+
+  _initBg: function () {
+    const { innerWidth, innerHeight } = window
+
+    this._watermark = new kity.Text('')
+      .fill('#e9e9e9')
+      .setSize(16)
+      .setVerticalAlign('middle')
+      .setRotate(25)
+      .setAttr('font-weight', 'lighter')
+      .setPosition(innerWidth / 5 / 2, 16)
+
+    const brush = new kity.Pattern().pipe(function () {
+      this.setWidth(innerWidth / 5)
+      this.setHeight(innerWidth / 8)
+    })
+    brush.addItem(this._watermark)
+    brush.node.setAttribute('id', 'custom-pattern')
+
+    this._paper.addResource(brush)
+
+    const bg = new kity.Group().setId(utils.uuid('bg-group')).setAttr('pointer-events', 'none')
+    let rect = new kity.Rect(innerWidth, innerHeight, 0, 0).fill('url(#custom-pattern)')
+
+    bg.addShape(rect)
+
+    this._paper.addShape(bg)
+
+    window.addEventListener('resize', () => {
+      bg.removeShape(0)
+      rect = new kity.Rect(window.innerWidth, window.innerHeight, 0, 0).fill('url(#custom-pattern)')
+      bg.addShape(rect)
+      this._paper.addShape(bg)
+    })
   },
 
   renderTo: function (target) {
@@ -51,6 +88,10 @@ kity.extendClass(Minder, {
       this.fire('paperrender')
     }
     return this
+  },
+
+  getWatermark() {
+    return this._watermark
   },
 
   getRenderContainer: function () {

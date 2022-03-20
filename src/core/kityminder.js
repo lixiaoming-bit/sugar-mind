@@ -73,7 +73,7 @@ require('./layout/fish-bone-master')
 require('./layout/fish-bone-slave')
 require('./layout/tianpan')
 
-require('./theme/default')
+require('./theme/classic')
 require('./theme/snow')
 require('./theme/fresh')
 require('./theme/fish')

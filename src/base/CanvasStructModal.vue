@@ -4,17 +4,9 @@
       <basic-modal title="画布">
         <template slot="content">
           <div class="canvas-wrapper">
-            <div class="one-wrapper">
-              <div class="title">水印背景</div>
-              <a-input></a-input>
-            </div>
-            <div class="tow-wrapper">
-              <div class="title">自定义背景</div>
-              <div>
-                <a-button>上传</a-button>
-                <a-button style="margin: 0 4px">设置</a-button>
-                <a-button>重置</a-button>
-              </div>
+            <div class="one-comp-wrapper" v-for="item in canvasComponents" :key="item.title">
+              <div class="one-title">{{ item.title }}</div>
+              <component :is="item.component"></component>
             </div>
           </div>
         </template>
@@ -25,16 +17,30 @@
 
 <script>
 import BasicModal from './BasicModal'
+import CanvasStruct from './CanvasStruct'
+import CanvasBackground from './CanvasBackground'
 
 export default {
   name: 'InsertIconModal',
   components: {
-    BasicModal
+    BasicModal,
+    CanvasStruct,
+    CanvasBackground
   },
-  data() {
-    return {}
+  computed: {
+    canvasComponents() {
+      return [
+        {
+          title: '布局结构',
+          component: 'CanvasStruct'
+        },
+        {
+          title: '背景设置',
+          component: 'CanvasBackground'
+        }
+      ]
+    }
   },
-  computed: {},
   created() {},
   methods: {}
 }
@@ -50,16 +56,18 @@ export default {
   z-index: 2;
   box-shadow: 0 2px 16px 0 #0000000f;
   .canvas-wrapper {
-    padding: 0 20px;
-    .one-wrapper {
-      display: grid;
-      grid-template-columns: 50% 50%;
-      padding: 30px 0;
-    }
-    .tow-wrapper {
-      display: grid;
-      grid-template-columns: 33% auto;
-      align-items: center;
+    padding: 0 16px;
+    .one-comp-wrapper {
+      margin-top: 16px;
+      .one-title {
+        user-select: none;
+        user-select: none;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: rgba(26, 26, 26, 0.9);
+        box-sizing: border-box;
+        font-size: 16px;
+      }
     }
   }
 }

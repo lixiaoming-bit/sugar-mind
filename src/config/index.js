@@ -169,7 +169,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     visible: false,
     tips: '选择主题-点关联线-点其他主题',
     icon: 'iconicon_draw_association',
-    class: handleCheckDisabled('ConnectionNode')
+    class: 'disabled'
   },
   {
     key: 'summary',
@@ -177,7 +177,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     visible: false,
     tips: '选中主题-点击概要',
     icon: 'iconicon_draw_summary',
-    class: handleCheckDisabled('AppendChildNode')
+    class: 'disabled'
   },
   {
     key: 'note',

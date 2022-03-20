@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <component :is="visibleModal"></component>
+    <component :is="visibleModal" v-if="visibleModal !== 'navigator'"></component>
   </keep-alive>
 </template>
 
@@ -23,6 +23,8 @@ import SynopsisModal from '@/base/SynopsisModal'
 import ExportMinderModal from '@/base/ExportMinderModal'
 // 快捷键弹窗
 import ShortcutModal from '@/base/ShortcutModal'
+// 复制样式弹窗
+import CopyStyleModal from '@/base/CopyStyleModal'
 
 import { mapGetters } from 'vuex'
 export default {
@@ -37,7 +39,8 @@ export default {
     CanvasStructModal,
     SynopsisModal,
     ExportMinderModal,
-    ShortcutModal
+    ShortcutModal,
+    CopyStyleModal
   },
   computed: {
     ...mapGetters(['visibleModal'])

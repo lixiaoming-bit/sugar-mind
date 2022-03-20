@@ -13,27 +13,26 @@ const kity = window.kity
 const AppendChildCommand = kity.createClass('AppendChildCommand', {
   base: Command,
   execute: function (km, text = '分支主题') {
-    const parent = km.getSelectedNode()
-    if (!parent) {
+    const parents = km.getSelectedNodes() || []
+    if (!parents.length) {
       return null
     }
-    const index = parent.getChildren().length + 1
-    text = text + index.toString()
-    const node = km.createNode(text, parent)
-    km.select(node, true)
-    if (parent.isExpanded()) {
-      node.render()
-    } else {
-      parent.expand()
-      parent.renderTree()
+    let lastNode = null
+    for (let i = 0; i < parents.length; i++) {
+      const parent = parents[i]
+      const index = parent.getChildren().length + 1
+      const node = km.createNode(text + index.toString(), parent)
+      lastNode = node
+      if (!parent.isExpanded()) {
+        parent.expand()
+      }
     }
-    km.layout(600)
+    km.select(lastNode, true)
+    km.refresh()
     km.fire('textedit')
   },
   queryState: function (km) {
-    const { 0: selectedNode, length } = km.getSelectedNodes() || []
-    if (length > 1) return -1
-    return selectedNode ? 0 : -1
+    return km.getSelectedNode() ? 0 : -1
   }
 })
 
@@ -51,21 +50,24 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     const sibling = km.getSelectedNode()
     const parent = sibling.parent
     const siblingIndex = sibling.getIndex()
-    const index = parent.getChildren().length + 1
-    text = text + index.toString()
+
     if (!parent) {
       return km.execCommand('AppendChildNode', text)
     }
+
+    const index = parent.getChildren().length + 1
+    text = text + index.toString()
+
     const node = km.createNode(text, parent, siblingIndex + 1)
-    node.setGlobalLayoutTransform(sibling.getGlobalLayoutTransform())
-    km.select(node, true)
+
     node.render()
+
+    km.select(node, true)
     km.layout(600)
     km.fire('textedit')
   },
   queryState: function (km) {
-    const { 0: selectedNode, length } = km.getSelectedNodes() || []
-    if ((selectedNode && selectedNode.isRoot()) || length > 1) return -1
+    const selectedNode = km.getSelectedNode()
     return selectedNode ? 0 : -1
   }
 })

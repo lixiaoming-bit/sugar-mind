@@ -69,7 +69,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['displayMode', 'macosCommandText', 'macosOptionText']),
+    ...mapGetters(['displayMode', 'macosCommandText', 'macosOptionText', 'visibleModal']),
     isShowChildComponent() {
       return this.displayMode === 'normal'
     },
@@ -146,6 +146,9 @@ export default {
     handleStoreNodeFontStyle(minder) {
       const node = minder.getSelectedNode()
       if (node) {
+        if (this.visibleModal === 'CopyStyleModal') {
+          minder.execCommand('pastestyle')
+        }
         const style = {}
         const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
         for (const key in NODE_FONT_STYLE_SETTING) {

@@ -14,8 +14,6 @@
 <script>
 export default {
   name: 'ColorPicker',
-  filters: {},
-  components: {},
   props: {
     value: {
       type: String,
@@ -24,7 +22,7 @@ export default {
   },
   methods: {
     handleChangeColor(value) {
-      this.$emit('update:value', value)
+      this.$emit('change', value)
     },
     getPopupContainer() {
       return document.querySelector('.color-picker-container')
@@ -47,7 +45,7 @@ export default {
     width: 100%;
     height: 30px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 2px;
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
   }

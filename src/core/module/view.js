@@ -302,8 +302,9 @@ Module.register('View', function () {
 
         e.preventDefault()
       },
-      'readonly.dblclick': function (e) {
+      'normal.dblclick readonly.dblclick': function (e) {
         if (e.kityEvent.targetShape instanceof kity.Paper) {
+          if (e.minder.getSelectedNode()) return
           this.execCommand('camera', this.getRoot(), 800)
         }
       },

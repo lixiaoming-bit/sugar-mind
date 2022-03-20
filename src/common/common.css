@@ -15,4 +15,9 @@
 
 :root {
   --layout-height: 60px;
+  --main-color: #01bb35;
+}
+.img-responsive {
+  max-width: 100%;
+  height: auto;
 }

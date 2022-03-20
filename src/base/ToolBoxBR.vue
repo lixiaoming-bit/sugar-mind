@@ -14,7 +14,7 @@
         <icon-font type="iconicon_common_narrow2" class="option-one" @click="handleZoomOut" />
       </a-popover>
       <a-popover placement="top">
-        <template slot="content">回到视图中心</template>
+        <template slot="content">双击空白或点击此处，回到视图中心</template>
         <span class="option-one zoom-value" @click="handleCamera">{{ minderZoomValue }}</span>
       </a-popover>
       <a-popover placement="top">
@@ -55,18 +55,11 @@ import { mapGetters, mapMutations } from 'vuex'
 import Navigator from './Navigator'
 export default {
   name: 'ToolBoxBR',
-  filters: {},
   components: {
     Navigator
   },
-  props: {},
-  data() {
-    return {
-      isShowNavigator: false
-    }
-  },
   computed: {
-    ...mapGetters(['isShowComponent', 'isCompact', 'minder']),
+    ...mapGetters(['isShowComponent', 'isCompact', 'minder', 'visibleModal']),
     minderZoomValue() {
       return this.minder._zoomValue + '%'
     },
@@ -77,6 +70,9 @@ export default {
     },
     layoutText() {
       return this.isCompact ? '迷你布局' : '普通布局'
+    },
+    isShowNavigator() {
+      return this.visibleModal === 'navigator'
     }
   },
   methods: {
@@ -101,7 +97,7 @@ export default {
     },
     // 切换导航器显示
     toggleNavigator() {
-      this.isShowNavigator = !this.isShowNavigator
+      this.SET_VISIBLE_MODAL('navigator')
     },
     // 快捷键查看
     handleShortcut() {
@@ -109,7 +105,6 @@ export default {
     },
     // 设置全屏
     handleFullscreen() {
-      console.log('screenfull: ', screenfull)
       if (screenfull.isEnabled) {
         screenfull.toggle()
       }

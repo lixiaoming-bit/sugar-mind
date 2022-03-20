@@ -117,7 +117,6 @@ export default {
 
       // 增加特殊情况的处理 主题 天盘模式下
       this.pathHandler = this.getPathHandler(this.minder.getTheme())
-      console.log('this.pathHandler: ', this.pathHandler)
 
       // 事件监听
       this.minder.on('themechange', e => {

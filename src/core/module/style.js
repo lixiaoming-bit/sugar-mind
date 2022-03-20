@@ -14,10 +14,8 @@ Module.register('StyleModule', function () {
   let styleClipBoard = null
 
   function hasStyle(node) {
-    const data = node.getData()
-    for (let i = 0; i < styleNames.length; i++) {
-      if (styleNames[i] in data) return true
-    }
+    const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+    return styleNames.some(name => getDataOrStyle(name))
   }
 
   return {
@@ -34,10 +32,13 @@ Module.register('StyleModule', function () {
 
         execute: function (minder) {
           const node = minder.getSelectedNode()
-          const nodeData = node.getData()
+
+          const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
+
           styleClipBoard = {}
           styleNames.forEach(function (name) {
-            if (name in nodeData) styleClipBoard[name] = nodeData[name]
+            const style = getDataOrStyle(name)
+            if (style) styleClipBoard[name] = style
             else {
               styleClipBoard[name] = null
               delete styleClipBoard[name]

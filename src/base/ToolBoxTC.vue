@@ -105,6 +105,7 @@ export default {
           break
         case 'copy-style':
           this.minder.execCommand('copystyle')
+          this.SET_VISIBLE_MODAL('CopyStyleModal')
           break
         case 'append-sibling':
           this.minder.execCommand('AppendSiblingNode', '分支主题')

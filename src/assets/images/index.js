@@ -9,6 +9,9 @@ const themeClassicalModule = require.context('./theme-classical', false, /\.png$
 const themeDarknessModule = require.context('./theme-darkness', false, /\.png$/)
 const themeDrawPaintModule = require.context('./theme-draw-paint', false, /\.png$/)
 
+// 结构图片
+const canvasStructModule = require.context('./struct', false, /\.png$/)
+
 const customSort = (a, b) => a.length - b.length
 
 export const levelIcons = levelModule
@@ -68,5 +71,14 @@ export const themeDrawPaint = themeDrawPaintModule
   .reduce((prev, current) => {
     const path = current.substr(2, current.length)
     prev.push(require(`./theme-draw-paint/${path}`))
+    return prev
+  }, [])
+
+export const canvasStruct = canvasStructModule
+  .keys()
+  .sort(customSort)
+  .reduce((prev, current) => {
+    const path = current.substr(2, current.length)
+    prev.push(require(`./struct/${path}`))
     return prev
   }, [])
