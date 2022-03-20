@@ -1,9 +1,11 @@
 <template>
-  <transition name="slide-fade-top">
-    <div class="copy-style-container" v-if="isShowComponent">
-      <a-alert message="点击主题，粘贴样式，点任意空白处取消" banner class="alert" />
-    </div>
-  </transition>
+  <div class="copy-style-container" v-if="isShowComponent">
+    <a-alert
+      message="样式已复制，请点击其他任意主题应用样式，点击空白处取消粘贴"
+      banner
+      class="alert"
+    />
+  </div>
 </template>
 
 <script>
@@ -27,18 +29,7 @@ export default {
     margin: 0 auto;
     background: #ffffff;
     display: inline-block;
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.06);
   }
-}
-
-.slide-fade-top-enter-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-top-leave-active {
-  transition: all 0.25s linear;
-}
-.slide-fade-top-enter,
-.slide-fade-top-leave-to {
-  transform: translate(-50%, -100%);
-  opacity: 0;
 }
 </style>

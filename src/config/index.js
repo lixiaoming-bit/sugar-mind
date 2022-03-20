@@ -618,7 +618,7 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
           key: 'append-sibling',
           icon: 'iconicon_draw_keyboard_multipleselect1',
           title: '多选',
-          description: `${shortcutText} + +鼠标左键点击 `
+          description: `${shortcutText} + 鼠标左键点击 `
         },
         {
           key: 'append-sibling',
