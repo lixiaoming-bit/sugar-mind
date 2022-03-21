@@ -8,8 +8,8 @@ import Minder from './minder'
 const kity = window.kity
 
 Minder.registerInitHook(function (options) {
-  if (options.readOnly) {
-    this.setDisabled()
+  if (options.readonly) {
+    this.disable()
   }
 })
 

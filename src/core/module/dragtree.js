@@ -157,6 +157,11 @@ const TreeDragger = kity.createClass('TreeDragger', {
       this._minder.execCommand('arrange', index)
       this._renderOrderHint(null)
     } else {
+      // 设置节点拖拽不生效的时候 不自由拖拽节点
+      for (let i = 0; i < this._dragSources.length; i++) {
+        this._dragSources[i].resetLayoutOffset()
+        this._minder.applyLayoutResult(this._dragSources[i])
+      }
       this._minder.fire('savescene')
     }
     this._minder.layout(300)
@@ -221,7 +226,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     function findAvailableParents(nodes, root) {
       let available = []
       available.push(root)
-      root.getChildren().forEach(function (test) {
+      root.getChildren().forEach(test => {
         for (let i = 0; i < nodes.length; i++) {
           if (nodes[i] === test) return
         }
@@ -362,6 +367,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
 })
 
 Module.register('DragTree', function () {
+  let mousedown = false
   let dragger
 
   return {
@@ -373,6 +379,7 @@ Module.register('DragTree', function () {
     },
     events: {
       'normal.mousedown inputready.mousedown': function (e) {
+        mousedown = true
         // 单选中根节点也不触发拖拽
         if (e.originEvent.button) return
         if (e.getTargetNode() && e.getTargetNode() != this.getRoot()) {
@@ -380,11 +387,13 @@ Module.register('DragTree', function () {
         }
       },
       'normal.mousemove dragtree.mousemove': function (e) {
+        if (!mousedown) return
         dragger.dragMove(e.getPosition())
       },
       'normal.mouseup dragtree.beforemouseup': function (e) {
+        mousedown = false
         dragger.dragEnd()
-        //e.stopPropagation();
+        e.stopPropagation()
         e.preventDefault()
       },
       statuschange: function (e) {

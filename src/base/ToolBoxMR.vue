@@ -92,6 +92,7 @@ export default {
     opacity: 1 !important;
     transition: right 0.25s linear, opacity 0.25s linear;
   }
+  overflow: hidden;
   .one-option {
     padding: 8px 0;
     height: var(--layout-height);

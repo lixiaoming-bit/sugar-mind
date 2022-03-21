@@ -167,12 +167,6 @@ const ViewDragger = kity.createClass('ViewDragger', {
       .on('mouseup touchend', dragEnd)
 
     window.addEventListener('mouseup', dragEnd)
-    this._minder.on('contextmenu', function (e) {
-      console.log('e: ', e)
-      e.stopPropagation()
-      e.preventDefault()
-      return false
-    })
   }
 })
 

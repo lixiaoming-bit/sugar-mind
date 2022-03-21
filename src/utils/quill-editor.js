@@ -18,6 +18,7 @@ export default function generateEditor(event) {
       modules: {
         keyboard: {
           bindings: {
+            // 重新定义tab、enter、esc
             tab: {
               key: 9,
               handler: () => {
@@ -34,6 +35,14 @@ export default function generateEditor(event) {
                 return false
               }
             },
+            esc: {
+              key: 27,
+              handler: () => {
+                close()
+                return false
+              }
+            },
+            // 重写enter方法 shift + enter 进行换行
             custom: {
               key: 13,
               shiftKey: true,

@@ -15,6 +15,9 @@
               :default-expanded-keys="defaultExpandedKeys"
               @select="handleSelect"
             >
+              <template v-slot:title="scope" class="title">
+                {{ scope.text }}
+              </template>
               <a-icon class="down" slot="switcherIcon" type="caret-down" />
               <icon-font class="child-icon" slot="child" type="iconicon_draw_outline_dots" />
             </a-tree>
@@ -56,12 +59,16 @@ export default {
   methods: {
     transformTreeData(data) {
       data.forEach(element => {
+        element.data['scopedSlots'] = {
+          title: 'title'
+        }
         if (element.children.length) {
           this.transformTreeData(element.children)
         } else {
-          element.data['scopedSlots'] = {
-            switcherIcon: 'child'
-          }
+          Object.assign(element.data['scopedSlots'], { switcherIcon: 'child' })
+        }
+        if (element.expandState !== 'collapse') {
+          this.defaultExpandedKeys.push(element.data.id)
         }
         Object.assign(element, JSON.parse(JSON.stringify(element.data)))
         delete element.data
@@ -77,9 +84,7 @@ export default {
         this.transformTreeData(target)
         this.treeData = target.slice()
         // 设置初始值
-        const root = this.minder.getRoot()
         const selectedNode = this.minder.getSelectedNode()
-        this.defaultExpandedKeys = [root.data.id]
         if (selectedNode) {
           this.selectedKeys = [selectedNode.data.id]
         }
@@ -153,6 +158,8 @@ export default {
     background-color: #f5f5f5;
   }
   .ant-tree .ant-tree-node-content-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
     width: calc(100% - 24px);
   }
   .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {

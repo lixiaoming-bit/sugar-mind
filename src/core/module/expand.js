@@ -118,9 +118,8 @@ Module.register('Expand', function () {
       const node = km.getSelectedNode()
       if (!node) return
       const expanded = node.isExpanded()
-      km.getSelectedNodes().forEach(function (node) {
-        if (expanded) node.collapse()
-        else node.expand()
+      km.getSelectedNodes().forEach(node => {
+        expanded ? node.collapse() : node.expand()
       })
       node.renderTree()
       km.layout(100)
@@ -142,6 +141,9 @@ Module.register('Expand', function () {
   const ExpandToLevelCommand = kity.createClass('ExpandToLevelCommand', {
     base: Command,
     execute: function (km, level) {
+      if (level) {
+        level = level - 48
+      }
       level = level ?? 9999
       km.getRoot().traverse(function (node) {
         if (node.getLevel() < level) node.expand()
@@ -165,7 +167,6 @@ Module.register('Expand', function () {
         .setVerticalAlign('middle')
         .setFontSize(12)
         .setFontBold(true)
-        .translate(0, -1)
       this.textOutLint.setVisible(false)
       this.addShapes([this.outline, this.textOutLint, this.sign, this.number])
       this.initEvent(node)
@@ -203,7 +204,7 @@ Module.register('Expand', function () {
     }
 
     setContent(number) {
-      this.number.setContent(number)
+      this.number.setContent(number).setY(4).setAttr('dy', 0)
     }
 
     toggleSymbolState(flag) {
@@ -253,7 +254,7 @@ Module.register('Expand', function () {
       toggleexpand: ToggleExpandCommand
     },
     commandShortcutKeys: {
-      expandtolevel: 'alt+|alt+1|alt+2|alt+3|alt+4|alt+5|alt+6',
+      expandtolevel: 'command+alt+/|ctrl+alt+/|alt+1|alt+2|alt+3|alt+4|alt+5|alt+6',
       toggleexpand: 'alt+/'
     },
     events: {

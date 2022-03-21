@@ -124,7 +124,7 @@ kity.extendClass(Minder, {
       minder.addShortcut(keys, function execCommandByShortcut(e) {
         // 之前判断有问题，由 === 0 改为 !== -1
         if (minder.queryCommandState(command) !== -1) {
-          const condition = [1, 2, 3, 4, 5, 6, 37, 38, 39, 40]
+          const condition = [49, 50, 51, 52, 53, 54, 37, 38, 39, 40]
           condition.includes(e.keyCode)
             ? minder.execCommand(command, e.keyCode)
             : minder.execCommand(command)
