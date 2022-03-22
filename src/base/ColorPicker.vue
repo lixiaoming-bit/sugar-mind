@@ -1,6 +1,6 @@
 <template>
   <div class="color-picker-container">
-    <a-popover placement="bottomLeft" :trigger="['click']" :getPopupContainer="getPopupContainer">
+    <a-popover placement="bottomLeft" :trigger="['click']" :get-popup-container="getPopupContainer">
       <template slot="content">
         <sketch-picker :value="value" @input="handleChangeColor" />
       </template>

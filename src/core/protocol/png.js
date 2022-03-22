@@ -29,7 +29,7 @@ function loadImage(info) {
  *        而通过 image 的 src 的方式是无法传递 origin 的，因此需要通过 xhr 进行
  */
 function xhrLoadImage(info) {
-  return Promise(function (resolve) {
+  return new Promise(function (resolve) {
     if (info.url.indexOf('data:') === 0) {
       const image = document.createElement('img')
       image.src = info.url
