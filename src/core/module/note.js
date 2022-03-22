@@ -77,7 +77,7 @@ Module.register('NoteModule', function () {
       const x = box.right + node.getStyle('space-left')
       const y = box.cy
 
-      icon.path.fill(node.getStyle('color'))
+      icon.path.fill(node.getData('color') || node.getStyle('color'))
       icon.setTranslate(x, y)
 
       return new kity.Box(x, Math.round(y - icon.height / 2), icon.width, icon.height)

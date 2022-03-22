@@ -58,7 +58,7 @@ Module.register('hyperlink', {
       base: Renderer,
 
       create: function (node) {
-        const color = node.getStyle('color')
+        const color = node.getData('color') || node.getStyle('color')
         const link = new kity.HyperLink()
         const linkShape = new kity.Path()
         const outline = new kity.Rect(24, 22, -2, -6, 4).fill('rgba(255, 255, 255, 0)')
