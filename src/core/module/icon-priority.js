@@ -49,7 +49,6 @@ Module.register('PriorityModule', function () {
   const PriorityCommand = kity.createClass('SetPriorityCommand', {
     base: Command,
     execute: function (km, value) {
-      PRIORITY_IMAGES = km.getOption('priorityImages')
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(PRIORITY_DATA, value ?? null).render()
@@ -58,12 +57,8 @@ Module.register('PriorityModule', function () {
     },
     queryValue: function (km) {
       const nodes = km.getSelectedNodes()
-      let val
-      for (let i = 0; i < nodes.length; i++) {
-        val = nodes[i].getData(PRIORITY_DATA)
-        if (val) break
-      }
-      return val || null
+      const node = nodes.find(node => typeof node.getData(PRIORITY_DATA) === 'number')
+      return node ? node.getData(PRIORITY_DATA) : null
     },
 
     queryState: function (km) {
@@ -104,6 +99,9 @@ Module.register('PriorityModule', function () {
     }
   })
   return {
+    init(options) {
+      PRIORITY_IMAGES = options.priorityImages
+    },
     defaultOptions: {
       priorityImages: []
     },

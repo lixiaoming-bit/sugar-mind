@@ -32,24 +32,18 @@ Module.register('hyperlink', {
       },
       queryState: function (km) {
         const nodes = km.getSelectedNodes()
-        let result = 0
-        if (nodes.length === 0) {
-          return -1
-        }
-        nodes.forEach(function (n) {
-          if (n && n.getData('hyperlink')) {
-            result = 0
-            return false
-          }
-        })
-        return result
+        const value = nodes.some(node => node.getData('hyperlink'))
+        return value ? 0 : -1
       },
       queryValue: function (km) {
         const node = km.getSelectedNode()
-        return {
-          url: node.getData('hyperlink'),
-          title: node.getData('hyperlinkTitle')
-        }
+        const url = node.getData('hyperlink')
+        return url
+          ? {
+              url,
+              title: node.getData('hyperlinkTitle')
+            }
+          : null
       }
     })
   },

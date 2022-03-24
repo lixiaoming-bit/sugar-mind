@@ -47,7 +47,6 @@ Module.register('EmojiModule', function () {
   const EmojiCommand = kity.createClass('EmojiCommand', {
     base: Command,
     execute: function (km, value) {
-      EMOJI_IMAGES = km.getOption('emojiImages')
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(EMOJI_DATA, value ?? null).render()
@@ -56,12 +55,8 @@ Module.register('EmojiModule', function () {
     },
     queryValue: function (km) {
       const nodes = km.getSelectedNodes()
-      let val
-      for (let i = 0; i < nodes.length; i++) {
-        val = nodes[i].getData(EMOJI_DATA)
-        if (val) break
-      }
-      return val || null
+      const node = nodes.find(node => typeof node.getData(EMOJI_DATA) === 'number')
+      return node ? node.getData(EMOJI_DATA) : null
     },
 
     queryState: function (km) {
@@ -95,6 +90,9 @@ Module.register('EmojiModule', function () {
   })
 
   return {
+    init(options) {
+      EMOJI_IMAGES = options.emojiImages
+    },
     commands: {
       emoji: EmojiCommand
     },

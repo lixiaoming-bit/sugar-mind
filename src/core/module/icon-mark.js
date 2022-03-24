@@ -47,7 +47,6 @@ Module.register('MarkModule', function () {
   const MarkCommand = kity.createClass('MarkCommand', {
     base: Command,
     execute: function (km, value) {
-      MARK_IMAGES = km.getOption('markImages')
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(MARK_DATA, value ?? null).render()
@@ -56,12 +55,8 @@ Module.register('MarkModule', function () {
     },
     queryValue: function (km) {
       const nodes = km.getSelectedNodes()
-      let val
-      for (let i = 0; i < nodes.length; i++) {
-        val = nodes[i].getData(MARK_DATA)
-        if (val) break
-      }
-      return val || null
+      const node = nodes.find(node => typeof node.getData(MARK_DATA) === 'number')
+      return node ? node.getData(MARK_DATA) : null
     },
 
     queryState: function (km) {
@@ -97,6 +92,9 @@ Module.register('MarkModule', function () {
   })
 
   return {
+    init(options) {
+      MARK_IMAGES = options.markImages
+    },
     commands: {
       mark: MarkCommand
     },

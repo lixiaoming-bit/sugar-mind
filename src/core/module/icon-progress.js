@@ -48,7 +48,6 @@ Module.register('ProgressModule', function () {
   const ProgressCommand = kity.createClass('ProgressCommand', {
     base: Command,
     execute: function (km, value) {
-      PROGRESS_IMAGES = km.getOption('progressImages')
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(PROGRESS_DATA, value ?? null).render()
@@ -57,12 +56,8 @@ Module.register('ProgressModule', function () {
     },
     queryValue: function (km) {
       const nodes = km.getSelectedNodes()
-      let val
-      for (let i = 0; i < nodes.length; i++) {
-        val = nodes[i].getData(PROGRESS_DATA)
-        if (val) break
-      }
-      return val || null
+      const node = nodes.find(node => typeof node.getData(PROGRESS_DATA) === 'number')
+      return node ? node.getData(PROGRESS_DATA) : null
     },
 
     queryState: function (km) {
@@ -98,6 +93,9 @@ Module.register('ProgressModule', function () {
   })
 
   return {
+    init(options) {
+      PROGRESS_IMAGES = options.progressImages
+    },
     commands: {
       progress: ProgressCommand
     },

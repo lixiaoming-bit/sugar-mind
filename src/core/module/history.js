@@ -77,7 +77,7 @@ Module.register('HistoryModule', function () {
       patchLock = false
     },
     queryState: function () {
-      return undoDiffs.length > 1 ? 0 : -1
+      return undoDiffs.length ? 0 : -1
     }
   })
   // undo command
