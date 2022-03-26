@@ -15,6 +15,7 @@ function loadImage(info) {
       })
     }
     image.onerror = function (err) {
+      console.log('err: ', err)
       reject(err)
     }
 
@@ -95,6 +96,7 @@ function getSVGInfo(minder) {
   renderContainer.translate(renderBox.x, renderBox.y)
   paper.shapeNode.setAttribute('transform', paperTransform)
 
+  // 填充背景
   // 过滤内容
   svgContainer = document.createElement('div')
   svgContainer.innerHTML = svgXml
@@ -178,6 +180,12 @@ function getSVGInfo(minder) {
   }
 }
 
+function getBackgroundUrl(background) {
+  let regBackgroundUrl = /url\("?'?.*"?'?\)/g
+  let regReplace = /"|'|url|\(|\)/g
+  return background.match(regBackgroundUrl)[0].replace(regReplace, '')
+}
+
 function encode(json, minder, option) {
   /* 绘制 PNG 的画布及上下文 */
   const canvas = document.createElement('canvas')
@@ -193,7 +201,7 @@ function encode(json, minder, option) {
 
   /* 尝试获取背景图片 URL 或背景颜色 */
   const bgDeclare = minder.getStyle('background').toString()
-  const bgUrl = /url\(\\"(.+)\\"\)/.exec(bgDeclare)
+  const bgUrl = getBackgroundUrl(bgDeclare)
   const bgColor = kity.Color.parse(bgDeclare)
 
   /* 获取 SVG 文件内容 */
@@ -293,9 +301,9 @@ function encode(json, minder, option) {
   }
 
   if (bgUrl) {
-    const bgInfo = { url: bgUrl[1] }
+    const bgInfo = { url: bgUrl }
     return loadImage(bgInfo).then(function ($image) {
-      fillBackground(ctx, ctx.createPattern($image.element, 'repeat'))
+      fillBackground(ctx, ctx.createPattern($image.element, 'no-repeat'))
       return drawSVG()
     })
   } else {

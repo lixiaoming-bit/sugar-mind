@@ -1,6 +1,7 @@
 import theme from '../core/theme'
 theme.register('classic', {
-  background: '#ffffff',
+  background:
+    '#ffffff url(https://static-cdn.zhixi.com/zx-wp/draw/bg1.png) no-repeat center center',
   'root-color': '#ffffff',
   'root-background': '#11bb37',
   'root-stroke': 'none',
