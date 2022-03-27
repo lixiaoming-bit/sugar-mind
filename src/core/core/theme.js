@@ -54,6 +54,21 @@ kity.extendClass(Minder, {
     return true
   },
 
+  setBackground: function (background) {
+    const items = this.getThemeItems()
+    const container = this.getRenderTarget()
+    if (background && container) {
+      container.style.background = background
+      items.background = background
+    }
+    return this
+  },
+
+  /**
+   * @description: 设置当前脑图的主题
+   * @param {*} name 主题名称
+   * @return {*} Minder
+   */
   setTheme: function (name) {
     if (name && !_themes[name]) throw new Error('Theme ' + name + ' not exists!')
     const lastTheme = this._theme

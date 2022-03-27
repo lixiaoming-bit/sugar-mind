@@ -22,8 +22,11 @@
 </template>
 
 <script>
+import { canvas2watermark } from '@/utils'
 import ColorPicker from './ColorPicker'
 import { mapGetters } from 'vuex'
+
+const DEFAULT_MARK = '请输入水印文字'
 
 export default {
   name: 'CanvasBackground',
@@ -42,47 +45,53 @@ export default {
   computed: {
     ...mapGetters(['minder'])
   },
-  mounted() {},
   activated() {
     this.color = this.color || this.minder.getStyle('background') || '#fffffff'
   },
   methods: {
-    // 设置水印内容
-    setContent(value = '') {
-      this.minder.getWatermark().setContent(value)
-      console.log('this.minder.getWatermark(): ', this.minder.getWatermark())
-    },
     // 设置选中
     handleCheckboxChange(selectedKeys) {
-      if (selectedKeys.includes('watermark')) {
-        const value = this.watermark || '这是一个测试水印'
-        this.setContent(value)
-      } else {
-        this.setContent()
+      const selectedKey = selectedKeys.pop()
+      this.selectedKeys = selectedKey ? [selectedKey] : []
+
+      if (!selectedKey) {
+        const background = '#ffffff'
+        this.minder.setBackground(background)
+        return
       }
 
-      const container = this.minder.getRenderTarget()
-
-      const targetColor = selectedKeys.includes('custom')
-        ? this.color
-        : this.minder.getStyle('background') || '#fffffff'
-      if (container) {
-        container.style.background = targetColor
+      if (selectedKey === 'watermark') {
+        const base64 = canvas2watermark(DEFAULT_MARK)
+        const background = `#ffffff url(${base64}) repeat center center`
+        this.minder.setBackground(background)
+        return
+      }
+      if (selectedKey === 'custom') {
+        this.minder.setBackground(this.color)
+        return
+      }
+      // TODO: 处理图片的情况
+      if (selectedKey === 'url') {
+        const background = `#ffffff url() repeat center center`
+        this.minder.setBackground(background)
+        return
       }
     },
     // 设置水印
     handleWatermarkChange() {
-      const value = this.watermark || '这是一个测试水印'
-      this.setContent(value)
+      const value = this.watermark || DEFAULT_MARK
+      if (this.selectedKeys.includes('watermark')) {
+        const base64 = canvas2watermark(value)
+        const background = `#ffffff url(${base64}) repeat center center`
+        this.minder.setBackground(background)
+      }
     },
     // 设置背景颜色
     handleColorChange(value) {
       this.color = value.hex8
       if (this.selectedKeys.includes('custom')) {
-        const container = this.minder.getRenderTarget()
-        if (container) {
-          container.style.background = this.color
-        }
+        const background = this.color
+        this.minder.setBackground(background)
       }
     }
   }

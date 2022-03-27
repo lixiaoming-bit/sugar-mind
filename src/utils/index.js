@@ -240,3 +240,50 @@ export const downloadPDF = (base64, fileName) => {
   }
   img.src = base64
 }
+
+const DEFAULT_CANVAS_TO_WATERMARK_OPTIONS = {
+  width: 150,
+  height: 150,
+  rotate: 45
+}
+
+/**
+ * @description: 生成高分辨水印
+ * @param {*} text 水印文字
+ * @param {*} options 大小配置
+ * @return {*} base64
+ */
+export const canvas2watermark = (text, options = DEFAULT_CANVAS_TO_WATERMARK_OPTIONS) => {
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+
+  const dpr = window.devicePixelRatio || 1
+  const bsr =
+    ctx['webkitBackingStorePixelRatio'] ||
+    ctx['mozBackingStorePixelRatio'] ||
+    ctx['msBackingStorePixelRatio'] ||
+    ctx['oBackingStorePixelRatio'] ||
+    ctx['backingStorePixelRatio'] ||
+    1
+  const ratio = dpr / bsr
+  canvas.height = options.height * ratio
+  canvas.width = options.width * ratio
+  // canvas.style.height = options.height + 'px'
+  // canvas.style.width = options.width + 'px'
+
+  ctx.save()
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.restore()
+
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+
+  ctx.rotate((options.rotate * Math.PI) / 180)
+  ctx.fillStyle = '#efefef'
+  ctx.font = '10px sans-serif'
+  ctx.fillText(text, 75, 10)
+
+  const base64 = canvas.toDataURL('image/png', 1)
+  canvas.remove()
+  return base64
+}

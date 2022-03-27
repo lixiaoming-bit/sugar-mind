@@ -18,7 +18,7 @@ export default function MinderRuntime() {
 
   // 渲染，初始化
   minder.renderTo(this.selector)
-  minder.setTheme('classic')
+  minder.useTheme('classic')
   // console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
   minder.execCommand('text', '中心主题')
