@@ -161,12 +161,17 @@ Module.register('Zoom', function () {
 
         this._wheelZoomTimeout = setTimeout(function () {
           //   const lastValue = self.getPaper()._zoom || 1
+          let value = self.getZoomValue()
           if (delta > 0) {
-            self.execCommand('zoomin')
+            value += 10
+            value = value > 200 ? 200 : value
+            zoomMinder(self, value)
           } else if (delta < 0) {
-            self.execCommand('zoomout')
+            value -= 10
+            value = value < 50 ? 50 : value
+            zoomMinder(self, value)
           }
-        }, 20)
+        }, 15)
 
         e.originEvent.preventDefault()
       }
