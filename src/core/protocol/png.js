@@ -183,7 +183,10 @@ function getSVGInfo(minder) {
 function getBackgroundUrl(background) {
   let regBackgroundUrl = /url\("?'?.*"?'?\)/g
   let regReplace = /"|'|url|\(|\)/g
-  return background.match(regBackgroundUrl)[0].replace(regReplace, '')
+  if (background.match(regBackgroundUrl)) {
+    return background.match(regBackgroundUrl)[0].replace(regReplace, '')
+  }
+  return null
 }
 
 function encode(json, minder, option) {

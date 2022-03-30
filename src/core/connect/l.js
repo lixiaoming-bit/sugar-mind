@@ -5,14 +5,15 @@ import connect from '../core/connect'
 
 connect.register('l', function (node, parent, connection) {
   const po = parent.getLayoutVertexOut()
+  console.log('po: ', po)
   const pi = node.getLayoutVertexIn()
   const vo = parent.getLayoutVectorOut()
 
   const pathData = []
-  const r = Math.round,
-    abs = Math.abs
+  const r = Math.round
+  const abs = Math.abs
 
-  pathData.push('M', po.round())
+  pathData.push('M', r(po.x) + 11, r(po.y))
   if (abs(vo.x) > abs(vo.y)) {
     pathData.push('H', r(pi.x))
   } else {

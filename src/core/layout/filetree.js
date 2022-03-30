@@ -15,7 +15,14 @@ function registerLayoutForDir(dir) {
         const pBox = parent.getContentBox()
         const indent = 20
 
-        parent.setVertexOut(new kity.Point(pBox.left + indent, dir > 0 ? pBox.bottom : pBox.top))
+        parent.setVertexOut(
+          new kity.Point(
+            pBox.left + indent,
+            dir > 0
+              ? pBox.bottom + parent.getStyle('padding-bottom')
+              : pBox.top + parent.getStyle('padding-top')
+          )
+        )
         parent.setLayoutVectorOut(new kity.Vector(0, dir))
 
         if (!children.length) return
