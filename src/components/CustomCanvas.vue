@@ -4,21 +4,10 @@
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
     <v-contextmenu ref="contextmenu" :disabled="!contextmenuList.length">
-      <v-contextmenu-item
-        :key="item.key"
-        :disabled="item.disabled"
-        @click="handleContextmenuClick(item)"
-        v-for="item in contextmenuList"
-      >
-        <div class="contextmenu-item">
-          <div class="title">{{ item.title }}</div>
-          <div class="description">{{ item.description }}</div>
-        </div>
-      </v-contextmenu-item>
       <V-contextmenu-submenu
         title="移除主题内容"
         max-height="100"
-        v-if="selectedNode"
+        v-if="selectedNode && removeMenuList.length"
         :style="style"
       >
         <v-contextmenu-item
@@ -33,6 +22,17 @@
           </div>
         </v-contextmenu-item>
       </V-contextmenu-submenu>
+      <v-contextmenu-item
+        :key="item.key"
+        :disabled="item.disabled"
+        @click="handleContextmenuClick(item)"
+        v-for="item in contextmenuList"
+      >
+        <div class="contextmenu-item">
+          <div class="title">{{ item.title }}</div>
+          <div class="description">{{ item.description }}</div>
+        </div>
+      </v-contextmenu-item>
     </v-contextmenu>
   </div>
 </template>
@@ -88,6 +88,12 @@ export default {
       'SET_VISIBLE_MODAL',
       'SET_NODE_STYLE'
     ]),
+    // 检查当前的值
+    handleCheckValue(command) {
+      const value = this.editor.minder.queryCommandValue(command)
+      console.log('command: ', command, value)
+      return !value && value !== 0
+    },
     // 检查当前的状态
     handleCheckDisabled(command) {
       return this.editor.minder.queryCommandState(command) === -1
@@ -124,7 +130,7 @@ export default {
               this.macosOptionText
             )
         this.removeMenuList = this.selectedNode
-          ? removeNodeContextmenu(this.handleCheckDisabled)
+          ? removeNodeContextmenu(this.handleCheckValue).filter(item => !item.disabled)
           : ''
       })
       // 监听双击编辑节点

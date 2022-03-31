@@ -19,8 +19,8 @@ function registerLayoutForDir(dir) {
           new kity.Point(
             pBox.left + indent,
             dir > 0
-              ? pBox.bottom + parent.getStyle('padding-bottom')
-              : pBox.top + parent.getStyle('padding-top')
+              ? pBox.bottom + parent.getStyle('padding-bottom') + 10
+              : pBox.top - parent.getStyle('padding-top') - 10
           )
         )
         parent.setLayoutVectorOut(new kity.Vector(0, dir))

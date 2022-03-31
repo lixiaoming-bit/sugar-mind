@@ -23,10 +23,12 @@ Module.register('NoteModule', function () {
     base: Command,
 
     execute: function (minder, note) {
-      const node = minder.getSelectedNode()
-      node.setData('note', note)
-      node.render()
-      node.getMinder().layout(300)
+      const nodes = minder.getSelectedNodes()
+      nodes.forEach(node => {
+        node.setData('note', note)
+        node.render()
+      })
+      minder.layout(300)
     },
 
     queryState: function (minder) {

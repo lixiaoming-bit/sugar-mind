@@ -85,10 +85,13 @@ Module.register('image', function () {
     },
     queryValue: function (km) {
       const node = km.getSelectedNode()
-      return {
-        url: node.getData('image'),
-        title: node.getData('imageTitle')
-      }
+      const url = node.getData('image')
+      return url
+        ? {
+            url,
+            title: node.getData('imageTitle')
+          }
+        : null
     }
   })
 

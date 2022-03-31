@@ -13,7 +13,7 @@ connect.register('l', function (node, parent, connection) {
   const r = Math.round
   const abs = Math.abs
 
-  pathData.push('M', r(po.x) + 11, r(po.y))
+  pathData.push('M', r(po.x) + 12, r(po.y))
   if (abs(vo.x) > abs(vo.y)) {
     pathData.push('H', r(pi.x))
   } else {

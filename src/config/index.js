@@ -397,28 +397,28 @@ export const removeNodeContextmenu = handleCheckDisabled => {
   return [
     {
       key: 'remove-priority',
-      title: '移除：优先级',
+      title: '移除图标：优先级',
       description: '',
       command: 'priority',
       disabled: handleCheckDisabled('priority')
     },
     {
       key: 'remove-progress',
-      title: '移除：进度条',
+      title: '移除图标：进度条',
       description: '',
       command: 'progress',
       disabled: handleCheckDisabled('progress')
     },
     {
       key: 'remove-emoji',
-      title: '移除：表情',
+      title: '移除图标：表情',
       description: '',
       command: 'emoji',
       disabled: handleCheckDisabled('emoji')
     },
     {
       key: 'remove-mark',
-      title: '移除：标记',
+      title: '移除图标：标记',
       description: '',
       command: 'mark',
       disabled: handleCheckDisabled('mark')

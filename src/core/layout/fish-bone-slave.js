@@ -17,7 +17,7 @@ Layout.register(
       parent.setLayoutVectorOut(vi)
 
       const goldX = pBox.left + pBox.width * GOLD_CUT
-      const pout = new kity.Point(goldX, vi.y > 0 ? pBox.bottom : pBox.top)
+      const pout = new kity.Point(goldX, vi.y > 0 ? pBox.bottom + 5 : pBox.top - 5)
       parent.setVertexOut(pout)
 
       const child = children[0]
