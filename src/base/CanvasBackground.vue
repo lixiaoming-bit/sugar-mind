@@ -12,9 +12,18 @@
           ></a-input>
         </a-col>
         <a-col :span="2"><a-checkbox value="custom" /></a-col>
-        <a-col :span="6">背景颜色</a-col>
-        <a-col :span="16">
+        <a-col :span="6">背景图片</a-col>
+        <a-col :span="8">
           <color-picker :value="color" @change="handleColorChange"></color-picker>
+        </a-col>
+        <a-col :span="8" align="right">
+          <a-upload
+            :custom-request="handleCustomRequest"
+            :before-upload="handleBeforeUpload"
+            accept=".jpg,.png,.jpeg"
+          >
+            <a-button type="primary" ghost>点击上传</a-button>
+          </a-upload>
         </a-col>
       </a-row>
     </a-checkbox-group>
@@ -93,7 +102,19 @@ export default {
         const background = this.color
         this.minder.setBackground(background)
       }
-    }
+    },
+    // 上传 - 前置
+    handleBeforeUpload(file) {
+      if (file.size / 1024 / 1024 > 1) {
+        this.$message.warning('上传文件大小在1M以内')
+        return false
+      }
+      if (!['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
+        this.$message.warning('仅支持JPG、PNG格式的图片文件')
+      }
+    },
+    // 自定义上传
+    handleCustomRequest() {}
   }
 }
 </script>

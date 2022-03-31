@@ -19,6 +19,7 @@
   -webkit-user-select: none;
   user-select: none;
   position: relative;
+  background-size: cover;
 }
 
 .km-foreign-object {

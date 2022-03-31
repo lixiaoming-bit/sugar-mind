@@ -87,10 +87,10 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
     nodes.sort(function (a, b) {
       return a.getIndex() - b.getIndex()
     })
-    const parent = nodes[0].parent
-
-    text = text + nodes.length
-    const newParent = km.createNode(text, parent, nodes[0].getIndex())
+    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
+    const children = ancestor.getChildren() || []
+    text = `${text}${children.length + 1}`
+    const newParent = km.createNode(text, ancestor, ancestor.getIndex())
     nodes.forEach(function (node) {
       newParent.appendChild(node)
     })
@@ -103,12 +103,12 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
   queryState: function (km) {
     const nodes = km.getSelectedNodes()
     if (!nodes.length) return -1
-    const parent = nodes[0].parent
-    if (!parent) return -1
-    for (let i = 1; i < nodes.length; i++) {
-      if (nodes[i].parent !== parent) return -1
-    }
-    return 0
+    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
+    if (!ancestor) return -1
+    // for (let i = 1; i < nodes.length; i++) {
+    //   if (nodes[i].parent !== ancestor) return -1
+    // }
+    return !ancestor ? -1 : 0
   }
 })
 

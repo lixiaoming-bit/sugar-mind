@@ -204,6 +204,8 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     class: handleCheckDisabled('priority')
   }
 ]
+
+// ToolBoxTC more tooltip
 export const generateToolBoxTopCenterMoreOptions = handleCheckDisabled => [
   {
     key: 'hyperlink',
@@ -235,6 +237,7 @@ export const generateToolBoxTopRightOptions = (shortcutText = 'Ctrl') => [
   }
 ]
 
+// TOOL_BOX_TR
 export const TOOL_BOX_TR = [
   {
     icon: 'iconicon_draw_tool_share_key',
@@ -281,6 +284,7 @@ export const TOOL_BOX_MR = [
   }
 ]
 
+// 选择节点菜单
 export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutText = 'Ctrl') => {
   return [
     {
@@ -348,6 +352,7 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
   ]
 }
 
+// 选中paper菜单
 export const generateSelectedPaperContextmenu = (
   handleCheckDisabled,
   shortcutText = 'Ctrl',
@@ -393,6 +398,7 @@ export const generateSelectedPaperContextmenu = (
   ]
 }
 
+// 移除菜单选项
 export const removeNodeContextmenu = handleCheckDisabled => {
   return [
     {
@@ -440,6 +446,18 @@ export const removeNodeContextmenu = handleCheckDisabled => {
   ]
 }
 
+// 展开菜单选项
+export const EXPAND_TO_MENUS = [
+  // {
+  //   key: 'remove-priority',
+  //   title: '移除图标：优先级',
+  //   description: '',
+  //   command: 'priority',
+  //   disabled: handleCheckDisabled('priority')
+  // }
+]
+
+// 导出文档的格式
 export const EXPORT_TYPE_LIST = [
   {
     key: 'png',
@@ -473,6 +491,7 @@ export const EXPORT_TYPE_LIST = [
   }
 ]
 
+// 快捷键操作列表
 export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'Alt') => {
   // alt对应option  ctrl对应command
   // eslint-disable-next-line prettier/prettier
@@ -673,6 +692,7 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
   ]
 }
 
+// 样式选择的默认设置
 export const NODE_FONT_STYLE_SETTING = {
   fontFamily: '微软雅黑, "Microsoft YaHei"',
   fontSize: null,
