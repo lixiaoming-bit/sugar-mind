@@ -9,6 +9,7 @@ Module.register('Expand', function () {
   const EXPAND_STATE_DATA = 'expandState'
   const STATE_EXPAND = 'expand'
   const STATE_COLLAPSE = 'collapse'
+  let IS_COLLAPSE_ALL = true
 
   // 将展开的操作和状态读取接口拓展到 MinderNode 上
   kity.extendClass(MinderNode, {
@@ -142,9 +143,12 @@ Module.register('Expand', function () {
     base: Command,
     execute: function (km, level) {
       if (level) {
-        level = level - 48
+        level -= 48
+        IS_COLLAPSE_ALL = true
+      } else {
+        level = IS_COLLAPSE_ALL ? 1 : 9999
+        IS_COLLAPSE_ALL = !IS_COLLAPSE_ALL
       }
-      level = level ?? 9999
       km.getRoot().traverse(function (node) {
         if (node.getLevel() < level) node.expand()
         if (node.getLevel() === level && !node.isLeaf()) node.collapse()
