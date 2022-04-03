@@ -35,7 +35,7 @@ require('./core/patch')
 
 // 模块依赖
 require('./module/arrange')
-require('./module/basestyle')
+// require('./module/basestyle')
 require('./module/clipboard')
 require('./module/dragtree')
 require('./module/expand')

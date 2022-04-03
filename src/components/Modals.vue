@@ -5,6 +5,8 @@
 </template>
 
 <script>
+// 插入备注
+import InsertNotesModal from '@/base/InsertNotesModal'
 // 插入图标
 import InsertIconModal from '@/base/InsertIconModal'
 // 插入图片
@@ -31,6 +33,7 @@ export default {
   name: 'Modals',
   filters: {},
   components: {
+    InsertNotesModal,
     InsertIconModal,
     InsertImagesModal,
     InsertUrlModal,

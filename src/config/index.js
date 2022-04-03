@@ -82,27 +82,33 @@ export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
 export const generateFontIcons = (shortcutText = 'Ctrl') => [
   {
     title: '文本字体颜色',
-    icon: 'font-colors'
+    icon: 'font-colors',
+    command: 'color'
   },
   {
     title: `文本加粗，${shortcutText} + B`,
-    icon: 'bold'
+    icon: 'bold',
+    command: 'bold'
   },
   {
     title: `文本添加倾斜，${shortcutText} + I`,
-    icon: 'italic'
+    icon: 'italic',
+    command: 'italic'
   },
   {
     title: '文本添加删除线',
-    icon: 'strikethrough'
+    icon: 'strikethrough',
+    command: 'line-through'
   },
   {
     title: '文本添加下划线',
-    icon: 'underline'
+    icon: 'underline',
+    command: 'underline'
   },
   {
     title: '清除样式',
-    icon: 'delete'
+    icon: 'delete',
+    command: 'clear-style'
   }
 ]
 // 字体设置排班图标

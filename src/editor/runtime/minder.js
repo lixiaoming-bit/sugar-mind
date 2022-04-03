@@ -9,7 +9,7 @@ export default function MinderRuntime() {
   const minder = new Minder({
     // zoom,
     enableKeyReceiver: true,
-    enableAnimation: true,
+    enableAnimation: false,
     priorityImages: levelIcons,
     progressImages: processIcons,
     emojiImages: emojiIcons,

@@ -11,129 +11,372 @@ TextRenderer.registerStyleHook(function (node, textGroup) {
   const lineHeight = getDataOrStyle('line-height')
   const fontStyle = getDataOrStyle('font-style')
   const fontWeight = getDataOrStyle('font-weight')
+  const textDecoration = getDataOrStyle('text-decoration')
+  const textAlign = getDataOrStyle('text-align')
 
-  textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight, fontStyle, fontWeight })
+  textGroup.foreign.setStyle({
+    color,
+    fontSize,
+    fontFamily,
+    lineHeight,
+    fontStyle,
+    fontWeight,
+    textDecoration,
+    textAlign
+  })
 })
 
-Module.register('fontModule', {
-  commands: {
-    /**
-     * @command ForeColor
-     * @description 设置选中节点的字体颜色
-     * @param {string} color 表示颜色的字符串
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 'mixed'。
-     */
-    forecolor: kity.createClass('fontColorCommand', {
-      base: Command,
-      execute: function (km, color) {
-        const nodes = km.getSelectedNodes()
-        nodes.forEach(function (n) {
-          n.setData('color', color)
-          n.render()
-        })
-      },
-      queryState: function (km) {
-        return km.getSelectedNodes().length === 0 ? -1 : 0
-      },
-      queryValue: function (km) {
-        if (km.getSelectedNodes().length === 1) {
-          return km.getSelectedNodes()[0].getData('color')
+Module.register('fontModule', function () {
+  const km = this
+  // 计算相同值
+  const calculatorSame = key => {
+    const nodes = km.getSelectedNodes()
+    const array = Array.from(nodes, item => item.getData(key)).filter(Boolean)
+    const flag = new Set(array).size === 1
+    return flag ? nodes[0].getData(key) : ''
+  }
+  return {
+    commands: {
+      /**
+       * @command ForeColor
+       * @description 设置选中节点的字体颜色
+       * @param {string} color 表示颜色的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 ''。
+       */
+      color: kity.createClass('fontColorCommand', {
+        base: Command,
+        execute: function (km, color) {
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('color', color)
+            n.render()
+          })
+        },
+        queryState: function (km) {
+          return km.getSelectedNode() ? 0 : -1
+        },
+        queryValue: function () {
+          return calculatorSame('color')
         }
-        return 'mixed'
-      }
-    }),
+      }),
 
-    /**
-     * @command Background
-     * @description 设置选中节点的背景颜色
-     * @param {string} color 表示颜色的字符串
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 如果只有一个节点选中，返回已选中节点的背景颜色；否则返回 'mixed'。
-     */
-    background: kity.createClass('backgroundCommand', {
-      base: Command,
+      /**
+       * @command Background
+       * @description 设置选中节点的背景颜色
+       * @param {string} color 表示颜色的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 如果只有一个节点选中，返回已选中节点的背景颜色；否则返回 ''。
+       */
+      background: kity.createClass('backgroundCommand', {
+        base: Command,
 
-      execute: function (km, color) {
-        const nodes = km.getSelectedNodes()
-        nodes.forEach(function (n) {
-          n.setData('background', color)
-          n.render()
-        })
-      },
-      queryState: function (km) {
-        return km.getSelectedNodes().length === 0 ? -1 : 0
-      },
-      queryValue: function (km) {
-        if (km.getSelectedNodes().length === 1) {
-          return km.getSelectedNodes()[0].getData('background')
+        execute: function (km, color) {
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('background', color)
+            n.render()
+          })
+        },
+        queryState: function (km) {
+          return km.getSelectedNodes().length === 0 ? -1 : 0
+        },
+        queryValue: function () {
+          return calculatorSame('background')
         }
-        return 'mixed'
-      }
-    }),
+      }),
 
-    /**
-     * @command FontFamily
-     * @description 设置选中节点的字体
-     * @param {string} family 表示字体的字符串
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 返回首个选中节点的字体
-     */
-    fontfamily: kity.createClass('fontFamilyCommand', {
-      base: Command,
+      /**
+       * @command FontFamily
+       * @description 设置选中节点的字体
+       * @param {string} family 表示字体的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 返回首个选中节点的字体
+       */
+      family: kity.createClass('fontFamilyCommand', {
+        base: Command,
 
-      execute: function (km, family) {
-        const nodes = km.getSelectedNodes()
-        nodes.forEach(function (n) {
-          n.setData('font-family', family)
-          n.render()
+        execute: function (km, family) {
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('font-family', family)
+            n.render()
+          })
           km.layout()
-        })
-      },
-      queryState: function (km) {
-        return km.getSelectedNodes().length === 0 ? -1 : 0
-      },
-      queryValue: function (km) {
-        const node = km.getSelectedNode()
-        if (node) return node.getData('font-family')
-        return null
-      }
-    }),
+        },
+        queryState: function (km) {
+          return km.getSelectedNodes().length === 0 ? -1 : 0
+        },
+        queryValue: function (km) {
+          const nodes = km.getSelectedNodes() || []
+          if (nodes.length === 1) return nodes[0].getData('font-family')
+          return ''
+        }
+      }),
 
-    /**
-     * @command FontSize
-     * @description 设置选中节点的字体大小
-     * @param {number} size 字体大小（px）
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 返回首个选中节点的字体大小
-     */
-    fontsize: kity.createClass('fontSizeCommand', {
-      base: Command,
+      /**
+       * @command FontSize
+       * @description 设置选中节点的字体大小
+       * @param {number} size 字体大小（px）
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 返回首个选中节点的字体大小
+       */
+      fontsize: kity.createClass('fontSizeCommand', {
+        base: Command,
 
-      execute: function (km, size) {
-        const nodes = km.getSelectedNodes()
-        nodes.forEach(function (n) {
-          n.setData('font-size', size)
-          n.render()
+        execute: function (km, size) {
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('font-size', size)
+            n.render()
+          })
           km.layout(300)
-        })
-      },
-      queryState: function (km) {
-        return km.getSelectedNodes().length === 0 ? -1 : 0
-      },
-      queryValue: function (km) {
-        const node = km.getSelectedNode()
-        if (node) return node.getData('font-size')
-        return null
-      }
-    })
+        },
+        queryState: function (km) {
+          return km.getSelectedNode() ? 0 : -1
+        },
+        queryValue: function () {
+          return calculatorSame('font-size')
+        }
+      }),
+      /**
+       * @command ForeColor
+       * @description 设置选中节点的字体颜色
+       * @param {string} color 表示颜色的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 ''。
+       */
+      'text-align': kity.createClass('textAlginCommand', {
+        base: Command,
+
+        execute: function (km, value) {
+          console.log('value: ', value)
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('text-align', value).render()
+          })
+        },
+        queryState: function (km) {
+          return km.getSelectedNode() ? 0 : -1
+        },
+        queryValue: function () {
+          return calculatorSame('text-align') || 'left'
+        }
+      }),
+      /**
+       * @command ClearStyle
+       * @description 清除样式
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       */
+      'clear-style': kity.createClass('clearStyleCommand', {
+        base: Command,
+
+        execute: function (km) {
+          const nodes = km.getSelectedNodes()
+          nodes.forEach(function (n) {
+            n.setData('color')
+            n.setData('font-size')
+            n.setData('font-weight')
+            n.setData('font-style')
+            n.setData('text-decoration')
+            n.setData('text-align')
+            n.render()
+          })
+          km.layout(300)
+        },
+        queryState: function (km) {
+          return km.getSelectedNode() ? 0 : -1
+        }
+      }),
+      /**
+       * @command Bold
+       * @description 加粗选中的节点
+       * @shortcut ctrl + B
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       *   1: 当前已选中的节点已加粗
+       */
+      bold: kity.createClass('boldCommand', {
+        base: Command,
+
+        execute: function (km) {
+          const nodes = km.getSelectedNodes()
+          if (this.queryState('bold') === 1) {
+            nodes.forEach(function (n) {
+              n.setData('font-weight').render()
+            })
+          } else {
+            nodes.forEach(function (n) {
+              n.setData('font-weight', 'bold').render()
+            })
+          }
+          km.layout()
+        },
+        queryState: function () {
+          const nodes = km.getSelectedNodes()
+          let result = 0
+          if (nodes.length === 0) {
+            return -1
+          }
+          nodes.forEach(function (n) {
+            if (n && n.getData('font-weight')) {
+              result = 1
+              return false
+            }
+          })
+          return result
+        },
+        queryValue: function () {
+          return calculatorSame('font-weight')
+        }
+      }),
+      /**
+       * @command Italic
+       * @description 加斜选中的节点
+       * @shortcut ctrl + I
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       *   1: 当前已选中的节点已加斜
+       */
+      italic: kity.createClass('italicCommand', {
+        base: Command,
+
+        execute: function (km) {
+          const nodes = km.getSelectedNodes()
+          if (this.queryState('italic') === 1) {
+            nodes.forEach(function (n) {
+              n.setData('font-style').render()
+            })
+          } else {
+            nodes.forEach(function (n) {
+              n.setData('font-style', 'italic').render()
+            })
+          }
+
+          km.layout()
+        },
+        queryState: function () {
+          const nodes = km.getSelectedNodes()
+          let result = 0
+          if (nodes.length === 0) {
+            return -1
+          }
+          nodes.forEach(function (n) {
+            if (n && n.getData('font-style')) {
+              result = 1
+              return false
+            }
+          })
+          return result
+        },
+        queryValue: function () {
+          return calculatorSame('font-style')
+        }
+      }),
+      /**
+       * @command LineThough
+       * @description 删除线
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       *   1: 当前已选中的节点已加删除线
+       */
+      'line-through': kity.createClass('lineThroughCommand', {
+        base: Command,
+
+        execute: function (km) {
+          const nodes = km.getSelectedNodes()
+          if (this.queryState('linethrough') === 1) {
+            nodes.forEach(function (n) {
+              n.setData('text-decoration').render()
+            })
+          } else {
+            nodes.forEach(function (n) {
+              n.setData('text-decoration', 'line-through').render()
+            })
+          }
+
+          km.layout()
+        },
+        queryState: function () {
+          const nodes = km.getSelectedNodes()
+          let result = 0
+          if (nodes.length === 0) {
+            return -1
+          }
+          nodes.forEach(function (n) {
+            if (n && n.getData('text-decoration') === 'line-through') {
+              result = 1
+              return false
+            }
+          })
+          return result
+        },
+        queryValue: function () {
+          return calculatorSame('text-decoration')
+        }
+      }),
+      /**
+       * @command Underline
+       * @description 下划线
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       *   1: 当前已选中的节点已加下划线
+       */
+      underline: kity.createClass('underlineCommand', {
+        base: Command,
+
+        execute: function (km) {
+          const nodes = km.getSelectedNodes()
+          if (this.queryState('underline') === 1) {
+            nodes.forEach(function (n) {
+              n.setData('text-decoration').render()
+            })
+          } else {
+            nodes.forEach(function (n) {
+              n.setData('text-decoration', 'underline').render()
+            })
+          }
+
+          km.layout()
+        },
+        queryState: function () {
+          const nodes = km.getSelectedNodes()
+          let result = 0
+          if (nodes.length === 0) {
+            return -1
+          }
+          nodes.forEach(function (n) {
+            if (n && n.getData('text-decoration') === 'underline') {
+              result = 1
+              return false
+            }
+          })
+          return result
+        },
+        queryValue: function () {
+          return calculatorSame('text-decoration')
+        }
+      })
+    },
+    commandShortcutKeys: {
+      bold: 'normal::ctrl+b|normal::command+b', //bold
+      italic: 'normal::ctrl+i|normal::command+i' //italic
+    }
   }
 })

@@ -25,7 +25,8 @@ export default {
       this.$emit('change', value)
     },
     getPopupContainer() {
-      return document.querySelector('.color-picker-container')
+      return this.$el
+      // return document.querySelector('.color-picker-container')
     }
   }
 }

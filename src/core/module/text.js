@@ -98,17 +98,27 @@ const TextRenderer = kity.createClass('TextRenderer', {
     const lineHeight = getDataOrStyle('line-height')
     const fontStyle = getDataOrStyle('font-style')
     const fontWeight = getDataOrStyle('font-weight')
+    const textDecoration = getDataOrStyle('text-decoration')
 
-    textGroup.foreign.setStyle({ color, fontSize, fontFamily, lineHeight, fontStyle, fontWeight })
+    textGroup.foreign.setStyle({
+      color,
+      fontSize,
+      fontFamily,
+      lineHeight,
+      fontStyle,
+      fontWeight,
+      textDecoration
+    })
 
     // 获取当前文本宽高
     const { width, height } = utils.getTextBoundary(nodeText, {
       color,
       fontSize,
       fontFamily,
+      lineHeight,
       fontStyle,
       fontWeight,
-      lineHeight
+      textDecoration
     })
 
     const yStart = -height / 2

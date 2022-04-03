@@ -61,4 +61,10 @@ export default {
   border-radius: 6px;
   background-color: rgb(159, 159, 159);
 }
+.ant-modal-header {
+  border-bottom: none;
+}
+.ant-modal-footer {
+  border-top: none;
+}
 </style>

@@ -139,6 +139,14 @@ export default {
       })
       // 监听处理全局单击事件 需要添加防抖
       minder.on('normal.click', e => {
+        const node = e.minder.getSelectedNode()
+        if (!node) {
+          this.SET_VISIBLE_MODAL()
+          this.SET_NODE_STYLE()
+        }
+      })
+      // 监听选中状态 设置当前的选中信息
+      minder.on('selectionchange', e => {
         this.handleStoreNodeFontStyle(e.minder)
       })
     },
@@ -165,9 +173,6 @@ export default {
           }
         }
         this.SET_NODE_STYLE(style)
-      } else {
-        this.SET_VISIBLE_MODAL()
-        this.SET_NODE_STYLE()
       }
     }
   }

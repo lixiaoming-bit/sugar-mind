@@ -1,6 +1,7 @@
 <template>
   <div class="node-font-style-container">
     <a-row type="flex" :gutter="[16, 16]">
+      <!-- 设置字体 font-family -->
       <a-col :span="14">
         <a-select
           style="width: 100%"
@@ -21,6 +22,7 @@
           </a-select-opt-group>
         </a-select>
       </a-col>
+      <!-- 设置字号 font-size -->
       <a-col :span="10">
         <a-select
           style="width: 100%"
@@ -34,19 +36,26 @@
         </a-select>
       </a-col>
     </a-row>
+    <!-- 设置字体 color weight text-decoration clear-style -->
     <div class="font-icons-group">
-      <div class="one-font-icon" v-for="(item, index) in fontStyleIcons" :key="item.icon">
+      <div
+        class="one-font-icon"
+        v-for="(item, index) in fontStyleIcons"
+        :key="item.icon"
+        :class="{ 'is-active': checkIsActive(item) }"
+      >
         <a-popover placement="top">
           <template slot="content">{{ item.title }}</template>
-          <a-icon :type="item.icon" v-if="index"></a-icon>
-          <color-picker v-else>
+          <a-icon v-if="index" :type="item.icon" @click="handleChangeFontStyle(item)"></a-icon>
+          <color-picker v-else @change="handleChangeFontColor">
             <a-icon :type="item.icon"></a-icon>
           </color-picker>
         </a-popover>
       </div>
     </div>
-    <!-- <div class="align-group">
-      <a-radio-group default-value="align-left" button-style="solid">
+    <!-- 设置text-align -->
+    <div class="align-group">
+      <a-radio-group :default-value="align" button-style="solid" @change="handleTextAlignChange">
         <a-radio-button :value="item.icon" v-for="item in fontAlignIcons" :key="item.title">
           <a-popover placement="top">
             <template slot="content">{{ item.title }}</template>
@@ -54,13 +63,7 @@
           </a-popover>
         </a-radio-button>
       </a-radio-group>
-    </div> -->
-    <!-- <div class="font-icons-group align-group">
-
-      <div class="one-font-icon" v-for="item in fontAlignIcons" :key="item.icon">
-       
-      </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -83,8 +86,12 @@ export default {
   },
   data() {
     return {
+      fontStyleIcons: [],
       colors: '#000000'
     }
+  },
+  mounted() {
+    this.setFontStyleIcons()
   },
   computed: {
     ...mapGetters(['macosCommandText', 'minder', 'nodeFontStyle']),
@@ -116,14 +123,31 @@ export default {
         }
       })
     },
-    fontStyleIcons() {
-      return generateFontIcons(this.macosCommandText).slice()
-    },
     fontAlignIcons() {
       return FONT_ALIGN_ICONS.slice()
+    },
+    // 检查是否被选中
+    checkIsActive() {
+      return item => {
+        if (item.icon === 'delete') {
+          return false
+        }
+        if (item.icon === 'color') {
+          return false
+        }
+        const value = this.minder.queryCommandValue(item.command)
+        return value === item.command
+      }
+    },
+    align() {
+      const value = this.minder.queryCommandValue('text-align')
+      return value ? `align-${value}` : 'align-left'
     }
   },
   methods: {
+    setFontStyleIcons() {
+      this.fontStyleIcons = generateFontIcons(this.macosCommandText).slice()
+    },
     // 设置字体family
     handleSelectFamilyChange(value) {
       this.minder.execCommand('fontfamily', value)
@@ -131,6 +155,20 @@ export default {
     // 设置字体font-size
     handleSelectFontSizeChange(value) {
       this.minder.execCommand('fontsize', value)
+    },
+    // 设置当前选中的字体的样式
+    handleChangeFontStyle(item) {
+      this.minder.execCommand(item.command)
+      this.setFontStyleIcons()
+    },
+    // 设置当前选中字体的颜色
+    handleChangeFontColor({ hex8 }) {
+      this.minder.execCommand('color', hex8)
+    },
+    // 设置当前选中字体的居中
+    handleTextAlignChange(e) {
+      const direction = e.target.value.substr(6)
+      this.minder.execCommand('text-align', direction)
     }
   }
 }
@@ -170,6 +208,9 @@ export default {
       transform: translateY(-50%);
       background-color: #e9e9e9;
     }
+  }
+  .is-active {
+    color: #0fa731;
   }
 }
 .align-group {

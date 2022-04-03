@@ -29,7 +29,6 @@ Module.register('KeyboardModule', function () {
     }
   }
 
-  // 这是金泉的点子，赞！
   // 求两个不相交矩形的最近距离
   function getCoifedDistance(box1, box2) {
     let dist

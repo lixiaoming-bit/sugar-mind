@@ -32,7 +32,7 @@ Module.register('NoteModule', function () {
     },
 
     queryState: function (minder) {
-      return minder.getSelectedNodes().length === 1 ? 0 : -1
+      return minder.getSelectedNodes().length ? 0 : -1
     },
 
     queryValue: function (minder) {

@@ -14,7 +14,7 @@
         <a-col :span="2"><a-checkbox value="custom" /></a-col>
         <a-col :span="6">背景图片</a-col>
         <a-col :span="8">
-          <color-picker :value="color" @change="handleColorChange"></color-picker>
+          <color-picker :value="color" @change="handleColorChange" />
         </a-col>
         <a-col :span="8" align="right">
           <a-upload
@@ -22,7 +22,7 @@
             :before-upload="handleBeforeUpload"
             accept=".jpg,.png,.jpeg"
           >
-            <a-button type="primary" ghost>点击上传</a-button>
+            <a-button>点击上传</a-button>
           </a-upload>
         </a-col>
       </a-row>
@@ -32,6 +32,7 @@
 
 <script>
 import { canvas2watermark } from '@/utils'
+
 import ColorPicker from './ColorPicker'
 import { mapGetters } from 'vuex'
 

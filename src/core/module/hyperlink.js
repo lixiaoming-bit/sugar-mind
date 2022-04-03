@@ -32,8 +32,7 @@ Module.register('hyperlink', {
       },
       queryState: function (km) {
         const nodes = km.getSelectedNodes()
-        const value = nodes.some(node => node.getData('hyperlink'))
-        return value ? 0 : -1
+        return nodes.length ? 0 : -1
       },
       queryValue: function (km) {
         const node = km.getSelectedNode()

@@ -8,16 +8,9 @@
         :class="item.class"
         @click="handleUserAction(item)"
       >
-        <a-popover placement="bottom" @visibleChange="handleVisibleChange">
+        <a-popover placement="bottom">
           <template slot="content">
-            <a-textarea
-              v-if="item.key === 'note' && isShowNote"
-              v-model="note"
-              class="note-textarea"
-              placeholder="请填写备注内容"
-              @blur="handleTextAreaBlur"
-            ></a-textarea>
-            <span v-else>{{ item.tips }}</span>
+            <span>{{ item.tips }}</span>
           </template>
           <div class="center">
             <icon-font :type="item.icon" class="one-option-icon" />
@@ -63,11 +56,7 @@ export default {
   components: {},
   props: {},
   data() {
-    return {
-      note: null,
-      timer: null,
-      isShowNote: false
-    }
+    return {}
   },
   computed: {
     ...mapGetters(['isShowComponent', 'isCompact', 'minder', 'macosCommandText']),
@@ -120,48 +109,23 @@ export default {
           this.minder.execCommand('AppendChildNode')
           break
         case 'note':
-          this.note = this.minder.queryCommandValue('note') || ''
-          this.isShowNote = true
+          this.SET_VISIBLE_MODAL('InsertNotesModal')
           break
         case 'image':
           this.SET_VISIBLE_MODAL('InsertImagesModal')
-          // this.minder.execCommand('Image')
           break
         case 'priority':
           this.SET_VISIBLE_MODAL('InsertIconModal')
-          // this.minder.execCommand('priority')
           break
         case 'hyperlink':
           this.SET_VISIBLE_MODAL('InsertUrlModal')
-          // this.minder.execCommand('HyperLink')
           break
         case 'matrix':
           break
         default:
           break
       }
-    },
-    // 关闭的操作
-    handleVisibleChange(visible) {
-      if (!visible) {
-        clearTimeout(this.timer)
-        this.timer = null
-        this.timer = setTimeout(() => {
-          this.isShowNote = false
-        }, 300)
-      }
-    },
-    // 处理note blur事件
-    handleTextAreaBlur() {
-      const status = this.handleCheckDisabled('note') === 'disabled'
-      if (status) return
-      const note = this.note.trim() === '' ? null : this.note
-      this.minder.execCommand('note', note)
     }
-  },
-  beforeDestroy() {
-    clearTimeout(this.timer)
-    this.timer = null
   }
 }
 </script>
