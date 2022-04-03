@@ -33,7 +33,7 @@ import { mapGetters } from 'vuex'
 import BasicModal from './BasicModal'
 
 export default {
-  name: 'InsertIconModal',
+  name: 'SynopsisModal',
   components: {
     BasicModal
   },

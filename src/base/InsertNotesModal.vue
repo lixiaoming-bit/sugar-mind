@@ -34,8 +34,9 @@ export default {
     ...mapMutations(['SET_VISIBLE_MODAL']),
     // 插入备注
     handleInsertNotes() {
-      if (this.note) {
-        this.minder.execCommand('note', this.note)
+      const value = this.note
+      if (value) {
+        this.minder.execCommand('note', value)
       }
       this.handleCancel()
     },

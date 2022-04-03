@@ -115,7 +115,7 @@ export default {
           this.SET_VISIBLE_MODAL('InsertImagesModal')
           break
         case 'priority':
-          this.SET_VISIBLE_MODAL('InsertIconModal')
+          this.SET_VISIBLE_MODAL('InsertIconsModal')
           break
         case 'hyperlink':
           this.SET_VISIBLE_MODAL('InsertUrlModal')

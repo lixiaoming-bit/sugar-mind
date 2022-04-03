@@ -452,6 +452,35 @@ export const removeNodeContextmenu = handleCheckDisabled => {
   ]
 }
 
+// 快速菜单选项
+
+export const QUICK_INSERT_CONTEXTMENU = [
+  {
+    key: 'insert-note',
+    title: '备注',
+    description: '',
+    modal: 'InsertNotesModal'
+  },
+  {
+    key: 'insert-image',
+    title: '图片',
+    description: '',
+    modal: 'InsertImagesModal'
+  },
+  {
+    key: 'insert-icon',
+    title: '图标',
+    description: '',
+    modal: 'InsertIconsModal'
+  },
+  {
+    key: 'insert-url',
+    title: '超链接',
+    description: '',
+    modal: 'InsertUrlModal'
+  }
+]
+
 // 展开菜单选项
 export const EXPAND_TO_MENUS = [
   // {

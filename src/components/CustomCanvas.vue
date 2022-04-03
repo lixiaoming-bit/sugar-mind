@@ -4,11 +4,10 @@
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
     <v-contextmenu ref="contextmenu" :disabled="!contextmenuList.length">
-      <V-contextmenu-submenu
-        title="移除主题内容"
-        max-height="100"
+      <v-contextmenu-submenu
         v-if="selectedNode && removeMenuList.length"
-        :style="style"
+        title="移除主题内容"
+        :style="{ color: '#1a1a1a' }"
       >
         <v-contextmenu-item
           v-for="item in removeMenuList"
@@ -21,7 +20,19 @@
             <div class="description">{{ item.description }}</div>
           </div>
         </v-contextmenu-item>
-      </V-contextmenu-submenu>
+      </v-contextmenu-submenu>
+      <v-contextmenu-submenu v-if="selectedNode" title="快速插入主题" :style="{ color: '#1a1a1a' }">
+        <v-contextmenu-item
+          v-for="item in quickInsertMenuList"
+          :key="item.key"
+          @click="handleQuickInsert(item)"
+        >
+          <div class="contextmenu-item">
+            <div class="title">{{ item.title }}</div>
+            <div class="description">{{ item.description }}</div>
+          </div>
+        </v-contextmenu-item>
+      </v-contextmenu-submenu>
       <v-contextmenu-item
         :key="item.key"
         :disabled="item.disabled"
@@ -46,6 +57,7 @@ import KMEditor from '../editor/editor'
 import { mapGetters, mapMutations } from 'vuex'
 import NotePreviewer from '@/base/NotePreviewer'
 import {
+  QUICK_INSERT_CONTEXTMENU,
   NODE_FONT_STYLE_SETTING,
   generateSelectedNodeContextmenu,
   generateSelectedPaperContextmenu,
@@ -61,11 +73,9 @@ export default {
     return {
       contextmenuList: [],
       removeMenuList: [],
+      quickInsertMenuList: QUICK_INSERT_CONTEXTMENU.slice(),
       editor: null,
-      selectedNode: null,
-      style: {
-        color: '#1a1a1a'
-      }
+      selectedNode: null
     }
   },
   computed: {
@@ -91,7 +101,6 @@ export default {
     // 检查当前的值
     handleCheckValue(command) {
       const value = this.editor.minder.queryCommandValue(command)
-      console.log('command: ', command, value)
       return !value && value !== 0
     },
     // 检查当前的状态
@@ -155,6 +164,10 @@ export default {
       if (item.command) {
         this.editor.minder.execCommand(item.command)
       }
+    },
+    // 快速插入点击事件
+    handleQuickInsert(item) {
+      this.SET_VISIBLE_MODAL(item.modal)
     },
     // 处理选中的节点 将节点的信息传入到store中
     handleStoreNodeFontStyle(minder) {

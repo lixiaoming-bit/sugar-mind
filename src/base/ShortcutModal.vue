@@ -34,7 +34,7 @@ import BasicModal from './BasicModal'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  name: 'InsertIconModal',
+  name: 'ShortcutModal',
   components: {
     BasicModal
   },

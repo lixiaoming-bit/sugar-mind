@@ -21,7 +21,7 @@ import CanvasStruct from './CanvasStruct'
 import CanvasBackground from './CanvasBackground'
 
 export default {
-  name: 'InsertIconModal',
+  name: 'CanvasStructModal',
   components: {
     BasicModal,
     CanvasStruct,

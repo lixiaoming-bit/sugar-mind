@@ -82,7 +82,7 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
 const AppendParentCommand = kity.createClass('AppendParentCommand', {
   base: Command,
   execute: function (km, text = '分支主题') {
-    const nodes = km.getSelectedNodes()
+    const nodes = (km.getSelectedNodes() || []).filter(node => !node.isRoot())
 
     nodes.sort(function (a, b) {
       return a.getIndex() - b.getIndex()
@@ -103,11 +103,8 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
   queryState: function (km) {
     const nodes = km.getSelectedNodes()
     if (!nodes.length) return -1
-    const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
-    if (!ancestor) return -1
-    // for (let i = 1; i < nodes.length; i++) {
-    //   if (nodes[i].parent !== ancestor) return -1
-    // }
+    const nodesNoRoot = nodes.filter(node => !node.isRoot())
+    const ancestor = MinderNode.getCommonAncestor.apply(null, nodesNoRoot)
     return !ancestor ? -1 : 0
   }
 })

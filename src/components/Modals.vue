@@ -8,7 +8,7 @@
 // 插入备注
 import InsertNotesModal from '@/base/InsertNotesModal'
 // 插入图标
-import InsertIconModal from '@/base/InsertIconModal'
+import InsertIconsModal from '@/base/InsertIconsModal'
 // 插入图片
 import InsertImagesModal from '@/base/InsertImagesModal'
 // 插入URL
@@ -34,7 +34,7 @@ export default {
   filters: {},
   components: {
     InsertNotesModal,
-    InsertIconModal,
+    InsertIconsModal,
     InsertImagesModal,
     InsertUrlModal,
     ThemeStyleModal,
