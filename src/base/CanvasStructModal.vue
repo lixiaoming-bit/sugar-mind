@@ -19,13 +19,15 @@
 import BasicModal from './BasicModal'
 import CanvasStruct from './CanvasStruct'
 import CanvasBackground from './CanvasBackground'
+import RainbowLines from './RainbowLines'
 
 export default {
   name: 'CanvasStructModal',
   components: {
     BasicModal,
     CanvasStruct,
-    CanvasBackground
+    CanvasBackground,
+    RainbowLines
   },
   computed: {
     canvasComponents() {
@@ -37,6 +39,10 @@ export default {
         {
           title: '背景设置',
           component: 'CanvasBackground'
+        },
+        {
+          title: '彩虹线条',
+          component: 'RainbowLines'
         }
       ]
     }

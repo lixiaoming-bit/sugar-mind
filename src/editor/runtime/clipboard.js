@@ -62,17 +62,10 @@ export default function ClipboardRuntime() {
         e.preventDefault()
         return
       }
-      const nodes = minder.getSelectedNodes()
-      const isHasRoot = nodes.some(node => node.isRoot())
-      const ancestors = minder.getSelectedAncestors() || []
-
-      if (isHasRoot) {
-        ancestors.push(minder.getRoot())
-      }
+      const ancestors = minder.getSelectedAncestors(true)
 
       if (ancestors.length === 0) return
 
-      // const nodes = minder.getSelectedNodes().slice()
       sendToClipboard(ancestors)
       const str = encode(clipboardNodes)
       e.clipboardData.setData('text/plain', str)

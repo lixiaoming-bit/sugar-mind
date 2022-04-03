@@ -32,7 +32,7 @@ theme.register('classic', {
   'sub-space': 5,
 
   'connect-color': '#333333',
-  'connect-width': 2,
+  'connect-width': 3,
   'main-connect-width': 3,
   'connect-radius': 10,
 

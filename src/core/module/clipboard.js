@@ -8,26 +8,6 @@ Module.register('ClipboardModule', function () {
   let _clipboardNodes = []
   let _selectedNodes = []
 
-  function appendChildNode(parent, child) {
-    _selectedNodes.push(child)
-    km.appendNode(child, parent)
-    child.render()
-    child.setLayoutOffset(null)
-    const children = child.children.map(function (node) {
-      return node.clone()
-    })
-
-    /*
-     * 原因：粘贴递归 append 时没有清空原来父节点的子节点，而父节点被复制的时候，是连同子节点一起复制过来的
-     * 解决办法：增加了下面这一行代码
-     */
-    child.clearChildren()
-
-    for (var i = 0, ci; (ci = children[i]); i++) {
-      child, ci
-    }
-  }
-
   function sendToClipboard(nodes) {
     if (!nodes.length) return
     nodes.sort(function (a, b) {
@@ -51,7 +31,7 @@ Module.register('ClipboardModule', function () {
 
     execute: function (km) {
       sendToClipboard(km.getSelectedAncestors(true))
-      this.setContentChanged(false)
+      // this.setContentChanged(false)
     },
     queryState: function (km) {
       return km.getSelectedNode() ? 0 : -1
@@ -103,19 +83,19 @@ Module.register('ClipboardModule', function () {
     execute: function (km) {
       if (_clipboardNodes.length) {
         const nodes = km.getSelectedNodes()
-        if (!nodes.length) return
-        let ni
-        for (let i = 0; (ni = _clipboardNodes[i]); i++) {
-          let node
-          for (let j = 0; (node = nodes[j]); j++) {
-            appendChildNode(node, ni)
+        nodes.forEach(function (node) {
+          // 由于粘贴逻辑中为了排除子节点重新排序导致逆序，因此复制的时候倒过来
+          for (let i = 0; i <= _clipboardNodes.length - 1; i++) {
+            const n = km.createNode(null, node)
+            km.importNode(n, _clipboardNodes[i])
+            _selectedNodes.push(n)
+            node.appendChild(n)
           }
-        }
-
+        })
         km.select(_selectedNodes, true)
         _selectedNodes = []
 
-        km.layout(300)
+        km.refresh()
       }
     },
 
@@ -133,11 +113,11 @@ Module.register('ClipboardModule', function () {
     }
 
     const Cut = function (e) {
-      this.fire('beforeCut', e)
+      this.fire('customCut', e)
     }
 
     const Paste = function (e) {
-      this.fire('beforePaste', e)
+      this.fire('customPaste', e)
     }
 
     return {
@@ -150,8 +130,8 @@ Module.register('ClipboardModule', function () {
         copy: Copy.bind(km),
         cut: Cut.bind(km),
         paste: Paste.bind(km)
-      },
-      sendToClipboard: sendToClipboard
+      }
+      // sendToClipboard: sendToClipboard
     }
   } else {
     return {
@@ -164,21 +144,8 @@ Module.register('ClipboardModule', function () {
         copy: 'normal::ctrl+c|',
         cut: 'normal::ctrl+x',
         paste: 'normal::ctrl+v'
-      },
-      sendToClipboard: sendToClipboard
+      }
+      // sendToClipboard: sendToClipboard
     }
   }
-  // return {
-  //   commands: {
-  //     copy: CopyCommand,
-  //     cut: CutCommand,
-  //     paste: PasteCommand
-  //   },
-  //   commandShortcutKeys: {
-  //     copy: 'normal::ctrl+c|normal::command+c',
-  //     cut: 'normal::ctrl+x|normal::command+x',
-  //     paste: 'normal::ctrl+v|normal::command+v'
-  //   },
-  //   sendToClipboard: sendToClipboard
-  // }
 })

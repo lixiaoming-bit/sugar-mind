@@ -241,6 +241,10 @@ export default {
 .v-contextmenu-item.v-contextmenu-submenu {
   font-size: 14px;
   line-height: 26px;
+  color: #1a1a1a;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 </style>
 <style>

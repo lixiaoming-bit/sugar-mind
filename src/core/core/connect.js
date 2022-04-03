@@ -83,8 +83,16 @@ kity.extendClass(Minder, {
 
     const provider = node.getConnectProvider()
 
-    const strokeColor = node.getStyle('connect-color') || 'white'
+    let strokeColor = node.getStyle('connect-color') || 'white'
     const strokeWidth = node.getStyle('connect-width') || 2
+
+    if (this._rainbowConnect) {
+      const _connection = parent._connection || node._connection
+      strokeColor =
+        node.getType() === 'main'
+          ? this._rainbowConnect[node.getIndex() % 7]
+          : _connection.getAttr('stroke')
+    }
 
     connection.stroke(strokeColor, strokeWidth)
 
@@ -95,6 +103,16 @@ kity.extendClass(Minder, {
     } else {
       connection.setTranslate(0, 0)
     }
+  },
+
+  setRainbowConnect(colors) {
+    const flag = colors.every(color => /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(color))
+    if (!flag) throw new Error('please input valid color like 16-based')
+    this._rainbowConnect = colors
+  },
+
+  getRainbowConnect() {
+    return this._rainbowConnect || undefined
   }
 })
 

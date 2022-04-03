@@ -535,7 +535,7 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
       title: '主题操作',
       contents: [
         {
-          key: 'append-sibling',
+          key: 'insert-the-next-topic',
           icon: 'iconicon_shortcuts_1',
           title: '插入下级主题',
           description: 'Tab'
@@ -553,43 +553,43 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
           description: 'Tab'
         },
         {
-          key: 'append-sibling',
+          key: 'enter-the-editor',
           icon: 'iconicon_shortcuts_edit',
           title: '进入编辑',
           description: 'Space空格键'
         },
         {
-          key: 'append-sibling',
+          key: 'expand-collaborate-theme',
           icon: 'iconicon_shortcuts_4',
           title: '展开/收起主题',
           description: `${shortcutText} + / `
         },
         {
-          key: 'append-sibling',
+          key: 'one-button-launch-collaborative',
           icon: 'iconicon_draw_keyboard_unfold',
           title: '一键展开/收起主题',
           description: `${optionText} + ${shortcutText} + /`
         },
         {
-          key: 'append-sibling',
+          key: 'move-the-subject',
           icon: 'iconicon_shortcuts_5',
           title: '上移主题',
           description: `${optionText} + ↑`
         },
         {
-          key: 'append-sibling',
+          key: 'migration-theme',
           icon: 'iconicon_shortcuts_6',
           title: '下移主题',
           description: `${optionText} + ↓`
         },
         {
-          key: 'append-sibling',
+          key: 'theme-navigation',
           icon: 'iconicon_shortcuts_7',
           title: '主题导航',
           description: '↑/↓/←/→'
         },
         {
-          key: 'append-sibling',
+          key: 'find-replacement',
           icon: 'iconoutline_input_search',
           title: '查找替换',
           description: `${shortcutText} + F`
@@ -622,19 +622,19 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
       title: '画布操作',
       contents: [
         {
-          key: 'append-sibling',
+          key: 'large-drawing',
           icon: 'iconicon_shortcuts_8',
           title: '放大画布',
           description: `${shortcutText} + "+"`
         },
         {
-          key: 'append-before',
+          key: 'shrink',
           icon: 'iconicon_shortcuts_9',
           title: '缩小画布',
           description: `${shortcutText} + "-"`
         },
         {
-          key: 'append-sibling',
+          key: 'drag',
           icon: 'iconicon_shortcuts_10',
           title: '拖动画布',
           description: '按住鼠标右键'
@@ -645,79 +645,79 @@ export const generateShortModalContext = (shortcutText = 'Ctrl', optionText = 'A
       title: '编辑操作',
       contents: [
         {
-          key: 'append-sibling',
+          key: 'action-save',
           icon: 'iconicon_shortcuts_save',
           title: '保存',
           description: `${shortcutText} + S`
         },
         {
-          key: 'append-before',
+          key: 'action-reset',
           icon: 'iconicon_shortcuts_11',
           title: '撤销',
           description: `${shortcutText} + Z`
         },
         {
-          key: 'append-before',
+          key: 'action-recover',
           icon: 'iconicon_shortcuts_12',
           title: '恢复',
           description: `${shortcutText} + Y`
         },
         {
-          key: 'append-sibling',
+          key: 'action-enter',
           icon: 'iconicon_shortcuts_13',
           title: '换行',
           description: 'Shift+Enter'
         },
         {
-          key: 'append-sibling',
+          key: 'action-multiple-choice',
           icon: 'iconicon_draw_keyboard_multipleselect1',
           title: '多选',
-          description: `${shortcutText} + 鼠标左键点击 `
+          description: `${shortcutText} + 鼠标左键点击`
         },
         {
-          key: 'append-sibling',
+          key: 'action-same-selection',
           icon: 'iconicon_draw_keyboard_continuousselect',
           title: '同级连选',
           description: 'Shift+鼠标左键点击'
         },
         {
-          key: 'append-sibling',
+          key: 'action-bold',
           icon: 'iconicon_shortcuts_14',
           title: '加粗',
           description: `${shortcutText} + B`
         },
         {
-          key: 'append-sibling',
+          key: 'action-italic',
           icon: 'iconicon_font-style_3',
           title: '斜体',
           description: `${shortcutText} + I`
         },
         {
-          key: 'append-sibling',
+          key: 'action-select-all',
           icon: 'iconicon_shortcuts_16',
           title: '全选',
           description: `${shortcutText} + A`
         },
         {
-          key: 'append-sibling',
+          key: 'action-copy',
           icon: 'iconicon_shortcuts_17',
           title: '复制',
           description: `${shortcutText} + C`
         },
         {
-          key: 'append-sibling',
+          key: 'action-cut',
           icon: 'iconicon_shortcuts_18',
           title: '剪切',
           description: `${shortcutText} + X`
         },
         {
-          key: 'append-sibling',
+          key: 'action-paste',
           icon: 'iconicon_shortcuts_19',
           title: '粘贴',
           description: `${shortcutText} + V`
         },
         {
-          key: 'append-sibling',
+          key: 'action-delete',
           icon: 'iconicon_home_recovery',
           title: '删除',
           description: 'Delete'
@@ -736,3 +736,31 @@ export const NODE_FONT_STYLE_SETTING = {
   fontStyle: 'normal',
   textDecoration: 'none'
 }
+
+// 彩虹线条
+export const RAINBOW_COLORS = [
+  {
+    title: '主题1',
+    colors: ['#ffd549', '#ff887e', '#6be18d', '#97abff', '#81dcf2', '#ffa37d', '#9884ea']
+  },
+  {
+    title: '主题2',
+    colors: ['#f85d5d', '#ff9754', '#ffd645', '#49cd8c', '#40c0ff', '#546ed6', '#a45ddc']
+  },
+  {
+    title: '主题3',
+    colors: ['#8cf0e7', '#4ad2ff', '#41a8f3', '#3180cd', '#bce284', '#71d77b', '#78bf6d']
+  },
+  {
+    title: '主题4',
+    colors: ['#a96263', '#f57d7b', '#feb7a8', '#fbdaab', '#8aa3b5', '#837fa1', '#54538c']
+  },
+  {
+    title: '主题5',
+    colors: ['#ffe58e', '#fe9e29', '#f8772c', '#e85250', '#b64262', '#633663', '#412852']
+  },
+  {
+    title: '主题6',
+    colors: ['#abe3d1', '#6bc9c4', '#37aaa9', '#128783', '#4a8ba6', '#4b6996', '#394b85']
+  }
+]
