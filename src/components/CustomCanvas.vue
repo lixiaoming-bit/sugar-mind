@@ -161,8 +161,16 @@ export default {
     },
     // 菜单点击事件
     handleContextmenuClick(item) {
-      if (item.command) {
-        this.editor.minder.execCommand(item.command)
+      const { command } = item
+
+      const theme = this.editor.minder.getTheme('theme')
+      const flag = theme.includes('compact')
+
+      if (command === 'theme') {
+        const value = flag ? theme.replace('-compact', '') : theme + '-compact'
+        this.editor.minder.execCommand(command, value)
+      } else {
+        command && this.editor.minder.execCommand(command)
       }
     },
     // 快速插入点击事件

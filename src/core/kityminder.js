@@ -74,12 +74,6 @@ require('./layout/fish-bone-slave')
 require('./layout/tianpan')
 
 require('./theme/classic')
-require('./theme/snow')
-require('./theme/fresh')
-require('./theme/fish')
-require('./theme/snow')
-require('./theme/wire')
-require('./theme/tianpan')
 
 require('./connect/arc')
 require('./connect/arc_tp')

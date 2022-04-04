@@ -386,15 +386,17 @@ export const generateSelectedPaperContextmenu = (
     },
     {
       key: 'compact',
-      title: '一键紧凑模式',
-      disabled: true
+      title: '开启 / 关闭紧凑模式',
+      description: '',
+      disabled: false,
+      command: 'theme'
     },
-    {
-      key: 'layout',
-      title: '一键整理布局',
-      description: `${shortcutText} + Shift + L`,
-      command: 'resetlayout'
-    },
+    // {
+    //   key: 'layout',
+    //   title: '一键整理布局',
+    //   description: `${shortcutText} + Shift + L`,
+    //   command: 'resetlayout'
+    // },
     {
       key: 'expand-all',
       title: '展开 / 收起所有主题',

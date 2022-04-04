@@ -54,6 +54,10 @@ kity.extendClass(Minder, {
     return true
   },
 
+  /**
+   * @description: 设置脑图背景
+   * @param {string} background base64
+   */
   setBackground: function (background) {
     const items = this.getThemeItems()
     const container = this.getRenderTarget()

@@ -5,7 +5,6 @@ import connect from '../core/connect'
 
 connect.register('l', function (node, parent, connection) {
   const po = parent.getLayoutVertexOut()
-  console.log('po: ', po)
   const pi = node.getLayoutVertexIn()
   const vo = parent.getLayoutVectorOut()
 

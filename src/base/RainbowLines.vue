@@ -68,7 +68,6 @@ export default {
       if (key === 'default-choose') {
         this.isDefault = true
         this.chooseColor = []
-        return
       }
       if (typeof key === 'number') {
         this.isDefault = false
