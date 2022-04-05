@@ -79,7 +79,10 @@ export default {
       this.paper.setStyle('background', this.minder.getStyle('background'))
 
       if (nodePathData.length) {
-        this.nodeThumb.fill(this.minder.getStyle('root-background')).setPathData(nodePathData)
+        const node = this.minder.getRoot()
+        this.nodeThumb
+          .fill(node.getData('background') || node.getStyle('background'))
+          .setPathData(nodePathData)
       } else {
         this.nodeThumb.setPathData(null)
       }

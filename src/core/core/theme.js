@@ -59,15 +59,16 @@ kity.extendClass(Minder, {
    * @param {string} background base64
    */
   setBackground: function (background) {
-    const items = this.getThemeItems()
     const container = this.getRenderTarget()
     if (background && container) {
       container.style.background = background
-      items.background = background
+      this._background = background
     }
     return this
   },
-
+  getBackground() {
+    return this._background || ''
+  },
   /**
    * @description: 设置当前脑图的主题
    * @param {*} name 主题名称
@@ -83,7 +84,8 @@ kity.extendClass(Minder, {
       if (name) {
         container.classList.add('km-theme-' + name)
       }
-      container.style.background = this.getStyle('background')
+      this._background = this._background || this.getStyle('background')
+      container.style.background = this._background
     }
     this.fire('themechange', {
       theme: name
@@ -96,20 +98,19 @@ kity.extendClass(Minder, {
    * @return {[type]} [description]
    */
   getTheme: function () {
-    return this._theme || this.getOption('defaultTheme') || 'fresh-blue'
+    return this._theme || this.getOption('defaultTheme')
   },
 
-  getThemeItems: function (node) {
-    // var theme = this.getTheme(node)
-    return _themes[this.getTheme(node)]
+  getThemeItems: function () {
+    return _themes[this.getTheme()]
   },
 
   /**
    * 获得脑图实例上的样式
    * @param  {String} item 样式名称
    */
-  getStyle: function (item, node) {
-    const items = this.getThemeItems(node)
+  getStyle: function (item) {
+    const items = this.getThemeItems()
     let matcher
 
     if (item in items) return items[item]
