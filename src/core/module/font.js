@@ -31,9 +31,9 @@ Module.register('fontModule', function () {
   // 计算相同值
   const calculatorSame = key => {
     const nodes = km.getSelectedNodes()
-    const array = Array.from(nodes, item => item.getData(key)).filter(Boolean)
+    const array = Array.from(nodes, node => node.getData(key) || node.getStyle(key)).filter(Boolean)
     const flag = new Set(array).size === 1
-    return flag ? nodes[0].getData(key) : ''
+    return flag ? nodes[0].getData(key) || nodes[0].getStyle(key) : ''
   }
   return {
     commands: {
@@ -83,7 +83,7 @@ Module.register('fontModule', function () {
           })
         },
         queryState: function (km) {
-          return km.getSelectedNodes().length === 0 ? -1 : 0
+          return km.getSelectedNode ? 0 : -1
         },
         queryValue: function () {
           return calculatorSame('background')
@@ -160,7 +160,6 @@ Module.register('fontModule', function () {
         base: Command,
 
         execute: function (km, value) {
-          console.log('value: ', value)
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('text-align', value).render()
@@ -192,6 +191,7 @@ Module.register('fontModule', function () {
             n.setData('font-style')
             n.setData('text-decoration')
             n.setData('text-align')
+            n.setData('background')
             n.render()
           })
           km.layout(300)

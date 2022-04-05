@@ -93,12 +93,13 @@ const ViewDragger = kity.createClass('ViewDragger', {
       if (isTempDrag) {
         dragger.setEnabled(false)
         isTempDrag = false
-        if (dragger._minder.getStatus() === 'hand') dragger._minder.rollbackStatus()
+        if (dragger._minder.getStatus() === 'hand') {
+          dragger._minder.rollbackStatus()
+          dragger._minder.fire('viewchanged')
+        }
       }
       const paper = dragger._minder.getPaper()
       paper.setStyle('cursor', dragger._minder.getStatus() === 'hand' ? '-webkit-grab' : 'default')
-
-      dragger._minder.fire('viewchanged')
     }
 
     this._minder

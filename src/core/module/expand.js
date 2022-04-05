@@ -171,7 +171,7 @@ Module.register('Expand', function () {
         .setVerticalAlign('middle')
         .setFontSize(12)
         .setFontBold(true)
-      this.textOutLint.setVisible(false)
+      this.toggleSymbolState(false, false)
       this.addShapes([this.outline, this.textOutLint, this.sign, this.number])
       this.initEvent(node)
       this.setId(utils.uuid('node_expander'))
@@ -197,25 +197,33 @@ Module.register('Expand', function () {
       })
     }
 
-    setState(state) {
+    setState(node) {
+      const visible = node.parent.isExpanded()
+      const state = visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide'
       if (state === 'hide') {
         this.setVisible(false)
         return
       }
       this.setVisible(true)
-      this.toggleSymbolState(true)
-      state === STATE_COLLAPSE && this.toggleSymbolState(false)
+
+      if (node.isExpanded()) {
+        const flag = node._isHover || node.isSelected()
+        this.toggleSymbolState(flag, false)
+      } else {
+        this.toggleSymbolState(false, true)
+      }
     }
 
-    setContent(number) {
+    setContent(node) {
+      const number = node.getComplex() - 1
       this.number.setContent(number).setY(4).setAttr('dy', 0)
     }
 
-    toggleSymbolState(flag) {
-      this.sign.setVisible(flag)
-      this.outline.setVisible(flag)
-      this.number.setVisible(!flag)
-      this.textOutLint.setVisible(!flag)
+    toggleSymbolState(sign, count) {
+      this.sign.setVisible(sign)
+      this.outline.setVisible(sign)
+      this.number.setVisible(count)
+      this.textOutLint.setVisible(count)
     }
   }
 
@@ -227,24 +235,23 @@ Module.register('Expand', function () {
       this.expander = new Expander(node)
       node.getRenderContainer().prependShape(this.expander)
       node.expanderRenderer = this
-      this.node = node
       return this.expander
     },
 
     shouldRender: function (node) {
-      return !node.isRoot()
+      return !node.isRoot() && (node._isHover || node.isSelected() || node.isCollapsed())
     },
 
     update: function (expander, node) {
       if (!node.parent) return
-      const visible = node.parent.isExpanded()
-      const state = visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide'
-      const number = node.getComplex() - 1
-      expander.setState(state)
-      expander.setContent(number)
+
+      expander.setState(node)
+      expander.setContent(node)
+
       const vector = node
         .getLayoutVectorIn()
         .normalize(expander.radius + node.getStyle('stroke-width') + 5)
+
       const position = node.getVertexOut().offset(vector)
       this.expander.setTranslate(position)
     }

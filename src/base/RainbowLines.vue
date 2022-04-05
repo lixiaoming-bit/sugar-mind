@@ -92,9 +92,11 @@ export default {
 </style>
 <style lang="less">
 .rainbow-lines-wrapper {
-  width: 15.5rem;
+  width: 100%;
+  min-width: 280px;
   display: flex;
   height: 14px;
+  padding: 0 10px;
   .color-one {
     flex: 1;
   }

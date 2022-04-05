@@ -71,6 +71,7 @@ export default {
   },
   data() {
     return {
+      prohibit: false,
       contextmenuList: [],
       removeMenuList: [],
       quickInsertMenuList: QUICK_INSERT_CONTEXTMENU.slice(),
@@ -82,9 +83,6 @@ export default {
     ...mapGetters(['displayMode', 'macosCommandText', 'macosOptionText', 'visibleModal']),
     isShowChildComponent() {
       return this.displayMode === 'normal'
-    },
-    isContextmenuDisabled() {
-      return !this.contextmenuList.length || this.editor?.minder.getStatus() === 'readonly'
     }
   },
   mounted() {
@@ -128,8 +126,18 @@ export default {
         const { zoom } = event
         this.SET_MINDER_ZOOM(zoom)
       })
+      minder.on('viewchanged hand.beforemousemove', () => {
+        this.$refs.contextmenu.hideAll()
+        this.prohibit = true
+        this.contextmenuList = []
+      })
       // 监听左键菜单
       minder.on('contextmenu', event => {
+        if (this.prohibit) {
+          this.contextmenuList = []
+          this.prohibit = false
+          return
+        }
         this.selectedNode = event.minder.getSelectedNode()
         this.contextmenuList = this.selectedNode
           ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
@@ -189,7 +197,7 @@ export default {
         for (const key in NODE_FONT_STYLE_SETTING) {
           if (Object.hasOwnProperty.call(NODE_FONT_STYLE_SETTING, key)) {
             const head = key.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
-            const target = getDataOrStyle(head) * 1
+            const target = getDataOrStyle(head)
             style[key] = target * 1 || target || NODE_FONT_STYLE_SETTING[key]
           }
         }

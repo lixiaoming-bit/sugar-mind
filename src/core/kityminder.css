@@ -1,7 +1,7 @@
-.minder-node:hover .node-outline {
+/* .minder-node:hover .node-outline {
   stroke: var(--stroke);
   stroke-width: var(--stroke-width);
-}
+} */
 
 .upload-image {
   cursor: zoom-in;
@@ -27,10 +27,6 @@
   position: fixed;
   contain: layout;
   display: block;
-}
-
-.receiver {
-  position: absolute;
 }
 
 .km-image-viewer {

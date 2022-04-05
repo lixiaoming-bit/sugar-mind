@@ -47,8 +47,11 @@
         <a-popover placement="top">
           <template slot="content">{{ item.title }}</template>
           <a-icon v-if="index" :type="item.icon" @click="handleChangeFontStyle(item)"></a-icon>
-          <color-picker v-else @change="handleChangeFontColor">
-            <a-icon :type="item.icon"></a-icon>
+          <color-picker v-else @change="handleChangeFontColor" :value="color">
+            <div class="choose-font-color">
+              <a-icon :type="item.icon"></a-icon>
+              <span :style="{ backgroundColor: color }"></span>
+            </div>
           </color-picker>
         </a-popover>
       </div>
@@ -87,11 +90,14 @@ export default {
   data() {
     return {
       fontStyleIcons: [],
-      colors: '#000000'
+      color: '#ffffff'
     }
   },
   mounted() {
     this.setFontStyleIcons()
+  },
+  activated() {
+    this.color = this.nodeFontStyle.color || '#ffffff'
   },
   computed: {
     ...mapGetters(['macosCommandText', 'minder', 'nodeFontStyle']),
@@ -163,6 +169,7 @@ export default {
     },
     // 设置当前选中字体的颜色
     handleChangeFontColor({ hex8 }) {
+      this.color = hex8
       this.minder.execCommand('color', hex8)
     },
     // 设置当前选中字体的居中
@@ -215,6 +222,18 @@ export default {
 }
 .align-group {
   margin-top: 16px;
+}
+.choose-font-color {
+  position: relative;
+  span {
+    left: 50%;
+    width: 14px;
+    height: 4px;
+    bottom: 6px;
+    position: absolute;
+    transform: translateX(-50%);
+    border: 1px solid #000000;
+  }
 }
 </style>
 <style lang="less">

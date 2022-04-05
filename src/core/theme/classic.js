@@ -46,9 +46,8 @@ classicThemes.forEach(item => {
     'connect-color': '#333333',
     'connect-width': 3,
     'main-connect-width': 3,
-    'connect-radius': 10,
+    // 'connect-radius': 10,
 
-    'selected-background': 'none',
     'selected-stroke': '#5EC7F8',
     'selected-stroke-width': 2,
     'selected-padding': [3, 3],

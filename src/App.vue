@@ -62,9 +62,9 @@ export default {
   background-color: rgb(159, 159, 159);
 }
 .ant-modal-header {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 .ant-modal-footer {
-  border-top: none;
+  border-top: none !important;
 }
 </style>

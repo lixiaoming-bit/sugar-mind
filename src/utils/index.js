@@ -280,7 +280,7 @@ export const canvas2watermark = (text, options = DEFAULT_CANVAS_TO_WATERMARK_OPT
 
   ctx.rotate((options.rotate * Math.PI) / 180)
   ctx.fillStyle = '#efefef'
-  ctx.font = '10px sans-serif'
+  ctx.font = '14px sans-serif'
   ctx.fillText(text, 75, 10)
 
   const base64 = canvas.toDataURL('image/png', 1)

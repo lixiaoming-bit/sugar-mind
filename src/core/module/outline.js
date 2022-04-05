@@ -1,14 +1,32 @@
 import utils from '../core/utils'
 import Module from '../core/module'
 import Renderer from '../core/render'
+import Command from '../core/command'
 const kity = window.kity
 const EntityRenderer = kity.createClass('EntityRenderer', {
   base: Renderer,
 
-  create: function () {
-    const outline = new kity.Rect().setId(utils.uuid('node_entity'))
+  create: function (node) {
+    const entity = new kity.Rect().setId(utils.uuid('node_entity'))
     this.bringToBack = true
-    return outline
+    entity.on('mouseover', () => {
+      if (node.isSelected()) return
+      if (!node._isHover) {
+        node._isHover = true
+        node.render()
+      }
+    })
+    entity.on('mouseleave', () => {
+      if (node.isSelected()) {
+        delete node._isHover
+        return
+      }
+      if (node._isHover) {
+        node._isHover = false
+        node.render()
+      }
+    })
+    return entity
   },
 
   update: function (entity, node, box) {
@@ -58,26 +76,22 @@ const OutlineRenderer = kity.createClass('OutlineRenderer', {
     return outline
   },
 
-  // shouldRender: function (node) {
-  //   return node.isSelected()
-  // },
+  shouldRender: function (node) {
+    return node.isSelected() || node._isHover
+  },
 
   update: function (outline, node, box) {
     const shape = node.getStyle('shape')
 
-    const prefix = node.isSelected() ? 'selected-' : ''
-    const paddingLeft = node.getStyle('selected-padding-left') || 4
-    const paddingTop = node.getStyle('selected-padding-top') || 4
-    const radius = node.getStyle(prefix + 'radius')
-    const background = node.getStyle('selected-background') || 'none'
+    const background = 'none'
+    const radius = node.getStyle('radius')
+    const prefix = node.isSelected() || node._isHover ? 'selected-' : ''
     const stroke = node.getStyle(prefix + 'stroke')
     const strokeWidth = node.getStyle(prefix + 'stroke-width')
-    const selectedStroke = node.getStyle('selected-stroke')
-    const selectedStrokeWidth = node.getStyle('selected-stroke-width')
+    const paddingLeft = node.getStyle('selected-padding-left') || 4
+    const paddingTop = node.getStyle('selected-padding-top') || 4
 
     outline
-      .addClass('node-outline')
-      .setAttr('style', `--stroke: ${selectedStroke};--stroke-width:${selectedStrokeWidth};`)
       .setPosition(box.x - paddingLeft, box.y - paddingTop)
       .fill(background)
       .stroke(stroke, strokeWidth)
@@ -157,6 +171,29 @@ Module.register('OutlineModule', function () {
     renderers: {
       outline: EntityRenderer,
       outside: [OutlineRenderer, WireframeRenderer]
+    },
+    commands: {
+      'set-outline-shape': kity.createClass('SetOutlineCommand', {
+        base: Command,
+
+        execute: function (minder, shape) {
+          const nodes = minder.getSelectedNodes()
+          nodes.forEach(node => {
+            node.setData('outline', shape)
+            node.render()
+          })
+          // minder.layout(300)
+        },
+
+        queryState: function (minder) {
+          return minder.getSelectedNode() ? 0 : -1
+        },
+
+        queryValue: function (minder) {
+          const node = minder.getSelectedNode()
+          return node && node.getData('outline')
+        }
+      })
     }
   }
 })

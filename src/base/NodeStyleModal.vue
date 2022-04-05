@@ -83,7 +83,6 @@ export default {
       .node-title {
         user-select: none;
         font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
         color: rgba(26, 26, 26, 0.9);
         box-sizing: border-box;
         font-size: 16px;

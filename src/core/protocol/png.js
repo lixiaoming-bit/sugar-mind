@@ -1,5 +1,4 @@
 import data from '../core/data'
-const kity = window.kity
 const DomURL = window.URL || window.webkitURL || window
 
 function loadImage(info) {
@@ -15,7 +14,6 @@ function loadImage(info) {
       })
     }
     image.onerror = function (err) {
-      console.log('err: ', err)
       reject(err)
     }
 
@@ -205,7 +203,7 @@ function encode(json, minder, option) {
   /* 尝试获取背景图片 URL 或背景颜色 */
   const bgDeclare = minder.getStyle('background').toString()
   const bgUrl = getBackgroundUrl(bgDeclare)
-  const bgColor = kity.Color.parse(bgDeclare)
+  const bgColor = !bgUrl ? bgDeclare : '#ffffff'
 
   /* 获取 SVG 文件内容 */
   const svgInfo = getSVGInfo(minder)
@@ -306,11 +304,11 @@ function encode(json, minder, option) {
   if (bgUrl) {
     const bgInfo = { url: bgUrl }
     return loadImage(bgInfo).then(function ($image) {
-      fillBackground(ctx, ctx.createPattern($image.element, 'no-repeat'))
+      fillBackground(ctx, ctx.createPattern($image.element, 'repeat'))
       return drawSVG()
     })
   } else {
-    fillBackground(ctx, bgColor.toString())
+    fillBackground(ctx, bgColor)
     return drawSVG()
   }
 }
