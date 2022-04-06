@@ -71,7 +71,6 @@ export default {
   },
   data() {
     return {
-      prohibit: false,
       contextmenuList: [],
       removeMenuList: [],
       quickInsertMenuList: QUICK_INSERT_CONTEXTMENU.slice(),
@@ -126,18 +125,11 @@ export default {
         const { zoom } = event
         this.SET_MINDER_ZOOM(zoom)
       })
-      minder.on('viewchanged hand.beforemousemove', () => {
+      minder.on('viewchanged hand.beforemousemove', e => {
         this.$refs.contextmenu.hideAll()
-        this.prohibit = true
-        this.contextmenuList = []
       })
       // 监听左键菜单
       minder.on('contextmenu', event => {
-        if (this.prohibit) {
-          this.contextmenuList = []
-          this.prohibit = false
-          return
-        }
         this.selectedNode = event.minder.getSelectedNode()
         this.contextmenuList = this.selectedNode
           ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)

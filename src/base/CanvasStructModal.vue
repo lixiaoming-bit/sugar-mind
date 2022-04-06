@@ -63,6 +63,7 @@ export default {
   box-shadow: 0 2px 16px 0 #0000000f;
   .canvas-wrapper {
     padding: 0 16px;
+    padding-bottom: 16px;
     .one-comp-wrapper {
       margin-top: 16px;
       .one-title {
