@@ -3,15 +3,88 @@ import Command from '../core/command'
 
 const kity = window.kity
 
+// 全选
 const SelectAll = kity.createClass('SelectAll', {
   base: Command,
-  execute: function (km) {
+  execute(km) {
     const selectedNodes = []
 
     km.getRoot().traverse(function (node) {
       selectedNodes.push(node)
     })
     km.select(selectedNodes, true)
+  }
+})
+// 反选主题
+const SelectRevert = kity.createClass('SelectRevert', {
+  base: Command,
+  execute(km) {
+    const selected = km.getSelectedNodes()
+    const selection = []
+    km.getRoot().traverse(function (node) {
+      if (selected.indexOf(node) === -1) {
+        selection.push(node)
+      }
+    })
+    km.select(selection, true)
+  }
+})
+// 选择路径
+const SelectPath = kity.createClass('SelectPath', {
+  base: Command,
+  execute(km) {
+    const selected = km.getSelectedNodes()
+    const selection = []
+    selected.forEach(function (node) {
+      while (node && selection.indexOf(node) === -1) {
+        selection.push(node)
+        node = node.parent
+      }
+    })
+    km.select(selection, true)
+  }
+})
+// 选择兄弟节点
+const SelectSibling = kity.createClass('SelectSibling', {
+  base: Command,
+  execute(km) {
+    const selected = km.getSelectedNodes()
+    const selection = []
+    selected.forEach(function (node) {
+      if (!node.parent) return
+      node.parent.children.forEach(function (sibling) {
+        if (selection.indexOf(sibling) === -1) selection.push(sibling)
+      })
+    })
+    km.select(selection, true)
+  }
+})
+// 选择同级节点
+const SelectCommonLevel = kity.createClass('SelectCommonLevel', {
+  base: Command,
+  execute(km) {
+    const selectedLevel = km.getSelectedNodes().map(node => node.getLevel())
+    const selection = []
+    km.getRoot().traverse(function (node) {
+      if (selectedLevel.indexOf(node.getLevel()) !== -1) {
+        selection.push(node)
+      }
+    })
+    km.select(selection, true)
+  }
+})
+// 选择子树
+const SelectSubtree = kity.createClass('SelectSubtree', {
+  base: Command,
+  execute: function (km) {
+    const selected = km.getSelectedNodes()
+    const selection = []
+    selected.forEach(function (parent) {
+      parent.traverse(function (node) {
+        if (selection.indexOf(node) == -1) selection.push(node)
+      })
+    })
+    km.select(selection, true)
   }
 })
 
@@ -194,10 +267,15 @@ Module.register('Select', function () {
       }
     },
     commands: {
-      SelectAll: SelectAll
+      'select-all': SelectAll,
+      'select-revert': SelectRevert,
+      'select-path': SelectPath,
+      'select-sibling': SelectSibling,
+      'select-common-level': SelectCommonLevel,
+      'select-subtree': SelectSubtree
     },
     commandShortcutKeys: {
-      selectall: 'normal::ctrl+a|normal::command+a'
+      'select-all': 'normal::ctrl+a|normal::command+a'
     }
   }
 })

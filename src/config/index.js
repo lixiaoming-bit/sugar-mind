@@ -483,15 +483,85 @@ export const QUICK_INSERT_CONTEXTMENU = [
   }
 ]
 
+// 快速选择节点选项
+export const QUICK_SELECT_CONTEXTMENU = [
+  {
+    key: 'select-all',
+    title: '全选',
+    description: '选择全部主题',
+    command: 'select-all'
+  },
+  {
+    key: 'select-revert',
+    title: '反选',
+    description: '选择相反主题',
+    command: 'select-revert'
+  },
+  {
+    key: 'select-path',
+    title: '主题路径',
+    description: '根主题至当前主题',
+    command: 'select-path'
+  },
+  { key: 'select-sibling', title: '兄弟主题', description: '', command: 'select-sibling' },
+  {
+    key: 'select-common-level',
+    title: '同级主题',
+    description: '选择全部',
+    command: 'select-common-level'
+  },
+  {
+    key: 'select-subtree',
+    title: '下级主题',
+    description: '选择主题下级树',
+    command: 'select-subtree'
+  }
+]
+
 // 展开菜单选项
-export const EXPAND_TO_MENUS = [
-  // {
-  //   key: 'remove-priority',
-  //   title: '移除图标：优先级',
-  //   description: '',
-  //   command: 'priority',
-  //   disabled: handleCheckDisabled('priority')
-  // }
+export const generateExpandToLevelMenu = (optionText = 'Alt') => [
+  {
+    key: 'expand-level-1',
+    title: '一级主题',
+    description: `${optionText} + 1`,
+    command: 'expandtolevel',
+    args: 49
+  },
+  {
+    key: 'expand-level-2',
+    title: '二级主题',
+    description: `${optionText} + 2`,
+    command: 'expandtolevel',
+    args: 50
+  },
+  {
+    key: 'expand-level-3',
+    title: '三级主题',
+    description: `${optionText} + 3`,
+    command: 'expandtolevel',
+    args: 51
+  },
+  {
+    key: 'expand-level-4',
+    title: '四级主题',
+    description: `${optionText} + 4`,
+    command: 'expandtolevel',
+    args: 52
+  },
+  {
+    key: 'expand-level-5',
+    title: '五级主题',
+    description: `${optionText} + 5`,
+    command: 'expandtolevel',
+    args: 53
+  },
+  {
+    key: 'expand-level-6',
+    title: '六级主题',
+    description: `${optionText} + 6`,
+    command: 'expandtolevel',
+    args: 54
+  }
 ]
 
 // 导出文档的格式

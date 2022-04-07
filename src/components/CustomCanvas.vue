@@ -4,6 +4,7 @@
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
     <v-contextmenu ref="contextmenu" :disabled="!contextmenuList.length">
+      <!-- 选中：移除主题内容 -->
       <v-contextmenu-submenu
         v-if="selectedNode && removeMenuList.length"
         title="移除主题内容"
@@ -21,6 +22,8 @@
           </div>
         </v-contextmenu-item>
       </v-contextmenu-submenu>
+
+      <!-- 选中：快速插入主题 -->
       <v-contextmenu-submenu v-if="selectedNode" title="快速插入主题" :style="{ color: '#1a1a1a' }">
         <v-contextmenu-item
           v-for="item in quickInsertMenuList"
@@ -33,6 +36,37 @@
           </div>
         </v-contextmenu-item>
       </v-contextmenu-submenu>
+
+      <!-- 选中：快速选择主题 -->
+      <v-contextmenu-submenu v-if="selectedNode" title="快速选择主题" :style="{ color: '#1a1a1a' }">
+        <v-contextmenu-item
+          v-for="item in quickSelectMenuList"
+          :key="item.key"
+          @click="handleQuickSelect(item)"
+        >
+          <div class="contextmenu-item">
+            <div class="title">{{ item.title }}</div>
+            <div class="description">{{ item.description }}</div>
+          </div>
+        </v-contextmenu-item>
+      </v-contextmenu-submenu>
+
+      <!-- 不选中：展开至指定主题 -->
+
+      <v-contextmenu-submenu v-else title="展开至" :style="{ color: '#1a1a1a' }">
+        <v-contextmenu-item
+          v-for="item in expandToLevelMenuList"
+          :key="item.key"
+          @click="handleExpandToLevel(item)"
+        >
+          <div class="contextmenu-item">
+            <div class="title">{{ item.title }}</div>
+            <div class="description">{{ item.description }}</div>
+          </div>
+        </v-contextmenu-item>
+      </v-contextmenu-submenu>
+
+      <!-- 菜单列表 -->
       <v-contextmenu-item
         :key="item.key"
         :disabled="item.disabled"
@@ -58,7 +92,9 @@ import { mapGetters, mapMutations } from 'vuex'
 import NotePreviewer from '@/base/NotePreviewer'
 import {
   QUICK_INSERT_CONTEXTMENU,
+  QUICK_SELECT_CONTEXTMENU,
   NODE_FONT_STYLE_SETTING,
+  generateExpandToLevelMenu,
   generateSelectedNodeContextmenu,
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
@@ -74,6 +110,7 @@ export default {
       contextmenuList: [],
       removeMenuList: [],
       quickInsertMenuList: QUICK_INSERT_CONTEXTMENU.slice(),
+      quickSelectMenuList: QUICK_SELECT_CONTEXTMENU.slice(),
       editor: null,
       selectedNode: null
     }
@@ -82,6 +119,9 @@ export default {
     ...mapGetters(['displayMode', 'macosCommandText', 'macosOptionText', 'visibleModal']),
     isShowChildComponent() {
       return this.displayMode === 'normal'
+    },
+    expandToLevelMenuList() {
+      return generateExpandToLevelMenu(this.macosOptionText).slice()
     }
   },
   mounted() {
@@ -176,6 +216,14 @@ export default {
     // 快速插入点击事件
     handleQuickInsert(item) {
       this.SET_VISIBLE_MODAL(item.modal)
+    },
+    // 快速插入选择事件
+    handleQuickSelect(item) {
+      this.editor.minder.execCommand(item.command)
+    },
+    // 展开节点至
+    handleExpandToLevel(item) {
+      this.editor.minder.execCommand(item.command, item.args)
     },
     // 处理选中的节点 将节点的信息传入到store中
     handleStoreNodeFontStyle(minder) {
