@@ -128,7 +128,7 @@ Module.register('Select', function () {
         const downNode = e.getTargetNode()
 
         // 没有点中节点：
-        //     清除选中状态，并且标记选区开始位置
+        // 清除选中状态，并且标记选区开始位置
         if (!downNode) {
           this.removeAllSelectedNodes()
           marqueeActivator.selectStart(e)
@@ -136,21 +136,42 @@ Module.register('Select', function () {
           this.setStatus('normal')
         }
 
-        // 点中了节点，并且按了 shift 键：
-        //     被点中的节点切换选中状态
+        // 点中了节点，并且按了 ctrl 键：
+        // 被点中的节点切换选中状态
         else if (e.isShortcutKey('ctrl')) {
           this.toggleSelect(downNode)
         }
 
+        // 点中了节点，并且按了 shift 键：
+        // 被点中的节点切换选中状态
+        else if (e.isShortcutKey('shift')) {
+          this.toggleSelect(downNode)
+          const nodes = this.getSelectedNodes()
+          const { length, 0: firstNode, [length - 1]: lastNode } = nodes
+
+          const flag = new Set(Array.from(nodes, node => node.getLevel())).size === 1 && length > 1
+
+          if (flag) {
+            const children = firstNode.parent.getChildren()
+            const sortNumber = [firstNode.getIndex(), lastNode.getIndex()].sort()
+            console.log('sortNumber: ', sortNumber)
+            const selection = children.slice(...sortNumber)
+
+            minder.select(selection, true)
+          } else {
+            minder.select(downNode, true)
+          }
+        }
+
         // 点中的节点没有被选择：
-        //     单选点中的节点
+        // 单选点中的节点
         else if (!downNode.isSelected()) {
           this.select(downNode, true)
         }
 
         // 点中的节点被选中了，并且不是单选：
-        //     完成整个点击之后需要使其变为单选。
-        //     不能马上变为单选，因为可能是需要拖动选中的多个节点
+        // 完成整个点击之后需要使其变为单选。
+        // 不能马上变为单选，因为可能是需要拖动选中的多个节点
         else if (!this.isSingleSelect()) {
           lastDownNode = downNode
           lastDownPosition = e.getPosition()

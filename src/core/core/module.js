@@ -84,7 +84,8 @@ kity.extendClass(Minder, {
   },
 
   _garbage: function () {
-    this.clearSelect()
+    // this.clearSelect()
+    this.removeAllSelectedNodes()
 
     while (this._root.getChildren().length) {
       this._root.removeChild(0)
