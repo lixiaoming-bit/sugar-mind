@@ -12,9 +12,9 @@ const classicThemes = [
 classicThemes.forEach(item => {
   const { title, compat } = item
   theme.register(title, {
-    background: '#f2f3f5',
-    'root-color': '#50E3C2',
-    'root-background': '#ffffff',
+    background: '#ffffff',
+    'root-color': '#ffffff',
+    'root-background': '#11bb37',
     'root-stroke': 'none',
     'root-font-size': 24,
     'root-padding': compat ? [6, 12] : [20, 30],
@@ -24,7 +24,7 @@ classicThemes.forEach(item => {
     'root-shadow': 'none',
 
     'main-color': '#000000',
-    'main-background': '#ffffff',
+    'main-background': '#f2f3f5',
     'main-stroke': 'none',
     'main-font-size': 20,
     'main-padding': compat ? [6, 20] : [15, 20],

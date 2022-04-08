@@ -227,10 +227,10 @@ Module.register('Select', function () {
           if (flag) {
             const children = firstNode.parent.getChildren()
             const sortNumber = [firstNode.getIndex(), lastNode.getIndex()].sort()
-            console.log('sortNumber: ', sortNumber)
+            // console.log('sortNumber: ', sortNumber)
             const selection = children.slice(...sortNumber)
-
-            minder.select(selection, true)
+            // selection.push(downNode)
+            minder.select(selection)
           } else {
             minder.select(downNode, true)
           }

@@ -21,6 +21,7 @@ export default {
 
 <style scoped lang="less">
 .copy-style-container {
+  z-index: 9999;
   text-align: center;
   .alert {
     z-index: 2;

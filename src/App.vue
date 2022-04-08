@@ -61,6 +61,9 @@ export default {
   border-radius: 6px;
   background-color: rgb(159, 159, 159);
 }
+::selection {
+  background: #9f9f9f !important;
+}
 .ant-modal-header {
   border-bottom: none !important;
 }
