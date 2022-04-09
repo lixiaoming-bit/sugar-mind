@@ -72,7 +72,11 @@ export default function generateEditor(event) {
     quill.setContents([{ insert: nodeText }])
 
     quill.focus()
-    quill.setSelection(0, quill.getLength())
+    if (nodeText.includes('中心主题') || nodeText.includes('分支主题')) {
+      quill.setSelection(0, quill.getLength())
+    } else {
+      quill.setSelection(quill.getLength())
+    }
 
     const close = () => {
       quill.blur()

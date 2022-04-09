@@ -23,7 +23,7 @@ connect.register('arc', function (node, parent, connection) {
   const pBox = parent.getLayoutBox()
 
   const pathData = []
-  const abs = Math.abs
+  const { abs } = Math
   const side = box.x > pBox.x ? 'right' : 'left'
 
   // node.getMinder().getPaper().addResource(connectMarker)

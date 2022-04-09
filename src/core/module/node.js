@@ -12,7 +12,7 @@ const kity = window.kity
  */
 const AppendChildCommand = kity.createClass('AppendChildCommand', {
   base: Command,
-  execute: function (km, text = '分支主题') {
+  execute(km, text = '分支主题') {
     const parents = km.getSelectedNodes() || []
     if (!parents.length) {
       return null
@@ -21,7 +21,8 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
     for (let i = 0; i < parents.length; i++) {
       const parent = parents[i]
       const index = parent.getChildren().length + 1
-      const node = km.createNode(text + index.toString(), parent)
+      text = `${text + ' '}${index}`
+      const node = km.createNode(text, parent)
       lastNode = node
       if (!parent.isExpanded()) {
         parent.expand()
@@ -31,7 +32,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
     km.refresh()
     km.fire('textedit')
   },
-  queryState: function (km) {
+  queryState(km) {
     return km.getSelectedNode() ? 0 : -1
   }
 })
@@ -46,7 +47,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
  */
 const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
   base: Command,
-  execute: function (km, text = '分支主题') {
+  execute(km, text = '分支主题') {
     const sibling = km.getSelectedNode()
     const parent = sibling.parent
     const siblingIndex = sibling.getIndex()
@@ -56,8 +57,8 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     }
 
     const index = parent.getChildren().length + 1
-    text = text + index.toString()
 
+    text = `${text + ' '}${index}`
     const node = km.createNode(text, parent, siblingIndex + 1)
 
     node.render()
@@ -66,9 +67,8 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     km.layout(600)
     km.fire('textedit')
   },
-  queryState: function (km) {
-    const selectedNode = km.getSelectedNode()
-    return selectedNode ? 0 : -1
+  queryState(km) {
+    return km.getSelectedNode() ? 0 : -1
   }
 })
 
@@ -81,26 +81,22 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
  */
 const AppendParentCommand = kity.createClass('AppendParentCommand', {
   base: Command,
-  execute: function (km, text = '分支主题') {
+  execute(km, text = '分支主题') {
     const nodes = (km.getSelectedNodes() || []).filter(node => !node.isRoot())
 
-    nodes.sort(function (a, b) {
-      return a.getIndex() - b.getIndex()
-    })
+    nodes.sort((a, b) => a.getIndex() - b.getIndex())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
     const children = ancestor.getChildren() || []
-    text = `${text}${children.length + 1}`
+    text = `${text + ' '}${children.length + 1}`
     const newParent = km.createNode(text, ancestor, ancestor.getIndex())
-    nodes.forEach(function (node) {
-      newParent.appendChild(node)
-    })
+    nodes.forEach(node => newParent.appendChild(node))
     newParent.setGlobalLayoutTransform(nodes[nodes.length >> 1].getGlobalLayoutTransform())
 
     km.select(newParent, true)
     km.layout(600)
     km.fire('textedit')
   },
-  queryState: function (km) {
+  queryState(km) {
     const nodes = km.getSelectedNodes()
     if (!nodes.length) return -1
     const nodesNoRoot = nodes.filter(node => !node.isRoot())
@@ -118,11 +114,11 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
  */
 const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
   base: Command,
-  execute: function (km) {
+  execute(km) {
     const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
 
-    nodes.forEach(function (node) {
+    nodes.forEach(node => {
       if (!node.isRoot()) km.removeNode(node)
     })
     if (nodes.length === 1) {
@@ -134,7 +130,7 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
     }
     km.layout(600)
   },
-  queryState: function (km) {
+  queryState(km) {
     const selectedNode = km.getSelectedNode()
     return selectedNode ? 0 : -1
   }
