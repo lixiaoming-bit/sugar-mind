@@ -4,11 +4,6 @@ const processModule = require.context('./process', false, /\.png$/)
 const emojiModule = require.context('./emoji', false, /\.png$/)
 const markModule = require.context('./mark', false, /\.png$/)
 
-// 主题样式
-const themeClassicalModule = require.context('./theme-classical', false, /\.png$/)
-const themeDarknessModule = require.context('./theme-darkness', false, /\.png$/)
-const themeDrawPaintModule = require.context('./theme-draw-paint', false, /\.png$/)
-
 // 结构图片
 const canvasStructModule = require.context('./struct', false, /\.png$/)
 
@@ -44,33 +39,6 @@ export const markIcons = markModule
   .reduce((prev, current) => {
     const path = current.substr(2, current.length)
     prev.push(require(`./mark/${path}`))
-    return prev
-  }, [])
-
-export const themeClassical = themeClassicalModule
-  .keys()
-  .sort(customSort)
-  .reduce((prev, current) => {
-    const path = current.substr(2, current.length)
-    prev.push(require(`./theme-classical/${path}`))
-    return prev
-  }, [])
-
-export const themeDarkness = themeDarknessModule
-  .keys()
-  .sort(customSort)
-  .reduce((prev, current) => {
-    const path = current.substr(2, current.length)
-    prev.push(require(`./theme-darkness/${path}`))
-    return prev
-  }, [])
-
-export const themeDrawPaint = themeDrawPaintModule
-  .keys()
-  .sort(customSort)
-  .reduce((prev, current) => {
-    const path = current.substr(2, current.length)
-    prev.push(require(`./theme-draw-paint/${path}`))
     return prev
   }, [])
 

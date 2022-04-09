@@ -28,10 +28,9 @@ function loadImage(info) {
  *        而通过 image 的 src 的方式是无法传递 origin 的，因此需要通过 xhr 进行
  */
 function xhrLoadImage(info) {
-  return new Promise(function (resolve) {
+  return new Promise((resolve, reject) => {
     if (info.url.indexOf('data:') === 0) {
       const image = document.createElement('img')
-      image.src = info.url
       image.onload = () => {
         DomURL.revokeObjectURL(image.src)
         resolve({
@@ -42,6 +41,10 @@ function xhrLoadImage(info) {
           height: info.height
         })
       }
+      image.onerror = err => {
+        reject(err)
+      }
+      image.src = info.url
     } else {
       const xmlHttp = new XMLHttpRequest()
 
@@ -54,7 +57,7 @@ function xhrLoadImage(info) {
           const image = document.createElement('img')
 
           image.src = DomURL.createObjectURL(blob)
-          image.onload = function () {
+          image.onload = () => {
             DomURL.revokeObjectURL(image.src)
             resolve({
               element: image,
@@ -63,6 +66,9 @@ function xhrLoadImage(info) {
               width: info.width,
               height: info.height
             })
+          }
+          image.onerror = err => {
+            reject(err)
           }
         }
       }

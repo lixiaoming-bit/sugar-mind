@@ -62,7 +62,7 @@ Module.register('ClipboardModule', function () {
         km.removeNode(node)
       })
 
-      km.layout(300)
+      km.refresh()
     },
     queryState: function (km) {
       return km.getSelectedNode().isRoot() ? -1 : 0

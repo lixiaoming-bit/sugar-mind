@@ -266,8 +266,8 @@ export const TOOL_BOX_TR = [
 export const TOOL_BOX_MR = [
   {
     icon: 'iconicon_draw_style',
-    title: '风格',
-    tips: '一键切换好看的风格',
+    title: '配色',
+    tips: '一键智能切换的配色',
     component: 'ThemeStyleModal'
   },
   {
@@ -576,26 +576,31 @@ export const EXPORT_TYPE_LIST = [
     title: 'PDF 文档',
     disabled: false
   },
-  {
-    key: 'word',
-    title: 'Word 文档',
-    disabled: true
-  },
-  {
-    key: 'excel',
-    title: 'Excel 文档',
-    disabled: true
-  },
+  // {
+  //   key: 'word',
+  //   title: 'Word 文档',
+  //   disabled: true
+  // },
+  // {
+  //   key: 'excel',
+  //   title: 'Excel 文档',
+  //   disabled: true
+  // },
   {
     key: 'markdown',
     title: 'Markdown 文档',
     disabled: false
-  },
-  {
-    key: 'xmind',
-    title: 'Xmind 文档（.xmind)',
-    disabled: true
   }
+  // {
+  //   key: 'svg',
+  //   title: 'Svg',
+  //   disabled: false
+  // }
+  // {
+  //   key: 'xmind',
+  //   title: 'Xmind 文档（.xmind)',
+  //   disabled: true
+  // }
 ]
 
 // 快捷键操作列表

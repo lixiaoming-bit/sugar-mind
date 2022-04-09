@@ -62,6 +62,8 @@ const MinderNode = kity.createClass('MinderNode', {
     return this.root || this
   },
 
+  // 获取父级第
+
   /**
    * 获得节点的父节点
    */
@@ -77,6 +79,14 @@ const MinderNode = kity.createClass('MinderNode', {
       if (child !== self) siblings.push(child)
     })
     return siblings
+  },
+
+  getNodeByLevel: function (level = 0) {
+    let ancestor = this
+    while (ancestor && ancestor.getLevel() !== level) {
+      ancestor = ancestor.parent
+    }
+    return ancestor ? ancestor : this
   },
 
   /**

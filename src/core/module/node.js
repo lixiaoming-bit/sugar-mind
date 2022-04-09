@@ -21,8 +21,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
     for (let i = 0; i < parents.length; i++) {
       const parent = parents[i]
       const index = parent.getChildren().length + 1
-      text = `${text + ' '}${index}`
-      const node = km.createNode(text, parent)
+      const node = km.createNode(text + ' ' + index.toString(), parent)
       lastNode = node
       if (!parent.isExpanded()) {
         parent.expand()
@@ -58,8 +57,7 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
 
     const index = parent.getChildren().length + 1
 
-    text = `${text + ' '}${index}`
-    const node = km.createNode(text, parent, siblingIndex + 1)
+    const node = km.createNode(text + ' ' + index.toString(), parent, siblingIndex + 1)
 
     node.render()
 
@@ -87,8 +85,8 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
     nodes.sort((a, b) => a.getIndex() - b.getIndex())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
     const children = ancestor.getChildren() || []
-    text = `${text + ' '}${children.length + 1}`
-    const newParent = km.createNode(text, ancestor, ancestor.getIndex())
+    const index = children.length + 1
+    const newParent = km.createNode(text + ' ' + index.toString(), ancestor, ancestor.getIndex())
     nodes.forEach(node => newParent.appendChild(node))
     newParent.setGlobalLayoutTransform(nodes[nodes.length >> 1].getGlobalLayoutTransform())
 
@@ -128,7 +126,7 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
     } else {
       km.select(ancestor || km.getRoot(), true)
     }
-    km.layout(600)
+    km.refresh()
   },
   queryState(km) {
     const selectedNode = km.getSelectedNode()
@@ -157,7 +155,6 @@ const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
         .forEach(sub => ancestor.appendChild(sub))
       km.removeNode(node)
     })
-    ancestor.renderTree()
     if (nodes.length === 1) {
       const index = nodes[0].getIndex()
       const selectBack = ancestor.children[index - 1] || ancestor.children[index]
@@ -165,7 +162,7 @@ const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
     } else {
       km.select(ancestor || km.getRoot(), true)
     }
-    km.layout(600)
+    km.refresh()
   },
   queryState: function (km) {
     const selectedNode = km.getSelectedNode()

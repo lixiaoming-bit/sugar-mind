@@ -36,7 +36,7 @@ const _themes = {}
  *     });
  */
 
-utils.extend(Minder, {
+kity.extendClass(Minder, {
   getThemeList: function () {
     return _themes
   }
@@ -87,9 +87,12 @@ kity.extendClass(Minder, {
       this._background = this._background || this.getStyle('background')
       container.style.background = this._background
     }
-    this.fire('themechange', {
-      theme: name
-    })
+    if (name) {
+      this.fire('themechange', {
+        theme: name
+      })
+    }
+
     return this
   },
 
@@ -109,11 +112,31 @@ kity.extendClass(Minder, {
    * 获得脑图实例上的样式
    * @param  {String} item 样式名称
    */
-  getStyle: function (item) {
+  getStyle: function (item, node) {
     const items = this.getThemeItems()
     let matcher
 
-    if (item in items) return items[item]
+    // 这里特殊处理颜色部分
+    if (item in items) {
+      const value = items[item]
+
+      const isColor = [
+        'main-color',
+        'main-background',
+        'connect-color',
+        'sub-color',
+        'sub-background'
+      ].includes(item)
+      if (isColor) {
+        const { length: len } = value
+        if (Array.isArray(value)) {
+          const index = node.getNodeByLevel(1).getIndex()
+          return value[index % len]
+        }
+        return value
+      }
+      return value
+    }
 
     // 尝试匹配 CSS 数组形式的值
     // 比如 item 为 'padding-left'

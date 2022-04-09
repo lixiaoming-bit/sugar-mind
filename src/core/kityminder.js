@@ -74,6 +74,7 @@ require('./layout/fish-bone-slave')
 require('./layout/tianpan')
 
 require('./theme/classic')
+require('./theme/rainbow')
 
 require('./connect/arc')
 require('./connect/arc_tp')

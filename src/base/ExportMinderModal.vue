@@ -59,6 +59,11 @@ export default {
           downloadMarkdown(content, new Date().toLocaleString(), 'markdown')
         })
       }
+      if (type === 'svg') {
+        this.minder.exportData('svg').then(svg => {
+          console.log('svg: ', svg)
+        })
+      }
       this.SET_VISIBLE_MODAL('')
     },
     handleCancel() {

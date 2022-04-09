@@ -165,7 +165,8 @@ export default {
         const { zoom } = event
         this.SET_MINDER_ZOOM(zoom)
       })
-      minder.on('viewchanged hand.beforemousemove', e => {
+      // 监听视图拖拽change 事件
+      minder.on('viewchanged hand.beforemousemove', () => {
         this.$refs.contextmenu.hideAll()
       })
       // 监听左键菜单

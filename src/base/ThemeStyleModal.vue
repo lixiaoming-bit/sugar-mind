@@ -1,31 +1,38 @@
 <template>
   <transition name="slide-fade-left">
     <div class="theme-style-modal-container">
-      <basic-modal title="风格">
+      <basic-modal title="配色">
         <template slot="content">
-          <div class="theme-style-wrapper">
-            <div
-              class="style-title-wrapper"
-              :style="{ '--scroll-line': `${35 + selectedStyleTab * 100}px` }"
-            >
-              <div
-                :key="item.id"
-                class="style-title"
-                v-for="item in themeStyles"
-                @click="selectedStyleTab = item.id"
-                :class="{ 'is-active': item.id === selectedStyleTab }"
+          <div class="theme-style-wrapper" v-for="(panel, i) in colorsPanel" :key="panel.key">
+            <div class="theme-style-title">
+              <div class="left">{{ panel.title }}</div>
+              <a-icon
+                :type="!panel.visible ? 'down' : 'up'"
+                class="right"
+                @click="handleClick(panel, i)"
+              ></a-icon>
+            </div>
+            <a-row type="flex" align="middle" :gutter="[8, 8]" v-if="!panel.visible">
+              <a-col
+                :span="4"
+                v-for="item in panel.thumbColors"
+                :key="item.name"
+                class="thumb-color"
+                @click="handleSelectTheme(item)"
               >
-                {{ item.title }}
-              </div>
-              <div class="scroll-line"></div>
-            </div>
-            <div class="style-body">
-              <a-row type="flex" :gutter="[16, 16]">
-                <a-col :span="12" v-for="item in selectedStyleList" :key="item.id">
-                  <img :src="item.url" />
-                </a-col>
-              </a-row>
-            </div>
+                <div :style="{ background: item.background }"></div>
+              </a-col>
+            </a-row>
+            <a-row type="flex" align="middle" :gutter="[16, 16]" v-else>
+              <a-col
+                :span="12"
+                v-for="(skeleton, index) in panel.skeleton"
+                :key="skeleton.type + index"
+                @click="handleSelectTheme(skeleton)"
+              >
+                <svg-viewer :type="skeleton.type" :source="skeleton"></svg-viewer>
+              </a-col>
+            </a-row>
           </div>
         </template>
       </basic-modal>
@@ -35,54 +42,42 @@
 
 <script>
 import BasicModal from './BasicModal'
-import { themeClassical, themeDarkness, themeDrawPaint } from '@/assets/images'
+import SvgViewer from './SVGViewer'
+import { COLORS_PANEL } from '@/config/paths'
+import { mapGetters } from 'vuex'
 export default {
   name: 'ThemeStyleModal',
-  filters: {},
   components: {
-    BasicModal
+    BasicModal,
+    SvgViewer
   },
-  props: {},
   data() {
     return {
-      selectedStyleTab: 0
+      expandedKey: '',
+      colorsPanel: []
     }
+  },
+  mounted() {
+    this.init()
   },
   computed: {
-    themeStyles() {
-      return [
-        {
-          id: 0,
-          title: '经典'
-        },
-        {
-          id: 1,
-          title: '深色'
-        },
-        {
-          id: 2,
-          title: '手绘'
-        }
-      ]
-    },
-    themeClassical() {
-      return themeClassical
-    },
-    selectedStyleList() {
-      const all = [themeClassical, themeDarkness, themeDrawPaint]
-      const target = Array.from(all[this.selectedStyleTab], (item, index) => {
-        return {
-          id: index,
-          url: item
-        }
-      })
-      return target
-    }
+    ...mapGetters(['minder'])
   },
-  watch: {},
-  mounted() {},
-  created() {},
-  methods: {}
+  methods: {
+    // 初始化
+    init() {
+      this.colorsPanel = COLORS_PANEL.slice()
+    },
+    // 展开、关闭
+    handleClick(panel, index) {
+      panel.visible = !panel.visible
+      this.$set(this.colorsPanel, index, panel)
+    },
+    // 选择主题
+    handleSelectTheme({ name }) {
+      this.minder.execCommand('theme', name)
+    }
+  }
 }
 </script>
 
@@ -96,43 +91,37 @@ export default {
   z-index: 2;
   box-shadow: 0 2px 16px 0 #0000000f;
   .theme-style-wrapper {
-    padding: 16px 16px;
-    .style-title-wrapper {
+    margin: 16px 16px;
+    .theme-style-title {
       display: flex;
       position: relative;
       align-items: center;
-      justify-content: space-around;
-      position: sticky;
-      top: 16px;
-      background: rgb(255, 255, 255);
-      z-index: 1;
-      .is-active {
-        color: #2cce51;
-      }
-      .style-title {
+      padding-bottom: 16px;
+      cursor: pointer;
+      .left {
         flex: 1;
-        text-align: center;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
       }
-      .scroll-line {
-        position: absolute;
-        width: 30px;
-        height: 3px;
-        background-color: #2cce51;
-        bottom: -10px;
-        left: var(--scroll-line);
-        transition: left 0.25s linear;
+      .right {
+        padding: 5px;
+        font-size: 14px;
+        text-align: right;
+        border-radius: 4px;
+        &:hover {
+          background-color: #f2f3f5c4;
+        }
       }
     }
-    .style-body {
-      margin: 20px 0px;
-      padding: 0 5px;
-      min-height: 100vh;
-      img {
+    .thumb-color {
+      border-radius: 8px;
+      div {
         cursor: pointer;
-        max-width: 100%;
+        height: 46px;
+        border-radius: 8px;
+      }
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      &:hover {
+        border-color: #9f9f9f;
       }
     }
   }

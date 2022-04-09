@@ -88,6 +88,7 @@ kity.extendClass(Minder, {
 
     if (this._rainbowConnect && this._rainbowConnect.length) {
       const _connection = parent._connection || node._connection
+      console.log('_connection: ', _connection)
       strokeColor =
         node.getType() === 'main'
           ? this._rainbowConnect[node.getIndex() % 7]
@@ -106,6 +107,7 @@ kity.extendClass(Minder, {
   },
 
   setRainbowConnect(colors) {
+    if (!colors) return
     const flag = colors.every(color => /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/.test(color))
     this._rainbowConnect = flag ? colors : null
   },
