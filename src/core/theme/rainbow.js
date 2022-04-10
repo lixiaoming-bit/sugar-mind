@@ -8,7 +8,7 @@ const setTheme = compat => ({
   'root-background': '#11bb37',
   'root-stroke': 'none',
   'root-font-size': 24,
-  'root-padding': compat ? [6, 12] : [10, 24],
+  'root-padding': compat ? [6, 12] : [15, 24],
   'root-margin': compat ? 10 : [30, 30],
   'root-radius': 8,
   'root-space': 10,
@@ -29,7 +29,7 @@ const setTheme = compat => ({
   'sub-stroke': 'none',
   'sub-font-size': 14,
   'sub-padding': compat ? [3, 5] : [5, 10],
-  'sub-margin': compat ? [4, 8] : [15, 20],
+  'sub-margin': compat ? [5, 5] : [5, 10],
   'sub-tree-margin': 30,
   'sub-radius': 8,
   'sub-space': 5,
@@ -63,8 +63,6 @@ RAINBOWS.forEach(rainbow => {
   const { name, ...rest } = rainbow
   const normal = { ...setTheme(false), ...rest }
   const compat = { ...setTheme(true), ...rest }
-  console.log('compat: ', compat)
-  console.log('normal: ', normal)
   theme.register(name, normal)
   theme.register(name + '-compact', compat)
 })

@@ -327,8 +327,6 @@ const TreeDragger = kity.createClass('TreeDragger', {
         }
         if (!intersectBox) return false
         /*
-         * Added by zhangbobell, 2015.9.8
-         *
          * 增加了下面一行判断，修复了循环比较中 targetBox 为折叠节点时，intersetBox 面积为 0，
          * 而 targetBox 的 width 和 height 均为 0
          * 此时造成了满足以下的第二个条件而返回 true
