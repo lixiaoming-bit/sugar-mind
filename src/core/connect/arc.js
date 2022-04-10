@@ -28,6 +28,7 @@ connect.register('arc', function (node, parent, connection) {
 
   // node.getMinder().getPaper().addResource(connectMarker)
 
+  // const start = new kity.Point(pBox.cx, pBox.cy)
   const start = new kity.Point(side === 'left' ? pBox.cx / 4 : (pBox.cx * 7) / 4, pBox.cy)
   const end = side === 'left' ? new kity.Point(box.right, box.cy) : new kity.Point(box.left, box.cy)
 

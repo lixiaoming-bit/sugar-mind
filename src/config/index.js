@@ -267,7 +267,7 @@ export const TOOL_BOX_MR = [
   {
     icon: 'iconicon_draw_style',
     title: '配色',
-    tips: '一键智能切换的配色',
+    tips: '一键切换的配色',
     component: 'ThemeStyleModal'
   },
   {

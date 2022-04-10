@@ -18,7 +18,6 @@ export default function MinderRuntime() {
 
   // 渲染，初始化
   minder.renderTo(this.selector)
-  // minder.useTheme('rainbow-1')
   // console.log('minder.getTheme(): ', minder.getTheme())
   console.log('minder.getThemeList(): ', minder.getThemeList())
   // minder.useTemplate('fish-bone')

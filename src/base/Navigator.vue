@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getColor } from '@/utils'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -88,9 +89,9 @@ export default {
       }
 
       if (connectionThumbData.length) {
-        this.connectionThumb
-          .stroke(this.minder.getStyle('connect-color'), '0.5%')
-          .setPathData(connectionThumbData)
+        const backgroundColor = this.minder.getStyle('background')
+        const connectColor = getColor(backgroundColor, '#ffffff', '#333333')
+        this.connectionThumb.stroke(connectColor, '0.5%').setPathData(connectionThumbData)
       } else {
         this.connectionThumb.setPathData(null)
       }

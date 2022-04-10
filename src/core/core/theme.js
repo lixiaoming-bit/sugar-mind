@@ -48,6 +48,7 @@ kity.extendClass(Minder, {
    * @param  {String} name 要使用的主题的名称
    */
   useTheme: function (name) {
+    this._background = null
     this.setTheme(name)
     this.refresh(800)
 
@@ -63,6 +64,9 @@ kity.extendClass(Minder, {
     if (background && container) {
       container.style.background = background
       this._background = background
+    }
+    if (!background) {
+      this._background = null
     }
     return this
   },
@@ -129,7 +133,7 @@ kity.extendClass(Minder, {
       ].includes(item)
       if (isColor) {
         const { length: len } = value
-        if (Array.isArray(value)) {
+        if (Array.isArray(value) && node) {
           const index = node.getNodeByLevel(1).getIndex()
           return value[index % len]
         }
@@ -176,7 +180,7 @@ kity.extendClass(MinderNode, {
 
 Module.register('Theme', {
   defaultOptions: {
-    defaultTheme: 'classic'
+    defaultTheme: 'classic-1'
   },
   commands: {
     /**

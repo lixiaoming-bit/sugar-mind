@@ -1,4 +1,4 @@
-import { CLASSIC } from '../utils/colors'
+import { ZEN } from '../utils/colors'
 import theme from '../core/theme'
 
 // 提取公共项
@@ -51,7 +51,7 @@ const setTheme = compat => ({
   'line-height': 1.5
 })
 
-CLASSIC.forEach(zen => {
+ZEN.forEach(zen => {
   const { name, ...rest } = zen
   const normal = { ...setTheme(false), ...rest }
   const compat = { ...setTheme(true), ...rest }

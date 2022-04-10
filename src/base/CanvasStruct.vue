@@ -61,7 +61,7 @@ export default {
     overflow: hidden;
     cursor: pointer;
     &:hover {
-      border-color: var(--main-color);
+      border-color: var(--theme-color);
     }
   }
   .struct-img-disabled {

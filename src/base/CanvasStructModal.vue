@@ -39,11 +39,11 @@ export default {
         {
           title: '背景设置',
           component: 'CanvasBackground'
-        },
-        {
-          title: '彩虹线条',
-          component: 'RainbowLines'
         }
+        // {
+        //   title: '彩虹线条',
+        //   component: 'RainbowLines'
+        // }
       ]
     }
   },

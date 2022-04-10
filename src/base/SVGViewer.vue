@@ -1,12 +1,11 @@
 <template>
-  <div class="svg-viewer-container">
+  <div class="svg-viewer-container" :style="{ background: source.backgroundColor }">
     <svg
       v-if="type === 'minder'"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
       viewBox="0 0 494 216"
-      :style="{ background: source.backgroundColor }"
     >
       <path
         fill="none"
@@ -50,11 +49,16 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.is-active {
+  .svg-viewer-container {
+    border-color: var(--theme-color);
+  }
+}
 .svg-viewer-container {
   cursor: pointer;
   pointer-events: none;
   width: 100%;
   border: 1px solid #e8e8e8;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 </style>

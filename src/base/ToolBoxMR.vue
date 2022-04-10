@@ -109,10 +109,10 @@ export default {
     }
     .is-active {
       .one-option-icon {
-        color: #01bb35;
+        color: var(--theme-color);
       }
       .one-option-title {
-        color: #01bb35;
+        color: var(--theme-color);
       }
     }
     .one-option-icon {

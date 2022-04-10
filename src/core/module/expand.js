@@ -215,8 +215,13 @@ Module.register('Expand', function () {
     }
 
     setContent(node) {
-      const number = node.getComplex() - 1
-      this.number.setContent(number).setY(4).setAttr('dy', 0)
+      let number = node.getComplex() - 1
+      if (number > 99) {
+        number = '...'
+        this.number.setContent(number).setY(0).setAttr('dy', 0)
+      } else {
+        this.number.setContent(number).setY(4).setAttr('dy', 0)
+      }
     }
 
     toggleSymbolState(sign, count) {
@@ -286,43 +291,5 @@ Module.register('Expand', function () {
     renderers: {
       outside: ExpanderRenderer
     }
-    // contextmenu: [
-    //   {
-    //     command: 'expandtoleaf',
-    //     query: function () {
-    //       return !minder.getSelectedNode()
-    //     },
-    //     fn: function (minder) {
-    //       minder.execCommand('expandtolevel', 9999)
-    //     }
-    //   },
-    //   {
-    //     command: 'expandtolevel1',
-    //     query: function () {
-    //       return !minder.getSelectedNode()
-    //     },
-    //     fn: function (minder) {
-    //       minder.execCommand('expandtolevel', 1)
-    //     }
-    //   },
-    //   {
-    //     command: 'expandtolevel2',
-    //     query: function () {
-    //       return !minder.getSelectedNode()
-    //     },
-    //     fn: function (minder) {
-    //       minder.execCommand('expandtolevel', 2)
-    //     }
-    //   },
-    //   {
-    //     command: 'expandtolevel3',
-    //     query: function () {
-    //       return !minder.getSelectedNode()
-    //     },
-    //     fn: function (minder) {
-    //       minder.execCommand('expandtolevel', 3)
-    //     }
-    //   }
-    // ]
   }
 })

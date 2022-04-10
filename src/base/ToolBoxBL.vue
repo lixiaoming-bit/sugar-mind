@@ -2,7 +2,7 @@
   <transition name="slide-fade-bottom">
     <div class="tool-box-bottom-left-container" v-if="isShowComponent">
       <span class="text">节点</span>
-      <span class="number" style="color: #11bb37" v-if="selectedNodeLength">
+      <span class="number" style="color: var(--theme-color)" v-if="selectedNodeLength">
         {{ selectedNodeLength }}
       </span>
       <span class="number" v-if="selectedNodeLength">/</span>

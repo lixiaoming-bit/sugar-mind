@@ -140,7 +140,7 @@ export default {
       cursor: inherit;
     }
     &:not(:nth-child(4)):hover {
-      color: #12bb37;
+      color: var(--theme-color);
       transition: color 0.2s ease;
     }
   }

@@ -64,7 +64,7 @@ kity.extendClass(Minder, {
     json['template'] = this.getTemplate()
     json['theme'] = this.getTheme()
     json['version'] = Minder.version
-    json['rainbowColors'] = this.getRainbowConnect()
+    // json['rainbowColors'] = this.getRainbowConnect()
     json['background'] = this.getBackground()
 
     return JSON.parse(JSON.stringify(json))
@@ -225,7 +225,7 @@ kity.extendClass(Minder, {
 
     this.setTemplate(json.template || 'default')
     this.setTheme(json.theme || null)
-    this.setRainbowConnect(json.rainbowColors || null)
+    // this.setRainbowConnect(json.rainbowColors || null)
     this.setBackground(json.background || null)
     this.refresh()
 

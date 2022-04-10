@@ -19,6 +19,7 @@
                 :key="item.name"
                 class="thumb-color"
                 @click="handleSelectTheme(item)"
+                :class="{ 'is-active': selectedTheme === item.name }"
               >
                 <div :style="{ background: item.background }"></div>
               </a-col>
@@ -29,6 +30,7 @@
                 v-for="(skeleton, index) in panel.skeleton"
                 :key="skeleton.type + index"
                 @click="handleSelectTheme(skeleton)"
+                :class="{ 'is-active': selectedTheme === skeleton.name }"
               >
                 <svg-viewer :type="skeleton.type" :source="skeleton"></svg-viewer>
               </a-col>
@@ -53,28 +55,44 @@ export default {
   },
   data() {
     return {
-      expandedKey: '',
+      expandedKey: undefined,
+      selectedTheme: null,
       colorsPanel: []
     }
-  },
-  mounted() {
-    this.init()
   },
   computed: {
     ...mapGetters(['minder'])
   },
+  activated() {
+    this.init()
+  },
   methods: {
     // 初始化
     init() {
-      this.colorsPanel = COLORS_PANEL.slice()
+      this.colorsPanel = Array.from(COLORS_PANEL, item => {
+        delete item.visible
+        return item
+      })
+
+      const theme = this.minder.getTheme().replace('-compact', '')
+      this.selectedTheme = theme
     },
     // 展开、关闭
     handleClick(panel, index) {
+      // 关闭之前打开的面板
+      if (typeof this.expandedKey === 'number') {
+        this.$set(this.colorsPanel, this.expandedKey, {
+          ...this.colorsPanel[this.expandedKey],
+          visible: false
+        })
+      }
+      this.expandedKey = index
       panel.visible = !panel.visible
       this.$set(this.colorsPanel, index, panel)
     },
     // 选择主题
     handleSelectTheme({ name }) {
+      this.selectedTheme = name
       this.minder.execCommand('theme', name)
     }
   }
@@ -117,14 +135,18 @@ export default {
         cursor: pointer;
         height: 46px;
         border-radius: 8px;
+        box-shadow: 0px 0px 5px #cfcfcf;
       }
       border: 1px solid transparent;
       box-sizing: border-box;
       &:hover {
-        border-color: #9f9f9f;
+        border-color: #e8e8e8;
       }
     }
   }
+}
+.is-active {
+  border-color: var(--theme-color) !important;
 }
 
 .slide-fade-left-enter-active {

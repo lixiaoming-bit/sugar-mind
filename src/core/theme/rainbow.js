@@ -1,11 +1,8 @@
-import { RAINBOWS } from '../../config/colors'
+import { RAINBOWS } from '../utils/colors'
 import theme from '../core/theme'
-// import { getColor } from '../utils/colors'
 
+// 提取公共项
 const setTheme = compat => ({
-  background: '#ffffff',
-  'root-color': '#ffffff',
-  'root-background': '#11bb37',
   'root-stroke': 'none',
   'root-font-size': 24,
   'root-padding': compat ? [6, 12] : [15, 24],
@@ -14,8 +11,6 @@ const setTheme = compat => ({
   'root-space': 10,
   'root-shadow': 'none',
 
-  'main-color': '#000000',
-  'main-background': '#f2f3f5',
   'main-stroke': 'none',
   'main-font-size': 16,
   'main-padding': compat ? [6, 20] : [10, 16],
@@ -24,8 +19,6 @@ const setTheme = compat => ({
   'main-space': 8,
   'main-shadow': 'none',
 
-  'sub-color': '#000000',
-  'sub-background': 'transparent',
   'sub-stroke': 'none',
   'sub-font-size': 14,
   'sub-padding': compat ? [3, 5] : [5, 10],
@@ -34,7 +27,6 @@ const setTheme = compat => ({
   'sub-radius': 8,
   'sub-space': 5,
 
-  'connect-color': '#333333',
   'connect-width': 3,
   'main-connect-width': 3,
 
