@@ -39,7 +39,8 @@ export default function MinderRuntime() {
       ]
     }
   }
-  minder.importData('json', JSON.stringify(json))
+  // minder.importData('json', JSON.stringify(json))
+  console.log('json: ', json)
 
   // 导出给其它 Runtime 使用
   this.minder = minder

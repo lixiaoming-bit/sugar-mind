@@ -1,4 +1,4 @@
-import { CLASSIC, RAINBOWS, ZEN } from '../core/utils/colors'
+import { CLASSIC, RAINBOWS, ZEN, DESSERT } from '../core/utils/colors'
 // 连线路径
 export const MINDER_CONNECT_PATH = [
   'M283.5,116.5A81,74,0,0,1,364.5,42.5',
@@ -29,7 +29,7 @@ const generateColor = colors => {
     case 3:
       return [...colors, ...colors]
     case 4:
-      return [...colors, ...colors.split(0, 2)]
+      return [...colors, ...colors.slice(0, 2)]
     case 5:
       return [...colors, colors[0]]
     default:
@@ -107,11 +107,35 @@ const zenSetting = Array.from(ZEN, colors => {
   }
 })
 
+// 甜点配置
+const dessertSetting = Array.from(DESSERT, colors => {
+  const cKey = 'connect-color'
+  const bKey = 'background'
+  const rBKey = 'root-background'
+  const mBKey = 'main-background'
+
+  const connectColor = Array.isArray(colors[cKey])
+    ? generateColor(colors[cKey])
+    : new Array(6).fill(colors[cKey])
+  const mainColor = Array.isArray(colors[mBKey]) ? colors[mBKey] : new Array(6).fill(colors[mBKey])
+  const nodeFillColor = [colors[rBKey], ...mainColor]
+  return {
+    name: colors.name,
+    type: 'minder',
+    connect: MINDER_CONNECT_PATH,
+    node: MINDER_NODE_PATH,
+    connectColor,
+    nodeFillColor,
+    backgroundColor: colors[bKey]
+  }
+})
+
 const SKELETON_TYPE_LIST = {
   minder: {
     rainbow: rainbowSetting,
     zen: zenSetting,
-    classic: classicSetting
+    classic: classicSetting,
+    dessert: dessertSetting
   }
 }
 
@@ -142,6 +166,15 @@ export const COLORS_PANEL = [
     thumbColors: Array.from(ZEN, zen => ({
       name: zen.name,
       background: zen['background']
+    }))
+  },
+  {
+    title: '甜点',
+    key: 'dessert',
+    skeleton: SKELETON_TYPE_LIST['minder']['dessert'],
+    thumbColors: Array.from(DESSERT, dessert => ({
+      name: dessert.name,
+      background: dessert['background']
     }))
   }
 ]

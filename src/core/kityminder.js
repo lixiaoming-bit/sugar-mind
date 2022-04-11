@@ -76,6 +76,7 @@ require('./layout/tianpan')
 require('./theme/classic')
 require('./theme/rainbow')
 require('./theme/zen')
+require('./theme/dessert')
 
 require('./connect/arc')
 require('./connect/arc_tp')

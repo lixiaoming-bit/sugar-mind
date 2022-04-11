@@ -193,3 +193,91 @@ export const ZEN = [
     'connect-color': '#FFFFFF'
   }
 ]
+
+// 甜点
+export const DESSERT = [
+  {
+    name: 'dessert-1',
+    background: '#F9F8ED',
+    'root-color': '#ffffff',
+    'root-background': '#006D77',
+
+    'main-color': '#000000',
+    'main-background': ['#FFBC9F', '#D8AC8F', '#83C5BE'],
+
+    'sub-color': ['#661E00', '#4B2D1A', '#204541'],
+    'sub-background': ['#FAECDD', '#F2E9DA', '#E1EEE4'],
+
+    'connect-color': ['#FFBC9F', '#D8AC8F', '#83C5BE']
+  },
+  {
+    name: 'dessert-2',
+    background: '#FFEDD2',
+    'root-color': '#ffffff',
+    'root-background': '#006D77',
+
+    'main-color': '#000000',
+    'main-background': '#D8AC8F',
+
+    'sub-color': '#006D77',
+    'sub-background': '#FFE3BB',
+
+    'connect-color': '#006D77'
+  },
+  {
+    name: 'dessert-3',
+    background: '#FFBC9F',
+    'root-color': '#ffffff',
+    'root-background': '#006D77',
+
+    'main-color': '#006D77',
+    'main-background': '#F9F8ED',
+
+    'sub-color': '#101010',
+    'sub-background': '#FF9A6E',
+
+    'connect-color': '#006D77'
+  },
+  {
+    name: 'dessert-4',
+    background: '#D8AC8F',
+    'root-color': '#ffffff',
+    'root-background': '#006D77',
+
+    'main-color': '#006D77',
+    'main-background': '#F9F8ED',
+
+    'sub-color': '#006D77',
+    'sub-background': '#ffffff',
+
+    'connect-color': '#006D77'
+  },
+  {
+    name: 'dessert-5',
+    background: '#83C5BE',
+    'root-color': '#ffffff',
+    'root-background': '#006D77',
+
+    'main-color': '#006D77',
+    'main-background': '#F9F8ED',
+
+    'sub-color': '#ffffff',
+    'sub-background': '#198690',
+
+    'connect-color': '#006D77'
+  },
+  {
+    name: 'dessert-6',
+    background: '#006D77',
+    'root-color': '#006D77',
+    'root-background': '#F9F8ED',
+
+    'main-color': '#000000',
+    'main-background': ['#FFEDD2', '#FFBC9F', '#D8AC8F', '#83C5BE'],
+
+    'sub-color': '#ffffff',
+    'sub-background': ['#338789', '#337D7F', '#2B7A7C', '#1A7F85'],
+
+    'connect-color': ['#FFEDD2', '#FFBC9F', '#D8AC8F', '#83C5BE']
+  }
+]
