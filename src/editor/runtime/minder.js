@@ -23,23 +23,23 @@ export default function MinderRuntime() {
   // minder.useTemplate('fish-bone')
   // console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
-  // minder.execCommand('text', '中心主题')
-  const json = {
-    root: {
-      data: {
-        text: '中心主题'
-      },
-      children: [
-        { data: { text: '分支主题 1' } },
-        { data: { text: '分支主题 2' } },
-        { data: { text: '分支主题 3' } },
-        { data: { text: '分支主题 4' } },
-        { data: { text: '分支主题 5' } },
-        { data: { text: '分支主题 6' } }
-      ]
-    }
-  }
-  minder.importData('json', JSON.stringify(json))
+  minder.execCommand('text', '中心主题')
+  // const json = {
+  //   root: {
+  //     data: {
+  //       text: '中心主题'
+  //     },
+  //     children: [
+  //       { data: { text: '分支主题 1' } },
+  //       { data: { text: '分支主题 2' } },
+  //       { data: { text: '分支主题 3' } },
+  //       { data: { text: '分支主题 4' } },
+  //       { data: { text: '分支主题 5' } },
+  //       { data: { text: '分支主题 6' } }
+  //     ]
+  //   }
+  // }
+  // minder.importData('json', JSON.stringify(json))
 
   // 导出给其它 Runtime 使用
   this.minder = minder

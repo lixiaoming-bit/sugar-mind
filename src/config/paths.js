@@ -21,6 +21,9 @@ export const MINDER_NODE_PATH = [
 ]
 
 const generateColor = colors => {
+  if (!Array.isArray(colors)) {
+    return new Array(6).fill(colors)
+  }
   switch (colors.length) {
     case 1:
       return new Array(6).fill(colors[0])
@@ -44,11 +47,10 @@ const rainbowSetting = Array.from(RAINBOWS, colors => {
   const rBKey = 'root-background'
   const mBKey = 'main-background'
 
-  const connectColor = Array.isArray(colors[cKey])
-    ? generateColor(colors[cKey])
-    : new Array(6).fill(colors[cKey])
-  const mainColor = Array.isArray(colors[mBKey]) ? colors[mBKey] : new Array(6).fill(colors[mBKey])
+  const connectColor = generateColor(colors[cKey])
+  const mainColor = generateColor(colors[mBKey])
   const nodeFillColor = [colors[rBKey], ...mainColor]
+
   return {
     name: colors.name,
     type: 'minder',
@@ -68,11 +70,10 @@ const classicSetting = Array.from(CLASSIC, colors => {
   const rBKey = 'root-background'
   const mBKey = 'main-background'
 
-  const connectColor = Array.isArray(colors[cKey])
-    ? generateColor(colors[cKey])
-    : new Array(6).fill(colors[cKey])
-  const mainColor = Array.isArray(colors[mBKey]) ? colors[mBKey] : new Array(6).fill(colors[mBKey])
+  const connectColor = generateColor(colors[cKey])
+  const mainColor = generateColor(colors[mBKey])
   const nodeFillColor = [colors[rBKey], ...mainColor]
+
   return {
     name: colors.name,
     type: 'minder',
@@ -91,11 +92,10 @@ const zenSetting = Array.from(ZEN, colors => {
   const rBKey = 'root-background'
   const mBKey = 'main-background'
 
-  const connectColor = Array.isArray(colors[cKey])
-    ? generateColor(colors[cKey])
-    : new Array(6).fill(colors[cKey])
-  const mainColor = Array.isArray(colors[mBKey]) ? colors[mBKey] : new Array(6).fill(colors[mBKey])
+  const connectColor = generateColor(colors[cKey])
+  const mainColor = generateColor(colors[mBKey])
   const nodeFillColor = [colors[rBKey], ...mainColor]
+
   return {
     name: colors.name,
     type: 'minder',
@@ -114,11 +114,10 @@ const dessertSetting = Array.from(DESSERT, colors => {
   const rBKey = 'root-background'
   const mBKey = 'main-background'
 
-  const connectColor = Array.isArray(colors[cKey])
-    ? generateColor(colors[cKey])
-    : new Array(6).fill(colors[cKey])
-  const mainColor = Array.isArray(colors[mBKey]) ? colors[mBKey] : new Array(6).fill(colors[mBKey])
+  const connectColor = generateColor(colors[cKey])
+  const mainColor = generateColor(colors[mBKey])
   const nodeFillColor = [colors[rBKey], ...mainColor]
+
   return {
     name: colors.name,
     type: 'minder',

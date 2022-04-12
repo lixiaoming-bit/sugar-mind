@@ -155,7 +155,7 @@ export default {
     color: #000000d9;
   }
   .ant-tree .ant-tree-node-content-wrapper:hover {
-    background-color: #f5f5f5;
+    background-color: #f2f3f5;
   }
   .ant-tree .ant-tree-node-content-wrapper {
     overflow: hidden;
@@ -163,7 +163,7 @@ export default {
     width: calc(100% - 24px);
   }
   .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-    background-color: #d2ffdc;
+    background-color: #f2f3f5;
   }
 }
 </style>

@@ -189,6 +189,10 @@ kity.extendClass(Minder, {
 
     const childrenTreeData = json.children || []
     for (let i = 0; i < childrenTreeData.length; i++) {
+      if (node.getType() === 'sub' && node.getComplex() > 20) {
+        node.setData('expandState', 'collapse')
+      }
+      console.log('getComplex', node.getComplex())
       const childNode = this.createNode(null, node)
       this.importNode(childNode, childrenTreeData[i])
     }

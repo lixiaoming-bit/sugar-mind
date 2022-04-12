@@ -44,3 +44,32 @@
 
 - [ ] bug - 按住 ctrl 滚动滚轮页面会发生滚动 -> 只控制缩放，不发生页面滚动，猜测是 document 的默认事件触发导致
 - [ ] 使用键盘对字体进行加粗、倾斜的控制，此时样式页面打开，B、I 无选中状态
+- [ ] 修改导图缩略器的展示效果
+- [ ] bug - 安装ctrl 滚动滚轮页面会发生滚动
+
+
+### 自由节点设计实现方案
+- 数据格式：每个由根节点出发的数据都是一个树结构
+- 数据收集：使用数组收集所有树结构
+- 触发方式：右键菜单触发或者双击页面空白处
+
+```javascript
+const freedomTopic = {
+  data: {
+    id: '',
+    created: '',
+    text: '',
+    // 使用e.getPosition(refer) 获取相对于中心节点的相对位置
+    pos: {
+      x: 123,
+      y: 456
+    }
+  },
+  children: []
+}
+const json = {
+  freedomTopics: [
+    freedomTopic
+  ]
+}
+```
