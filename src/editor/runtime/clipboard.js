@@ -76,7 +76,9 @@ export default function ClipboardRuntime() {
 
   const customCut = e => {
     if (document.activeElement === blurElement) {
-      if (minder.getStatus() !== 'normal' || minder.getSelectedNode().isRoot()) {
+      const selected = minder.getSelectedNode()
+      console.log('selected: ', selected)
+      if (minder.getStatus() !== 'normal' || !selected || (selected && selected.isRoot())) {
         e.preventDefault()
         return
       }

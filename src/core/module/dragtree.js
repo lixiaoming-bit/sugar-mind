@@ -107,6 +107,11 @@ const TreeDragger = kity.createClass('TreeDragger', {
     }
 
     for (let i = 0; i < this._dragSources.length; i++) {
+      // console.log('this._dragSources[i]: ', this._dragSources[i])
+      // console.log('this._dragSources[i]._connection: ')
+      // this._dragSources[i].setVisible(false)
+      // this._minder.removeConnect(this._dragSources[i])
+
       this._dragSources[i].setLayoutOffset(this._dragSources[i].getLayoutOffset().offset(movement))
       minder.applyLayoutResult(this._dragSources[i])
     }
@@ -156,17 +161,17 @@ const TreeDragger = kity.createClass('TreeDragger', {
 
       this._minder.execCommand('arrange', index)
       this._renderOrderHint(null)
+      this._minder.fire('contentchange')
     } else {
       // 设置节点拖拽不生效的时候 不自由拖拽节点
       for (let i = 0; i < this._dragSources.length; i++) {
         this._dragSources[i].resetLayoutOffset()
         this._minder.applyLayoutResult(this._dragSources[i])
       }
-      this._minder.fire('savescene')
+      // this._minder.fire('savescene')
     }
     this._minder.layout(300)
     this._leaveDragMode()
-    this._minder.fire('contentchange')
   },
 
   // 进入拖放模式：
@@ -202,6 +207,15 @@ const TreeDragger = kity.createClass('TreeDragger', {
   _fadeDragSources: function (opacity) {
     const minder = this._minder
     this._dragSources.forEach(function (source) {
+      // 拖拽时 隐藏线
+      if (source._connection) {
+        if (opacity < 1) {
+          source._connection.setOpacity(0)
+        } else {
+          source._connection.setOpacity(1)
+        }
+      }
+
       source.getRenderContainer().setOpacity(opacity, 200)
       source.traverse(function (node) {
         if (opacity < 1) {

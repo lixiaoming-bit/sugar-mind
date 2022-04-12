@@ -13,6 +13,7 @@ const SelectAll = kity.createClass('SelectAll', {
       selectedNodes.push(node)
     })
     km.select(selectedNodes, true)
+    this.setContentChanged(false)
   }
 })
 // 反选主题
@@ -27,6 +28,7 @@ const SelectRevert = kity.createClass('SelectRevert', {
       }
     })
     km.select(selection, true)
+    this.setContentChanged(false)
   }
 })
 // 选择路径
@@ -42,6 +44,7 @@ const SelectPath = kity.createClass('SelectPath', {
       }
     })
     km.select(selection, true)
+    this.setContentChanged(false)
   }
 })
 // 选择兄弟节点
@@ -57,6 +60,7 @@ const SelectSibling = kity.createClass('SelectSibling', {
       })
     })
     km.select(selection, true)
+    this.setContentChanged(false)
   }
 })
 // 选择同级节点
@@ -71,6 +75,7 @@ const SelectCommonLevel = kity.createClass('SelectCommonLevel', {
       }
     })
     km.select(selection, true)
+    this.setContentChanged(false)
   }
 })
 // 选择子树
@@ -85,6 +90,7 @@ const SelectSubtree = kity.createClass('SelectSubtree', {
       })
     })
     km.select(selection, true)
+    this.setContentChanged(false)
   }
 })
 

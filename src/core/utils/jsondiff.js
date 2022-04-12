@@ -1,17 +1,5 @@
 // 用于diff 数据
 
-const objectKeys = (() => {
-  if (Object.keys) return Object.keys
-  return o => {
-    const keys = []
-    for (const i in o) {
-      if (Object.hasOwnProperty.call(o, i)) {
-        keys.push(i)
-      }
-    }
-    return keys
-  }
-})()
 const escapePathComponent = str =>
   str.indexOf('/') === -1 && str.indexOf('~') === -1
     ? str
@@ -21,8 +9,8 @@ const deepClone = obj => (typeof obj === 'object' ? JSON.parse(JSON.stringify(ob
 
 // Dirty check if obj is different from mirror, generate patches and update mirror
 const generate = (mirror, obj, patches, path) => {
-  const newKeys = objectKeys(obj)
-  const oldKeys = objectKeys(mirror)
+  const newKeys = Object.keys(obj)
+  const oldKeys = Object.keys(mirror)
   let deleted = false
 
   for (let t = oldKeys.length - 1; t >= 0; t--) {
@@ -38,7 +26,7 @@ const generate = (mirror, obj, patches, path) => {
       ) {
         generate(oldVal, newVal, patches, path + '/' + escapePathComponent(key))
       } else {
-        if (oldVal != newVal) {
+        if (oldVal !== newVal) {
           patches.push({
             op: 'replace',
             path: path + '/' + escapePathComponent(key),

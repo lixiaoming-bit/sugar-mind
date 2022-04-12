@@ -21,6 +21,7 @@ Module.register('HistoryModule', function () {
 
   // 监听变化
   const changed = () => {
+    console.log('changes')
     if (patchLock) return
     if (makeUndoDiff()) redoDiffs = []
   }
@@ -44,7 +45,9 @@ Module.register('HistoryModule', function () {
 
   // diff 向后
   const makeUndoDiff = () => {
+    console.time('makeUndoDiff')
     const headSnap = minder.exportJson()
+    console.timeEnd('makeUndoDiff')
     const diff = compare(headSnap, lastSnap)
     if (diff.length) {
       undoDiffs.push(diff)
@@ -58,7 +61,10 @@ Module.register('HistoryModule', function () {
 
   // diff 向前
   const makeRedoDiff = () => {
+    console.time('makeRedoDiff')
     const revertSnap = minder.exportJson()
+    console.timeEnd('makeRedoDiff')
+    console.log('revertSnap: ', revertSnap)
     redoDiffs.push(compare(revertSnap, lastSnap))
     lastSnap = revertSnap
   }

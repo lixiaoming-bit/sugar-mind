@@ -47,7 +47,6 @@ connect.register('poly', function (node, parent, connection) {
 
     case abs(v.x) <= abs(v.y) && v.y >= 0:
       // bottom
-      console.log('bottom: ')
       pathData.push('v', parent.getStyle('margin-bottom'))
       pathData.push('h', pi.x - po.x)
       pathData.push('V', pi.y)

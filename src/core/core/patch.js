@@ -94,7 +94,7 @@ kity.extendClass(Minder, {
       applyPatch(this, patches[i])
     }
 
-    this.fire('contentchange')
+    // this.fire('contentchange')
     return this
   }
 })
