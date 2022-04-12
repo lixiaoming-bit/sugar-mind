@@ -203,7 +203,7 @@ export default {
     box-sizing: border-box;
     position: relative;
     &:hover {
-      color: #0fa731;
+      color: var(--theme-color);
     }
     &:not(:last-child)::after {
       content: '';
