@@ -75,7 +75,7 @@ kity.extendClass(Minder, {
 
     if (!parent || !connection) return
 
-    if (parent.isCollapsed()) {
+    if (parent.isCollapsed() || node._isDragging) {
       connection.setVisible(false)
       return
     }

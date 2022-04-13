@@ -3,7 +3,12 @@
     <!-- 全局备注预览器 -->
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局菜单 -->
-    <v-contextmenu ref="contextmenu" :disabled="!contextmenuList.length">
+    <v-contextmenu
+      ref="contextmenu"
+      :disabled="!contextmenuList.length"
+      :event-type="null"
+      :auto-placement="true"
+    >
       <!-- 选中：移除主题内容 -->
       <v-contextmenu-submenu
         v-if="selectedNode && removeMenuList.length"
@@ -169,20 +174,32 @@ export default {
       minder.on('viewchanged hand.beforemousemove', () => {
         this.$refs.contextmenu.hideAll()
       })
-      // 监听左键菜单
-      minder.on('contextmenu', event => {
-        this.selectedNode = event.minder.getSelectedNode()
-        this.contextmenuList = this.selectedNode
-          ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
-          : generateSelectedPaperContextmenu(
-              this.handleCheckDisabled,
-              this.macosCommandText,
-              this.macosOptionText
-            )
-        this.removeMenuList = this.selectedNode
-          ? removeNodeContextmenu(this.handleCheckValue).filter(item => !item.disabled)
-          : ''
+      minder.on('normal.mouseup', event => {
+        const { button, pageX, pageY } = event.originEvent
+        if (button === 2) {
+          this.selectedNode = event.minder.getSelectedNode()
+
+          // 408、228、310是当前菜单的宽高，会随着设置的选项数量发生变化
+          const height = this.$refs.contextmenu.$el.offsetHeight || (this.selectedNode ? 408 : 228)
+          const width = this.$refs.contextmenu.$el.offsetWidth || 310
+
+          const top = window.innerHeight - pageY < height ? pageY - height : pageY
+          const left = window.innerWidth - pageX < width ? pageX - width : pageX
+          this.$refs.contextmenu.show({ top, left })
+          this.contextmenuList = this.selectedNode
+            ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
+            : generateSelectedPaperContextmenu(
+                this.handleCheckDisabled,
+                this.macosCommandText,
+                this.macosOptionText
+              )
+          this.removeMenuList = this.selectedNode
+            ? removeNodeContextmenu(this.handleCheckValue).filter(item => !item.disabled)
+            : ''
+        }
       })
+      // 监听左键菜单
+      // minder.on('contextmenu', event => {})
       // 监听双击编辑节点
       minder.on('normal.dblclick normal.textedit', e => {
         generateEditor(e)

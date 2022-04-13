@@ -76,7 +76,7 @@ Module.register('NoteModule', function () {
     },
 
     update: function (icon, node, box) {
-      const x = box.right + node.getStyle('space-left')
+      const x = box.right + 5
       const y = box.cy
 
       icon.path.fill(node.getData('color') || node.getStyle('color'))

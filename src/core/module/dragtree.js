@@ -208,12 +208,10 @@ const TreeDragger = kity.createClass('TreeDragger', {
     const minder = this._minder
     this._dragSources.forEach(function (source) {
       // 拖拽时 隐藏线
-      if (source._connection) {
-        if (opacity < 1) {
-          source._connection.setOpacity(0)
-        } else {
-          source._connection.setOpacity(1)
-        }
+      if (opacity < 1) {
+        source._isDragging = true
+      } else {
+        delete source._isDragging
       }
 
       source.getRenderContainer().setOpacity(opacity, 200)
@@ -401,6 +399,7 @@ Module.register('DragTree', function () {
       'normal.mousemove dragtree.mousemove': function (e) {
         if (!mousedown) return
         dragger.dragMove(e.getPosition())
+        e.stopPropagation()
       },
       'normal.mouseup dragtree.beforemouseup': function (e) {
         mousedown = false

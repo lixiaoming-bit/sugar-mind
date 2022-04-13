@@ -45,10 +45,10 @@ Module.register('HistoryModule', function () {
 
   // diff 向后
   const makeUndoDiff = () => {
-    console.time('makeUndoDiff')
     const headSnap = minder.exportJson()
-    console.timeEnd('makeUndoDiff')
+
     const diff = compare(headSnap, lastSnap)
+
     if (diff.length) {
       undoDiffs.push(diff)
       while (undoDiffs.length > DEFAULT_MAX_HISTORY) {

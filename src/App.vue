@@ -33,6 +33,9 @@ export default {
 </script>
 
 <style>
+body {
+  overflow: hidden;
+}
 #app {
   position: relative;
   height: 100vh;

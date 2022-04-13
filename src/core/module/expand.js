@@ -248,6 +248,11 @@ Module.register('Expand', function () {
     },
 
     update: function (expander, node) {
+      // 拖动状态不显示 不放在shouldRender 此种效率最高
+      if (node._isDragging) {
+        expander.toggleSymbolState(false, false)
+        return
+      }
       if (!node.parent) return
 
       expander.setState(node)

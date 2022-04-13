@@ -144,27 +144,31 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
 
 const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
   base: Command,
-  execute: function (km) {
+  execute(km) {
+    const selected = []
     const nodes = km.getSelectedNodes().filter(node => !node.isRoot())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
 
-    nodes.forEach(function (node) {
+    nodes.forEach(node => {
+      const removeNodeIndex = node.getIndex()
+      selected.push(...node.getChildren())
       node
         .getChildren()
         .slice()
-        .forEach(sub => ancestor.appendChild(sub))
+        .forEach((sub, position) => ancestor.insertChild(sub, removeNodeIndex + position))
       km.removeNode(node)
     })
-    if (nodes.length === 1) {
-      const index = nodes[0].getIndex()
-      const selectBack = ancestor.children[index - 1] || ancestor.children[index]
-      km.select(selectBack || ancestor || km.getRoot(), true)
-    } else {
-      km.select(ancestor || km.getRoot(), true)
-    }
+    // if (nodes.length === 1) {
+    //   const index = nodes[0].getIndex()
+    //   const selectBack = ancestor.children[index - 1] || ancestor.children[index]
+    //   km.select(selectBack || ancestor || km.getRoot(), true)
+    // } else {
+    // }
+    km.select(selected, true)
+
     km.refresh()
   },
-  queryState: function (km) {
+  queryState(km) {
     const selectedNode = km.getSelectedNode()
     return selectedNode && !selectedNode.isRoot() ? 0 : -1
   }

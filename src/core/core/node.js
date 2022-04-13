@@ -37,7 +37,7 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   initContainers: function () {
-    this.rc = new kity.Group().setId(utils.uuid('minder_node')).addClass('minder-node')
+    this.rc = new kity.Group().setId(utils.uuid('minder_node'))
     this.rc.minderNode = this
   },
 

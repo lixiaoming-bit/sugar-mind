@@ -144,14 +144,6 @@ Module.register('ArrangeModule', {
     arrangedown: ArrangeDownCommand,
     arrange: ArrangeCommand
   },
-  // contextmenu: [
-  //   {
-  //     command: 'arrangeup'
-  //   },
-  //   {
-  //     command: 'arrangedown'
-  //   }
-  // ],
   commandShortcutKeys: {
     arrangeup: 'normal::alt+up',
     arrangedown: 'normal::alt+down'
