@@ -348,8 +348,18 @@ kity.extendClass(Minder, {
   getNodesById: function (ids) {
     const nodes = this.getAllNode()
     const result = []
-    nodes.forEach(function (node) {
+    nodes.forEach(node => {
       if (ids.indexOf(node.getData('id')) !== -1) {
+        result.push(node)
+      }
+    })
+    return result
+  },
+  getNodesByKey: function (key) {
+    const nodes = this.getAllNode()
+    const result = []
+    nodes.forEach(node => {
+      if (node.getData('text').includes(key)) {
         result.push(node)
       }
     })

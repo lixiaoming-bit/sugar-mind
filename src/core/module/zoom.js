@@ -98,6 +98,7 @@ Module.register('Zoom', function () {
     base: Command,
     execute: function (minder) {
       zoomMinder(minder, this.nextValue(minder))
+      this.setContentChanged(false)
     },
     queryState: function (minder) {
       return +!this.nextValue(minder)
@@ -124,6 +125,7 @@ Module.register('Zoom', function () {
     base: Command,
     execute: function (minder) {
       zoomMinder(minder, this.nextValue(minder))
+      this.setContentChanged(false)
     },
     queryState: function (minder) {
       return +!this.nextValue(minder)
@@ -151,27 +153,27 @@ Module.register('Zoom', function () {
         if (!e.originEvent.ctrlKey && !e.originEvent.metaKey) return
 
         const delta = e.originEvent.wheelDelta
-        const self = this
         // 稀释
         if (Math.abs(delta) > 100) {
           clearTimeout(this._wheelZoomTimeout)
         } else {
           return
         }
+        let value = this.getZoomValue()
+        const timer = value === 90 || value === 110 ? 100 : 15
 
-        this._wheelZoomTimeout = setTimeout(function () {
+        this._wheelZoomTimeout = setTimeout(() => {
           //   const lastValue = self.getPaper()._zoom || 1
-          let value = self.getZoomValue()
           if (delta > 0) {
             value += 10
             value = value > 200 ? 200 : value
-            zoomMinder(self, value)
+            zoomMinder(this, value)
           } else if (delta < 0) {
             value -= 10
             value = value < 50 ? 50 : value
-            zoomMinder(self, value)
+            zoomMinder(this, value)
           }
-        }, 15)
+        }, timer)
 
         e.originEvent.preventDefault()
       }

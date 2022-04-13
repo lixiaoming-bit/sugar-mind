@@ -23,6 +23,7 @@ Module.register('LayoutModule', function () {
       nodes.forEach(function (node) {
         node.layout(name)
       })
+      this.setContentChanged(false)
     },
 
     queryValue: function (minder) {
@@ -51,7 +52,6 @@ Module.register('LayoutModule', function () {
       let nodes = minder.getSelectedNodes()
 
       if (!nodes.length) nodes = [minder.getRoot()]
-      console.log('nodes: ', nodes)
 
       nodes.forEach(function (node) {
         node.traverse(function (child) {
@@ -62,6 +62,7 @@ Module.register('LayoutModule', function () {
         })
       })
       minder.layout(300)
+      this.setContentChanged(false)
     },
 
     enableReadOnly: true

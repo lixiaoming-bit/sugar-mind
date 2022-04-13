@@ -1,7 +1,7 @@
 import utils from '../core/utils'
 import Module from '../core/module'
 import Renderer from '../core/render'
-import Command from '../core/command'
+// import Command from '../core/command'
 const kity = window.kity
 const EntityRenderer = kity.createClass('EntityRenderer', {
   base: Renderer,
@@ -173,27 +173,24 @@ Module.register('OutlineModule', function () {
       outside: [OutlineRenderer, WireframeRenderer]
     },
     commands: {
-      'set-outline-shape': kity.createClass('SetOutlineCommand', {
-        base: Command,
-
-        execute: function (minder, shape) {
-          const nodes = minder.getSelectedNodes()
-          nodes.forEach(node => {
-            node.setData('outline', shape)
-            node.render()
-          })
-          // minder.layout(300)
-        },
-
-        queryState: function (minder) {
-          return minder.getSelectedNode() ? 0 : -1
-        },
-
-        queryValue: function (minder) {
-          const node = minder.getSelectedNode()
-          return node && node.getData('outline')
-        }
-      })
+      // 'set-outline-shape': kity.createClass('SetOutlineCommand', {
+      //   base: Command,
+      //   execute: function (minder, shape) {
+      //     const nodes = minder.getSelectedNodes()
+      //     nodes.forEach(node => {
+      //       node.setData('outline', shape)
+      //       node.render()
+      //     })
+      //     // minder.layout(300)
+      //   },
+      //   queryState: function (minder) {
+      //     return minder.getSelectedNode() ? 0 : -1
+      //   },
+      //   queryValue: function (minder) {
+      //     const node = minder.getSelectedNode()
+      //     return node && node.getData('outline')
+      //   }
+      // })
     }
   }
 })

@@ -16,7 +16,8 @@ Module.register('SearchModule', function () {
     base: Command,
 
     execute: function (minder) {
-      minder.fire('search')
+      minder.fire('searchrequest')
+      this.setContentChanged(false)
     },
     enableReadOnly: true
   })

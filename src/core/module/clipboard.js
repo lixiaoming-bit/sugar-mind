@@ -31,7 +31,7 @@ Module.register('ClipboardModule', function () {
 
     execute: function (km) {
       sendToClipboard(km.getSelectedAncestors(true))
-      // this.setContentChanged(false)
+      this.setContentChanged(false)
     },
     queryState: function (km) {
       return km.getSelectedNode() ? 0 : -1

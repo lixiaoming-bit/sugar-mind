@@ -143,6 +143,7 @@ Module.register('KeyboardModule', function () {
       if (nextNode) {
         km.select(nextNode, true)
       }
+      this.setContentChanged(false)
     },
     queryState: function (km) {
       const selected = km.getSelectedNode()

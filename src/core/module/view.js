@@ -255,6 +255,7 @@ Module.register('View', function () {
           dragger.move(new kity.Point(-size.width / 2, 0), duration)
           break
       }
+      this.setContentChanged(false)
     },
 
     enableReadOnly: true

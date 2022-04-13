@@ -147,7 +147,7 @@ export default {
   .zoom-value {
     font-size: 16px;
     cursor: pointer;
-    min-width: 40px;
+    min-width: 44px;
     display: inline-block;
     text-align: center;
     user-select: none;

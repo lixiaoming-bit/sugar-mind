@@ -44,6 +44,7 @@ Module.register('StyleModule', function () {
               delete styleClipBoard[name]
             }
           })
+          this.setContentChanged(false)
           return styleClipBoard
         },
 

@@ -2,6 +2,8 @@
   <div class="custom-canvas-container mousetrap" v-contextmenu:contextmenu>
     <!-- 全局备注预览器 -->
     <note-previewer v-if="isShowChildComponent"></note-previewer>
+    <!-- 全局搜索器 -->
+    <search-node v-if="isShowChildComponent"></search-node>
     <!-- 全局菜单 -->
     <v-contextmenu
       ref="contextmenu"
@@ -95,6 +97,7 @@ import '../core/kityminder.css'
 import KMEditor from '../editor/editor'
 import { mapGetters, mapMutations } from 'vuex'
 import NotePreviewer from '@/base/NotePreviewer'
+import SearchNode from '@/base/SearchNode'
 import {
   QUICK_INSERT_CONTEXTMENU,
   QUICK_SELECT_CONTEXTMENU,
@@ -108,7 +111,8 @@ import generateEditor from '@/utils/quill-editor'
 export default {
   name: 'CustomCanvas',
   components: {
-    NotePreviewer
+    NotePreviewer,
+    SearchNode
   },
   data() {
     return {
