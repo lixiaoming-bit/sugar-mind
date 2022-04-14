@@ -344,14 +344,14 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
     {
       key: 'delete',
       title: '删除主题',
-      description: 'Backspace [回车]',
+      description: 'Backspace [⬅️]',
       command: 'RemoveNode',
       disabled: handleCheckDisabled('RemoveNode')
     },
     {
       key: 'delete-current',
       title: '仅删除当前节点',
-      description: `${shortcutText} + Backspace [回车]`,
+      description: `${shortcutText} + Backspace [⬅️]`,
       command: 'RemoveCurrentNode',
       disabled: handleCheckDisabled('RemoveCurrentNode')
     }

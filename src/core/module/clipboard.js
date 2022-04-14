@@ -58,7 +58,7 @@ Module.register('ClipboardModule', function () {
 
       km.select(MinderNode.getCommonAncestor(ancestors), true)
 
-      ancestors.slice().forEach(function (node) {
+      ancestors.slice().forEach(node => {
         km.removeNode(node)
       })
 

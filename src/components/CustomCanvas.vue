@@ -206,7 +206,7 @@ export default {
       // minder.on('contextmenu', event => {})
       // 监听双击编辑节点
       minder.on('normal.dblclick normal.textedit', e => {
-        generateEditor(e)
+        generateEditor(e, this.editor.MimeType)
       })
       // 监听处理全局单击事件 需要添加防抖
       minder.on('normal.click', e => {

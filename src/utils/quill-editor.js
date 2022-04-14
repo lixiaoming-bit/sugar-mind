@@ -1,7 +1,8 @@
 import Quill from 'quill'
 import { clickOutside, removeClickOutside } from './click-outside'
 
-export default function generateEditor(event) {
+export default function generateEditor(event, MimeType) {
+  console.log('MimeType: ', MimeType)
   const selectedNode = event.minder.getSelectedNode()
   const isReadonly = event.minder.getStatus() === 'readonly'
   // 选中 且 非制度
@@ -60,8 +61,23 @@ export default function generateEditor(event) {
       }
     })
 
+    // const getData = (result = [], data) => {
+    //   data.forEach(item => {
+    //     result.push(item.data.text)
+    //     getData(result, item.children)
+    //   })
+    // }
+    // if (MimeType.whichMimeType(text) === 'application/km') {
+    //   const string = text.substring(2) || '[]'
+    //   const data = JSON.parse(string)
+    //   const result = []
+    //   getData(result, data)
+    //   text = result.join()
+    // quill.setText(text)
+    // }
+
     // 监听文本变化
-    quill.on('text-change', function () {
+    quill.on('text-change', delta => {
       const text = quill.getText()
       selectedNode.setText(text)
       selectedNode.render()

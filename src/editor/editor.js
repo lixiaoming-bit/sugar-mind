@@ -30,5 +30,4 @@ assemble(require('./runtime/clipboard').default)
 // assemble(require('./runtime/jumping').default)
 // assemble(require('./runtime/priority').default)
 // assemble(require('./runtime/progress').default)
-
 export default KMEditor
