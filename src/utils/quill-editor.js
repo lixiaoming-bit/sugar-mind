@@ -78,6 +78,7 @@ export default function generateEditor(event, MimeType) {
 
     // 监听文本变化
     quill.on('text-change', delta => {
+      console.log('delta: ', delta)
       const text = quill.getText()
       selectedNode.setText(text)
       selectedNode.render()

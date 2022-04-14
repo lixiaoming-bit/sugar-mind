@@ -12,6 +12,8 @@
     <tool-box-b-l></tool-box-b-l>
     <!-- 工具栏 下-右 -->
     <tool-box-b-r></tool-box-b-r>
+    <!-- 虚拟横向滚动条 -->
+    <virtual-line></virtual-line>
   </div>
 </template>
 
@@ -22,6 +24,8 @@ import ToolBoxTR from '@/base/ToolBoxTR'
 import ToolBoxMR from '@/base/ToolBoxMR'
 import ToolBoxBL from '@/base/ToolBoxBL'
 import ToolBoxBR from '@/base/ToolBoxBR'
+import VirtualLine from '@/base/VirtualLine'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -32,7 +36,8 @@ export default {
     ToolBoxTR,
     ToolBoxMR,
     ToolBoxBL,
-    ToolBoxBR
+    ToolBoxBR,
+    VirtualLine
   },
   props: {},
   data() {

@@ -17,6 +17,7 @@ import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import CustomCanvas from '@/components/CustomCanvas'
 import ToolBoxes from '@/components/ToolBoxes'
 import Modals from '@/components/Modals'
+
 export default {
   name: 'App',
   components: {
