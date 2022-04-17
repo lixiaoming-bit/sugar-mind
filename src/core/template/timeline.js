@@ -4,7 +4,7 @@
 import template from '../core/template'
 
 template.register('timeline', {
-  getLayout: function (node) {
+  getLayout(node) {
     if (node.getData('layout')) return node.getData('layout')
 
     const level = node.getLevel()
@@ -23,7 +23,7 @@ template.register('timeline', {
     return 'right'
   },
 
-  getConnect: function (node) {
+  getConnect(node) {
     switch (node.getLevel()) {
       case 1:
         return 'fish-bone-master'

@@ -4,14 +4,14 @@
 import template from '../core/template'
 
 template.register('filetree', {
-  getLayout: function (node) {
+  getLayout(node) {
     if (node.getData('layout')) return node.getData('layout')
     if (node.isRoot()) return 'bottom'
 
     return 'filetree-down'
   },
 
-  getConnect: function (node) {
+  getConnect(node) {
     if (node.getLevel() === 1) {
       return 'poly'
     }

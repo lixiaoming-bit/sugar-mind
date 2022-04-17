@@ -219,15 +219,15 @@ data.registerProtocol('text', {
   dataType: 'text',
   mineType: 'text/plain',
 
-  encode: function (json) {
+  encode(json) {
     return encode(json.root, 0)
   },
 
-  decode: function (local) {
+  decode(local) {
     return decode(local)
   },
 
-  Node2Text: function (node) {
+  Node2Text(node) {
     return Node2Text(node)
   }
 })

@@ -6,6 +6,6 @@ Layout.register(
   'timeline',
   kity.createClass({
     base: Layout,
-    doLayout: function () {}
+    doLayout() {}
   })
 )

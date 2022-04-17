@@ -21,7 +21,7 @@ Module.register('hyperlink', {
     hyperlink: kity.createClass('hyperlink', {
       base: Command,
 
-      execute: function (km, url, title) {
+      execute(km, url, title) {
         const nodes = km.getSelectedNodes()
         nodes.forEach(function (n) {
           n.setData('hyperlink', url)
@@ -30,11 +30,11 @@ Module.register('hyperlink', {
         })
         km.layout()
       },
-      queryState: function (km) {
+      queryState(km) {
         const nodes = km.getSelectedNodes()
         return nodes.length ? 0 : -1
       },
-      queryValue: function (km) {
+      queryValue(km) {
         const node = km.getSelectedNode()
         const url = node.getData('hyperlink')
         return url
@@ -50,7 +50,7 @@ Module.register('hyperlink', {
     right: kity.createClass('hyperlinkrender', {
       base: Renderer,
 
-      create: function (node) {
+      create(node) {
         const color = node.getData('color') || node.getStyle('color')
         const link = new kity.HyperLink()
         const linkShape = new kity.Path()
@@ -64,11 +64,11 @@ Module.register('hyperlink', {
         return link
       },
 
-      shouldRender: function (node) {
+      shouldRender(node) {
         return node.getData('hyperlink')
       },
 
-      update: function (link, node, box) {
+      update(link, node, box) {
         const href = node.getData('hyperlink')
         link.setHref('#')
 

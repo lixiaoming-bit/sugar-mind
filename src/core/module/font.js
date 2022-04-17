@@ -48,17 +48,17 @@ Module.register('fontModule', function () {
        */
       color: kity.createClass('fontColorCommand', {
         base: Command,
-        execute: function (km, color) {
+        execute(km, color) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('color', color)
             n.render()
           })
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNode() ? 0 : -1
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('color')
         }
       }),
@@ -75,17 +75,17 @@ Module.register('fontModule', function () {
       background: kity.createClass('backgroundCommand', {
         base: Command,
 
-        execute: function (km, color) {
+        execute(km, color) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('background', color)
             n.render()
           })
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNode ? 0 : -1
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('background')
         }
       }),
@@ -102,7 +102,7 @@ Module.register('fontModule', function () {
       family: kity.createClass('fontFamilyCommand', {
         base: Command,
 
-        execute: function (km, family) {
+        execute(km, family) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('font-family', family)
@@ -110,10 +110,10 @@ Module.register('fontModule', function () {
           })
           km.layout()
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNodes().length === 0 ? -1 : 0
         },
-        queryValue: function (km) {
+        queryValue(km) {
           const nodes = km.getSelectedNodes() || []
           if (nodes.length === 1) return nodes[0].getData('font-family')
           return ''
@@ -132,7 +132,7 @@ Module.register('fontModule', function () {
       fontsize: kity.createClass('fontSizeCommand', {
         base: Command,
 
-        execute: function (km, size) {
+        execute(km, size) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('font-size', size)
@@ -140,10 +140,10 @@ Module.register('fontModule', function () {
           })
           km.layout(300)
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNode() ? 0 : -1
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('font-size')
         }
       }),
@@ -159,16 +159,16 @@ Module.register('fontModule', function () {
       'text-align': kity.createClass('textAlginCommand', {
         base: Command,
 
-        execute: function (km, value) {
+        execute(km, value) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('text-align', value).render()
           })
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNode() ? 0 : -1
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('text-align') || 'left'
         }
       }),
@@ -182,7 +182,7 @@ Module.register('fontModule', function () {
       'clear-style': kity.createClass('clearStyleCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute(km) {
           const nodes = km.getSelectedNodes()
           nodes.forEach(function (n) {
             n.setData('color')
@@ -196,7 +196,7 @@ Module.register('fontModule', function () {
           })
           km.layout(300)
         },
-        queryState: function (km) {
+        queryState(km) {
           return km.getSelectedNode() ? 0 : -1
         }
       }),
@@ -212,7 +212,7 @@ Module.register('fontModule', function () {
       bold: kity.createClass('boldCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute(km) {
           const nodes = km.getSelectedNodes()
           if (this.queryState('bold') === 1) {
             nodes.forEach(function (n) {
@@ -225,7 +225,7 @@ Module.register('fontModule', function () {
           }
           km.layout()
         },
-        queryState: function () {
+        queryState() {
           const nodes = km.getSelectedNodes()
           let result = 0
           if (nodes.length === 0) {
@@ -239,7 +239,7 @@ Module.register('fontModule', function () {
           })
           return result
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('font-weight')
         }
       }),
@@ -255,7 +255,7 @@ Module.register('fontModule', function () {
       italic: kity.createClass('italicCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute(km) {
           const nodes = km.getSelectedNodes()
           if (this.queryState('italic') === 1) {
             nodes.forEach(function (n) {
@@ -269,7 +269,7 @@ Module.register('fontModule', function () {
 
           km.layout()
         },
-        queryState: function () {
+        queryState() {
           const nodes = km.getSelectedNodes()
           let result = 0
           if (nodes.length === 0) {
@@ -283,7 +283,7 @@ Module.register('fontModule', function () {
           })
           return result
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('font-style')
         }
       }),
@@ -298,7 +298,7 @@ Module.register('fontModule', function () {
       'line-through': kity.createClass('lineThroughCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute(km) {
           const nodes = km.getSelectedNodes()
           if (this.queryState('linethrough') === 1) {
             nodes.forEach(function (n) {
@@ -312,7 +312,7 @@ Module.register('fontModule', function () {
 
           km.layout()
         },
-        queryState: function () {
+        queryState() {
           const nodes = km.getSelectedNodes()
           let result = 0
           if (nodes.length === 0) {
@@ -326,7 +326,7 @@ Module.register('fontModule', function () {
           })
           return result
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('text-decoration')
         }
       }),
@@ -341,7 +341,7 @@ Module.register('fontModule', function () {
       underline: kity.createClass('underlineCommand', {
         base: Command,
 
-        execute: function (km) {
+        execute(km) {
           const nodes = km.getSelectedNodes()
           if (this.queryState('underline') === 1) {
             nodes.forEach(function (n) {
@@ -355,7 +355,7 @@ Module.register('fontModule', function () {
 
           km.layout()
         },
-        queryState: function () {
+        queryState() {
           const nodes = km.getSelectedNodes()
           let result = 0
           if (nodes.length === 0) {
@@ -369,7 +369,7 @@ Module.register('fontModule', function () {
           })
           return result
         },
-        queryValue: function () {
+        queryValue() {
           return calculatorSame('text-decoration')
         }
       })

@@ -124,7 +124,7 @@ Module.register('Resource', function () {
      * @param {String} str
      * @return {Number} hashCode
      */
-    getHashCode: function (str) {
+    getHashCode(str) {
       str = blake32(str)
       let hash = 1315423911
       for (let i = str.length - 1; i >= 0; i--) {
@@ -144,7 +144,7 @@ Module.register('Resource', function () {
      * @param {String} resource 资源名称
      * @return {Color}
      */
-    getResourceColor: function (resource) {
+    getResourceColor(resource) {
       const colorMapping = this._getResourceColorIndexMapping()
       let nextIndex
 
@@ -166,7 +166,7 @@ Module.register('Resource', function () {
      *
      * @return {Array}
      */
-    getUsedResource: function () {
+    getUsedResource() {
       const mapping = this._getResourceColorIndexMapping()
       const used = []
       for (const resource in mapping) {
@@ -181,7 +181,7 @@ Module.register('Resource', function () {
      * 获取脑图下一个可用的资源颜色索引
      * @return {int}
      */
-    _getNextResourceColorIndex: function () {
+    _getNextResourceColorIndex() {
       // 获取现有颜色映射
       //     resource => color_index
       const colorMapping = this._getResourceColorIndexMapping()
@@ -204,7 +204,7 @@ Module.register('Resource', function () {
 
     // 获取现有颜色映射
     //     resource => color_index
-    _getResourceColorIndexMapping: function () {
+    _getResourceColorIndexMapping() {
       return this._resourceColorMapping || (this._resourceColorMapping = {})
     }
   })
@@ -228,7 +228,7 @@ Module.register('Resource', function () {
   const ResourceCommand = kity.createClass('ResourceCommand', {
     base: Command,
 
-    execute: function (minder, resource) {
+    execute(minder, resource) {
       const nodes = minder.getSelectedNodes()
 
       if (typeof resource === 'string') {
@@ -242,7 +242,7 @@ Module.register('Resource', function () {
       minder.layout(200)
     },
 
-    queryValue: function (minder) {
+    queryValue(minder) {
       const nodes = minder.getSelectedNodes()
       const resource = []
 
@@ -261,7 +261,7 @@ Module.register('Resource', function () {
       return resource
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNode() ? 0 : -1
     }
   })
@@ -316,16 +316,16 @@ Module.register('Resource', function () {
   const ResourceRenderer = kity.createClass('ResourceRenderer', {
     base: Renderer,
 
-    create: function () {
+    create() {
       this.overlays = []
       return new kity.Group()
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return node.getData('resource') && node.getData('resource').length
     },
 
-    update: function (container, node, box) {
+    update(container, node, box) {
       const spaceRight = node.getStyle('space-right')
 
       const overlays = this.overlays

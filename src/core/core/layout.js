@@ -30,7 +30,7 @@ const Layout = kity.createClass('Layout', {
    *     children[i].setLayoutTransform(new kity.Matrix().translate(x, y));
    * }
    */
-  doLayout: function () {
+  doLayout() {
     throw new Error('Not Implement: Layout.doLayout()')
   },
 
@@ -41,7 +41,7 @@ const Layout = kity.createClass('Layout', {
    * @param {string} border 对齐边界，允许取值 left, right, top, bottom
    *
    */
-  align: function (nodes, border, offset) {
+  align(nodes, border, offset) {
     const self = this
     offset = offset || 0
     nodes.forEach(function (node) {
@@ -60,7 +60,7 @@ const Layout = kity.createClass('Layout', {
     })
   },
 
-  stack: function (nodes, axis, distance) {
+  stack(nodes, axis, distance) {
     const self = this
 
     let position = 0
@@ -110,7 +110,7 @@ const Layout = kity.createClass('Layout', {
     return position
   },
 
-  move: function (nodes, dx, dy) {
+  move(nodes, dx, dy) {
     nodes.forEach(function (node) {
       node.getLayoutTransform().translate(dx, dy)
     })
@@ -123,7 +123,7 @@ const Layout = kity.createClass('Layout', {
    *
    * @return {Box} 计算结果
    */
-  getBranchBox: function (nodes) {
+  getBranchBox(nodes) {
     let box = new kity.Box()
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i]
@@ -142,7 +142,7 @@ const Layout = kity.createClass('Layout', {
    *
    * @return {Box} 计算的结果
    */
-  getTreeBox: function (nodes) {
+  getTreeBox(nodes) {
     let box = new kity.Box()
 
     if (!(nodes instanceof Array)) nodes = [nodes]
@@ -163,7 +163,7 @@ const Layout = kity.createClass('Layout', {
     return box
   },
 
-  getOrderHint: function () {
+  getOrderHint() {
     return []
   }
 })
@@ -178,11 +178,11 @@ Minder.registerInitHook(function () {
  * 布局池子管理
  */
 utils.extend(Minder, {
-  getLayoutList: function () {
+  getLayoutList() {
     return _layouts
   },
 
-  getLayoutInstance: function (name) {
+  getLayoutInstance(name) {
     const LayoutClass = _layouts[name]
     if (!LayoutClass) throw new Error('Missing Layout: ' + name)
     const layout = new LayoutClass()
@@ -199,11 +199,11 @@ kity.extendClass(MinderNode, {
    *
    * @return {String}
    */
-  getLayout: function () {
+  getLayout() {
     return this.getData('layout') || (this.isRoot() ? _defaultLayout : this.parent.getLayout())
   },
 
-  setLayout: function (name) {
+  setLayout(name) {
     if (name) {
       if (name === 'inherit') {
         this.setData('layout')
@@ -214,23 +214,23 @@ kity.extendClass(MinderNode, {
     return this
   },
 
-  layout: function (name) {
+  layout(name) {
     this.setLayout(name).getMinder().layout()
     return this
   },
 
-  getLayoutInstance: function () {
+  getLayoutInstance() {
     return Minder.getLayoutInstance(this.getLayout())
   },
 
-  getOrderHint: function () {
+  getOrderHint() {
     return this.parent.getLayoutInstance().getOrderHint(this)
   },
 
   /**
    * 获取当前节点相对于父节点的布局变换
    */
-  getLayoutTransform: function () {
+  getLayoutTransform() {
     return this._layoutTransform || new kity.Matrix()
   },
 
@@ -239,7 +239,7 @@ kity.extendClass(MinderNode, {
    *
    * @return {[type]} [description]
    */
-  getGlobalLayoutTransformPreview: function () {
+  getGlobalLayoutTransformPreview() {
     const pMatrix = this.parent ? this.parent.getLayoutTransform() : new kity.Matrix()
     let matrix = this.getLayoutTransform()
     const offset = this.getLayoutOffset()
@@ -249,14 +249,14 @@ kity.extendClass(MinderNode, {
     return pMatrix.merge(matrix)
   },
 
-  getLayoutPointPreview: function () {
+  getLayoutPointPreview() {
     return this.getGlobalLayoutTransformPreview().transformPoint(new kity.Point())
   },
 
   /**
    * 获取节点相对于全局的布局变换
    */
-  getGlobalLayoutTransform: function () {
+  getGlobalLayoutTransform() {
     if (this._globalLayoutTransform) {
       return this._globalLayoutTransform
     } else if (this.parent) {
@@ -269,7 +269,7 @@ kity.extendClass(MinderNode, {
   /**
    * 设置当前节点相对于父节点的布局变换
    */
-  setLayoutTransform: function (matrix) {
+  setLayoutTransform(matrix) {
     this._layoutTransform = matrix
     return this
   },
@@ -277,64 +277,64 @@ kity.extendClass(MinderNode, {
   /**
    * 设置当前节点相对于全局的布局变换（冗余优化）
    */
-  setGlobalLayoutTransform: function (matrix) {
+  setGlobalLayoutTransform(matrix) {
     this.getRenderContainer().setMatrix((this._globalLayoutTransform = matrix))
     return this
   },
 
-  setVertexIn: function (p) {
+  setVertexIn(p) {
     this._vertexIn = p
   },
 
-  setVertexOut: function (p) {
+  setVertexOut(p) {
     this._vertexOut = p
   },
 
-  getVertexIn: function () {
+  getVertexIn() {
     return this._vertexIn || new kity.Point()
   },
 
-  getVertexOut: function () {
+  getVertexOut() {
     return this._vertexOut || new kity.Point()
   },
 
-  getLayoutVertexIn: function () {
+  getLayoutVertexIn() {
     return this.getGlobalLayoutTransform().transformPoint(this.getVertexIn())
   },
 
-  getLayoutVertexOut: function () {
+  getLayoutVertexOut() {
     return this.getGlobalLayoutTransform().transformPoint(this.getVertexOut())
   },
 
-  setLayoutVectorIn: function (v) {
+  setLayoutVectorIn(v) {
     this._layoutVectorIn = v
     return this
   },
 
-  setLayoutVectorOut: function (v) {
+  setLayoutVectorOut(v) {
     this._layoutVectorOut = v
     return this
   },
 
-  getLayoutVectorIn: function () {
+  getLayoutVectorIn() {
     return this._layoutVectorIn || new kity.Vector()
   },
 
-  getLayoutVectorOut: function () {
+  getLayoutVectorOut() {
     return this._layoutVectorOut || new kity.Vector()
   },
 
-  getLayoutBox: function () {
+  getLayoutBox() {
     const matrix = this.getGlobalLayoutTransform()
     return matrix.transformBox(this.getContentBox())
   },
 
-  getLayoutPoint: function () {
+  getLayoutPoint() {
     const matrix = this.getGlobalLayoutTransform()
     return matrix.transformPoint(new kity.Point())
   },
 
-  getLayoutOffset: function () {
+  getLayoutOffset() {
     if (!this.parent) return new kity.Point()
     // 影响当前节点位置的是父节点的布局
     const data = this.getData('layout_' + this.parent.getLayout() + '_offset')
@@ -342,7 +342,7 @@ kity.extendClass(MinderNode, {
     return new kity.Point()
   },
 
-  setLayoutOffset: function (p) {
+  setLayoutOffset(p) {
     if (!this.parent) return this
 
     this.setData(
@@ -358,22 +358,22 @@ kity.extendClass(MinderNode, {
     return this
   },
 
-  hasLayoutOffset: function () {
+  hasLayoutOffset() {
     return !!this.getData('layout_' + this.parent.getLayout() + '_offset')
   },
 
-  resetLayoutOffset: function () {
+  resetLayoutOffset() {
     return this.setLayoutOffset(null)
   },
 
-  getLayoutRoot: function () {
+  getLayoutRoot() {
     if (this.isLayoutRoot()) {
       return this
     }
     return this.parent.getLayoutRoot()
   },
 
-  isLayoutRoot: function () {
+  isLayoutRoot() {
     return this.getData('layout') || this.isRoot()
   }
 })
@@ -382,7 +382,7 @@ kity.extendClass(MinderNode, {
  * Minder 上的布局支持
  */
 kity.extendClass(Minder, {
-  layout: function () {
+  layout() {
     const duration = this.getOption('layoutAnimationDuration')
 
     this.getRoot().traverse(function (node) {
@@ -424,13 +424,13 @@ kity.extendClass(Minder, {
     return this.fire('layout')
   },
 
-  refresh: function () {
+  refresh() {
     this.getRoot().renderTree()
     this.layout().fire('contentchange')._interactChange()
     return this
   },
 
-  applyLayoutResult: function (root, duration, callback) {
+  applyLayoutResult(root, duration, callback) {
     root = root || this.getRoot()
     const self = this
 

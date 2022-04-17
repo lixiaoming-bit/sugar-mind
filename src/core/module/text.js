@@ -73,7 +73,7 @@ class CreateForeignObject {
 const TextRenderer = kity.createClass('TextRenderer', {
   base: Renderer,
 
-  create: function () {
+  create() {
     // 创建dom节点
     const fo = new CreateForeignObject()
     const group = new kity.Group().setId(utils.uuid('node_text'))
@@ -83,7 +83,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
     return group
   },
 
-  update: function (textGroup, node) {
+  update(textGroup, node) {
     const element = textGroup.node.lastChild
     const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
 
@@ -152,7 +152,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
     }
   },
 
-  setTextStyle: function (node, text) {
+  setTextStyle(node, text) {
     const hooks = TextRenderer._styleHooks
     hooks.forEach(function (hook) {
       hook(node, text)
@@ -162,7 +162,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
 const TextCommand = kity.createClass({
   base: Command,
-  execute: function (minder, text) {
+  execute(minder, text) {
     const node = minder.getSelectedNode()
     if (node) {
       node.setText(text)
@@ -170,10 +170,10 @@ const TextCommand = kity.createClass({
       minder.layout()
     }
   },
-  queryState: function (minder) {
+  queryState(minder) {
     return minder.getSelectedNode() ? 0 : -1
   },
-  queryValue: function (minder) {
+  queryValue(minder) {
     const node = minder.getSelectedNode()
     return node.getText()
   }
@@ -182,13 +182,13 @@ const TextCommand = kity.createClass({
 utils.extend(TextRenderer, {
   _styleHooks: [],
 
-  registerStyleHook: function (fn) {
+  registerStyleHook(fn) {
     TextRenderer._styleHooks.push(fn)
   }
 })
 
 kity.extendClass(MinderNode, {
-  getTextGroup: function () {
+  getTextGroup() {
     return this.getRenderer('TextRenderer').getRenderShape()
   }
 })

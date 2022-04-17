@@ -81,7 +81,7 @@ const SelectCommonLevel = kity.createClass('SelectCommonLevel', {
 // 选择子树
 const SelectSubtree = kity.createClass('SelectSubtree', {
   base: Command,
-  execute: function (km) {
+  execute(km) {
     const selected = km.getSelectedNodes()
     const selection = []
     selected.forEach(function (parent) {
@@ -112,7 +112,7 @@ Module.register('Select', function () {
     const MARQUEE_MODE_THRESHOLD = 10
 
     return {
-      selectStart: function (e) {
+      selectStart(e) {
         // 只接受左键
         if (e.originEvent.button || e.originEvent.altKey) return
 
@@ -123,7 +123,7 @@ Module.register('Select', function () {
 
         startPosition = e.getPosition(rc).round()
       },
-      selectMove: function (e) {
+      selectMove(e) {
         if (minder.getStatus() === 'textedit') return
         if (!startPosition) return
 
@@ -180,7 +180,7 @@ Module.register('Select', function () {
         // 清除多余的东西
         window.getSelection().removeAllRanges()
       },
-      selectEnd: function () {
+      selectEnd() {
         if (startPosition) {
           startPosition = null
         }
@@ -197,13 +197,13 @@ Module.register('Select', function () {
   let lastDownNode = null
   let lastDownPosition = null
   return {
-    init: function () {
+    init() {
       window.addEventListener('mouseup', function () {
         marqueeActivator.selectEnd()
       })
     },
     events: {
-      mousedown: function (e) {
+      mousedown(e) {
         const downNode = e.getTargetNode()
 
         // 没有点中节点：
@@ -257,7 +257,7 @@ Module.register('Select', function () {
         }
       },
       mousemove: marqueeActivator.selectMove,
-      mouseup: function (e) {
+      mouseup(e) {
         const upNode = e.getTargetNode()
 
         // 如果 mouseup 发生在 lastDownNode 外，是无需理会的

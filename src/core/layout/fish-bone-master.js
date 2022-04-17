@@ -10,7 +10,7 @@ Layout.register(
   kity.createClass('FishBoneMasterLayout', {
     base: Layout,
 
-    doLayout: function (parent, children) {
+    doLayout(parent, children) {
       const upPart = []
       const downPart = []
 

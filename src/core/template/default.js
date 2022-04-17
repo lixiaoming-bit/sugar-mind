@@ -3,7 +3,7 @@
  */
 import template from '../core/template'
 template.register('default', {
-  getLayout: function (node) {
+  getLayout(node) {
     if (node.getData('layout')) return node.getData('layout')
 
     const level = node.getLevel()
@@ -21,7 +21,7 @@ template.register('default', {
     return node.parent.getLayout()
   },
 
-  getConnect: function (node) {
+  getConnect(node) {
     if (node.getLevel() === 1) return 'arc'
     return 'poly'
   }

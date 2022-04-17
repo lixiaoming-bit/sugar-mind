@@ -32,7 +32,7 @@ Module.register('ImageViewer', function () {
   //   }
 
   const ImageViewer = kity.createClass('ImageViewer', {
-    constructor: function () {
+    constructor() {
       const btnClose = createEl('button', 'km-image-viewer-btn km-image-viewer-close')
       const btnSource = createEl('button', 'km-image-viewer-btn km-image-viewer-source')
       const image = (this.image = createEl('img'))
@@ -49,11 +49,11 @@ Module.register('ImageViewer', function () {
       on(viewer, 'contextmenu', this.toggleToolbar.bind(this))
       on(document, 'keydown', this.hotkeyHandler)
     },
-    dispose: function () {
+    dispose() {
       this.close()
       document.removeEventListener('remove', this.hotkeyHandler)
     },
-    hotkeyHandler: function (e) {
+    hotkeyHandler(e) {
       if (!this.activated) {
         return
       }
@@ -61,11 +61,11 @@ Module.register('ImageViewer', function () {
         this.close()
       }
     },
-    toggleToolbar: function (e) {
+    toggleToolbar(e) {
       e && e.preventDefault()
       this.toolbar.classList.toggle('hidden')
     },
-    zoomImage: function (restore) {
+    zoomImage(restore) {
       const image = this.image
       if (typeof restore === 'boolean') {
         restore && addClass(image, 'limited')
@@ -73,16 +73,16 @@ Module.register('ImageViewer', function () {
         image.classList.toggle('limited')
       }
     },
-    viewSource: function () {
+    viewSource() {
       window.open(this.image.src)
     },
-    open: function (src) {
+    open(src) {
       this.image.src = src
       this.zoomImage(true)
       document.body.appendChild(this.viewer)
       this.activated = true
     },
-    close: function () {
+    close() {
       this.image.src = ''
       document.body.removeChild(this.viewer)
       this.activated = false
@@ -90,11 +90,11 @@ Module.register('ImageViewer', function () {
   })
 
   return {
-    init: function () {
+    init() {
       this.viewer = new ImageViewer()
     },
     events: {
-      'normal.dblclick': function (e) {
+      'normal.dblclick'(e) {
         const shape = e.kityEvent.targetShape
         const isAllowed = shape.node.className.animVal === 'upload-image'
         if (shape.__KityClassName === 'Image' && isAllowed && shape.url) {
@@ -102,7 +102,7 @@ Module.register('ImageViewer', function () {
         }
         e.stopPropagation()
       },
-      'normal.click': function (e) {
+      'normal.click'(e) {
         e.stopPropagation()
         const shape = e.kityEvent.targetShape
         const isAllowedDeleteImage = shape.node.className.animVal === 'delete-image'

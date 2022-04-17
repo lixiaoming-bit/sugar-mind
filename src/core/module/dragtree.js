@@ -7,7 +7,7 @@ const kity = window.kity
 // 矩形的变形动画定义
 const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
   base: Command,
-  execute: function (minder, nodes, parent) {
+  execute(minder, nodes, parent) {
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i]
       if (node.parent) {
@@ -69,20 +69,20 @@ class OrderHinter extends kity.Group {
 //    1. 从节点列表计算出拖动部分
 //    2. 计算可以 drop 的节点，产生 drop 交互提示
 const TreeDragger = kity.createClass('TreeDragger', {
-  constructor: function (minder) {
+  constructor(minder) {
     this._minder = minder
     this._dropHinter = new DropHinter()
     this._orderHinter = new OrderHinter()
     minder.getRenderContainer().addShapes([this._dropHinter, this._orderHinter])
   },
 
-  dragStart: function (position) {
+  dragStart(position) {
     // 只记录开始位置，不马上开启拖放模式
     // 这个位置同时是拖放范围收缩时的焦点位置（中心）
     this._startPosition = position
   },
 
-  dragMove: function (position) {
+  dragMove(position) {
     // 启动拖放模式需要最小的移动距离
     const DRAG_MOVE_THRESHOLD = 10
 
@@ -123,7 +123,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     }
   },
 
-  dragEnd: function () {
+  dragEnd() {
     this._startPosition = null
     this._dragPosition = null
 
@@ -177,7 +177,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
   // 进入拖放模式：
   //    1. 计算拖放源和允许的拖放目标
   //    2. 标记已启动
-  _enterDragMode: function () {
+  _enterDragMode() {
     this._calcDragSources()
     if (!this._dragSources.length) {
       this._startPosition = null
@@ -200,11 +200,11 @@ const TreeDragger = kity.createClass('TreeDragger', {
   //       1. 将节点按照树高排序，排序后只可能是前面节点是后面节点的祖先
   //       2. 从后往前枚举排序的结果，如果发现枚举目标之前存在其祖先，
   //          则排除枚举目标作为拖放源，否则加入拖放源
-  _calcDragSources: function () {
+  _calcDragSources() {
     this._dragSources = this._minder.getSelectedAncestors()
   },
 
-  _fadeDragSources: function (opacity) {
+  _fadeDragSources(opacity) {
     const minder = this._minder
     this._dragSources.forEach(function (source) {
       // 拖拽时 隐藏线
@@ -234,7 +234,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
   //       (2) 如果不是拖放目标之一，以当前子节点为当前节点，回到 1 计算
   //    3. 返回允许列表
   //
-  _calcDropTargets: function () {
+  _calcDropTargets() {
     function findAvailableParents(nodes, root) {
       let available = []
       available.push(root)
@@ -253,7 +253,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     })
   },
 
-  _calcOrderHints: function () {
+  _calcOrderHints() {
     const sources = this._dragSources
     let ancestor = MinderNode.getCommonAncestor(sources)
 
@@ -263,6 +263,9 @@ const TreeDragger = kity.createClass('TreeDragger', {
     if (sources.length === 0 || ancestor !== sources[0].parent) {
       this._orderHints = []
       return
+    }
+    if (!ancestor) {
+      ancestor = this._minder.getRoot()
     }
 
     const siblings = ancestor.children
@@ -275,7 +278,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     }, [])
   },
 
-  _leaveDragMode: function () {
+  _leaveDragMode() {
     Mousetrap.unpause()
     this._dragMode = false
     this._dropSucceedTarget = null
@@ -285,7 +288,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     this._minder.rollbackStatus()
   },
 
-  _drawForDragMode: function () {
+  _drawForDragMode() {
     this._text.setContent(this._dragSources.length + ' items')
     this._text.setPosition(this._startPosition.x, this._startPosition.y + 5)
     this._minder.getRenderContainer().addShape(this)
@@ -299,7 +302,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
    * @returns {*}
    * @private
    */
-  _boxTest: function (targets, targetBoxMapper, judge) {
+  _boxTest(targets, targetBoxMapper, judge) {
     const sourceBoxes = this._dragSources.map(function (source) {
       return source.getLayoutBox()
     })
@@ -327,7 +330,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     return null
   },
 
-  _dropTest: function () {
+  _dropTest() {
     this._dropSucceedTarget = this._boxTest(
       this._dropTargets,
       function (target, i) {
@@ -356,7 +359,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     return !!this._dropSucceedTarget
   },
 
-  _orderTest: function () {
+  _orderTest() {
     this._orderSucceedHint = this._boxTest(this._orderHints, function (hint) {
       return hint.area
     })
@@ -364,14 +367,14 @@ const TreeDragger = kity.createClass('TreeDragger', {
     return !!this._orderSucceedHint
   },
 
-  _renderDropHint: function (target) {
+  _renderDropHint(target) {
     this._dropHinter.render(target)
   },
 
-  _renderOrderHint: function (hint) {
+  _renderOrderHint(hint) {
     this._orderHinter.render(hint)
   },
-  preventDragMove: function () {
+  preventDragMove() {
     this._startPosition = null
   }
 })
@@ -381,33 +384,33 @@ Module.register('DragTree', function () {
   let dragger
 
   return {
-    init: function () {
+    init() {
       dragger = new TreeDragger(this)
       window.addEventListener('mouseup', function () {
         dragger.dragEnd()
       })
     },
     events: {
-      'normal.mousedown inputready.mousedown': function (e) {
+      'normal.mousedown inputready.mousedown'(e) {
         mousedown = true
         // 单选中根节点也不触发拖拽
         if (e.originEvent.button) return
-        if (e.getTargetNode() && e.getTargetNode() != this.getRoot()) {
+        if (e.getTargetNode() && e.getTargetNode() !== this.getRoot()) {
           dragger.dragStart(e.getPosition())
         }
       },
-      'normal.mousemove dragtree.mousemove': function (e) {
+      'normal.mousemove dragtree.mousemove'(e) {
         if (!mousedown) return
         dragger.dragMove(e.getPosition())
         e.stopPropagation()
       },
-      'normal.mouseup dragtree.beforemouseup': function (e) {
+      'normal.mouseup dragtree.beforemouseup'(e) {
         mousedown = false
         dragger.dragEnd()
         e.stopPropagation()
         e.preventDefault()
       },
-      statuschange: function (e) {
+      statuschange(e) {
         if (e.lastStatus === 'textedit' && e.currentStatus === 'normal') {
           dragger.preventDragMove()
         }

@@ -4,11 +4,11 @@
 import template from '../core/template'
 
 template.register('right', {
-  getLayout: function (node) {
+  getLayout(node) {
     return node.getData('layout') || 'right'
   },
 
-  getConnect: function (node) {
+  getConnect(node) {
     if (node.getLevel() === 1) return 'arc'
     return 'bezier'
     // return 'poly'

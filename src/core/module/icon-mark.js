@@ -46,35 +46,35 @@ Module.register('MarkModule', function () {
    */
   const MarkCommand = kity.createClass('MarkCommand', {
     base: Command,
-    execute: function (km, value) {
+    execute(km, value) {
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(MARK_DATA, value ?? null).render()
       }
       km.layout()
     },
-    queryValue: function (km) {
+    queryValue(km) {
       const nodes = km.getSelectedNodes()
       const node = nodes.find(node => typeof node.getData(MARK_DATA) === 'number')
       return node ? node.getData(MARK_DATA) : null
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNodes().length ? 0 : -1
     }
   })
   const MarkRenderer = kity.createClass('MarkRenderer', {
     base: Renderer,
 
-    create: function () {
+    create() {
       return new MarkIcon()
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return MARK_IMAGES[node.getData(MARK_DATA)]
     },
 
-    update: function (icon, node, box) {
+    update(icon, node, box) {
       const data = node.getData(MARK_DATA)
       const spaceLeft = node.getStyle('space-left')
 

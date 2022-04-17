@@ -15,7 +15,7 @@ Module.register('SearchModule', function () {
   const SearchCommand = kity.createClass('SearchCommand', {
     base: Command,
 
-    execute: function (minder) {
+    execute(minder) {
       minder.fire('searchrequest')
       this.setContentChanged(false)
     },

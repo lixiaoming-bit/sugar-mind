@@ -89,7 +89,7 @@ function applyPatch(minder, patch) {
 }
 
 kity.extendClass(Minder, {
-  applyPatches: function (patches) {
+  applyPatches(patches) {
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }

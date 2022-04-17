@@ -47,7 +47,7 @@ Module.register('image', function () {
   const ImageCommand = kity.createClass('ImageCommand', {
     base: Command,
 
-    execute: function (km, url, title) {
+    execute(km, url, title) {
       const nodes = km.getSelectedNodes()
 
       loadImageSize(url, (width, height) => {
@@ -69,7 +69,7 @@ Module.register('image', function () {
         km.layout(300)
       })
     },
-    queryState: function (km) {
+    queryState(km) {
       const nodes = km.getSelectedNodes()
       let result = 0
       if (nodes.length === 0) {
@@ -83,7 +83,7 @@ Module.register('image', function () {
       })
       return result
     },
-    queryValue: function (km) {
+    queryValue(km) {
       const node = km.getSelectedNode()
       const url = node.getData('image')
       return url
@@ -98,7 +98,7 @@ Module.register('image', function () {
   const ImageRenderer = kity.createClass('ImageRenderer', {
     base: Renderer,
 
-    create: function (node) {
+    create(node) {
       const deleteImageUrl = require('@/assets/images/preview-group/delete.png')
       const openImageUrl = require('@/assets/images/preview-group/open.png')
 
@@ -134,11 +134,11 @@ Module.register('image', function () {
     },
 
     // 需要优化设置图片样式为空时 svg中的image节点并未清除
-    shouldRender: function (node) {
+    shouldRender(node) {
       return node.getData('image')
     },
 
-    update: function (group, node, box) {
+    update(group, node, box) {
       const [uploadImage, deleteImage, openImage] = group.getItems()
       const url = node.getData('image')
       const title = node.getData('imageTitle')

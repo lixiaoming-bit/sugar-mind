@@ -6,7 +6,7 @@ Layout.register(
   kity.createClass('FishBoneSlaveLayout', {
     base: Layout,
 
-    doLayout: function (parent, children, round) {
+    doLayout(parent, children, round) {
       const layout = this
       const abs = Math.abs
       const GOLD_CUT = 1 - 0.618

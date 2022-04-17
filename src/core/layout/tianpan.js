@@ -9,7 +9,7 @@ Layout.register(
   kity.createClass({
     base: Layout,
 
-    doLayout: function (parent, children) {
+    doLayout(parent, children) {
       if (children.length === 0) return
 
       const layout = this
@@ -39,7 +39,7 @@ Layout.register(
       })
     },
 
-    getOrderHint: function (node) {
+    getOrderHint(node) {
       const hint = []
       const box = node.getLayoutBox()
       const offset = 5

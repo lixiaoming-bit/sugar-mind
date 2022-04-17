@@ -121,7 +121,7 @@ Module.register('KeyboardModule', function () {
 
   const NavigateCommand = kity.createClass('NavigateCommand', {
     base: Command,
-    execute: function (km, keyCode) {
+    execute(km, keyCode) {
       const directionMap = {
         37: 'left',
         38: 'top',
@@ -145,7 +145,7 @@ Module.register('KeyboardModule', function () {
       }
       this.setContentChanged(false)
     },
-    queryState: function (km) {
+    queryState(km) {
       const selected = km.getSelectedNode()
       return selected ? 0 : -1
     }

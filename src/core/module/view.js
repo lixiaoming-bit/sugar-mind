@@ -3,7 +3,7 @@ import Module from '../core/module'
 const kity = window.kity
 
 const ViewDragger = kity.createClass('ViewDragger', {
-  constructor: function (minder) {
+  constructor(minder) {
     this._minder = minder
     this._enabled = false
     this._bind()
@@ -14,26 +14,26 @@ const ViewDragger = kity.createClass('ViewDragger', {
     this.setEnabled(false)
   },
 
-  isEnabled: function () {
+  isEnabled() {
     return this._enabled
   },
 
-  setEnabled: function (value) {
+  setEnabled(value) {
     const paper = this._minder.getPaper()
     paper.setStyle('cursor', value ? 'pointer' : 'default')
     paper.setStyle('cursor', value ? '-webkit-grab' : 'default')
     this._enabled = value
   },
-  timeline: function () {
+  timeline() {
     return this._moveTimeline
   },
 
-  move: function (offset, duration) {
+  move(offset, duration) {
     const targetPosition = this.getMovement().offset(offset)
     this.moveTo(targetPosition, duration)
   },
 
-  moveTo: function (position, duration) {
+  moveTo(position, duration) {
     if (duration) {
       const dragger = this
       if (this._moveTimeline) this._moveTimeline.stop()
@@ -59,12 +59,12 @@ const ViewDragger = kity.createClass('ViewDragger', {
     this._minder.fire('viewchange')
   },
 
-  getMovement: function () {
+  getMovement() {
     const translate = this._minder.getRenderContainer().transform.translate
     return translate ? translate[0] : new kity.Point()
   },
 
-  getView: function () {
+  getView() {
     const minder = this._minder
     const c = minder._lastClientSize || {
       width: minder.getRenderTarget().clientWidth,
@@ -76,7 +76,7 @@ const ViewDragger = kity.createClass('ViewDragger', {
     return viewMatrix.inverse().translate(-m.x, -m.y).transformBox(box)
   },
 
-  _bind: function () {
+  _bind() {
     const dragger = this
     let isTempDrag = false
     let lastPosition = null
@@ -183,7 +183,7 @@ Module.register('View', function () {
    */
   const ToggleHandCommand = kity.createClass('ToggleHandCommand', {
     base: Command,
-    execute: function (minder) {
+    execute(minder) {
       if (minder.getStatus() !== 'hand') {
         minder.setStatus('hand', true)
       } else {
@@ -191,7 +191,7 @@ Module.register('View', function () {
       }
       this.setContentChanged(false)
     },
-    queryState: function (minder) {
+    queryState(minder) {
       return minder.getStatus() === 'hand' ? 1 : 0
     },
     enableReadOnly: true
@@ -207,7 +207,7 @@ Module.register('View', function () {
    */
   const CameraCommand = kity.createClass('CameraCommand', {
     base: Command,
-    execute: function (km, focusNode) {
+    execute(km, focusNode) {
       focusNode = focusNode || km.getRoot()
       const viewport = km.getPaper().getViewPort()
       const offset = focusNode.getRenderContainer().getRenderBox('view')
@@ -237,7 +237,7 @@ Module.register('View', function () {
   const MoveCommand = kity.createClass('MoveCommand', {
     base: Command,
 
-    execute: function (km, dir) {
+    execute(km, dir) {
       const dragger = km._viewDragger
       const size = km._lastClientSize
       const duration = km.getOption('viewAnimationDuration')
@@ -262,7 +262,7 @@ Module.register('View', function () {
   })
 
   return {
-    init: function () {
+    init() {
       this._viewDragger = new ViewDragger(this)
     },
     commands: {
@@ -271,10 +271,10 @@ Module.register('View', function () {
       move: MoveCommand
     },
     events: {
-      statuschange: function (e) {
+      statuschange(e) {
         this._viewDragger.setEnabled(e.currentStatus === 'hand')
       },
-      mousewheel: function (e) {
+      mousewheel(e) {
         let dx
         let dy
         e = e.originEvent
@@ -300,13 +300,19 @@ Module.register('View', function () {
 
         e.preventDefault()
       },
-      'normal.dblclick readonly.dblclick': function (e) {
+      'readonly.dblclick normal.dblclick'(e) {
         if (e.kityEvent.targetShape instanceof kity.Paper) {
           if (e.minder.getSelectedNode()) return
           this.execCommand('camera', this.getRoot(), 800)
         }
       },
-      'paperrender finishInitHook': function () {
+      // 'normal.dblclick'(e) {
+      //   if (e.kityEvent.targetShape instanceof kity.Paper) {
+      //     if (e.minder.getSelectedNode()) return
+      //     this.execCommand('AppendFreedomNode', undefined, e.getPosition())
+      //   }
+      // },
+      'paperrender finishInitHook'() {
         if (!this.getRenderTarget()) {
           return
         }
@@ -316,7 +322,7 @@ Module.register('View', function () {
           height: this.getRenderTarget().clientHeight
         }
       },
-      resize: function () {
+      resize() {
         const a = {
           width: this.getRenderTarget().clientWidth,
           height: this.getRenderTarget().clientHeight
@@ -327,7 +333,7 @@ Module.register('View', function () {
         )
         this._lastClientSize = a
       },
-      'selectionchange layoutallfinish': function () {
+      'selectionchange layoutallfinish'() {
         const selected = this.getSelectedNode()
         const minder = this
 

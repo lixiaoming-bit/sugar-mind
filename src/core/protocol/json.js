@@ -5,11 +5,11 @@ data.registerProtocol('json', {
   dataType: 'text',
   mineType: 'application/json',
 
-  encode: function (json) {
+  encode(json) {
     return JSON.stringify(json)
   },
 
-  decode: function (local) {
+  decode(local) {
     return JSON.parse(local)
   }
 })

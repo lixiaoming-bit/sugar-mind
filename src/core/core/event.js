@@ -6,7 +6,7 @@ const kity = window.kity
  * @description 表示一个脑图中发生的事件
  */
 const MinderEvent = kity.createClass('MindEvent', {
-  constructor: function (type, params, stop) {
+  constructor(type, params, stop) {
     params = params || {}
     if (params.getType && params.getType() === 'ShapeEvent') {
       // 如果事件是从一个 kity 的事件派生的，会有 kityEvent 属性指向原来的 kity 事件
@@ -37,7 +37,7 @@ const MinderEvent = kity.createClass('MindEvent', {
    *     `"minder"` - （默认）以脑图画布为参照坐标系
    *     `{kity.Shape}` - 指定以某个 kity 图形为参照坐标系
    */
-  getPosition: function (refer) {
+  getPosition(refer) {
     if (!this.kityEvent) return
     if (!refer || refer === 'minder') {
       return this.kityEvent.getPosition(this.minder.getRenderContainer())
@@ -52,7 +52,7 @@ const MinderEvent = kity.createClass('MindEvent', {
    *
    * @grammar getTargetNode() => {MinderNode}
    */
-  getTargetNode: function () {
+  getTargetNode() {
     let findShape = this.kityEvent && this.kityEvent.targetShape
     if (!findShape) return null
     while (!findShape.minderNode && findShape.container) {
@@ -70,28 +70,28 @@ const MinderEvent = kity.createClass('MindEvent', {
    *
    * @grammar getTargetNode() => {MinderNode}
    */
-  stopPropagation: function () {
+  stopPropagation() {
     this._stopped = true
   },
 
-  stopPropagationImmediately: function () {
+  stopPropagationImmediately() {
     this._immediatelyStopped = true
     this._stopped = true
   },
 
-  shouldStopPropagation: function () {
+  shouldStopPropagation() {
     return this._stop && this._stopped
   },
 
-  shouldStopPropagationImmediately: function () {
+  shouldStopPropagationImmediately() {
     return this._stop && this._immediatelyStopped
   },
 
-  preventDefault: function () {
+  preventDefault() {
     this.originEvent.preventDefault()
   },
 
-  isRightMB: function () {
+  isRightMB() {
     let isRightMB = false
     if (!this.originEvent) {
       return false
@@ -100,7 +100,7 @@ const MinderEvent = kity.createClass('MindEvent', {
     else if ('button' in this.originEvent) isRightMB = this.originEvent.button === 2
     return isRightMB
   },
-  getKeyCode: function () {
+  getKeyCode() {
     const evt = this.originEvent
     return evt.keyCode || evt.which
   }
@@ -111,16 +111,16 @@ Minder.registerInitHook(function () {
 })
 
 kity.extendClass(Minder, {
-  _initEvents: function () {
+  _initEvents() {
     this._eventCallbacks = {}
   },
 
-  _resetEvents: function () {
+  _resetEvents() {
     this._initEvents()
     this._bindEvents()
   },
 
-  _bindEvents: function () {
+  _bindEvents() {
     this._paper.on(
       'click dblclick mousedown contextmenu mouseup mousemove mouseover mousewheel DOMMouseScroll touchstart touchmove touchend dragenter dragleave drop',
       this._firePhrase.bind(this)
@@ -136,11 +136,11 @@ kity.extendClass(Minder, {
    * @grammar dispatchKeyEvent(e) => {this}
    * @param  {Event} e 原生的 Dom 事件对象
    */
-  dispatchKeyEvent: function (e) {
+  dispatchKeyEvent(e) {
     this._firePhrase(e)
   },
 
-  _firePhrase: function (e) {
+  _firePhrase(e) {
     let beforeEvent
     let preEvent
     let executeEvent
@@ -163,7 +163,7 @@ kity.extendClass(Minder, {
       this._fire(new MinderEvent('after' + e.type, e, false))
   },
 
-  _interactChange: function () {
+  _interactChange() {
     const self = this
     if (self._interactScheduled) return
     setTimeout(function () {
@@ -173,12 +173,12 @@ kity.extendClass(Minder, {
     self._interactScheduled = true
   },
 
-  _listen: function (type, callback) {
+  _listen(type, callback) {
     const callbacks = this._eventCallbacks[type] || (this._eventCallbacks[type] = [])
     callbacks.push(callback)
   },
 
-  _fire: function (e) {
+  _fire(e) {
     /**
      * @property minder
      * @description 产生事件的 Minder 对象
@@ -210,7 +210,7 @@ kity.extendClass(Minder, {
     return e.shouldStopPropagation()
   },
 
-  on: function (name, callback) {
+  on(name, callback) {
     const km = this
     name.split(/\s+/).forEach(function (n) {
       km._listen(n.toLowerCase(), callback)
@@ -218,7 +218,7 @@ kity.extendClass(Minder, {
     return this
   },
 
-  off: function (name, callback) {
+  off(name, callback) {
     const types = name.split(/\s+/)
     let callbacks
     let removeIndex
@@ -238,7 +238,7 @@ kity.extendClass(Minder, {
     }
   },
 
-  fire: function (type, params) {
+  fire(type, params) {
     const e = new MinderEvent(type, params)
     this._fire(e)
     return this

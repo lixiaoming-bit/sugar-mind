@@ -215,7 +215,7 @@ data.registerProtocol('svg', {
   fileExtension: '.svg',
   mineType: 'image/svg+xml',
   dataType: 'text',
-  encode: function (json, minder) {
+  encode(json, minder) {
     const paper = minder.getPaper()
     const paperTransform = paper.shapeNode.getAttribute('transform')
     let svgXml

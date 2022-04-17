@@ -8,7 +8,7 @@ const kity = window.kity
 const _templates = {}
 
 kity.extendClass(Minder, {
-  getTemplateList: function () {
+  getTemplateList() {
     return _templates
   }
 })
@@ -18,25 +18,25 @@ kity.extendClass(
   (function () {
     const originGetTheme = Minder.prototype.getTheme
     return {
-      useTemplate: function (name, duration) {
+      useTemplate(name, duration) {
         this.setTemplate(name)
         this.refresh(duration || 800)
       },
 
-      getTemplate: function () {
+      getTemplate() {
         return this._template || 'default'
       },
 
-      setTemplate: function (name) {
+      setTemplate(name) {
         this._template = name || null
       },
 
-      getTemplateSupport: function (method) {
+      getTemplateSupport(method) {
         const supports = _templates[this.getTemplate()]
         return supports && supports[method]
       },
 
-      getTheme: function (node) {
+      getTheme(node) {
         const support = this.getTemplateSupport('getTheme') || originGetTheme
         return support.call(this, node)
       }
@@ -50,12 +50,12 @@ kity.extendClass(
     const originGetLayout = MinderNode.prototype.getLayout
     const originGetConnect = MinderNode.prototype.getConnect
     return {
-      getLayout: function () {
+      getLayout() {
         const support = this.getMinder().getTemplateSupport('getLayout') || originGetLayout
         return support.call(this, this)
       },
 
-      getConnect: function () {
+      getConnect() {
         const support = this.getMinder().getTemplateSupport('getConnect') || originGetConnect
         return support.call(this, this)
       }
@@ -77,12 +77,12 @@ Module.register('TemplateModule', {
     template: kity.createClass('TemplateCommand', {
       base: Command,
 
-      execute: function (minder, name) {
+      execute(minder, name) {
         minder.useTemplate(name)
         minder.execCommand('camera')
       },
 
-      queryValue: function (minder) {
+      queryValue(minder) {
         return minder.getTemplate() || 'default'
       }
     })

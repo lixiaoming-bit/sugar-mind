@@ -78,7 +78,7 @@ function registerLayoutForDirection(name) {
     kity.createClass({
       base: Layout,
 
-      doLayout: function (parent, children) {
+      doLayout(parent, children) {
         const pBox = parent.getContentBox()
 
         if (axis === 'x') {

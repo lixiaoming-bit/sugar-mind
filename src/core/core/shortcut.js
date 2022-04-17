@@ -56,7 +56,7 @@ function getMetaKeyCode(unknown) {
   return metaKeyCode
 }
 kity.extendClass(MinderEvent, {
-  isShortcutKey: function (keyCombine) {
+  isShortcutKey(keyCombine) {
     const keyEvent = this.originEvent
     if (!keyEvent) return false
 
@@ -69,11 +69,11 @@ Minder.registerInitHook(function () {
 })
 
 kity.extendClass(Minder, {
-  _initShortcutKey: function () {
+  _initShortcutKey() {
     this._shortcutKeys = {}
   },
 
-  // _bindShortcutKeys: function () {
+  // _bindShortcutKeys() {
   // const map = ()
   // this.on('keydown', function (e) {
   //   console.log('map: ', map)
@@ -89,7 +89,7 @@ kity.extendClass(Minder, {
   // })
   // },
 
-  addShortcut: function (keys, fn) {
+  addShortcut(keys, fn) {
     const binds = this._shortcutKeys
     keys.split(/\|\s*/).forEach(function (combine) {
       const parts = combine.split('::')
@@ -103,11 +103,11 @@ kity.extendClass(Minder, {
       binds[combine] = fn
     })
   },
-  getShortcutKeys: function () {
+  getShortcutKeys() {
     return this._shortcutKeys
   },
 
-  addCommandShortcutKeys: function (cmd, keys) {
+  addCommandShortcutKeys(cmd, keys) {
     const binds = this._commandShortcutKeys || (this._commandShortcutKeys = {})
     let obj = {}
     if (keys) {
@@ -133,7 +133,7 @@ kity.extendClass(Minder, {
     })
   },
 
-  getCommandShortcutKey: function (cmd) {
+  getCommandShortcutKey(cmd) {
     const binds = this._commandShortcutKeys
     return (binds && binds[cmd]) || null
   },

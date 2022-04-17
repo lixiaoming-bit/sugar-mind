@@ -6,16 +6,16 @@ import Module from './module'
 const kity = window.kity
 
 const cssLikeValueMatcher = {
-  left: function (value) {
+  left(value) {
     return (3 in value && value[3]) || (1 in value && value[1]) || value[0]
   },
-  right: function (value) {
+  right(value) {
     return (1 in value && value[1]) || value[0]
   },
-  top: function (value) {
+  top(value) {
     return value[0]
   },
-  bottom: function (value) {
+  bottom(value) {
     return (2 in value && value[2]) || value[0]
   }
 }
@@ -37,7 +37,7 @@ const _themes = {}
  */
 
 kity.extendClass(Minder, {
-  getThemeList: function () {
+  getThemeList() {
     return _themes
   }
 })
@@ -47,7 +47,7 @@ kity.extendClass(Minder, {
    * 切换脑图实例上的主题
    * @param  {String} name 要使用的主题的名称
    */
-  useTheme: function (name) {
+  useTheme(name) {
     this._background = null
     this.setTheme(name)
     this.refresh(800)
@@ -59,7 +59,7 @@ kity.extendClass(Minder, {
    * @description: 设置脑图背景
    * @param {string} background base64
    */
-  setBackground: function (background) {
+  setBackground(background) {
     const container = this.getRenderTarget()
     if (background && container) {
       container.style.background = background
@@ -78,7 +78,7 @@ kity.extendClass(Minder, {
    * @param {*} name 主题名称
    * @return {*} Minder
    */
-  setTheme: function (name) {
+  setTheme(name) {
     if (name && !_themes[name]) throw new Error('Theme ' + name + ' not exists!')
     const lastTheme = this._theme
     this._theme = name || null
@@ -104,11 +104,11 @@ kity.extendClass(Minder, {
    * 获取脑图实例上的当前主题
    * @return {[type]} [description]
    */
-  getTheme: function () {
+  getTheme() {
     return this._theme || this.getOption('defaultTheme')
   },
 
-  getThemeItems: function () {
+  getThemeItems() {
     return _themes[this.getTheme()]
   },
 
@@ -116,7 +116,7 @@ kity.extendClass(Minder, {
    * 获得脑图实例上的样式
    * @param  {String} item 样式名称
    */
-  getStyle: function (item, node) {
+  getStyle(item, node) {
     const items = this.getThemeItems()
     let matcher
 
@@ -166,15 +166,16 @@ kity.extendClass(Minder, {
    * 获取指定节点的样式
    * @param  {String} name 样式名称，可以不加节点类型的前缀
    */
-  getNodeStyle: function (node, name) {
+  getNodeStyle(node, name) {
     const value = this.getStyle(node.getType() + '-' + name, node)
     return value !== null ? value : this.getStyle(name, node)
   }
 })
 
 kity.extendClass(MinderNode, {
-  getStyle: function (name) {
-    return this.getMinder().getNodeStyle(this, name)
+  getStyle(name) {
+    const minder = this.getMinder()
+    return minder.getNodeStyle(this, name)
   }
 })
 
@@ -195,11 +196,11 @@ Module.register('Theme', {
     theme: kity.createClass('ThemeCommand', {
       base: Command,
 
-      execute: function (km, name) {
+      execute(km, name) {
         return km.useTheme(name)
       },
 
-      queryValue: function (km) {
+      queryValue(km) {
         return km.getTheme() || 'default'
       }
     })

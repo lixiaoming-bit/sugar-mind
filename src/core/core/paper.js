@@ -10,8 +10,9 @@ Minder.registerInitHook(function () {
 })
 
 kity.extendClass(Minder, {
-  _initPaper: function () {
+  _initPaper() {
     this._paper = new kity.Paper()
+    console.log('this123123: ', this)
     this._paper._minder = this
     this._paper.getNode().ondragstart = function (e) {
       e.preventDefault()
@@ -27,12 +28,12 @@ kity.extendClass(Minder, {
     }
   },
 
-  _addRenderContainer: function () {
+  _addRenderContainer() {
     this._rc = new kity.Group().setId(utils.uuid('minder'))
     this._paper.addShape(this._rc)
   },
 
-  renderTo: function (target) {
+  renderTo(target) {
     if (typeof target === 'string') {
       target = document.querySelector(target)
     }
@@ -53,15 +54,15 @@ kity.extendClass(Minder, {
     return this
   },
 
-  getRenderContainer: function () {
+  getRenderContainer() {
     return this._rc
   },
 
-  getPaper: function () {
+  getPaper() {
     return this._paper
   },
 
-  getRenderTarget: function () {
+  getRenderTarget() {
     return this._renderTarget
   }
 })

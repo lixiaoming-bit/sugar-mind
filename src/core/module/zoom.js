@@ -21,7 +21,7 @@ Module.register('Zoom', function () {
   }
 
   kity.extendClass(Minder, {
-    zoom: function (value) {
+    zoom(value) {
       const paper = this.getPaper()
       const viewport = paper.getViewPort()
       viewport.zoom = value / 100
@@ -32,7 +32,7 @@ Module.register('Zoom', function () {
       paper.setViewPort(viewport)
       if (value === 100) fixPaperCTM(paper)
     },
-    getZoomValue: function () {
+    getZoomValue() {
       return this._zoomValue
     }
   })
@@ -53,7 +53,7 @@ Module.register('Zoom', function () {
       const animator = new kity.Animator({
         beginValue: minder._zoomValue,
         finishValue: value,
-        setter: function (target, value) {
+        setter(target, value) {
           target.zoom(value)
         }
       })
@@ -81,7 +81,7 @@ Module.register('Zoom', function () {
   const ZoomCommand = kity.createClass('Zoom', {
     base: Command,
     execute: zoomMinder,
-    queryValue: function (minder) {
+    queryValue(minder) {
       return minder._zoomValue
     }
   })
@@ -96,14 +96,14 @@ Module.register('Zoom', function () {
    */
   const ZoomInCommand = kity.createClass('ZoomInCommand', {
     base: Command,
-    execute: function (minder) {
+    execute(minder) {
       zoomMinder(minder, this.nextValue(minder))
       this.setContentChanged(false)
     },
-    queryState: function (minder) {
+    queryState(minder) {
       return +!this.nextValue(minder)
     },
-    nextValue: function (minder) {
+    nextValue(minder) {
       const stack = minder.getOption('zoom')
       for (let i = 0; i < stack.length; i++) {
         if (stack[i] > minder._zoomValue) return stack[i]
@@ -123,14 +123,14 @@ Module.register('Zoom', function () {
    */
   const ZoomOutCommand = kity.createClass('ZoomOutCommand', {
     base: Command,
-    execute: function (minder) {
+    execute(minder) {
       zoomMinder(minder, this.nextValue(minder))
       this.setContentChanged(false)
     },
-    queryState: function (minder) {
+    queryState(minder) {
       return +!this.nextValue(minder)
     },
-    nextValue: function (minder) {
+    nextValue(minder) {
       const stack = minder.getOption('zoom')
       for (let i = stack.length - 1; i >= 0; i--) {
         if (stack[i] < minder._zoomValue) return stack[i]
@@ -141,7 +141,7 @@ Module.register('Zoom', function () {
   })
 
   return {
-    init: function () {
+    init() {
       this._zoomValue = 100
       this.setDefaultOptions({
         zoom: [10, 20, 50, 100, 200]
@@ -149,7 +149,7 @@ Module.register('Zoom', function () {
       setTextRendering()
     },
     events: {
-      'normal.mousewheel readonly.mousewheel': function (e) {
+      'normal.mousewheel readonly.mousewheel'(e) {
         if (!e.originEvent.ctrlKey && !e.originEvent.metaKey) return
 
         const delta = e.originEvent.wheelDelta

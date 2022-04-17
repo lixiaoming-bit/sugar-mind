@@ -2,6 +2,34 @@ import MinderNode from '../core/node'
 import Command from '../core/command'
 import Module from '../core/module'
 const kity = window.kity
+
+/**
+ * @command AppendFreeNode
+ * @description 添加自由节点
+ * @param {string|object} textOrData 要插入的节点的文本或数据
+ * @state
+ *    0: 当前有选中的节点
+ *   -1: 当前没有选中的节点
+ */
+const AppendFreedomNodeCommand = kity.createClass('AppendFreedomNodeCommand', {
+  base: Command,
+  execute(km, text = '分支主题', position) {
+    console.log('position: ', position)
+    // const node = km.createFreedomNode(text)
+    // const isFree = true
+    const node = km.createFreedomNode(text)
+    node.setLayoutOffset(node.getLayoutOffset().offset(position))
+    km.applyLayoutResult(node)
+    // km.setFreedom(node)
+    km.select(node, true)
+    km.refresh()
+    km.fire('textedit')
+  },
+  queryState(km) {
+    return km.getStatus() === 'normal' ? 0 : -1
+  }
+})
+
 /**
  * @command AppendChildNode
  * @description 添加子节点到选中的节点中
@@ -177,6 +205,7 @@ const RemoveCurrentNodeCommand = kity.createClass('RemoveCurrentNodeCommand', {
 Module.register('NodeModule', function () {
   return {
     commands: {
+      AppendFreedomNode: AppendFreedomNodeCommand,
       AppendChildNode: AppendChildCommand,
       AppendSiblingNode: AppendSiblingCommand,
       RemoveNode: RemoveNodeCommand,

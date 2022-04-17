@@ -12,7 +12,7 @@ Minder.registerInitHook(function () {
 
 // 模块声明周期维护
 kity.extendClass(Minder, {
-  _initModules: function () {
+  _initModules() {
     const modulesPool = _modules
     const modulesToLoad = this._options.modules || utils.keys(modulesPool)
 
@@ -83,7 +83,7 @@ kity.extendClass(Minder, {
     }
   },
 
-  _garbage: function () {
+  _garbage() {
     // this.clearSelect()
     this.removeAllSelectedNodes()
 
@@ -92,7 +92,7 @@ kity.extendClass(Minder, {
     }
   },
 
-  destroy: function () {
+  destroy() {
     const modules = this._modules
 
     this._resetEvents()
@@ -104,7 +104,7 @@ kity.extendClass(Minder, {
     }
   },
 
-  reset: function () {
+  reset() {
     const modules = this._modules
 
     this._garbage()

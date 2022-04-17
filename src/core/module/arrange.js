@@ -4,7 +4,7 @@ import Module from '../core/module'
 const kity = window.kity
 
 kity.extendClass(MinderNode, {
-  arrange: function (index) {
+  arrange(index) {
     const parent = this.parent
     if (!parent) return
     const sibling = parent.children
@@ -39,7 +39,7 @@ function desc(nodeA, nodeB) {
 const ArrangeUpCommand = kity.createClass('ArrangeUpCommand', {
   base: Command,
 
-  execute: function (km) {
+  execute(km) {
     const nodes = km.getSelectedNodes()
     nodes.sort(asc)
     const lastIndexes = nodes.map(function (node) {
@@ -51,7 +51,7 @@ const ArrangeUpCommand = kity.createClass('ArrangeUpCommand', {
     km.layout(300)
   },
 
-  queryState: function (km) {
+  queryState(km) {
     const selected = km.getSelectedNode()
     return selected ? 0 : -1
   }
@@ -68,7 +68,7 @@ const ArrangeUpCommand = kity.createClass('ArrangeUpCommand', {
 const ArrangeDownCommand = kity.createClass('ArrangeUpCommand', {
   base: Command,
 
-  execute: function (km) {
+  execute(km) {
     const nodes = km.getSelectedNodes()
     nodes.sort(desc)
     const lastIndexes = nodes.map(function (node) {
@@ -80,7 +80,7 @@ const ArrangeDownCommand = kity.createClass('ArrangeUpCommand', {
     km.layout(300)
   },
 
-  queryState: function (km) {
+  queryState(km) {
     const selected = km.getSelectedNode()
     return selected ? 0 : -1
   }
@@ -97,7 +97,7 @@ const ArrangeDownCommand = kity.createClass('ArrangeUpCommand', {
 const ArrangeCommand = kity.createClass('ArrangeCommand', {
   base: Command,
 
-  execute: function (km, index) {
+  execute(km, index) {
     const nodes = km.getSelectedNodes().slice()
 
     if (!nodes.length) return
@@ -132,7 +132,7 @@ const ArrangeCommand = kity.createClass('ArrangeCommand', {
     km.layout(300)
   },
 
-  queryState: function (km) {
+  queryState(km) {
     const selected = km.getSelectedNode()
     return selected ? 0 : -1
   }

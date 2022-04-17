@@ -22,7 +22,7 @@ function getRegisterProtocol(name) {
 // 导入导出
 kity.extendClass(Minder, {
   // 自动导入
-  setup: function (target) {
+  setup(target) {
     if (typeof target === 'string') {
       target = document.querySelector(target)
     }
@@ -44,7 +44,7 @@ kity.extendClass(Minder, {
    *     导出当前脑图数据为 JSON 对象，导出的数据格式请参考 [Data](data) 章节。
    * @grammar exportJson() => {plain}
    */
-  exportJson: function () {
+  exportJson() {
     /* 导出 node 上整棵树的数据为 JSON */
     function exportNode(node) {
       const exported = {}
@@ -84,7 +84,7 @@ kity.extendClass(Minder, {
    *      1231412
    *      13123
    */
-  Text2Children: function (node, text) {
+  Text2Children(node, text) {
     if (!(node instanceof MinderNode)) {
       return
     }
@@ -163,7 +163,7 @@ kity.extendClass(Minder, {
    * @param  {MinderNode} node 当前要被导出的节点
    * @return {Object}      返回只含有data和children的Object
    */
-  exportNode: function (node) {
+  exportNode(node) {
     const exported = {}
     exported.data = node.getData()
     const childNodes = node.getChildren()
@@ -177,7 +177,7 @@ kity.extendClass(Minder, {
    * @method importNode()
    * @description 根据纯json {data, children}数据转换成为脑图节点
    */
-  importNode: function (node, json) {
+  importNode(node, json) {
     const { data } = json
     node.data = {}
 
@@ -207,7 +207,7 @@ kity.extendClass(Minder, {
    *
    * @param {plain} json 要导入的数据
    */
-  importJson: function (json) {
+  importJson(json) {
     if (!json) return
 
     /**
@@ -257,7 +257,7 @@ kity.extendClass(Minder, {
    *
    * @param {string} protocol 指定的数据协议（默认内置五种数据协议 `json`、`text`、`markdown`、`svg` 和 `png`）
    */
-  exportData: function (protocolName, option) {
+  exportData(protocolName, option) {
     let json
     let protocol
 
@@ -294,7 +294,7 @@ kity.extendClass(Minder, {
    * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
    * @param {any} data 要导入的数据
    */
-  importData: function (protocolName, data, option) {
+  importData(protocolName, data, option) {
     let protocol
     const minder = this
 
@@ -332,7 +332,7 @@ kity.extendClass(Minder, {
    * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
    * @param {any} data 要导入的数据
    */
-  decodeData: function (protocolName, data, option) {
+  decodeData(protocolName, data, option) {
     let protocol
 
     // 指定了协议进行导入，需要检测协议是否支持

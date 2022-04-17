@@ -29,11 +29,11 @@ Module.register('ClipboardModule', function () {
   const CopyCommand = kity.createClass('CopyCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       sendToClipboard(km.getSelectedAncestors(true))
       this.setContentChanged(false)
     },
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNode() ? 0 : -1
     }
   })
@@ -49,7 +49,7 @@ Module.register('ClipboardModule', function () {
   const CutCommand = kity.createClass('CutCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       const ancestors = km.getSelectedAncestors()
 
       if (ancestors.length === 0) return
@@ -64,7 +64,7 @@ Module.register('ClipboardModule', function () {
 
       km.refresh()
     },
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNode().isRoot() ? -1 : 0
     }
   })
@@ -80,7 +80,7 @@ Module.register('ClipboardModule', function () {
   const PasteCommand = kity.createClass('PasteCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       if (_clipboardNodes.length) {
         const nodes = km.getSelectedNodes()
         nodes.forEach(function (node) {
@@ -99,7 +99,7 @@ Module.register('ClipboardModule', function () {
       }
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNode() && _clipboardNodes.length ? 0 : -1
     }
   })

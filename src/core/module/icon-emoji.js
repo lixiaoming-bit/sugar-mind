@@ -46,35 +46,35 @@ Module.register('EmojiModule', function () {
    */
   const EmojiCommand = kity.createClass('EmojiCommand', {
     base: Command,
-    execute: function (km, value) {
+    execute(km, value) {
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(EMOJI_DATA, value ?? null).render()
       }
       km.layout()
     },
-    queryValue: function (km) {
+    queryValue(km) {
       const nodes = km.getSelectedNodes()
       const node = nodes.find(node => typeof node.getData(EMOJI_DATA) === 'number')
       return node ? node.getData(EMOJI_DATA) : null
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNodes().length ? 0 : -1
     }
   })
   const EmojiRenderer = kity.createClass('EmojiRenderer', {
     base: Renderer,
 
-    create: function () {
+    create() {
       return new EmojiIcon()
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return EMOJI_IMAGES[node.getData(EMOJI_DATA)]
     },
 
-    update: function (icon, node, box) {
+    update(icon, node, box) {
       const data = node.getData(EMOJI_DATA)
       const spaceLeft = node.getStyle('space-left')
 

@@ -4,11 +4,11 @@
 import template from '../core/template'
 
 template.register('structure', {
-  getLayout: function (node) {
+  getLayout(node) {
     return node.getData('layout') || 'bottom'
   },
 
-  getConnect: function () {
+  getConnect() {
     return 'poly'
   }
 })

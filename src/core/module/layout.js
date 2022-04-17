@@ -18,7 +18,7 @@ Module.register('LayoutModule', function () {
   const LayoutCommand = kity.createClass('LayoutCommand', {
     base: Command,
 
-    execute: function (minder, name) {
+    execute(minder, name) {
       const nodes = minder.getSelectedNodes()
       nodes.forEach(function (node) {
         node.layout(name)
@@ -26,14 +26,14 @@ Module.register('LayoutModule', function () {
       this.setContentChanged(false)
     },
 
-    queryValue: function (minder) {
+    queryValue(minder) {
       const node = minder.getSelectedNode()
       if (node) {
         return node.getData('layout')
       }
     },
 
-    queryState: function (minder) {
+    queryState(minder) {
       return minder.getSelectedNode() ? 0 : -1
     }
   })
@@ -48,7 +48,7 @@ Module.register('LayoutModule', function () {
   const ResetLayoutCommand = kity.createClass('ResetLayoutCommand', {
     base: Command,
 
-    execute: function (minder) {
+    execute(minder) {
       let nodes = minder.getSelectedNodes()
 
       if (!nodes.length) nodes = [minder.getRoot()]

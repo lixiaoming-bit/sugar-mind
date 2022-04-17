@@ -48,20 +48,20 @@ Module.register('PriorityModule', function () {
    */
   const PriorityCommand = kity.createClass('SetPriorityCommand', {
     base: Command,
-    execute: function (km, value) {
+    execute(km, value) {
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(PRIORITY_DATA, value ?? null).render()
       }
       km.layout()
     },
-    queryValue: function (km) {
+    queryValue(km) {
       const nodes = km.getSelectedNodes()
       const node = nodes.find(node => typeof node.getData(PRIORITY_DATA) === 'number')
       return node ? node.getData(PRIORITY_DATA) : null
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNodes().length ? 0 : -1
     }
   })
@@ -69,15 +69,15 @@ Module.register('PriorityModule', function () {
   const PriorityRenderer = kity.createClass('PriorityRenderer', {
     base: Renderer,
 
-    create: function () {
+    create() {
       return new PriorityIcon()
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return PRIORITY_IMAGES[node.getData(PRIORITY_DATA)]
     },
 
-    update: function (icon, node, box) {
+    update(icon, node, box) {
       const data = node.getData(PRIORITY_DATA)
       const spaceLeft = node.getStyle('space-left')
 

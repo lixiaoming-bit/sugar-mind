@@ -6,7 +6,7 @@ const kity = window.kity
 const EntityRenderer = kity.createClass('EntityRenderer', {
   base: Renderer,
 
-  create: function (node) {
+  create(node) {
     const entity = new kity.Rect().setId(utils.uuid('node_entity'))
     this.bringToBack = true
     entity.on('mouseover', () => {
@@ -29,7 +29,7 @@ const EntityRenderer = kity.createClass('EntityRenderer', {
     return entity
   },
 
-  update: function (entity, node, box) {
+  update(entity, node, box) {
     const shape = node.getStyle('shape')
     const paddingLeft = node.getStyle('padding-left')
     const paddingRight = node.getStyle('padding-right')
@@ -70,17 +70,17 @@ const EntityRenderer = kity.createClass('EntityRenderer', {
 const OutlineRenderer = kity.createClass('OutlineRenderer', {
   base: Renderer,
 
-  create: function () {
+  create() {
     this.bringToBack = true
     const outline = new kity.Rect().setId(utils.uuid('node_outline'))
     return outline
   },
 
-  shouldRender: function (node) {
+  shouldRender(node) {
     return node.isSelected() || node._isHover
   },
 
-  update: function (outline, node, box) {
+  update(outline, node, box) {
     const shape = node.getStyle('shape')
 
     const background = 'none'
@@ -120,7 +120,7 @@ const wireframeOption = /wire/.test(window.location.href)
 const WireframeRenderer = kity.createClass('WireframeRenderer', {
   base: Renderer,
 
-  create: function () {
+  create() {
     const wireframe = new kity.Group()
     const oxy = (this.oxy = new kity.Path().stroke('#f6f').setPathData('M0,-50L0,50M-50,0L50,0'))
 
@@ -135,11 +135,11 @@ const WireframeRenderer = kity.createClass('WireframeRenderer', {
     return wireframe.addShapes([oxy, box, vectorIn, vectorOut])
   },
 
-  shouldRender: function () {
+  shouldRender() {
     return wireframeOption
   },
 
-  update: function (created, node, box) {
+  update(created, node, box) {
     this.wireframe.setPosition(box.x, box.y).setSize(box.width, box.height)
     const pin = node.getVertexIn()
     const pout = node.getVertexOut()
@@ -153,10 +153,10 @@ const WireframeRenderer = kity.createClass('WireframeRenderer', {
 const wireEvents = !wireframeOption
   ? null
   : {
-      ready: function () {
+      ready() {
         this.getPaper().addResource(marker)
       },
-      layoutallfinish: function () {
+      layoutallfinish() {
         this.getRoot().traverse(function (node) {
           node.getRenderer('WireframeRenderer').update(null, node, node.getContentBox())
         })
@@ -175,7 +175,7 @@ Module.register('OutlineModule', function () {
     commands: {
       // 'set-outline-shape': kity.createClass('SetOutlineCommand', {
       //   base: Command,
-      //   execute: function (minder, shape) {
+      //   execute(minder, shape) {
       //     const nodes = minder.getSelectedNodes()
       //     nodes.forEach(node => {
       //       node.setData('outline', shape)
@@ -183,10 +183,10 @@ Module.register('OutlineModule', function () {
       //     })
       //     // minder.layout(300)
       //   },
-      //   queryState: function (minder) {
+      //   queryState(minder) {
       //     return minder.getSelectedNode() ? 0 : -1
       //   },
-      //   queryValue: function (minder) {
+      //   queryValue(minder) {
       //     const node = minder.getSelectedNode()
       //     return node && node.getData('outline')
       //   }

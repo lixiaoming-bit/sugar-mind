@@ -144,11 +144,11 @@ data.registerProtocol('markdown', {
   mineType: 'text/markdown',
   dataType: 'text',
 
-  encode: function (json) {
+  encode(json) {
     return encode(json.root)
   },
 
-  decode: function (markdown) {
+  decode(markdown) {
     return decode(markdown)
   }
 })

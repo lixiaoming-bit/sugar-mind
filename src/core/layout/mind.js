@@ -7,7 +7,7 @@ Layout.register(
   kity.createClass({
     base: Layout,
 
-    doLayout: function (node, children) {
+    doLayout(node, children) {
       const half = Math.ceil(node.children.length / 2)
       const right = []
       const left = []
@@ -28,7 +28,7 @@ Layout.register(
       node.setLayoutVectorOut(new kity.Vector(0, 0))
     },
 
-    getOrderHint: function (node) {
+    getOrderHint(node) {
       const hint = []
       const box = node.getLayoutBox()
       const offset = 5

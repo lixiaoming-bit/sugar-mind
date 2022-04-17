@@ -30,7 +30,7 @@ Module.register('StyleModule', function () {
       copystyle: kity.createClass('CopyStyleCommand', {
         base: Command,
 
-        execute: function (minder) {
+        execute(minder) {
           const node = minder.getSelectedNode()
 
           const getDataOrStyle = name => node.getData(name) || node.getStyle(name)
@@ -48,7 +48,7 @@ Module.register('StyleModule', function () {
           return styleClipBoard
         },
 
-        queryState: function (minder) {
+        queryState(minder) {
           const nodes = minder.getSelectedNodes()
           if (nodes.length !== 1) return -1
           return hasStyle(nodes[0]) ? 0 : -1
@@ -65,7 +65,7 @@ Module.register('StyleModule', function () {
       pastestyle: kity.createClass('PastStyleCommand', {
         base: Command,
 
-        execute: function (minder) {
+        execute(minder) {
           minder.getSelectedNodes().forEach(function (node) {
             for (const name in styleClipBoard) {
               if (Object.hasOwnProperty.call(styleClipBoard, name))
@@ -77,7 +77,7 @@ Module.register('StyleModule', function () {
           return styleClipBoard
         },
 
-        queryState: function (minder) {
+        queryState(minder) {
           return styleClipBoard && minder.getSelectedNodes().length ? 0 : -1
         }
       }),
@@ -91,7 +91,7 @@ Module.register('StyleModule', function () {
        */
       clearstyle: kity.createClass('ClearStyleCommand', {
         base: Command,
-        execute: function (minder) {
+        execute(minder) {
           minder.getSelectedNodes().forEach(function (node) {
             styleNames.forEach(function (name) {
               node.setData(name)
@@ -102,7 +102,7 @@ Module.register('StyleModule', function () {
           return styleClipBoard
         },
 
-        queryState: function (minder) {
+        queryState(minder) {
           const nodes = minder.getSelectedNodes()
           if (!nodes.length) return -1
           for (let i = 0; i < nodes.length; i++) {

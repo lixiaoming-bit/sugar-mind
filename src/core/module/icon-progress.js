@@ -47,35 +47,35 @@ Module.register('ProgressModule', function () {
    */
   const ProgressCommand = kity.createClass('ProgressCommand', {
     base: Command,
-    execute: function (km, value) {
+    execute(km, value) {
       const nodes = km.getSelectedNodes()
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setData(PROGRESS_DATA, value ?? null).render()
       }
       km.layout()
     },
-    queryValue: function (km) {
+    queryValue(km) {
       const nodes = km.getSelectedNodes()
       const node = nodes.find(node => typeof node.getData(PROGRESS_DATA) === 'number')
       return node ? node.getData(PROGRESS_DATA) : null
     },
 
-    queryState: function (km) {
+    queryState(km) {
       return km.getSelectedNodes().length ? 0 : -1
     }
   })
   const ProgressRenderer = kity.createClass('ProgressRenderer', {
     base: Renderer,
 
-    create: function () {
+    create() {
       return new ProgressIcon()
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return PROGRESS_IMAGES[node.getData(PROGRESS_DATA)]
     },
 
-    update: function (icon, node, box) {
+    update(icon, node, box) {
       const data = node.getData(PROGRESS_DATA)
       const spaceLeft = node.getStyle('space-left')
 

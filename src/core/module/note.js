@@ -22,7 +22,7 @@ Module.register('NoteModule', function () {
   const NoteCommand = kity.createClass('NoteCommand', {
     base: Command,
 
-    execute: function (minder, note) {
+    execute(minder, note) {
       const nodes = minder.getSelectedNodes()
       nodes.forEach(node => {
         node.setData('note', note)
@@ -31,11 +31,11 @@ Module.register('NoteModule', function () {
       minder.layout(300)
     },
 
-    queryState: function (minder) {
+    queryState(minder) {
       return minder.getSelectedNodes().length ? 0 : -1
     },
 
-    queryValue: function (minder) {
+    queryValue(minder) {
       const node = minder.getSelectedNode()
       return node && node.getData('note')
     }
@@ -56,7 +56,7 @@ Module.register('NoteModule', function () {
   const NoteIconRenderer = kity.createClass('NoteIconRenderer', {
     base: Renderer,
 
-    create: function (node) {
+    create(node) {
       const icon = new NoteIcon()
       icon.on('mousedown', function (e) {
         e.preventDefault()
@@ -71,11 +71,11 @@ Module.register('NoteModule', function () {
       return icon
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return node.getData('note')
     },
 
-    update: function (icon, node, box) {
+    update(icon, node, box) {
       const x = box.right + 5
       const y = box.cy
 

@@ -73,7 +73,7 @@ Module.register('HistoryModule', function () {
   const HistoryUndoCommand = kity.createClass('HistoryUndoCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       patchLock = true
       const undoDiff = undoDiffs.pop()
       if (undoDiff) {
@@ -82,14 +82,14 @@ Module.register('HistoryModule', function () {
       }
       patchLock = false
     },
-    queryState: function () {
+    queryState() {
       return undoDiffs.length ? 0 : -1
     }
   })
   // undo command
   const HistoryRedoCommand = kity.createClass('HistoryRedoCommand', {
     base: Command,
-    execute: function (km) {
+    execute(km) {
       patchLock = true
       const redoDiff = redoDiffs.pop()
       if (redoDiff) {
@@ -98,13 +98,13 @@ Module.register('HistoryModule', function () {
       }
       patchLock = false
     },
-    queryState: function () {
+    queryState() {
       return redoDiffs.length ? 0 : -1
     }
   })
 
   return {
-    init: function () {
+    init() {
       reset()
       minder.on('contentchange', changed)
       minder.on('import', reset)

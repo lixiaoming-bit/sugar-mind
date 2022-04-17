@@ -3,53 +3,53 @@ import MinderNode from './node'
 const kity = window.kity
 
 const Renderer = kity.createClass('Renderer', {
-  constructor: function (node) {
+  constructor(node) {
     this.node = node
   },
 
-  create: function () {
+  create() {
     throw new Error('Not implement: Renderer.create()')
   },
 
-  shouldRender: function () {
+  shouldRender() {
     return true
   },
 
-  watchChange: function (data) {
-    // let changed
-    // if (this.watchingData === undefined) {
-    //   changed = true
-    // } else if (this.watchingData !== data) {
-    //   changed = true
-    // } else {
-    //   changed = false
-    // }
+  // watchChange(data) {
+  //   // let changed
+  //   // if (this.watchingData === undefined) {
+  //   //   changed = true
+  //   // } else if (this.watchingData !== data) {
+  //   //   changed = true
+  //   // } else {
+  //   //   changed = false
+  //   // }
 
-    this.watchingData = data
-  },
+  //   this.watchingData = data
+  // },
 
-  shouldDraw: function () {
+  shouldDraw() {
     return true
   },
 
-  update: function (shape, node, box) {
+  update(shape, node, box) {
     if (this.shouldDraw()) this.draw(shape, node)
     return this.place(shape, node, box)
   },
 
-  draw: function () {
+  draw() {
     throw new Error('Not implement: Renderer.draw()')
   },
 
-  place: function () {
+  place() {
     throw new Error('Not implement: Renderer.place()')
   },
 
-  getRenderShape: function () {
+  getRenderShape() {
     return this._renderShape || null
   },
 
-  setRenderShape: function (shape) {
+  setRenderShape(shape) {
     this._renderShape = shape
   }
 })
@@ -79,7 +79,7 @@ function createMinderExtension() {
   }
 
   return {
-    renderNodeBatch: function (nodes) {
+    renderNodeBatch(nodes) {
       const rendererClasses = this._rendererClasses
       const lastBoxes = []
       let rendererCount = 0
@@ -157,7 +157,7 @@ function createMinderExtension() {
       }
     },
 
-    renderNode: function (node) {
+    renderNode(node) {
       const rendererClasses = this._rendererClasses
       let latestBox
 
@@ -215,12 +215,12 @@ function createMinderExtension() {
 kity.extendClass(Minder, createMinderExtension())
 
 kity.extendClass(MinderNode, {
-  render: function () {
+  render() {
     if (!this.attached) return
     this.getMinder().renderNode(this)
     return this
   },
-  renderTree: function () {
+  renderTree() {
     if (!this.attached) return
     const list = []
     this.traverse(function (node) {
@@ -229,7 +229,7 @@ kity.extendClass(MinderNode, {
     this.getMinder().renderNodeBatch(list)
     return this
   },
-  getRenderer: function (type) {
+  getRenderer(type) {
     const rs = this._renderers
     if (!rs) return null
     for (let i = 0; i < rs.length; i++) {
@@ -237,13 +237,13 @@ kity.extendClass(MinderNode, {
     }
     return null
   },
-  getContentBox: function () {
+  getContentBox() {
     //if (!this._contentBox) this.render();
     return this.parent && this.parent.isCollapsed()
       ? new kity.Box()
       : this._contentBox || new kity.Box()
   },
-  getRenderBox: function (rendererType, refer) {
+  getRenderBox(rendererType, refer) {
     const renderer = rendererType && this.getRenderer(rendererType)
     const contentBox = renderer ? renderer.contentBox : this.getContentBox()
     const ctm = kity.Matrix.getCTM(this.getRenderContainer(), refer || 'paper')

@@ -9,10 +9,10 @@ Minder.registerInitHook(function () {
 
 // 选区管理
 kity.extendClass(Minder, {
-  _initSelection: function () {
+  _initSelection() {
     this._selectedNodes = []
   },
-  renderChangedSelection: function (last) {
+  renderChangedSelection(last) {
     const current = this.getSelectedNodes()
     const changed = []
 
@@ -36,20 +36,20 @@ kity.extendClass(Minder, {
       changed.shift().render()
     }
   },
-  getSelectedNodes: function () {
+  getSelectedNodes() {
     //不能克隆返回，会对当前选区操作，从而影响querycommand
     return this._selectedNodes
   },
-  getSelectedNode: function () {
+  getSelectedNode() {
     return this.getSelectedNodes()[0] || null
   },
-  removeAllSelectedNodes: function () {
+  removeAllSelectedNodes() {
     const last = this._selectedNodes.splice(0)
     this._selectedNodes = []
     this.renderChangedSelection(last)
     return this.fire('selectionclear')
   },
-  removeSelectedNodes: function (nodes) {
+  removeSelectedNodes(nodes) {
     const self = this
     const last = this._selectedNodes.slice(0)
     nodes = utils.isArray(nodes) ? nodes : [nodes]
@@ -63,7 +63,7 @@ kity.extendClass(Minder, {
     this.renderChangedSelection(last)
     return this
   },
-  select: function (nodes, isSingleSelect) {
+  select(nodes, isSingleSelect) {
     // 设置activeElement 为body 防止键盘事件不能正常触发
     document.querySelector('body').blur()
 
@@ -80,14 +80,14 @@ kity.extendClass(Minder, {
     this.renderChangedSelection(lastSelect)
     return this
   },
-  selectById: function (ids, isSingleSelect) {
+  selectById(ids, isSingleSelect) {
     ids = utils.isArray(ids) ? ids : [ids]
     const nodes = this.getNodesById(ids)
     return this.select(nodes, isSingleSelect)
   },
   //当前选区中的节点在给定的节点范围内的保留选中状态，
   //没在给定范围的取消选中，给定范围中的但没在当前选中范围的也做选中效果
-  toggleSelect: function (node) {
+  toggleSelect(node) {
     if (utils.isArray(node)) {
       node.forEach(this.toggleSelect.bind(this))
     } else {
@@ -97,11 +97,11 @@ kity.extendClass(Minder, {
     return this
   },
 
-  isSingleSelect: function () {
+  isSingleSelect() {
     return this._selectedNodes.length === 1
   },
 
-  getSelectedAncestors: function (includeRoot) {
+  getSelectedAncestors(includeRoot) {
     const nodes = this.getSelectedNodes().slice(0)
     const ancestors = []
     let judge
@@ -137,7 +137,7 @@ kity.extendClass(Minder, {
 })
 
 kity.extendClass(MinderNode, {
-  isSelected: function () {
+  isSelected() {
     const minder = this.getMinder()
     return minder && minder.getSelectedNodes().indexOf(this) !== -1
   }

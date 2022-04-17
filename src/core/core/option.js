@@ -10,18 +10,18 @@ Minder.registerInitHook(function () {
 })
 
 kity.extendClass(Minder, {
-  setDefaultOptions: function (options) {
+  setDefaultOptions(options) {
     utils.extend(this._defaultOptions, options)
     return this
   },
-  getOption: function (key) {
+  getOption(key) {
     if (key) {
       return key in this._options ? this._options[key] : this._defaultOptions[key]
     } else {
       return utils.extend({}, this._defaultOptions, this._options)
     }
   },
-  setOption: function (key, value) {
+  setOption(key, value) {
     this._options[key] = value
   }
 })

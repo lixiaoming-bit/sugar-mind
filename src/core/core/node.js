@@ -14,11 +14,12 @@ const MinderNode = kity.createClass('MinderNode', {
    * @param {String|Object} textOrData
    *     节点的初始数据或文本
    */
-  constructor: function (textOrData) {
+  constructor(textOrData, isFree = false) {
     // 指针
     this.parent = null
     this.root = this
     this.children = []
+    this.free = isFree
 
     // 数据
     this.data = {
@@ -36,7 +37,7 @@ const MinderNode = kity.createClass('MinderNode', {
     }
   },
 
-  initContainers: function () {
+  initContainers() {
     this.rc = new kity.Group().setId(utils.uuid('minder_node'))
     this.rc.minderNode = this
   },
@@ -44,21 +45,21 @@ const MinderNode = kity.createClass('MinderNode', {
   /**
    * 判断节点是否根节点
    */
-  isRoot: function () {
+  isRoot() {
     return this.root === this
   },
 
   /**
    * 判断节点是否叶子
    */
-  isLeaf: function () {
+  isLeaf() {
     return this.children.length === 0
   },
 
   /**
    * 获取节点的根节点
    */
-  getRoot: function () {
+  getRoot() {
     return this.root || this
   },
 
@@ -67,11 +68,11 @@ const MinderNode = kity.createClass('MinderNode', {
   /**
    * 获得节点的父节点
    */
-  getParent: function () {
+  getParent() {
     return this.parent
   },
 
-  getSiblings: function () {
+  getSiblings() {
     const children = this.parent.children
     const siblings = []
     const self = this
@@ -81,7 +82,7 @@ const MinderNode = kity.createClass('MinderNode', {
     return siblings
   },
 
-  getNodeByLevel: function (level = 0) {
+  getNodeByLevel(level = 0) {
     let ancestor = this
     while (ancestor && ancestor.getLevel() !== level) {
       ancestor = ancestor.parent
@@ -92,7 +93,7 @@ const MinderNode = kity.createClass('MinderNode', {
   /**
    * 获得节点的深度
    */
-  getLevel: function () {
+  getLevel() {
     let level = 0
     let ancestor = this.parent
     while (ancestor) {
@@ -105,7 +106,7 @@ const MinderNode = kity.createClass('MinderNode', {
   /**
    * 获得节点的复杂度（即子树中节点的数量）
    */
-  getComplex: function () {
+  getComplex() {
     let complex = 0
     this.traverse(function () {
       complex++
@@ -116,7 +117,7 @@ const MinderNode = kity.createClass('MinderNode', {
   /**
    * 获得节点的类型（root|main|sub）
    */
-  getType: function () {
+  getType() {
     this.type = ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)]
     return this.type
   },
@@ -125,7 +126,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 判断当前节点是否被测试节点的祖先
    * @param  {MinderNode}  test 被测试的节点
    */
-  isAncestorOf: function (test) {
+  isAncestorOf(test) {
     let ancestor = test.parent
     while (ancestor) {
       if (ancestor === this) return true
@@ -134,11 +135,11 @@ const MinderNode = kity.createClass('MinderNode', {
     return false
   },
 
-  getData: function (key) {
+  getData(key) {
     return key ? this.data[key] : this.data
   },
 
-  setData: function (key, value) {
+  setData(key, value) {
     if (typeof key === 'object') {
       const data = key
       for (key in data) {
@@ -156,7 +157,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 设置节点的文本数据
    * @param {String} text 文本数据
    */
-  setText: function (text) {
+  setText(text) {
     return (this.data.text = text)
   },
 
@@ -164,7 +165,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 获取节点的文本数据
    * @return {String}
    */
-  getText: function () {
+  getText() {
     return this.data.text || null
   },
 
@@ -172,7 +173,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 先序遍历当前节点树
    * @param  {Function} fn 遍历函数
    */
-  preTraverse: function (fn, excludeThis) {
+  preTraverse(fn, excludeThis) {
     let children = this.getChildren()
     if (!excludeThis) fn(this)
     for (let i = 0; i < children.length; i++) {
@@ -184,7 +185,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 后序遍历当前节点树
    * @param  {Function} fn 遍历函数
    */
-  postTraverse: function (fn, excludeThis) {
+  postTraverse(fn, excludeThis) {
     const children = this.getChildren()
     for (let i = 0; i < children.length; i++) {
       children[i].postTraverse(fn)
@@ -192,19 +193,19 @@ const MinderNode = kity.createClass('MinderNode', {
     if (!excludeThis) fn(this)
   },
 
-  traverse: function (fn, excludeThis) {
+  traverse(fn, excludeThis) {
     return this.postTraverse(fn, excludeThis)
   },
 
-  getChildren: function () {
+  getChildren() {
     return this.children
   },
 
-  getIndex: function () {
+  getIndex() {
     return this.parent ? this.parent.children.indexOf(this) : -1
   },
 
-  insertChild: function (node, index) {
+  insertChild(node, index) {
     if (index === undefined) {
       index = this.children.length
     }
@@ -217,15 +218,15 @@ const MinderNode = kity.createClass('MinderNode', {
     this.children.splice(index, 0, node)
   },
 
-  appendChild: function (node) {
+  appendChild(node) {
     return this.insertChild(node)
   },
 
-  prependChild: function (node) {
+  prependChild(node) {
     return this.insertChild(node, 0)
   },
 
-  removeChild: function (elem) {
+  removeChild(elem) {
     let index = elem
     let removed
     if (elem instanceof MinderNode) {
@@ -238,27 +239,27 @@ const MinderNode = kity.createClass('MinderNode', {
     }
   },
 
-  clearChildren: function () {
+  clearChildren() {
     this.children = []
   },
 
-  getChild: function (index) {
+  getChild(index) {
     return this.children[index]
   },
 
-  getRenderContainer: function () {
+  getRenderContainer() {
     return this.rc
   },
 
-  getCommonAncestor: function (node) {
+  getCommonAncestor(node) {
     return MinderNode.getCommonAncestor(this, node)
   },
 
-  contains: function (node) {
+  contains(node) {
     return this === node || this.isAncestorOf(node)
   },
 
-  clone: function () {
+  clone() {
     const cloned = new MinderNode()
 
     cloned.data = utils.clone(this.data)
@@ -272,7 +273,7 @@ const MinderNode = kity.createClass('MinderNode', {
     return cloned
   },
 
-  compareTo: function (node) {
+  compareTo(node) {
     if (!utils.comparePlainObject(this.data, node.data)) return false
     if (!utils.comparePlainObject(this.temp, node.temp)) return false
     if (this.children.length != node.children.length) return false
@@ -286,7 +287,7 @@ const MinderNode = kity.createClass('MinderNode', {
     return true
   },
 
-  getMinder: function () {
+  getMinder() {
     return this.getRoot().minder
   }
 })
@@ -324,16 +325,21 @@ MinderNode.getCommonAncestor = function (nodeA, nodeB) {
 }
 
 kity.extendClass(Minder, {
-  getRoot: function () {
+  // getFreedom() {},
+
+  // setFreedom() {},
+
+  // 获取根节点
+  getRoot() {
     return this._root
   },
 
-  setRoot: function (root) {
+  setRoot(root) {
     this._root = root
     root.minder = this
   },
 
-  getAllNode: function () {
+  getAllNode() {
     const nodes = []
     this.getRoot().traverse(function (node) {
       nodes.push(node)
@@ -341,11 +347,11 @@ kity.extendClass(Minder, {
     return nodes
   },
 
-  getNodeById: function (id) {
+  getNodeById(id) {
     return this.getNodesById([id])[0]
   },
 
-  getNodesById: function (ids) {
+  getNodesById(ids) {
     const nodes = this.getAllNode()
     const result = []
     nodes.forEach(node => {
@@ -355,7 +361,7 @@ kity.extendClass(Minder, {
     })
     return result
   },
-  getNodesByKey: function (key) {
+  getNodesByKey(key) {
     const nodes = this.getAllNode()
     const result = []
     nodes.forEach(node => {
@@ -366,8 +372,27 @@ kity.extendClass(Minder, {
     return result
   },
 
-  createNode: function (textOrData, parent, index) {
+  createFreedomNode(textOrData) {
+    const isFree = true
+    const node = new MinderNode(textOrData, isFree)
+    const parent = this.getRoot()
+    this.fire('nodecreate', {
+      node,
+      parent
+    })
+    parent.insertChild(node)
+    const rc = this.getRenderContainer()
+    node.traverse(function (current) {
+      current.attached = true
+      rc.addShape(current.getRenderContainer())
+    })
+    rc.addShape(node.getRenderContainer())
+    return node
+  },
+
+  createNode(textOrData, parent, index) {
     const node = new MinderNode(textOrData)
+    console.log('node: ', node)
     this.fire('nodecreate', {
       node: node,
       parent: parent,
@@ -377,13 +402,13 @@ kity.extendClass(Minder, {
     return node
   },
 
-  appendNode: function (node, parent, index) {
+  appendNode(node, parent, index) {
     if (parent) parent.insertChild(node, index)
     this.attachNode(node)
     return this
   },
 
-  removeNode: function (node) {
+  removeNode(node) {
     if (node.parent) {
       node.parent.removeChild(node)
       this.detachNode(node)
@@ -393,7 +418,7 @@ kity.extendClass(Minder, {
     }
   },
 
-  attachNode: function (node) {
+  attachNode(node) {
     const rc = this.getRenderContainer()
     node.traverse(function (current) {
       current.attached = true
@@ -405,7 +430,7 @@ kity.extendClass(Minder, {
     })
   },
 
-  detachNode: function (node) {
+  detachNode(node) {
     const rc = this.getRenderContainer()
     node.traverse(function (current) {
       current.attached = false
@@ -416,7 +441,7 @@ kity.extendClass(Minder, {
     })
   },
 
-  getMinderTitle: function () {
+  getMinderTitle() {
     return this.getRoot().getText()
   }
 })

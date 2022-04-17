@@ -7,7 +7,7 @@ const kity = window.kity
 const _initHooks = []
 
 const Minder = kity.createClass('Minder', {
-  constructor: function (options) {
+  constructor(options) {
     this._options = utils.extend({}, options)
 
     const initHooks = _initHooks.slice()

@@ -24,11 +24,11 @@ kity.extendClass(MinderNode, {
    *
    * @grammar getConnect() => {string}
    */
-  getConnect: function () {
+  getConnect() {
     return this.data.connect || 'default'
   },
 
-  getConnectProvider: function () {
+  getConnectProvider() {
     return _connectProviders[this.getConnect()] || _connectProviders['default']
   },
 
@@ -40,17 +40,17 @@ kity.extendClass(MinderNode, {
    *
    * @grammar getConnection() => {kity.Path}
    */
-  getConnection: function () {
+  getConnection() {
     return this._connection || null
   }
 })
 
 kity.extendClass(Minder, {
-  getConnectContainer: function () {
+  getConnectContainer() {
     return this._connectContainer
   },
 
-  createConnect: function (node) {
+  createConnect(node) {
     if (node.isRoot()) return
 
     const connection = new kity.Path()
@@ -61,7 +61,7 @@ kity.extendClass(Minder, {
     this.updateConnect(node)
   },
 
-  removeConnect: function (node) {
+  removeConnect(node) {
     const self = this
     node.traverse(function (node) {
       self._connectContainer.removeShape(node._connection)
@@ -69,7 +69,7 @@ kity.extendClass(Minder, {
     })
   },
 
-  updateConnect: function (node) {
+  updateConnect(node) {
     const connection = node._connection
     const parent = node.parent
 
@@ -118,18 +118,18 @@ kity.extendClass(Minder, {
 })
 
 Module.register('Connect', {
-  init: function () {
+  init() {
     this._connectContainer = new kity.Group().setId(utils.uuid('minder_connect_group'))
     this.getRenderContainer().prependShape(this._connectContainer)
   },
   events: {
-    nodeattach: function (e) {
+    nodeattach(e) {
       this.createConnect(e.node)
     },
-    nodedetach: function (e) {
+    nodedetach(e) {
       this.removeConnect(e.node)
     },
-    'layoutapply layoutfinish noderender': function (e) {
+    'layoutapply layoutfinish noderender'(e) {
       this.updateConnect(e.node)
     }
   }

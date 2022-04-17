@@ -11,40 +11,40 @@ const COMMAND_STATE_ACTIVATED = 1
  */
 
 const Command = kity.createClass('Command', {
-  constructor: function () {
+  constructor() {
     this._isContentChange = true
     this._isSelectionChange = false
   },
 
-  execute: function () {
+  execute() {
     throw new Error('Not Implement: Command.execute()')
   },
 
-  setContentChanged: function (val) {
+  setContentChanged(val) {
     this._isContentChange = !!val
   },
 
-  isContentChanged: function () {
+  isContentChanged() {
     return this._isContentChange
   },
 
-  setSelectionChanged: function (val) {
+  setSelectionChanged(val) {
     this._isSelectionChange = !!val
   },
 
-  isSelectionChanged: function () {
+  isSelectionChanged() {
     return this._isContentChange
   },
 
-  queryState: function () {
+  queryState() {
     return COMMAND_STATE_NORMAL
   },
 
-  queryValue: function () {
+  queryValue() {
     return 0
   },
 
-  isNeedUndo: function () {
+  isNeedUndo() {
     return true
   }
 })
@@ -54,11 +54,11 @@ Command.STATE_ACTIVE = COMMAND_STATE_ACTIVATED
 Command.STATE_DISABLED = COMMAND_STATE_DISABLED
 
 kity.extendClass(Minder, {
-  _getCommand: function (name) {
+  _getCommand(name) {
     return this._commands[name.toLowerCase()]
   },
 
-  _queryCommand: function (name, type, args) {
+  _queryCommand(name, type, args) {
     const cmd = this._getCommand(name)
     if (cmd) {
       const queryCmd = cmd['query' + type]
@@ -81,7 +81,7 @@ kity.extendClass(Minder, {
    *    0: 命令可用
    *    1: 命令当前可用并且已经执行过
    */
-  queryCommandState: function (name) {
+  queryCommandState(name) {
     return this._queryCommand(name, 'State', [].slice.call(arguments, 1))
   },
 
@@ -98,7 +98,7 @@ kity.extendClass(Minder, {
    *    如果命令不存在，返回 undefined
    *    不同命令具有不同返回值，具体请查看 [Command](command) 章节
    */
-  queryCommandValue: function (name) {
+  queryCommandValue(name) {
     return this._queryCommand(name, 'Value', [].slice.call(arguments, 1))
   },
 
@@ -112,7 +112,7 @@ kity.extendClass(Minder, {
    * @param {string} name 要执行的命令名称
    * @param {argument} args 要传递给命令的其它参数
    */
-  execCommand: function (name) {
+  execCommand(name) {
     if (!name) return null
 
     name = name.toLowerCase()

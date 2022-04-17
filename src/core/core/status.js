@@ -13,12 +13,12 @@ Minder.registerInitHook(function () {
 })
 
 kity.extendClass(Minder, {
-  _initStatus: function () {
+  _initStatus() {
     this._status = 'normal'
     this._rollbackStatus = 'normal'
   },
 
-  setStatus: function (status, force) {
+  setStatus(status, force) {
     // 在 readonly 模式下，只有 force 为 true 才能切换回来
     if (this._status === 'readonly' && !force) return this
     if (status !== this._status) {
@@ -38,13 +38,13 @@ kity.extendClass(Minder, {
     return this
   },
 
-  rollbackStatus: function () {
+  rollbackStatus() {
     this.setStatus(this._rollbackStatus)
   },
-  getRollbackStatus: function () {
+  getRollbackStatus() {
     return this._rollbackStatus
   },
-  getStatus: function () {
+  getStatus() {
     return this._status
   }
 })

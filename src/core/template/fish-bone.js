@@ -4,7 +4,7 @@
 import template from '../core/template'
 
 template.register('fish-bone', {
-  getLayout: function (node) {
+  getLayout(node) {
     if (node.getData('layout')) return node.getData('layout')
 
     const level = node.getLevel()
@@ -22,7 +22,7 @@ template.register('fish-bone', {
     return node.getLayoutPointPreview().y > 0 ? 'filetree-up' : 'filetree-down'
   },
 
-  getConnect: function (node) {
+  getConnect(node) {
     switch (node.getLevel()) {
       case 1:
         return 'fish-bone-master'

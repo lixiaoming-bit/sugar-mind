@@ -8,7 +8,7 @@ if (location.href.indexOf('boxv') !== -1) {
   let vrect
 
   Object.defineProperty(kity.Box.prototype, 'visualization', {
-    get: function () {
+    get() {
       if (!vrect) return null
       return vrect.setBox(this)
     }

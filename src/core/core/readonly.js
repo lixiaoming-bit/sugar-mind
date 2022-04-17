@@ -14,7 +14,7 @@ Minder.registerInitHook(function (options) {
 })
 
 kity.extendClass(Minder, {
-  disable: function () {
+  disable() {
     const self = this
     //禁用命令
     self.bkQueryCommandState = self.queryCommandState
@@ -37,7 +37,7 @@ kity.extendClass(Minder, {
     self._interactChange()
   },
 
-  enable: function () {
+  enable() {
     const self = this
 
     if (self.bkQueryCommandState) {

@@ -4,7 +4,7 @@
 import template from '../core/template'
 
 template.register('tianpan', {
-  getLayout: function (node) {
+  getLayout(node) {
     if (node.getData('layout')) return node.getData('layout')
     const level = node.getLevel()
 
@@ -16,7 +16,7 @@ template.register('tianpan', {
     return node.parent.getLayout()
   },
 
-  getConnect: function () {
+  getConnect() {
     return 'arc_tp'
   }
 })

@@ -17,7 +17,7 @@ Module.register('Expand', function () {
      * 展开节点
      * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
      */
-    expand: function () {
+    expand() {
       this.setData(EXPAND_STATE_DATA, STATE_EXPAND)
       return this
     },
@@ -25,7 +25,7 @@ Module.register('Expand', function () {
     /**
      * 收起节点
      */
-    collapse: function () {
+    collapse() {
       this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE)
       return this
     },
@@ -33,7 +33,7 @@ Module.register('Expand', function () {
     /**
      * 判断节点当前的状态是否为展开
      */
-    isExpanded: function () {
+    isExpanded() {
       const expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE
       return expanded && (this.isRoot() || this.parent.isExpanded())
     },
@@ -41,7 +41,7 @@ Module.register('Expand', function () {
     /**
      * 判断节点当前的状态是否为收起
      */
-    isCollapsed: function () {
+    isCollapsed() {
       return !this.isExpanded()
     }
   })
@@ -59,7 +59,7 @@ Module.register('Expand', function () {
   const ExpandCommand = kity.createClass('ExpandCommand', {
     base: Command,
 
-    execute: function (km, justParents) {
+    execute(km, justParents) {
       let node = km.getSelectedNode()
       if (!node) return
       if (justParents) {
@@ -73,7 +73,7 @@ Module.register('Expand', function () {
       km.layout(100)
     },
 
-    queryState: function (km) {
+    queryState(km) {
       const node = km.getSelectedNode()
       return node && !node.isRoot() && !node.isExpanded() ? 0 : -1
     }
@@ -89,7 +89,7 @@ Module.register('Expand', function () {
   const CollapseCommand = kity.createClass('CollapseCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       const node = km.getSelectedNode()
       if (!node) return
 
@@ -98,7 +98,7 @@ Module.register('Expand', function () {
       km.layout()
     },
 
-    queryState: function (km) {
+    queryState(km) {
       const node = km.getSelectedNode()
       return node && !node.isRoot() && node.isExpanded() ? 0 : -1
     }
@@ -115,7 +115,7 @@ Module.register('Expand', function () {
   const ToggleExpandCommand = kity.createClass('ToggleExpandCommand', {
     base: Command,
 
-    execute: function (km) {
+    execute(km) {
       const node = km.getSelectedNode()
       if (!node) return
       const expanded = node.isExpanded()
@@ -126,7 +126,7 @@ Module.register('Expand', function () {
       km.layout(100)
     },
 
-    queryState: function (km) {
+    queryState(km) {
       const node = km.getSelectedNode()
       return node && !node.isRoot() ? 0 : -1
     }
@@ -141,7 +141,7 @@ Module.register('Expand', function () {
    */
   const ExpandToLevelCommand = kity.createClass('ExpandToLevelCommand', {
     base: Command,
-    execute: function (km, level) {
+    execute(km, level) {
       if (level) {
         level -= 48
         IS_COLLAPSE_ALL = true
@@ -235,7 +235,7 @@ Module.register('Expand', function () {
   const ExpanderRenderer = kity.createClass('ExpanderRenderer', {
     base: Renderer,
 
-    create: function (node) {
+    create(node) {
       if (node.isRoot()) return
       this.expander = new Expander(node)
       node.getRenderContainer().prependShape(this.expander)
@@ -243,11 +243,11 @@ Module.register('Expand', function () {
       return this.expander
     },
 
-    shouldRender: function (node) {
+    shouldRender(node) {
       return !node.isRoot() && (node._isHover || node.isSelected() || node.isCollapsed())
     },
 
-    update: function (expander, node) {
+    update(expander, node) {
       // 拖动状态不显示 不放在shouldRender 此种效率最高
       if (node._isDragging) {
         expander.toggleSymbolState(false, false)
@@ -279,13 +279,13 @@ Module.register('Expand', function () {
       toggleexpand: 'alt+/'
     },
     events: {
-      layoutapply: function (e) {
+      layoutapply(e) {
         const r = e.node.getRenderer('ExpanderRenderer')
-        if (r.getRenderShape()) {
+        if (r && r.getRenderShape()) {
           r.update(r.getRenderShape(), e.node)
         }
       },
-      beforerender: function (e) {
+      beforerender(e) {
         const node = e.node
         const visible = !node.parent || node.parent.isExpanded()
 

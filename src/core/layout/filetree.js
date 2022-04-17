@@ -11,7 +11,7 @@ function registerLayoutForDir(dir) {
     kity.createClass({
       base: Layout,
 
-      doLayout: function (parent, children) {
+      doLayout(parent, children) {
         const pBox = parent.getContentBox()
         const indent = 20
 
@@ -59,7 +59,7 @@ function registerLayoutForDir(dir) {
         this.move(children, xAdjust, yAdjust)
       },
 
-      getOrderHint: function (node) {
+      getOrderHint(node) {
         const hint = []
         const box = node.getLayoutBox()
         const offset = node.getLevel() > 1 ? 3 : 5

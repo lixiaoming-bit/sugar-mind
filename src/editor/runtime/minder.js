@@ -28,15 +28,7 @@ export default function MinderRuntime() {
     root: {
       data: {
         text: '中心主题'
-      },
-      children: [
-        { data: { text: '分支主题 1' } },
-        { data: { text: '分支主题 2' } },
-        { data: { text: '分支主题 3' } },
-        { data: { text: '分支主题 4' } },
-        { data: { text: '分支主题 5' } },
-        { data: { text: '分支主题 6' } }
-      ]
+      }
     }
   }
   minder.importData('json', JSON.stringify(json))
