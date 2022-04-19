@@ -64,7 +64,9 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object'], functi
 })
 utils.getTextBoundary = (text, style) => {
   if (!text) return { width: 0, height: 0 }
+  text = text.replaceAll('/', '*')
   text = text.replaceAll('\n', '<br/>')
+  text = text.replaceAll('?', '*')
   let element = document.querySelector('#check')
   if (!element) {
     element = document.createElement('span')
