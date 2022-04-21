@@ -21,7 +21,6 @@ Module.register('HistoryModule', function () {
 
   // 监听变化
   const changed = () => {
-    console.log('changes')
     if (patchLock) return
     if (makeUndoDiff()) redoDiffs = []
   }

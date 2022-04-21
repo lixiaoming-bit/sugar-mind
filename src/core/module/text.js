@@ -136,6 +136,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
       node.getText() +
       ['font-size', 'font-name', 'font-weight', 'font-style'].map(getDataOrStyle).join('/')
 
+    console.log('node._currentTextHash === textHash: ', node._currentTextHash === textHash)
     if (node._currentTextHash === textHash && node._currentTextGroupBox) {
       return node._currentTextGroupBox
     }

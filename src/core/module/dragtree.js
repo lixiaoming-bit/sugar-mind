@@ -1,7 +1,7 @@
 import MinderNode from '../core/node'
 import Command from '../core/command'
 import Module from '../core/module'
-const Mousetrap = require('mousetrap-pause')(require('mousetrap'))
+// const Mousetrap = require('mousetrap-pause')(require('mousetrap'))
 const kity = window.kity
 
 // 矩形的变形动画定义
@@ -188,7 +188,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
     this._calcOrderHints()
     this._dragMode = true
     this._minder.setStatus('dragtree')
-    Mousetrap.pause()
+    window.Mousetrap.pause()
     return true
   },
 
@@ -279,7 +279,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
   },
 
   _leaveDragMode() {
-    Mousetrap.unpause()
+    window.Mousetrap.unpause()
     this._dragMode = false
     this._dropSucceedTarget = null
     this._orderSucceedHint = null

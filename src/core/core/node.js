@@ -392,7 +392,6 @@ kity.extendClass(Minder, {
 
   createNode(textOrData, parent, index) {
     const node = new MinderNode(textOrData)
-    console.log('node: ', node)
     this.fire('nodecreate', {
       node: node,
       parent: parent,
