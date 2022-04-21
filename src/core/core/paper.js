@@ -12,7 +12,6 @@ Minder.registerInitHook(function () {
 kity.extendClass(Minder, {
   _initPaper() {
     this._paper = new kity.Paper()
-    console.log('this123123: ', this)
     this._paper._minder = this
     this._paper.getNode().ondragstart = function (e) {
       e.preventDefault()

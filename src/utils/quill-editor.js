@@ -1,8 +1,44 @@
 import Quill from 'quill'
 import { clickOutside, removeClickOutside } from './click-outside'
 
-export default function generateEditor(event, MimeType) {
-  console.log('MimeType: ', MimeType)
+const Clipboard = Quill.import('modules/clipboard')
+const Delta = Quill.import('delta')
+
+const getData = (result = [], data) => {
+  data.forEach(item => {
+    result.push(item.data.text)
+    getData(result, item.children)
+  })
+}
+
+// 重写Quill 粘贴板模块，解决复制节点是粘贴是代码的问题
+class PlainClipboard extends Clipboard {
+  onPaste(e) {
+    e.preventDefault()
+    const range = this.quill.getSelection()
+    let text = e.clipboardData.getData('text/plain')
+
+    if (window.KMEditor && window.KMEditor.MimeType.whichMimeType(text) === 'application/km') {
+      const string = text.substring(2) || '[]'
+      const data = JSON.parse(string)
+      const result = []
+      getData(result, data)
+      text = result.join('')
+      text = text.replaceAll('\n', '')
+    }
+
+    const delta = new Delta().retain(range.index).delete(range.length).insert(text)
+    const index = text.length + range.index
+    // const length = 0
+    this.quill.updateContents(delta)
+    this.quill.setSelection(0, index, 'silent')
+    // this.quill.scrollIntoView()
+  }
+}
+
+Quill.register('modules/clipboard', PlainClipboard, true)
+
+export default function generateEditor(event) {
   const selectedNode = event.minder.getSelectedNode()
   const isReadonly = event.minder.getStatus() === 'readonly'
   // 选中 且 非制度
@@ -60,21 +96,6 @@ export default function generateEditor(event, MimeType) {
         }
       }
     })
-
-    // const getData = (result = [], data) => {
-    //   data.forEach(item => {
-    //     result.push(item.data.text)
-    //     getData(result, item.children)
-    //   })
-    // }
-    // if (MimeType.whichMimeType(text) === 'application/km') {
-    //   const string = text.substring(2) || '[]'
-    //   const data = JSON.parse(string)
-    //   const result = []
-    //   getData(result, data)
-    //   text = result.join()
-    // quill.setText(text)
-    // }
 
     // 监听文本变化
     quill.on('text-change', delta => {

@@ -161,6 +161,7 @@ export default {
     init() {
       const el = document.querySelector('.custom-canvas-container')
       this.editor = new KMEditor(el)
+      window.KMEditor = this.editor
       const { minder } = this.editor
 
       this.SET_MINDER(minder)
@@ -206,7 +207,7 @@ export default {
       // minder.on('contextmenu', event => {})
       // 监听双击编辑节点
       minder.on('normal.dblclick normal.textedit', e => {
-        generateEditor(e, this.editor.MimeType)
+        generateEditor(e)
       })
       // 监听处理全局单击事件 需要添加防抖
       minder.on('normal.click', e => {
