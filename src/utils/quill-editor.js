@@ -11,7 +11,7 @@ const getData = (result = [], data) => {
   })
 }
 
-// 重写Quill 粘贴板模块，解决复制节点是粘贴是代码的问题
+// 重写Quill 粘贴板模块，解决复制节点是粘贴代码的问题
 class PlainClipboard extends Clipboard {
   onPaste(e) {
     e.preventDefault()
@@ -98,8 +98,7 @@ export default function generateEditor(event) {
     })
 
     // 监听文本变化
-    quill.on('text-change', delta => {
-      console.log('delta: ', delta)
+    quill.on('text-change', () => {
       const text = quill.getText()
       selectedNode.setText(text)
       selectedNode.render()
