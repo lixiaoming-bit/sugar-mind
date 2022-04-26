@@ -74,6 +74,8 @@ utils.getTextBoundary = (text, style) => {
     element.style.visibility = 'hidden'
     element.style.position = 'absolute'
     element.style.opacity = '0'
+    element.style.maxWidth = '400px'
+    element.style.wordWrap = 'break-word'
     document.querySelector('#app').appendChild(element)
   }
   element.style.fontSize = style.fontSize || ''

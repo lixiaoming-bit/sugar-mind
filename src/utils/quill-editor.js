@@ -1,6 +1,7 @@
 import Quill from 'quill'
 import { clickOutside, removeClickOutside } from './click-outside'
 
+let IS_CHANGED = []
 const Clipboard = Quill.import('modules/clipboard')
 const Delta = Quill.import('delta')
 
@@ -29,16 +30,15 @@ class PlainClipboard extends Clipboard {
 
     const delta = new Delta().retain(range.index).delete(range.length).insert(text)
     const index = text.length + range.index
-    // const length = 0
     this.quill.updateContents(delta)
-    this.quill.setSelection(0, index, 'silent')
-    // this.quill.scrollIntoView()
+    this.quill.setSelection(index, 'silent')
   }
 }
 
 Quill.register('modules/clipboard', PlainClipboard, true)
 
-export default function generateEditor(event) {
+// 创建编辑器容器
+export default function createEditor(event) {
   const selectedNode = event.minder.getSelectedNode()
   const isReadonly = event.minder.getStatus() === 'readonly'
   // 选中 且 非制度
@@ -100,13 +100,13 @@ export default function generateEditor(event) {
     // 监听文本变化
     quill.on('text-change', () => {
       const text = quill.getText()
+      IS_CHANGED = selectedNode.getText() !== nodeText
       selectedNode.setText(text)
       selectedNode.render()
-      event.minder.layout(600)
     })
 
     // 设置文本 并将光标设置在末尾
-    quill.setContents([{ insert: nodeText }])
+    quill.setContents([{ insert: nodeText }], 'silent')
 
     quill.focus()
     if (nodeText.includes('中心主题') || nodeText.includes('分支主题')) {
@@ -120,6 +120,10 @@ export default function generateEditor(event) {
       event.minder.setStatus('normal')
       removeClickOutside(textGroup.foreign.editElement)
       textGroup.foreign.setVisible(true)
+      if (IS_CHANGED) {
+        event.minder.layout(600)
+        IS_CHANGED = false
+      }
     }
 
     clickOutside({

@@ -11,7 +11,8 @@ const DEFAULT_TEXT_STYLE =
   'pointer-events: none;overflow: hidden;display:inline-block;height: 100%;'
 
 class CreateForeignObject {
-  constructor() {
+  constructor(node) {
+    this.node = node
     this.createMainContainer()
     this.createEditorContainer()
     this.createTextContainer()
@@ -47,9 +48,15 @@ class CreateForeignObject {
     if (flag) {
       this.editElement.innerHTML = null
       this.editElement.style.display = 'none'
-      this.textElement.style.display = 'flex'
+      this.textElement.style.display = ''
     } else {
-      // this.textElement.innerHTML = null
+      const minderContainer = this.node.getMinder().getRenderContainer()
+      const nodeContainer = this.node.getRenderContainer()
+
+      // TODO: 当前正在编辑的节点放在最后，未还原可能会出现问题，未测试
+      nodeContainer.remove()
+      minderContainer.appendShape(nodeContainer)
+
       this.textElement.style.display = 'none'
       this.editElement.style.display = 'block'
     }
@@ -73,9 +80,9 @@ class CreateForeignObject {
 const TextRenderer = kity.createClass('TextRenderer', {
   base: Renderer,
 
-  create() {
+  create(node) {
     // 创建dom节点
-    const fo = new CreateForeignObject()
+    const fo = new CreateForeignObject(node)
     const group = new kity.Group().setId(utils.uuid('node_text'))
     group.node.appendChild(fo.foreignElement)
     group.foreign = fo

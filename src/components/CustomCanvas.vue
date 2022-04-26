@@ -107,7 +107,7 @@ import {
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
 } from '@/config'
-import generateEditor from '@/utils/quill-editor'
+import createEditor from '@/utils/quill-editor'
 export default {
   name: 'CustomCanvas',
   components: {
@@ -207,7 +207,7 @@ export default {
       // minder.on('contextmenu', event => {})
       // 监听双击编辑节点
       minder.on('normal.dblclick normal.textedit', e => {
-        generateEditor(e)
+        createEditor(e)
       })
       // 监听处理全局单击事件 需要添加防抖
       minder.on('normal.click', e => {
@@ -326,34 +326,4 @@ export default {
   letter-spacing: 1px;
 }
 </style>
-<style>
-.ql-container {
-  height: 100%;
-  margin: 0;
-  min-height: 100%;
-  padding: 0;
-  pointer-events: all;
-  text-align: left;
-  top: 0;
-  width: 100%;
-}
-.ql-editor {
-  margin: 0;
-  outline: none;
-  padding: 0;
-}
-.ql-container p,
-.ql-container p span {
-  word-wrap: normal;
-  margin: 0;
-  white-space: nowrap;
-  word-break: normal;
-}
-.fo-text p,
-.fo-text p span {
-  word-wrap: normal;
-  margin: 0;
-  white-space: nowrap;
-  word-break: normal;
-}
-</style>
+<style></style>
