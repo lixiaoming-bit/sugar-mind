@@ -90,11 +90,17 @@ export default {
   data() {
     return {
       fontStyleIcons: [],
-      color: '#ffffff'
+      color: '#ffffff',
+      isBold: false,
+      isItalic: false
     }
   },
   mounted() {
     this.setFontStyleIcons()
+    this.minder.on('interactchange', () => {
+      this.isBold = this.minder.queryCommandValue('bold') === 'bold'
+      this.isItalic = this.minder.queryCommandValue('italic') === 'italic'
+    })
   },
   activated() {
     this.color = this.nodeFontStyle.color || '#ffffff'
@@ -135,14 +141,23 @@ export default {
     // 检查是否被选中
     checkIsActive() {
       return item => {
-        if (item.icon === 'delete') {
-          return false
-        }
-        if (item.icon === 'color') {
-          return false
-        }
         const value = this.minder.queryCommandValue(item.command)
-        return value === item.command
+        let result
+        switch (item.icon) {
+          case 'delete':
+          case 'color':
+            result = false
+            break
+          case 'bold':
+            result = this.isBold
+            break
+          case 'italic':
+            result = this.isItalic
+            break
+          default:
+            result = value === item.command
+        }
+        return result
       }
     },
     align() {
