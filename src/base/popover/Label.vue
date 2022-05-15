@@ -41,8 +41,7 @@ export default {
     },
     // 设置标签的值
     setLabel() {
-      const value = this.value.split(',')
-      console.log('value: ', value)
+      const value = this.value.replace(/\r|\n/gi, '').trim().split(',')
       this.minder.execCommand('label', value)
     }
   }
@@ -51,7 +50,7 @@ export default {
 
 <style scoped lang="less">
 .label-container {
-  min-width: 200px;
+  min-width: 300px;
   padding: 10px;
 }
 .popover-type {

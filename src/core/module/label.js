@@ -33,7 +33,7 @@ Module.register('LabelModule', function () {
 
     queryValue(minder) {
       const node = minder.getSelectedNode()
-      return node && node.getData('node_label')
+      return node && node.getData('label')
     }
   })
 
@@ -46,40 +46,41 @@ Module.register('LabelModule', function () {
       const strokeColor = node.getStyle('label-stroke-color')
       const strokeWidth = node.getStyle('label-stroke-width')
 
-      this.setId(utils.uuid('label'))
+      this.setId(utils.uuid('node_label'))
       this.rect = new kity.Rect().fill(background).stroke(strokeColor, strokeWidth)
       this.text = new kity.Text().setVerticalAlign('middle').setFontSize(labelFontSize)
       this.addShapes([this.rect, this.text])
       this.initEvents(node)
     }
     setContent(node) {
-      const [value] = node.getData('label') || []
-      this.text.setContent(value)
-
-      const textBox = this.text.getBoundaryBox()
-      console.log('textBox: ', textBox)
-      // const box1 = node.getRenderBox('EntityRenderer')
-      const contentBox = node.getContentBox()
-
       const paddingX = node.getStyle('label-padding-left')
       const paddingY = node.getStyle('label-padding-top')
       const marginTop = node.getStyle('label-margin-top')
       const labelRadius = node.getStyle('label-radius')
 
+      let [value] = node.getData('label') || []
+      this.text.setContent(value)
+
+      const textBox = this.text.getBoundaryBox()
+      const contentBox = node.getContentBox()
+
       let width = Math.round(textBox.width + paddingX * 2)
+      const isEclipses = width > contentBox.width
 
       while (width > contentBox.width && value.length) {
-        const text = value.slice(0, -5)
-        this.text.setContent(text + '...')
+        value = value.slice(0, -1)
         const textBox = this.text.getBoundaryBox()
         width = Math.round(textBox.width + paddingX * 2)
+        this.text.setContent(value)
       }
 
-      console.log('contentBox: ', contentBox)
+      if (isEclipses) {
+        value = value + '...'
+      }
+      this.text.setContent(value)
+
       this.rect.setPosition(contentBox.x, marginTop - 5)
       this.text.setPosition(contentBox.x + paddingX, paddingY * 2 + marginTop - 5)
-
-      const isEclipses = width > contentBox.width
 
       this.width = isEclipses ? contentBox.width : width
       this.height = Math.round(textBox.height + paddingY * 2)
@@ -109,7 +110,8 @@ Module.register('LabelModule', function () {
     },
 
     shouldRender(node) {
-      const label = node.getData('label')
+      let label = node.getData('label')
+      if (Array.isArray(label)) label = label.filter(Boolean)
       return label && label.length > 0
     },
 
@@ -125,6 +127,7 @@ Module.register('LabelModule', function () {
       // const vector = { x: box.x, y: box.y + 10 }
 
       this.label.setTranslate(0, box.height / 2 + 12)
+
       return new kity.Box(box.x, box.y, box.width, box.height)
     }
   })

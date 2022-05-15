@@ -29,7 +29,7 @@ const setTheme = compat => ({
 
   'label-color': '#333',
   'label-background': '#ffffff',
-  'label-radius': 20,
+  'label-radius': 5,
   'label-stroke-width': 1,
   'label-stroke-color': '#333',
   'label-font-size': 12,
