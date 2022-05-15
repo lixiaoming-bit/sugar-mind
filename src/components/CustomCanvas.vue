@@ -4,6 +4,8 @@
     <note-previewer v-if="isShowChildComponent"></note-previewer>
     <!-- 全局搜索器 -->
     <search-node v-if="isShowChildComponent"></search-node>
+    <!-- 全局popover提示器 -->
+    <popover v-if="isShowChildComponent"></popover>
     <!-- 全局菜单 -->
     <v-contextmenu
       ref="contextmenu"
@@ -92,12 +94,16 @@
 <script>
 /* eslint-disable no-unused-vars */
 import kity from 'kity'
+
 import '../core/kityminder'
 import '../core/kityminder.css'
 import KMEditor from '../editor/editor'
+
 import { mapGetters, mapMutations } from 'vuex'
+
 import NotePreviewer from '@/base/NotePreviewer'
 import SearchNode from '@/base/SearchNode'
+import Popover from '@/base/Popover'
 import {
   QUICK_INSERT_CONTEXTMENU,
   QUICK_SELECT_CONTEXTMENU,
@@ -112,7 +118,8 @@ export default {
   name: 'CustomCanvas',
   components: {
     NotePreviewer,
-    SearchNode
+    SearchNode,
+    Popover
   },
   data() {
     return {
@@ -164,6 +171,7 @@ export default {
       window.KMEditor = this.editor
       const { minder } = this.editor
 
+      console.log('minder', minder.getRoot())
       this.SET_MINDER(minder)
       this.SET_DISPLAY_MODE('normal')
 

@@ -361,7 +361,7 @@ Module.register('Resource', function () {
 
       while ((overlay = overlays[i++])) overlay.setVisible(false)
 
-      container.setTranslate(box.right, 0)
+      container.setTranslate(box.left, box.bottom + 20)
 
       return new kity.Box({
         x: box.right,
@@ -378,7 +378,7 @@ Module.register('Resource', function () {
     },
 
     renderers: {
-      right: ResourceRenderer
+      outside: ResourceRenderer
     }
   }
 })

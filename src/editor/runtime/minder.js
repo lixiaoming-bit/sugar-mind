@@ -20,18 +20,19 @@ export default function MinderRuntime() {
   minder.renderTo(this.selector)
   // console.log('minder.getTheme(): ', minder.getTheme())
   // console.log('minder.getThemeList(): ', minder.getThemeList())
-  // minder.useTemplate('fish-bone')
+  minder.useTemplate('right')
   // console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
   // minder.execCommand('text', '中心主题')
   const json = {
     root: {
       data: {
-        text: '中心主题'
+        text: '2022个推技术嘉年华'
+        // label: ['121231231231231231231231231']
       }
     }
   }
-  minder.importData('json', JSON.stringify(json))
+  minder.importJson(json)
 
   // 导出给其它 Runtime 使用
   this.minder = minder

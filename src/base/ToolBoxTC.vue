@@ -109,7 +109,8 @@ export default {
           this.minder.execCommand('AppendChildNode')
           break
         case 'note':
-          this.SET_VISIBLE_MODAL('InsertNotesModal')
+          // this.SET_VISIBLE_MODAL('InsertNotesModal')
+          this.minder.execCommand('OpenPopover', 'label')
           break
         case 'image':
           this.SET_VISIBLE_MODAL('InsertImagesModal')

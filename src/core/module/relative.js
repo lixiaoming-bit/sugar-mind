@@ -9,25 +9,25 @@ const kity = window.kity
 Module.register('Relative', function () {
   // 关联节点的数据结构
   // const relatives = [
-  // {
-  //   "id": "cjce4jtleg00",
-  //   "start": {
-  //     "nodeId": "cjce4gpcj5c0",
-  //     "control": {
-  //       "x": 125,
-  //       "y": 0
-  //     }
-  //   },
-  //   "end": {
-  //     "nodeId": "cjce4gy4e8o0",
-  //     "control": {
-  //       "x": 127,
-  //       "y": 0
-  //     }
-  //   },
-  //   "style": [],
-  //   "text": "\u5173\u8054"
-  // },
+  //   {
+  //     "id": "cjce4jtleg00",
+  //     "start": {
+  //       "nodeId": "cjce4gpcj5c0",
+  //       "control": {
+  //         "x": 125,
+  //         "y": 0
+  //       }
+  //     },
+  //     "end": {
+  //       "nodeId": "cjce4gy4e8o0",
+  //       "control": {
+  //         "x": 127,
+  //         "y": 0
+  //       }
+  //     },
+  //     "style": [],
+  //     "text": "\u5173\u8054"
+  //   }
   // ]
 
   //

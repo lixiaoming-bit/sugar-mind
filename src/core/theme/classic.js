@@ -27,6 +27,15 @@ const setTheme = compat => ({
   'sub-radius': 8,
   'sub-space': 5,
 
+  'label-color': '#333',
+  'label-background': '#ffffff',
+  'label-radius': 20,
+  'label-stroke-width': 1,
+  'label-stroke-color': '#333',
+  'label-font-size': 12,
+  'label-padding': [6, 8],
+  'label-margin': [2],
+
   'connect-width': 3,
   'main-connect-width': 3,
 
