@@ -8,7 +8,7 @@ Layout.register(
     base: Layout,
 
     doLayout(node, children) {
-      const half = Math.ceil(node.children.length / 2)
+      const half = Math.ceil(node.getChildren().length / 2)
       const right = []
       const left = []
 

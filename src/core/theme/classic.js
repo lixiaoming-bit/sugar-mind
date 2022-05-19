@@ -13,7 +13,7 @@ const setTheme = compat => ({
 
   'main-stroke': 'none',
   'main-font-size': 16,
-  'main-padding': compat ? [6, 20] : [10, 16],
+  'main-padding': compat ? [6, 20] : [10, 20],
   'main-margin': compat ? 8 : 15,
   'main-radius': 8,
   'main-space': 8,
@@ -36,6 +36,13 @@ const setTheme = compat => ({
   'label-padding': [6, 8],
   'label-margin': [2],
 
+  'summary-stroke': 'none',
+  'summary-font-size': 16,
+  'summary-padding': compat ? [6, 20] : [10, 16],
+  'summary-margin': compat ? [5, 5] : [5, 10],
+  'summary-radius': 8,
+  'summary-space': 5,
+
   'connect-width': 3,
   'main-connect-width': 3,
 
@@ -51,6 +58,7 @@ const setTheme = compat => ({
   'sub-drop-hint-width': 2,
   'main-drop-hint-width': 4,
   'root-drop-hint-width': 4,
+  'summary-drop-hint-width': 4,
 
   'order-hint-area-color': 'rgba(0, 255, 0, .5)',
   'order-hint-path-color': '#0f0',

@@ -50,9 +50,16 @@ kity.extendClass(Minder, {
       const exported = {}
       exported['data'] = node.getData()
       const childNodes = node.getChildren()
-      exported['children'] = []
+      const childSummarys = node.getSummary()
+      exported['children'] = {
+        common: [],
+        summary: []
+      }
+      for (let i = 0; i < childSummarys.length; i++) {
+        exported.children.summary.push(exportNode(childSummarys[i]))
+      }
       for (let i = 0; i < childNodes.length; i++) {
-        exported.children.push(exportNode(childNodes[i]))
+        exported.children.common.push(exportNode(childNodes[i]))
       }
       return exported
     }
@@ -88,7 +95,7 @@ kity.extendClass(Minder, {
     if (!(node instanceof MinderNode)) {
       return
     }
-    let children = []
+    let children = {}
     let jsonMap = {}
     let level = 0
 
@@ -110,7 +117,7 @@ kity.extendClass(Minder, {
         data: {
           text: line.replace(/^(\t|\x20{4})+/, '').replace(/(\t|\x20{4})+$/, '')
         },
-        children: []
+        children: {}
       }
     }
 
@@ -124,7 +131,7 @@ kity.extendClass(Minder, {
     }
 
     function addChild(parent, node) {
-      parent.children.push(node)
+      parent.children.common.push(node)
     }
 
     function importChildren(node, children) {
@@ -143,8 +150,8 @@ kity.extendClass(Minder, {
       jsonNode = getNode(line)
       if (level === 0) {
         jsonMap = {}
-        children.push(jsonNode)
-        jsonMap[0] = children[children.length - 1]
+        children.common.push(jsonNode)
+        jsonMap[0] = children.common[children.common.length - 1]
       } else {
         if (!jsonMap[level - 1]) {
           throw new Error('Invalid local format')
@@ -167,9 +174,16 @@ kity.extendClass(Minder, {
     const exported = {}
     exported.data = node.getData()
     const childNodes = node.getChildren()
-    exported.children = []
+    const childSummary = node.getSummary()
+    exported.children = {
+      common: [],
+      summary: []
+    }
+    for (let i = 0; i < childSummary.length; i++) {
+      exported.children.summary.push(this.exportNode(childSummary[i]))
+    }
     for (let i = 0; i < childNodes.length; i++) {
-      exported.children.push(this.exportNode(childNodes[i]))
+      exported.children.common.push(this.exportNode(childNodes[i]))
     }
     return exported
   },
@@ -187,7 +201,11 @@ kity.extendClass(Minder, {
       }
     }
 
-    const childrenTreeData = json.children || []
+    const childrenTreeData = json?.children?.common || []
+    const summaryTreeData = json?.children?.summary || []
+    for (let i = 0; i < summaryTreeData.length; i++) {
+      this.createNode(null, node, 1, 'summary', node.data)
+    }
     for (let i = 0; i < childrenTreeData.length; i++) {
       if (node.getType() !== 'root' && node.getComplex() > 20) {
         node.setData('expandState', 'collapse')

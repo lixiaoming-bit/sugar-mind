@@ -9,6 +9,7 @@ template.register('right', {
   },
 
   getConnect(node) {
+    if (node.type === 'summary') return 'arc_sum'
     if (node.getLevel() === 1) return 'arc'
     // return 'bezier'
     return 'poly'

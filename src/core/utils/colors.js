@@ -101,6 +101,9 @@ export const CLASSIC = Array.from(new Array(6), (_, index) => {
     'sub-color': '#141414',
     'sub-background': '#EEEEEE',
 
+    'summary-color': '#141414',
+    'summary-background': '#EEEEEE',
+
     'connect-color': '#141414'
   }
   return setting

@@ -22,6 +22,7 @@ template.register('default', {
   },
 
   getConnect(node) {
+    if (node.type === 'summary') return 'arc_sum'
     if (node.getLevel() === 1) return 'arc'
     return 'poly'
   }

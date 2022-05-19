@@ -60,7 +60,7 @@ const AppendChildCommand = kity.createClass('AppendChildCommand', {
     km.fire('textedit')
   },
   queryState(km) {
-    return km.getSelectedNode() ? 0 : -1
+    return km.getSelectedNode() && km.getSelectedNode()?.type !== 'summary' ? 0 : -1
   }
 })
 
@@ -94,7 +94,7 @@ const AppendSiblingCommand = kity.createClass('AppendSiblingCommand', {
     km.fire('textedit')
   },
   queryState(km) {
-    return km.getSelectedNode() ? 0 : -1
+    return km.getSelectedNode() && km.getSelectedNode()?.type !== 'summary' ? 0 : -1
   }
 })
 
@@ -127,7 +127,7 @@ const AppendParentCommand = kity.createClass('AppendParentCommand', {
     if (!nodes.length) return -1
     const nodesNoRoot = nodes.filter(node => !node.isRoot())
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodesNoRoot)
-    return !ancestor ? -1 : 0
+    return !ancestor || km.getSelectedNode()?.type === 'summary' ? -1 : 0
   }
 })
 
@@ -145,7 +145,13 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
     const ancestor = MinderNode.getCommonAncestor.apply(null, nodes)
 
     nodes.forEach(node => {
-      if (!node.isRoot()) km.removeNode(node)
+      if (!node.isRoot()) {
+        const index = node.parent.getChildren().indexOf(node)
+        node.parent.getSummary()?.forEach(e => {
+          e.data.startIndex === index && e.data.endIndex === index && km.removeNode(e)
+        })
+        km.removeNode(node)
+      }
     })
     if (nodes.length === 1) {
       const index = nodes[0].getIndex()

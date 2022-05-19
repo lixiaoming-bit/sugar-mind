@@ -199,7 +199,7 @@ Module.register('Expand', function () {
 
     setState(node) {
       const visible = node.parent.isExpanded()
-      const state = visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : 'hide'
+      const state = visible && node.getChildren().length ? node.getData(EXPAND_STATE_DATA) : 'hide'
       if (state === 'hide') {
         this.setVisible(false)
         return

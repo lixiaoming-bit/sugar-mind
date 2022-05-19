@@ -1,5 +1,6 @@
 import utils from './utils'
 import Minder from './minder'
+import { SummaryMinderNode, SummaryMinder } from './summary'
 const kity = window.kity
 
 /**
@@ -18,7 +19,10 @@ const MinderNode = kity.createClass('MinderNode', {
     // 指针
     this.parent = null
     this.root = this
-    this.children = []
+    this.children = {
+      common: [],
+      summary: []
+    }
     this.free = isFree
 
     // 数据
@@ -53,7 +57,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * 判断节点是否叶子
    */
   isLeaf() {
-    return this.children.length === 0
+    return this.getChildren().length === 0
   },
 
   /**
@@ -73,7 +77,7 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   getSiblings() {
-    const children = this.parent.children
+    const children = this.parent.getChildren()
     const siblings = []
     const self = this
     children.forEach(function (child) {
@@ -118,8 +122,15 @@ const MinderNode = kity.createClass('MinderNode', {
    * 获得节点的类型（root|main|sub）
    */
   getType() {
-    this.type = ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)]
+    this.type = this.data.type || ['root', 'main', 'sub'][Math.min(this.getLevel(), 2)]
     return this.type
+  },
+  /**
+   * 针对一级节点，标识一级节点的左右布局
+   */
+  setPosition(p) {
+    this.position = p
+    return this
   },
 
   /**
@@ -186,7 +197,7 @@ const MinderNode = kity.createClass('MinderNode', {
    * @param  {Function} fn 遍历函数
    */
   postTraverse(fn, excludeThis) {
-    const children = this.getChildren()
+    const children = [...this.getChildren(), ...this.getSummary()]
     for (let i = 0; i < children.length; i++) {
       children[i].postTraverse(fn)
     }
@@ -198,16 +209,16 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   getChildren() {
-    return this.children
+    return this.children.common
   },
 
   getIndex() {
-    return this.parent ? this.parent.children.indexOf(this) : -1
+    return this.parent ? this.parent.getChildren().indexOf(this) : -1
   },
 
   insertChild(node, index) {
     if (index === undefined) {
-      index = this.children.length
+      index = this.getChildren().length
     }
     if (node.parent) {
       node.parent.removeChild(node)
@@ -215,7 +226,7 @@ const MinderNode = kity.createClass('MinderNode', {
     node.parent = this
     node.root = this.root
 
-    this.children.splice(index, 0, node)
+    this.getChildren().splice(index, 0, node)
   },
 
   appendChild(node) {
@@ -227,24 +238,27 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   removeChild(elem) {
-    let index = elem
-    let removed
+    let removed, commonIndex, summaryIndex
     if (elem instanceof MinderNode) {
-      index = this.children.indexOf(elem)
+      commonIndex = this.getChildren().indexOf(elem)
+      summaryIndex = this.getSummary().indexOf(elem)
     }
-    if (index >= 0) {
-      removed = this.children.splice(index, 1)[0]
+    if (commonIndex !== -1 || summaryIndex !== -1) {
+      removed =
+        commonIndex !== -1
+          ? this.getChildren().splice(commonIndex, 1)[0]
+          : this.getSummary().splice(summaryIndex, 1)[0]
       removed.parent = null
       removed.root = removed
     }
   },
 
   clearChildren() {
-    this.children = []
+    this.children.common = []
   },
 
   getChild(index) {
-    return this.children[index]
+    return this.getChildren()[index]
   },
 
   getRenderContainer() {
@@ -266,7 +280,7 @@ const MinderNode = kity.createClass('MinderNode', {
     cloned.data.id = utils.guid()
     cloned.data.created = +new Date()
 
-    this.children.forEach(function (child) {
+    this.getChildren().forEach(function (child) {
       cloned.appendChild(child.clone())
     })
 
@@ -276,11 +290,11 @@ const MinderNode = kity.createClass('MinderNode', {
   compareTo(node) {
     if (!utils.comparePlainObject(this.data, node.data)) return false
     if (!utils.comparePlainObject(this.temp, node.temp)) return false
-    if (this.children.length != node.children.length) return false
+    if (this.children.length != node.children.common.length) return false
 
     let i = 0
-    while (this.children[i]) {
-      if (!this.children[i].compareTo(node.children[i])) return false
+    while (this.getChild(i)) {
+      if (!this.getChild(i).compareTo(node.children.common[i])) return false
       i++
     }
 
@@ -289,7 +303,8 @@ const MinderNode = kity.createClass('MinderNode', {
 
   getMinder() {
     return this.getRoot().minder
-  }
+  },
+  ...SummaryMinderNode
 })
 
 MinderNode.getCommonAncestor = function (nodeA, nodeB) {
@@ -390,20 +405,31 @@ kity.extendClass(Minder, {
     return node
   },
 
-  createNode(textOrData, parent, index) {
+  createNode(textOrData, parent, index, type = null, summaryData = {}) {
     const node = new MinderNode(textOrData)
     this.fire('nodecreate', {
       node: node,
       parent: parent,
       index: index
     })
-    this.appendNode(node, parent, index)
+    this.appendNode(node, parent, index, type, summaryData)
     return node
   },
 
-  appendNode(node, parent, index) {
-    if (parent) parent.insertChild(node, index)
-    this.attachNode(node)
+  appendNode(node, parent, index, type, summaryData) {
+    if (type) {
+      parent && parent.insertSumChild(node, index)
+      // 配置概要节点的数据结构
+      const data = {
+        type,
+        ...summaryData
+      }
+      node.setData(data)
+      this.attachNode(node)
+    } else {
+      parent && parent.insertChild(node, index)
+      this.attachNode(node, type)
+    }
     return this
   },
 
@@ -442,7 +468,8 @@ kity.extendClass(Minder, {
 
   getMinderTitle() {
     return this.getRoot().getText()
-  }
+  },
+  ...SummaryMinder
 })
 
 export default MinderNode

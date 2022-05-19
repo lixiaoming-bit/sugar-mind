@@ -2,10 +2,14 @@
 import Minder from './minder'
 const kity = window.kity
 
-function insertNode(minder, info, parent, index) {
-  parent = minder.createNode(info.data, parent, index)
-  info.children.forEach(function (childInfo, index) {
+function insertNode(minder, info, parent, index, type) {
+  console.log('info: ', info)
+  parent = minder.createNode(info.data, parent, index, type, info.data)
+  info.children?.common?.forEach(function (childInfo, index) {
     insertNode(minder, childInfo, parent, index)
+  })
+  info.children?.summary?.forEach(function (childInfo, index) {
+    insertNode(minder, childInfo, parent, index, 'summary')
   })
   return parent
 }
@@ -34,8 +38,10 @@ function applyPatch(minder, patch) {
     let segment
     let index
     while ((segment = path.shift())) {
-      if (segment === 'children') continue
-      if (typeof index !== 'undefined') node = node.getChild(index)
+      if (segment === 'children' || segment === 'common' || segment === 'summary') continue
+      if (typeof index !== 'undefined') {
+        node = patch.path.indexOf('summary') === -1 ? node.getChild(index) : node.getSumByIdx(index)
+      }
       index = +segment
     }
     patch.index = index
@@ -52,11 +58,19 @@ function applyPatch(minder, patch) {
       minder.useTemplate(patch.value)
       break
     case 'node.add':
-      insertNode(minder, patch.value, patch.node, patch.index).renderTree()
+      console.log('patch: ', patch)
+      patch.path.indexOf('summary') === -1
+        ? insertNode(minder, patch.value, patch.node, patch.index).renderTree()
+        : insertNode(minder, patch.value, patch.node, patch.index, 'summary').renderTree()
       minder.layout()
       break
     case 'node.remove':
-      minder.removeNode(patch.node.getChild(patch.index))
+      console.log('patch: ', patch)
+      minder.removeNode(
+        patch.path.indexOf('summary') === -1
+          ? patch.node.getChild(patch.index)
+          : patch.node.getSumByIdx(patch.index)
+      )
       minder.layout()
       break
     case 'data.add':

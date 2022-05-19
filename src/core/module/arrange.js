@@ -7,7 +7,7 @@ kity.extendClass(MinderNode, {
   arrange(index) {
     const parent = this.parent
     if (!parent) return
-    const sibling = parent.children
+    const sibling = parent.getChildren()
 
     if (index < 0 || index >= sibling.length) return
     sibling.splice(this.getIndex(), 1)

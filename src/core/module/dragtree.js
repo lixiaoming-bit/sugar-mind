@@ -268,7 +268,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
       ancestor = this._minder.getRoot()
     }
 
-    const siblings = ancestor.children
+    const siblings = ancestor.getChildren()
 
     this._orderHints = siblings.reduce(function (hint, sibling) {
       if (sources.indexOf(sibling) === -1) {

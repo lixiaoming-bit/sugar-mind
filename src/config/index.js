@@ -183,7 +183,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     visible: false,
     tips: '选中主题-点击概要',
     icon: 'iconicon_draw_summary',
-    class: 'disabled'
+    class: handleCheckDisabled('AddNodeSummary')
   },
   {
     key: 'note',
@@ -354,6 +354,19 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
       description: `${shortcutText} + Backspace [⬅️]`,
       command: 'RemoveCurrentNode',
       disabled: handleCheckDisabled('RemoveCurrentNode')
+    }
+  ]
+}
+
+// 选中节点后的概要菜单
+export const summarySelectedNodeContextmenu = handleCheckDisabled => {
+  return [
+    {
+      key: 'delete',
+      title: '删除概要',
+      description: 'Backspace [⬅️]',
+      command: 'RemoveNode',
+      disabled: handleCheckDisabled('RemoveNode')
     }
   ]
 }

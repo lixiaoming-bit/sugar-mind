@@ -45,6 +45,10 @@ export default {
     // 点击切换主题
     handleSelectStruct(item) {
       if (item.disabled) return
+      if (item.template === 'default' && this.minder.getRoot().getSummary().length) {
+        this.$message.warning('二级主题存在概要，暂不支持切换到该结构')
+        return
+      }
       this.minder.useTemplate(item.template)
     }
   }

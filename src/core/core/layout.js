@@ -33,6 +33,9 @@ const Layout = kity.createClass('Layout', {
   doLayout() {
     throw new Error('Not Implement: Layout.doLayout()')
   },
+  doSummaryLayout() {
+    throw new Error('Not Implement: Layout.doSummaryLayout()')
+  },
 
   /**
    * 对齐指定的节点
@@ -153,14 +156,19 @@ const Layout = kity.createClass('Layout', {
 
       let treeBox = node.getContentBox()
 
-      if (node.isExpanded() && node.children.length) {
-        treeBox = treeBox.merge(this.getTreeBox(node.children))
-      }
+      const children = [...node.getChildren(), ...node.getSummary()]
 
+      if (node.isExpanded() && children.length) {
+        treeBox = treeBox.merge(this.getTreeBox(children))
+      }
       box = box.merge(matrix.transformBox(treeBox))
     }
 
     return box
+  },
+  getSummaryBox(node) {
+    const nodes = node.parent.getChildren().slice(node.data.startIndex, node.data.endIndex + 1)
+    return this.getTreeBox(nodes)
   },
 
   getOrderHint() {
@@ -375,6 +383,42 @@ kity.extendClass(MinderNode, {
 
   isLayoutRoot() {
     return this.getData('layout') || this.isRoot()
+  },
+  /**
+   * 为提供方法给节点连线使用，供getSummaryBox调用
+   * @param {*} nodes
+   * @returns
+   */
+  getTreeBoxForSum(nodes) {
+    let box = new kity.Box()
+
+    if (!(nodes instanceof Array)) nodes = [nodes]
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i]
+      const matrix = node.getLayoutTransform()
+
+      let treeBox = node.getContentBox()
+
+      const children = [...node.getChildren(), ...node.getSummary()]
+
+      if (node.isExpanded() && children.length) {
+        treeBox = treeBox.merge(this.getTreeBoxForSum(children))
+      }
+      const nowbox = matrix.transformBox(treeBox)
+      box = box.merge(nowbox)
+    }
+
+    return box
+  },
+  /**
+   * 计算概要节点所概要的box，并挂载在node节点下
+   * @param {概要节点} node
+   * @returns
+   */
+  getSummaryBox(node) {
+    const nodes = node.parent.getChildren().slice(node.data.startIndex, node.data.endIndex + 1)
+    return this.getTreeBoxForSum(nodes)
   }
 })
 
@@ -389,11 +433,11 @@ kity.extendClass(Minder, {
       // clear last results
       node.setLayoutTransform(null)
     })
-
+    const minder = this
     function layoutNode(node, round) {
       // layout all children first
       // 剪枝：收起的节点无需计算
-      node.children.forEach(function (child) {
+      ;[...node.getChildren(), ...node.getSummary()].forEach(function (child) {
         layoutNode(child, round)
       })
 
@@ -402,6 +446,28 @@ kity.extendClass(Minder, {
       //     return !child.hasLayoutOffset();
       // });
       layout.doLayout(node, node.getChildren(), round)
+      // 概要节点布局
+      if (node.getSummary().length) {
+        let left = []
+        let right = []
+        node.getSummary().forEach(e => {
+          const getFirstAttachNode = e.parent.getChildren()[e.data.startIndex]
+          switch (minder.getTemplate()) {
+            case 'default':
+              getFirstAttachNode.position === 'right' ? right.push(e) : left.push(e)
+              break
+            case 'right':
+              right.push(e)
+              break
+            default:
+              break
+          }
+        })
+        const leftSumLayout = Minder.getLayoutInstance('sumLeft')
+        const rightSumLayout = Minder.getLayoutInstance('sumRight')
+        leftSumLayout.doLayout(node, left)
+        rightSumLayout.doLayout(node, right)
+      }
     }
 
     // 第一轮布局
@@ -410,7 +476,6 @@ kity.extendClass(Minder, {
     // 第二轮布局
     layoutNode(this.getRoot(), 2)
 
-    const minder = this
     this.applyLayoutResult(this.getRoot(), duration, function () {
       /**
        * 当节点>200, 不使用动画时, 此处逻辑变为同步逻辑, 外部minder.on事件无法
@@ -498,9 +563,9 @@ kity.extendClass(Minder, {
         })
         consume()
       }
-
-      for (let i = 0; i < node.children.length; i++) {
-        apply(node.children[i], matrix)
+      const allNode = [...node.getChildren(), ...node.getSummary()]
+      for (let i = 0; i < allNode.length; i++) {
+        apply(allNode[i], matrix)
       }
     }
     apply(root, root.parent ? root.parent.getGlobalLayoutTransform() : new kity.Matrix())

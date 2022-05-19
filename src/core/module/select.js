@@ -55,7 +55,7 @@ const SelectSibling = kity.createClass('SelectSibling', {
     const selection = []
     selected.forEach(function (node) {
       if (!node.parent) return
-      node.parent.children.forEach(function (sibling) {
+      node.parent.getChildren().forEach(function (sibling) {
         if (selection.indexOf(sibling) === -1) selection.push(sibling)
       })
     })

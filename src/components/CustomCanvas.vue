@@ -13,68 +13,77 @@
       :event-type="null"
       :auto-placement="true"
     >
-      <!-- 选中：移除主题内容 -->
-      <v-contextmenu-submenu
-        v-if="selectedNode && removeMenuList.length"
-        title="移除主题内容"
-        :style="{ color: '#1a1a1a' }"
-      >
-        <v-contextmenu-item
-          v-for="item in removeMenuList"
-          :key="item.key"
-          :disabled="item.disable"
-          @click="handleContextmenuClick(item)"
+      <template v-if="!isSummary">
+        <!-- 选中：移除主题内容 -->
+        <v-contextmenu-submenu
+          v-if="selectedNode && removeMenuList.length"
+          title="移除主题内容"
+          :style="{ color: '#1a1a1a' }"
         >
-          <div class="contextmenu-item">
-            <div class="title">{{ item.title }}</div>
-            <div class="description">{{ item.description }}</div>
-          </div>
-        </v-contextmenu-item>
-      </v-contextmenu-submenu>
+          <v-contextmenu-item
+            v-for="item in removeMenuList"
+            :key="item.key"
+            :disabled="item.disable"
+            @click="handleContextmenuClick(item)"
+          >
+            <div class="contextmenu-item">
+              <div class="title">{{ item.title }}</div>
+              <div class="description">{{ item.description }}</div>
+            </div>
+          </v-contextmenu-item>
+        </v-contextmenu-submenu>
 
-      <!-- 选中：快速插入主题 -->
-      <v-contextmenu-submenu v-if="selectedNode" title="快速插入主题" :style="{ color: '#1a1a1a' }">
-        <v-contextmenu-item
-          v-for="item in quickInsertMenuList"
-          :key="item.key"
-          @click="handleQuickInsert(item)"
+        <!-- 选中：快速插入主题 -->
+        <v-contextmenu-submenu
+          v-if="selectedNode && selectedNode.type !== 'summary'"
+          title="快速插入主题"
+          :style="{ color: '#1a1a1a' }"
         >
-          <div class="contextmenu-item">
-            <div class="title">{{ item.title }}</div>
-            <div class="description">{{ item.description }}</div>
-          </div>
-        </v-contextmenu-item>
-      </v-contextmenu-submenu>
+          <v-contextmenu-item
+            v-for="item in quickInsertMenuList"
+            :key="item.key"
+            @click="handleQuickInsert(item)"
+          >
+            <div class="contextmenu-item">
+              <div class="title">{{ item.title }}</div>
+              <div class="description">{{ item.description }}</div>
+            </div>
+          </v-contextmenu-item>
+        </v-contextmenu-submenu>
 
-      <!-- 选中：快速选择主题 -->
-      <v-contextmenu-submenu v-if="selectedNode" title="快速选择主题" :style="{ color: '#1a1a1a' }">
-        <v-contextmenu-item
-          v-for="item in quickSelectMenuList"
-          :key="item.key"
-          @click="handleQuickSelect(item)"
+        <!-- 选中：快速选择主题 -->
+        <v-contextmenu-submenu
+          v-if="selectedNode && selectedNode.type !== 'summary'"
+          title="快速选择主题"
+          :style="{ color: '#1a1a1a' }"
         >
-          <div class="contextmenu-item">
-            <div class="title">{{ item.title }}</div>
-            <div class="description">{{ item.description }}</div>
-          </div>
-        </v-contextmenu-item>
-      </v-contextmenu-submenu>
+          <v-contextmenu-item
+            v-for="item in quickSelectMenuList"
+            :key="item.key"
+            @click="handleQuickSelect(item)"
+          >
+            <div class="contextmenu-item">
+              <div class="title">{{ item.title }}</div>
+              <div class="description">{{ item.description }}</div>
+            </div>
+          </v-contextmenu-item>
+        </v-contextmenu-submenu>
 
-      <!-- 不选中：展开至指定主题 -->
+        <!-- 不选中：展开至指定主题 -->
 
-      <v-contextmenu-submenu v-else title="展开至" :style="{ color: '#1a1a1a' }">
-        <v-contextmenu-item
-          v-for="item in expandToLevelMenuList"
-          :key="item.key"
-          @click="handleExpandToLevel(item)"
-        >
-          <div class="contextmenu-item">
-            <div class="title">{{ item.title }}</div>
-            <div class="description">{{ item.description }}</div>
-          </div>
-        </v-contextmenu-item>
-      </v-contextmenu-submenu>
-
+        <v-contextmenu-submenu v-else title="展开至" :style="{ color: '#1a1a1a' }">
+          <v-contextmenu-item
+            v-for="item in expandToLevelMenuList"
+            :key="item.key"
+            @click="handleExpandToLevel(item)"
+          >
+            <div class="contextmenu-item">
+              <div class="title">{{ item.title }}</div>
+              <div class="description">{{ item.description }}</div>
+            </div>
+          </v-contextmenu-item>
+        </v-contextmenu-submenu>
+      </template>
       <!-- 菜单列表 -->
       <v-contextmenu-item
         :key="item.key"
@@ -110,6 +119,7 @@ import {
   NODE_FONT_STYLE_SETTING,
   generateExpandToLevelMenu,
   generateSelectedNodeContextmenu,
+  summarySelectedNodeContextmenu,
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
 } from '@/config'
@@ -128,7 +138,8 @@ export default {
       quickInsertMenuList: QUICK_INSERT_CONTEXTMENU.slice(),
       quickSelectMenuList: QUICK_SELECT_CONTEXTMENU.slice(),
       editor: null,
-      selectedNode: null
+      selectedNode: null,
+      isSummary: false
     }
   },
   computed: {
@@ -191,16 +202,21 @@ export default {
         const { button, pageX, pageY } = event.originEvent
         if (button === 2) {
           this.selectedNode = event.minder.getSelectedNode()
+          this.isSummary = this.selectedNode?.type === 'summary'
 
           // 408、228、310是当前菜单的宽高，会随着设置的选项数量发生变化
-          const height = this.$refs.contextmenu.$el.offsetHeight || (this.selectedNode ? 408 : 228)
+          const height =
+            this.$refs.contextmenu.$el.offsetHeight ||
+            (this.selectedNode ? (this.isSummary ? 48 : 408) : 228)
           const width = this.$refs.contextmenu.$el.offsetWidth || 310
 
           const top = window.innerHeight - pageY < height ? pageY - height : pageY
           const left = window.innerWidth - pageX < width ? pageX - width : pageX
           this.$refs.contextmenu.show({ top, left })
           this.contextmenuList = this.selectedNode
-            ? generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
+            ? this.isSummary
+              ? summarySelectedNodeContextmenu(this.handleCheckDisabled)
+              : generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
             : generateSelectedPaperContextmenu(
                 this.handleCheckDisabled,
                 this.macosCommandText,

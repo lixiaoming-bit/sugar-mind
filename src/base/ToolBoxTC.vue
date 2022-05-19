@@ -106,7 +106,7 @@ export default {
           this.minder.execCommand('ConnectionNode')
           break
         case 'summary':
-          this.minder.execCommand('AppendChildNode')
+          this.minder.execCommand('AddNodeSummary')
           break
         case 'note':
           // this.SET_VISIBLE_MODAL('InsertNotesModal')
