@@ -32,6 +32,7 @@ kityminder.Theme = require('./core/theme').default
 kityminder.Template = require('./core/template').default
 require('./core/_boxv')
 require('./core/patch')
+require('./core/relationship')
 
 // 模块依赖
 require('./module/popover')
@@ -91,6 +92,8 @@ require('./connect/fish-bone-master')
 require('./connect/l')
 require('./connect/poly')
 require('./connect/under')
+
+require('./relationship-connect/poly')
 
 require('./template/default')
 require('./template/structure')

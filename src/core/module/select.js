@@ -226,16 +226,25 @@ Module.register('Select', function () {
         else if (e.isShortcutKey('shift')) {
           this.toggleSelect(downNode)
           const nodes = this.getSelectedNodes()
-          const { length, 0: firstNode, [length - 1]: lastNode } = nodes
+          const { length, 0: start, [length - 1]: end } = nodes
 
           const flag = new Set(Array.from(nodes, node => node.getLevel())).size === 1 && length > 1
 
           if (flag) {
-            const children = firstNode.parent.getChildren()
-            const sortNumber = [firstNode.getIndex(), lastNode.getIndex()].sort()
-            // console.log('sortNumber: ', sortNumber)
-            const selection = children.slice(...sortNumber)
+            const startIndex = start.getIndex()
+            const endIndex = end.getIndex()
+
+            const isReverse = startIndex < endIndex
+
+            const children = start.parent.getChildren()
+
+            const sortNumber = [Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1]
+
+            const selection = isReverse
+              ? children.slice(...sortNumber).reverse()
+              : children.slice(...sortNumber)
             // selection.push(downNode)
+            console.log('selection: ', selection)
             minder.select(selection)
           } else {
             minder.select(downNode, true)

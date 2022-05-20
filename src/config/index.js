@@ -175,7 +175,7 @@ export const generateToolBoxTopCenterOptions = (handleCheckDisabled, shortcutTex
     visible: false,
     tips: '选择主题-点关联线-点其他主题',
     icon: 'iconicon_draw_association',
-    class: 'disabled'
+    class: handleCheckDisabled('Relationship')
   },
   {
     key: 'summary',
@@ -339,7 +339,7 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
       key: 'connect',
       title: '创建关联线',
       description: '',
-      disabled: true
+      disabled: handleCheckDisabled('Relationship')
     },
     {
       key: 'delete',

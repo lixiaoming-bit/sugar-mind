@@ -103,7 +103,8 @@ export default {
           this.minder.execCommand('AppendChildNode', '分支主题')
           break
         case 'connect':
-          this.minder.execCommand('ConnectionNode')
+          console.log('Relationship: ')
+          this.minder.execCommand('Relationship')
           break
         case 'summary':
           this.minder.execCommand('AddNodeSummary')

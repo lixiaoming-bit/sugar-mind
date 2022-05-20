@@ -105,4 +105,12 @@ utils.styleToString = style => {
   return s
 }
 
+utils.isEmpty = target => {
+  if (target === null || target === undefined) return true
+  if (utils.isString(target) && target.trim() === '') return true
+  if (utils.isArray(target) && !target.length) return true
+  if (utils.isObject(target) && !utils.keys(target)) return true
+  return false
+}
+
 export default utils

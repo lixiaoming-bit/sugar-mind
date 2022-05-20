@@ -29,7 +29,7 @@ const setTheme = compat => ({
 
   'label-color': '#333',
   'label-background': '#ffffff',
-  'label-radius': 5,
+  'label-radius': 25,
   'label-stroke-width': 1,
   'label-stroke-color': '#333',
   'label-font-size': 12,
@@ -42,6 +42,10 @@ const setTheme = compat => ({
   'summary-margin': compat ? [5, 5] : [5, 10],
   'summary-radius': 8,
   'summary-space': 5,
+
+  'relationship-stroke-width': 2,
+  'relationship-stroke-color': '#999999',
+  'relationship-stroke-dashed': '6 4',
 
   'connect-width': 3,
   'main-connect-width': 3,

@@ -145,3 +145,7 @@
 .ql-clipboard {
   display: none;
 }
+
+.relationship:hover +.relationship-edit {
+  stroke: '#2ebdff 8px';
+}

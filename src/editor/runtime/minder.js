@@ -27,8 +27,8 @@ export default function MinderRuntime() {
   const json = {
     root: {
       data: {
-        text: '2022个推技术嘉年华',
-        label: ['2022个推技术嘉年华2022个推技术嘉年华']
+        text: '中心主题'
+        // label: ['2022个推技术嘉年华2022个推技术嘉年华']
       }
     }
   }

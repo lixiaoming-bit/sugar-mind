@@ -337,9 +337,9 @@ kity.extendClass(MinderNode, {
     return matrix.transformBox(this.getContentBox())
   },
 
-  getLayoutPoint() {
+  getLayoutPoint(point) {
     const matrix = this.getGlobalLayoutTransform()
-    return matrix.transformPoint(new kity.Point())
+    return matrix.transformPoint(point || new kity.Point())
   },
 
   getLayoutOffset() {
@@ -440,7 +440,6 @@ kity.extendClass(Minder, {
       ;[...node.getChildren(), ...node.getSummary()].forEach(function (child) {
         layoutNode(child, round)
       })
-
       const layout = node.getLayoutInstance()
       // var childrenInFlow = node.getChildren().filter(function(child) {
       //     return !child.hasLayoutOffset();

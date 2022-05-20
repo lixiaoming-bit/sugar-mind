@@ -112,7 +112,7 @@ Module.register('LabelModule', function () {
     shouldRender(node) {
       let label = node.getData('label')
       if (Array.isArray(label)) label = label.filter(Boolean)
-      return label && label.length > 0
+      return label && label.length > 0 && !node._isDragging
     },
 
     update(label, node, box) {
@@ -126,7 +126,7 @@ Module.register('LabelModule', function () {
 
       // const vector = { x: box.x, y: box.y + 10 }
 
-      this.label.setTranslate(0, box.height / 2 + 12)
+      this.label.setTranslate(0, box.height / 2 + 10)
 
       return new kity.Box(box.x, box.y, box.width, box.height)
     }

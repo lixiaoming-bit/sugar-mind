@@ -18,6 +18,7 @@ template.register('default', {
       return node.getLayoutPointPreview().x > 0 ? 'right' : 'left'
     }
 
+    // console.log('node.getData', node.getData('text'), node.parent.getLayout())
     return node.parent.getLayout()
   },
 
