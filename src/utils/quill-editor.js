@@ -102,7 +102,7 @@ export default function createEditor(event) {
       const text = quill.getText()
       IS_CHANGED = selectedNode.getText() !== nodeText
       selectedNode.setText(text)
-      event.minder.refresh()
+      selectedNode.render()
     })
 
     // 设置文本 并将光标设置在末尾

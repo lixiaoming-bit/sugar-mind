@@ -8,7 +8,7 @@ const kity = window.kity
 // 创建一个foreignObject节点
 const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
 const DEFAULT_TEXT_STYLE =
-  'pointer-events: none;overflow: hidden;display:inline-block;height: 100%;'
+  'pointer-events: none;overflow: hidden;display:inline-block;height: 100%;margin: 0;width: 100%;display: inline-block;word-wrap: break-word;word-break: break-all;'
 
 class CreateForeignObject {
   constructor(node) {

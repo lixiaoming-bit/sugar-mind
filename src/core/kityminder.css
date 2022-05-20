@@ -125,22 +125,11 @@
 }
 .ql-container p,
 .ql-container p span {
-  word-wrap: normal;
   margin: 0;
-  white-space: nowrap;
-  word-break: normal;
+  width: 100%;
+  display: inline-block;
   word-wrap: break-word;
-  white-space: inherit;
-  word-break: inherit;
-}
-.fo-text{
-  word-wrap: normal;
-  margin: 0;
-  white-space: nowrap;
-  word-break: normal;
-  word-wrap: break-word;
-  white-space: inherit;
-  word-break: inherit;
+  word-break: break-all;
 }
 .ql-clipboard {
   display: none;
@@ -148,4 +137,13 @@
 
 .relationship:hover +.relationship-edit {
   stroke: '#2ebdff 8px';
+}
+
+.boundary-check {
+  visibility:  hidden;
+  opacity: 0;
+  max-width: 300px;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: inline-block;
 }
