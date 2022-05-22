@@ -16,7 +16,7 @@ connect.register('poly', function (end, start, connection, marker) {
   const isHor = deltaX <= 200
   const isVer = deltaY <= 200
 
-  const isSameDirection = isHor && isVer
+  const isSameDirection = (isHor && isVer) || deltaX <= 100 || deltaY <= 100
 
   // start end 同向
   if (isSameDirection) {

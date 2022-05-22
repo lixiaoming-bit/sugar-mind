@@ -79,10 +79,10 @@ utils.getTextBoundary = (text, style) => {
   element.style.fontFamily = style.fontFamily || '微软雅黑, "Microsoft YaHei"'
   element.innerHTML = text
   const box = { width: element.offsetWidth, height: element.offsetHeight }
-  const tempWidth = Math.round(box.width)
-  const tempHeight = Math.round(box.height)
+  const tempWidth = box.width | 1
+  const tempHeight = box.height | 1
   // 使文本宽高都是偶数 方便各种布局的计算
-  box.width = tempWidth % 2 ? tempWidth + 1 : tempWidth
+  box.width = Math.min(tempWidth % 2 ? tempWidth + 1 : tempWidth, 300)
   box.height = tempHeight % 2 ? tempHeight + 1 : tempHeight
   return box
 }

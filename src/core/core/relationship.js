@@ -59,7 +59,7 @@ Module.register('RelationshipModule', function () {
       )
       return Array.from(relationship, item => {
         return {
-          shape: document.getElementById(item.id).shape.getItem(0),
+          shape: document.getElementById(item.id).shape.getItem(1),
           start: this.getNodeById(item.start.id),
           end: this.getNodeById(item.end.id)
         }
@@ -123,11 +123,9 @@ Module.register('RelationshipModule', function () {
 
       connection.forEach(connect => {
         const { shape, start, end } = connect
-        // const visible =
-        //   start.isCollapsed() || end.isCollapsed() || start._isDragging || end._isDragging
-
-        // shape.setVisible(!visible)
-        shape.setVisible(true)
+        const visible =
+          start.isCollapsed() || end.isCollapsed() || start._isDragging || end._isDragging
+        shape.setVisible(!visible)
         shape.stroke(strokeColor, strokeWidth)
         shape.setAttr('stroke-dasharray', strokeDasharray)
 
@@ -156,7 +154,7 @@ Module.register('RelationshipModule', function () {
       const strokeDasharray = node.getStyle('relationship-stroke-dasharray') || '6 4'
 
       const container = document.getElementById(_tempRelationship.id).shape
-      const shape = container.getItem(0)
+      const shape = container.getItem(1)
       const [start, end] = nodes
 
       shape.setVisible(true)
@@ -164,10 +162,10 @@ Module.register('RelationshipModule', function () {
       shape.stroke(strokeColor, strokeWidth)
       shape.setAttr('stroke-dasharray', strokeDasharray)
 
-      provider(end, start, shape, strokeWidth, strokeColor)
+      provider(end, start, shape, marker)
 
       // 更新当前关联线的shadow状态
-      container.update()
+      container.update(shape)
 
       if (strokeWidth % 2 === 0) {
         shape.setTranslate(0.5, 0.5)
@@ -210,31 +208,121 @@ Module.register('RelationshipModule', function () {
     }
   })
 
-  // 创建连线的操作副本
+  // 创建一个foreignObject节点
+  // const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
+  const DEFAULT_TEXT_STYLE =
+    'outline: none;padding: 0;height: 100%;margin: 0;width: 100%;display: inline-block;border:none;max-width:300px;word-wrap: break-word;word-break: break-all;overflow:hidden;resize:none;'
+
+  class CreateForeignObject {
+    constructor() {
+      this.createMainContainer()
+      this.createTextContainer()
+      this.bindEvents()
+    }
+    // 创建主容器
+    createMainContainer() {
+      const element = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject')
+      element.setAttribute('id', utils.uuid('foreignObject'))
+      element.setAttribute('class', 'km-relationship-foreign-object')
+      this.foreignElement = element
+    }
+    // 创建
+    createTextContainer() {
+      const element = document.createElement('input')
+      element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
+      element.setAttribute('class', 'fo-text')
+      element.setAttribute('style', DEFAULT_TEXT_STYLE)
+      this.textElement = element
+      this.foreignElement.appendChild(this.textElement)
+    }
+
+    // 切换编辑器编辑状态
+    setEditStatus(status) {
+      if (status) {
+        this.textElement.setAttribute('contenteditable', 'true')
+        this.textElement.focus()
+      } else {
+        this.textElement.setAttribute('contenteditable', 'false')
+      }
+    }
+
+    // 设置文本内容
+    setContent(text) {
+      const style = {
+        color: '#999999',
+        fontSize: '14px',
+        fontFamily: "微软雅黑, 'Microsoft YaHei'",
+        lineHeight: '1.5'
+      }
+
+      const { width, height } = utils.getTextBoundary(text, style)
+      this.width = width
+      this.height = height
+
+      this.foreignElement.style.color = style.color
+      this.foreignElement.style.fontSize = style.fontSize
+      this.foreignElement.style.fontFamily = style.fontFamily
+      this.foreignElement.style.lineHeight = style.lineHeight
+      this.foreignElement.style.height = height + 'px'
+      this.foreignElement.style.width = width + 'px'
+
+      this.textElement.value = text || ''
+
+      if (this.x && this.y) {
+        this.setTranslate(this.x, this.y)
+      }
+    }
+    setTranslate(x, y) {
+      this.x = x
+      this.y = y
+      const deltaX = x - this.width / 2
+      const deltaY = y - this.height / 2
+      this.foreignElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`
+    }
+    setVisible(visible) {
+      const display = visible ? 'block' : 'none'
+      this.textElement.style.display = display
+    }
+    bindEvents() {
+      this.textElement.addEventListener('input', e => {
+        this.setContent(e.target.value)
+      })
+    }
+  }
+
+  // 连线编辑状态
   class RelationshipEdit extends kity.Group {
     constructor() {
       super()
       this.setId(utils.uuid('minder_relationship_edit_group'))
       this.setConnection()
       this.setControl()
+      this.setTextContainer()
       this.setVisible(false)
-      this.addClass('relationship-edit')
+      this.bindEvents()
     }
     setVisible(visible) {
       this.connection.setVisible(visible)
       this.control.setVisible(visible)
+      this.foreign.setVisible(visible)
+    }
+    setTextContainer() {
+      const fo = new CreateForeignObject()
+      this.node.appendChild(fo.foreignElement)
+      this.foreign = fo
     }
     setConnection(connection = new kity.Path()) {
       const strokeWidth = 8
       const strokeColor = '#2ebdff'
       const strokeOpacity = '0.75'
       const strokeLinecap = 'round'
-      // this.text = new kity.Text(text || '关联线')
+
       const pathData = connection.getPathData()
       this.connection = new kity.Path(pathData)
       this.connection.stroke(strokeColor, strokeWidth)
       this.connection.setAttr('stroke-opacity', strokeOpacity)
       this.connection.setAttr('stroke-linecap', strokeLinecap)
+
       this.addShape(this.connection)
     }
     setControl() {
@@ -251,43 +339,63 @@ Module.register('RelationshipModule', function () {
       this.setVisible(false)
       minder.getRelationshipEditContainer().clear()
     }
+    editText() {
+      const point = kity.g.pointAtPath(this.connection.getPathData(), 0.5)
+      this.foreign.setContent('关联线')
+      this.foreign.setEditStatus(true)
+      this.foreign.setTranslate(point.x, point.y)
+    }
+    bindEvents() {
+      this.on('dblclick', e => {
+        e.stopPropagation()
+        this.editText()
+      })
+    }
   }
 
   // 创建连线
   class Relationship extends kity.Group {
     constructor() {
       super()
-      this.connectionShadow = new kity.Path()
+      this.connectionShadow = new kity.Path().stroke('#333', 8).setAttr('stroke-opacity', 0)
       this.connection = new kity.Path()
-      // this.text = new kity.Text('关联线')
+      this.text = new kity.Text()
+      // const point = kity.g.pointAtPath(this.connection.getPathData(), 0.5)
+      // this.text.setPosition(point.x, point.y)
+      this.text.setVisible(false)
       // this.forward = new kity.Point()
       // this.backward = new kity.Point()
       // this.endPoint = new kity.Point()
-      this.addClass('relationship')
-      this.addShapes([this.connectionShadow, this.connection])
+      this.addShapes([this.connectionShadow, this.connection, this.text])
       this.bindEvents()
     }
     bindEvents() {
       const container = minder.getRelationshipEditContainer()
-      // this.on('mouseover', () => {
+      // this.on('mouseover', e => {
+      //   e.stopPropagation()
       //   container.active(this.connection)
       // })
-      // this.on('mouseleave', () => {
+      // this.on('mouseleave', e => {
+      //   e.stopPropagation()
       //   container.deActive()
       // })
       this.on('click', e => {
-        console.groupEnd('dianji')
         e.stopPropagation()
         container.active(this.connection)
       })
+      // 双击编辑文本
+      this.on('dblclick', e => {
+        e.stopPropagation()
+        container.editText(this.text)
+      })
     }
-    update() {
-      // this.removeShape(1)
-      const pathData = this.connection.getPathData()
-      console.log('this.connection: ', this.connection)
-      this.connectionShadow = new kity.Path().setPathData(pathData)
-      this.connectionShadow.stroke(8, '#2ebdff').setOpacity(0.75)
-      this.addShape(this.connectionShadow)
+    update(shape, text) {
+      const pathData = shape.getPathData()
+      this.connectionShadow.setPathData(pathData)
+      if (text) {
+        this.text.setContent(text)
+      }
+      this.text.setVisible(!!text)
     }
   }
 

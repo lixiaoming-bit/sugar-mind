@@ -22,7 +22,7 @@
   background-size: cover;
 }
 
-.km-foreign-object {
+.km-foreign-object, .km-relationship-foreign-object{
   pointer-events: none;
   position: fixed;
   contain: layout;

@@ -32,7 +32,7 @@ const canAddSummary = {
         (isExistSummary = true)
     })
     return isExistSummary
-  },
+  }
   // 判断是否是连续的
   // isContinuous: function (nodes, list, summaryNode) {
   //   summaryNode.splice()

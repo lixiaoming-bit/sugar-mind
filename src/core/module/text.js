@@ -132,7 +132,7 @@ const TextRenderer = kity.createClass('TextRenderer', {
 
     textGroup.foreign.setContent(nodeText)
 
-    element.setAttribute('width', width + 2)
+    element.setAttribute('width', width)
     element.setAttribute('height', height)
     element.setAttribute('y', yStart)
     element.setAttribute('x', 0)

@@ -98,7 +98,7 @@ function registerLayoutForDirection(layoutName) {
 
           if (axis === 'x') {
             tBox = this.getSummaryBox(child)
-            console.log('tBox: ', tBox);
+            console.log('tBox: ', tBox)
             child.setVertexIn(new kity.Point(cBox[opposite[name]], cBox.cy))
             child.setLayoutVectorIn(new kity.Vector(dir, 0))
           }

@@ -61,7 +61,6 @@ export const SummaryMinderNode = {
   traverseSum(fn, excludeThis) {
     return this.postTraverseSum(fn, excludeThis)
   }
-
 }
 
 export const SummaryMinder = {

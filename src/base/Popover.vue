@@ -19,7 +19,8 @@ import { mapGetters } from 'vuex'
 import * as PopoverComponents from './popover/index'
 
 const COMPONENT_MAP = {
-  label: 'Label'
+  label: 'Label',
+  Relationship: 'Relationship'
 }
 
 export default {
@@ -63,18 +64,18 @@ export default {
     },
     // 初始化
     initPopover(e = {}) {
+      const { popoverType, renderBox } = e
+      this.type = popoverType || this.type
+      this.box = renderBox || this.box
       const selected = this.minder.getSelectedNode()
-      if (!selected) return
-      const box = selected.getRenderContainer().getRenderBox('screen')
+      if (!selected && !this.box) return
+      const box = this.box || selected.getRenderContainer().getRenderBox('screen')
       this.boxStyle = {
         left: box.x + 'px',
         top: box.y + 'px',
         width: box.width + 'px',
         height: box.height + 'px'
       }
-      const { popoverType } = e
-      this.type = popoverType || this.type
-
       this.checkComponentAvailable()
     },
     // 关闭
@@ -82,6 +83,7 @@ export default {
       this.visible = false
       this.componentId = null
       this.type = null
+      this.box = null
     },
     onVisibleChange(visible) {
       if (!visible) {
