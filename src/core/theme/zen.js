@@ -27,6 +27,13 @@ const setTheme = compat => ({
   'sub-radius': 8,
   'sub-space': 5,
 
+  'summary-stroke': 'none',
+  'summary-font-size': 16,
+  'summary-padding': compat ? [6, 20] : [10, 16],
+  'summary-margin': compat ? [5, 5] : [5, 10],
+  'summary-radius': 8,
+  'summary-space': 5,
+
   'connect-width': 3,
   'main-connect-width': 3,
 

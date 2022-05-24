@@ -12,6 +12,9 @@ export const RAINBOWS = [
     'sub-color': ['#630703', '#613204', '#605205', '#006642', '#001266', '#1c1a4b'],
     'sub-background': ['#fed9d8', '#fdecdb', '#fdf6d3', '#ccf2e5', '#dae1ff', '#dbdbf2'],
 
+    'summary-color': ['#630703', '#613204', '#605205', '#006642', '#001266', '#1c1a4b'],
+    'summary-background': ['#fed9d8', '#fdecdb', '#fdf6d3', '#ccf2e5', '#dae1ff', '#dbdbf2'],
+
     'connect-color': ['#f9423a', '#f6a04d', '#f3d321', '#00bc7b', '#486aff', '#4d49be']
   },
   {
@@ -25,6 +28,9 @@ export const RAINBOWS = [
 
     'sub-color': ['#631C02', '#663C00', '#4C5312', '#005366', '#212144', '#3E2441'],
     'sub-background': ['#FEE6DD', '#FFEFD7', '#F1F4D5', '#CCEAF1', '#E3E3F2', '#ECE0EE'],
+
+    'summary-color': ['#631C02', '#663C00', '#4C5312', '#005366', '#212144', '#3E2441'],
+    'summary-background': ['#FEE6DD', '#FFEFD7', '#F1F4D5', '#CCEAF1', '#E3E3F2', '#ECE0EE'],
 
     'connect-color': ['#FA8155', '#f6a04d', '#B7C82B', '#0098B9', '#7574BC', '#A165A8']
   },
@@ -40,6 +46,9 @@ export const RAINBOWS = [
     'sub-color': ['#491E1C', '#58340D', '#43461F', '#21443D', '#26323F', '#382C39'],
     'sub-background': ['#FAF3F2', '#FDF6F0', '#F7F8EF', '#EEF6F5', '#EFF2F6', '#F4F1F4'],
 
+    'summary-color': ['#491E1C', '#58340D', '#43461F', '#21443D', '#26323F', '#382C39'],
+    'summary-background': ['#FAF3F2', '#FDF6F0', '#F7F8EF', '#EEF6F5', '#EFF2F6', '#F4F1F4'],
+
     'connect-color': ['#E7C2C0', '#F3D4B2', '#D8DCAF', '#A8D4CC', '#B0C0D0', '#C8BAC9']
   },
   {
@@ -53,6 +62,9 @@ export const RAINBOWS = [
 
     'sub-color': ['#4E4217', '#404421', '#25402E', '#224340', '#213C44', '#2A2A3B'],
     'sub-background': ['#F6F2E2', '#EFF0E1', '#E4EFE8', '#DDEDEB', '#DCE9ED', '#E4E4EC'],
+
+    'summary-color': ['#4E4217', '#404421', '#25402E', '#224340', '#213C44', '#2A2A3B'],
+    'summary-background': ['#F6F2E2', '#EFF0E1', '#E4EFE8', '#DDEDEB', '#DCE9ED', '#E4E4EC'],
 
     'connect-color': ['#D3BD6C', '#ADB66B', '#76B18A', '#54A39B', '#5192A4', '#7878A0']
   },
@@ -68,6 +80,9 @@ export const RAINBOWS = [
     'sub-color': ['#5D4D08', '#663700', '#631C02', '#560F1D', '#4E171D', '#661B00'],
     'sub-background': ['#FCF7E2', '#FFF2E3', '#FEE6DD', '#EDD2D7', '#F3D9DB', '#FFEDE7'],
 
+    'summary-color': ['#5D4D08', '#663700', '#631C02', '#560F1D', '#4E171D', '#661B00'],
+    'summary-background': ['#FCF7E2', '#FFF2E3', '#FEE6DD', '#EDD2D7', '#F3D9DB', '#FFEDE7'],
+
     'connect-color': ['#F2D96E', '#FFBE71', '#FA8155', '#FFA787', '#C53F4D', '#A61D39']
   },
   {
@@ -81,6 +96,9 @@ export const RAINBOWS = [
 
     'sub-color': ['#06395F', '#252243', '#402144', '#491C30', '#4D181E', '#502315'],
     'sub-background': ['#CEDFEB', '#DDDCEA', '#E5D9E6', '#ECD8E1', '#F3D9DC', '#F4DED7'],
+
+    'summary-color': ['#06395F', '#252243', '#402144', '#491C30', '#4D181E', '#502315'],
+    'summary-background': ['#CEDFEB', '#DDDCEA', '#E5D9E6', '#ECD8E1', '#F3D9DC', '#F4DED7'],
 
     'connect-color': ['#0B5D99', '#534E96', '#7B4083', '#A23E6A', '#C34150', '#CA5835']
   }
@@ -123,6 +141,9 @@ export const ZEN = [
     'sub-color': '#232323',
     'sub-background': '#D6D6D6',
 
+    'summary-color': '#232323',
+    'summary-background': '#D6D6D6',
+
     'connect-color': '#D6D6D6'
   },
   {
@@ -136,6 +157,9 @@ export const ZEN = [
 
     'sub-color': '#080808',
     'sub-background': '#BBBBBB',
+
+    'summary-color': '#080808',
+    'summary-background': '#BBBBBB',
 
     'connect-color': '#080808'
   },
@@ -151,6 +175,9 @@ export const ZEN = [
     'sub-color': '#232323',
     'sub-background': '#A1A1A1',
 
+    'summary-color': '#232323',
+    'summary-background': '#A1A1A1',
+
     'connect-color': '#232323'
   },
   {
@@ -164,6 +191,9 @@ export const ZEN = [
 
     'sub-color': '#ffffff',
     'sub-background': '#6D6D6D',
+
+    'summary-color': '#ffffff',
+    'summary-background': '#6D6D6D',
 
     'connect-color': '#FFFFFF'
   },
@@ -179,6 +209,9 @@ export const ZEN = [
     'sub-color': '#ffffff',
     'sub-background': '#545454',
 
+    'summary-color': '#ffffff',
+    'summary-background': '#545454',
+
     'connect-color': '#FFFFFF'
   },
   {
@@ -192,6 +225,9 @@ export const ZEN = [
 
     'sub-color': '#ffffff',
     'sub-background': '#3C3C3C',
+
+    'summary-color': '#ffffff',
+    'summary-background': '#3C3C3C',
 
     'connect-color': '#FFFFFF'
   }
@@ -211,6 +247,9 @@ export const DESSERT = [
     'sub-color': ['#661E00', '#4B2D1A', '#204541'],
     'sub-background': ['#FAECDD', '#F2E9DA', '#E1EEE4'],
 
+    'summary-color': ['#661E00', '#4B2D1A', '#204541'],
+    'summary-background': ['#FAECDD', '#F2E9DA', '#E1EEE4'],
+
     'connect-color': ['#FFBC9F', '#D8AC8F', '#83C5BE']
   },
   {
@@ -224,6 +263,9 @@ export const DESSERT = [
 
     'sub-color': '#006D77',
     'sub-background': '#FFE3BB',
+
+    'summary-color': '#006D77',
+    'summary-background': '#FFE3BB',
 
     'connect-color': '#006D77'
   },
@@ -239,6 +281,9 @@ export const DESSERT = [
     'sub-color': '#101010',
     'sub-background': '#FF9A6E',
 
+    'summary-color': '#101010',
+    'summary-background': '#FF9A6E',
+
     'connect-color': '#006D77'
   },
   {
@@ -252,6 +297,9 @@ export const DESSERT = [
 
     'sub-color': '#006D77',
     'sub-background': '#ffffff',
+
+    'summary-color': '#006D77',
+    'summary-background': '#ffffff',
 
     'connect-color': '#006D77'
   },
@@ -267,6 +315,9 @@ export const DESSERT = [
     'sub-color': '#ffffff',
     'sub-background': '#198690',
 
+    'summary-color': '#ffffff',
+    'summary-background': '#198690',
+
     'connect-color': '#006D77'
   },
   {
@@ -280,6 +331,9 @@ export const DESSERT = [
 
     'sub-color': '#ffffff',
     'sub-background': ['#338789', '#337D7F', '#2B7A7C', '#1A7F85'],
+
+    'summary-color': '#ffffff',
+    'summary-background': ['#338789', '#337D7F', '#2B7A7C', '#1A7F85'],
 
     'connect-color': ['#FFEDD2', '#FFBC9F', '#D8AC8F', '#83C5BE']
   }

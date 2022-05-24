@@ -11,6 +11,8 @@ const kityminder = {
 kityminder.Minder = require('./core/minder').default
 kityminder.Command = require('./core/command').default
 kityminder.Node = require('./core/node').default
+require('./core/common')
+require('./core/summary')
 require('./core/option')
 require('./core/animate')
 kityminder.Event = require('./core/event').default
