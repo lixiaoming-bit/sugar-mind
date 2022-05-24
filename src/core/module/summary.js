@@ -32,7 +32,7 @@ const canAddSummary = {
         (isExistSummary = true)
     })
     return isExistSummary
-  },
+  }
   // 判断是否是连续的
   // isContinuous: function (nodes, list, summaryNode) {
   //   summaryNode.splice()
@@ -43,7 +43,7 @@ const canAddSummary = {
   // 判断概要所包含的节点是否在同一边
   // isSameSide: function (summaryNode) {
   //   let sameSide = true
-  //   summaryNode.forEach(e => e.position !== summaryNode[0].position && (sameSide = false))
+  //   summaryNode.forEach(e => e.side !== summaryNode[0].side && (sameSide = false))
   //   !sameSide && vue.$message.warning('请选择同边节点')
   //   return !sameSide
   // }
@@ -57,8 +57,7 @@ const dropList = (node, list) => {
   for (let i = 1; i < list.length; i++) {
     if (
       list[i - 1] + 1 !== list[i] ||
-      node.parent.getChildren()[list[i - 1]].position !==
-        node.parent.getChildren()[list[i]].position
+      node.parent.getChildren()[list[i - 1]].side !== node.parent.getChildren()[list[i]].side
     ) {
       lastDropLList.push(list.slice(start, i))
       start = i

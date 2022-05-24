@@ -454,7 +454,7 @@ kity.extendClass(Minder, {
           const getFirstAttachNode = e.parent.getChildren()[e.data.startIndex]
           switch (minder.getTemplate()) {
             case 'default':
-              getFirstAttachNode.position === 'right' ? right.push(e) : left.push(e)
+              getFirstAttachNode.getLayoutPointPreview().x > 0 ? right.push(e) : left.push(e)
               break
             case 'right':
               right.push(e)

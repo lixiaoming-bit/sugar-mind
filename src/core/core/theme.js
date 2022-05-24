@@ -129,7 +129,9 @@ kity.extendClass(Minder, {
         'main-background',
         'connect-color',
         'sub-color',
-        'sub-background'
+        'sub-background',
+        'summary-color',
+        'summary-background'
       ].includes(item)
       if (isColor) {
         const { length: len } = value

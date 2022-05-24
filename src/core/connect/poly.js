@@ -20,7 +20,7 @@ connect.register('poly', function (node, parent, connection) {
   switch (true) {
     case abs(v.x) > abs(v.y) && v.x < 0:
       // left
-      node.setPosition('left')
+      node.setData('side', 'left')
       var leftX = po.x - parent.getStyle('margin-left')
       var leftY = pi.y - po.y
       pathData.push('h', -parent.getStyle('margin-left'))
@@ -31,7 +31,7 @@ connect.register('poly', function (node, parent, connection) {
 
     case abs(v.x) > abs(v.y) && v.x >= 0:
       // right
-      node.setPosition('right')
+      node.setData('side', 'right')
       var rightX = po.x + parent.getStyle('margin-right')
       var rightY = pi.y - po.y
       pathData.push('h', parent.getStyle('margin-right'))
@@ -42,7 +42,7 @@ connect.register('poly', function (node, parent, connection) {
 
     case abs(v.x) <= abs(v.y) && v.y < 0:
       // top
-      node.setPosition('top')
+      node.setData('side', 'top')
       pathData.push('v', -parent.getStyle('margin-top'))
       pathData.push('h', pi.x - po.x)
       pathData.push('V', pi.y)
@@ -50,7 +50,7 @@ connect.register('poly', function (node, parent, connection) {
 
     case abs(v.x) <= abs(v.y) && v.y >= 0:
       // bottom
-      node.setPosition('bottom')
+      node.setData('side', 'bottom')
       pathData.push('v', parent.getStyle('margin-bottom'))
       pathData.push('h', pi.x - po.x)
       pathData.push('V', pi.y)

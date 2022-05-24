@@ -1,12 +1,12 @@
 import MinderNode from './node'
-// import Minder from './minder'
-// const kity = window.kity
+
+const kity = window.kity
 
 /**
  * 概要节点方法，大致与普通节点相同
  * 防止过度耦合
  */
-export const SummaryMinderNode = {
+kity.extendClass(MinderNode, {
   getSummary() {
     return this.children.summary
   },
@@ -62,20 +62,4 @@ export const SummaryMinderNode = {
   getAllSummary() {
     return this.getSummaryByFloor([])
   }
-}
-
-export const SummaryMinder = {
-  attachSumNode(node) {
-    const rc = this.getRenderContainer()
-    // 后续遍历节点数
-    node.traverse(function (current) {
-      current.attached = true
-      rc.addShape(current.getRenderContainer())
-    })
-    console.log('rc: ', rc, node.getRenderContainer())
-    rc.addShape(node.getRenderContainer())
-    this.fire('nodeattach', {
-      node: node
-    })
-  }
-}
+})
