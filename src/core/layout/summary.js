@@ -80,63 +80,31 @@ function registerLayoutForDirection(layoutName) {
       base: Layout,
 
       doLayout(parent, children) {
-        const pBox = parent.getContentBox()
-
-        if (axis === 'x') {
-          parent.setVertexOut(new kity.Point(pBox[name], pBox.cy))
-          parent.setLayoutVectorOut(new kity.Vector(dir, 0))
-        }
-
         if (!children.length) {
           return false
         }
         children.forEach(child => {
-          let tBox
+          let tBox = this.getSummaryBox(child)
           const virParent = parent.getChildren()[child.data.startIndex]
-          const cBox = child.getContentBox()
+          const bBox = child.getContentBox()
           child.setLayoutTransform(new kity.Matrix())
 
           if (axis === 'x') {
-            tBox = this.getSummaryBox(child)
-            console.log('tBox: ', tBox);
-            child.setVertexIn(new kity.Point(cBox[opposite[name]], cBox.cy))
+            child.setVertexIn(new kity.Point(bBox[opposite[name]], bBox.cy))
             child.setLayoutVectorIn(new kity.Vector(dir, 0))
           }
-
-          // this.align([child], opposite[name])
-          // this.stack([child], opposite[axis])
-
-          const bBox = child.getContentBox()
+          this.align([child], opposite[name])
           let xAdjust = 0
           let yAdjust = 0
           if (axis === 'x') {
             xAdjust = tBox[name]
             xAdjust += dir * virParent.getStyle('margin-' + name)
-            xAdjust += dir * virParent.getStyle('padding-' + name)
             xAdjust += dir * child.getStyle('margin-' + opposite[name])
-            if (dir === -1) {
-              xAdjust += dir * bBox.width
-              xAdjust += 32
-            }
-
-            // xAdjust = tBox[name]
-            // xAdjust += dir * virParent.getStyle('margin-' + name)
-            // xAdjust += dir * child.getStyle('margin-' + opposite[name])
 
             yAdjust = tBox.bottom
             yAdjust -= tBox.height / 2
             yAdjust -= bBox.height / 2
             yAdjust -= bBox.y
-            // console.log('bBox: ', name, child, pBox)
-          } else {
-            xAdjust = tBox.right
-            xAdjust -= tBox.width / 2
-            xAdjust -= bBox.width / 2
-            xAdjust -= bBox.x
-
-            yAdjust = tBox[name]
-            yAdjust += dir * virParent.getStyle('margin-' + name)
-            yAdjust += dir * children[0].getStyle('margin-' + opposite[name])
           }
 
           this.move([child], xAdjust, yAdjust)

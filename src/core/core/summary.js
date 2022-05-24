@@ -50,18 +50,18 @@ export const SummaryMinderNode = {
    * 后序遍历当前节点树
    * @param  {Function} fn 遍历函数
    */
-  postTraverseSum(fn, excludeThis) {
-    const children = this.getSummary()
+  getSummaryByFloor(arr) {
+    arr.push(...this.getSummary())
+    const children = this.getChildren()
     for (let i = 0; i < children.length; i++) {
-      children[i].postTraverseSum(fn)
+      children[i].getSummaryByFloor(arr)
     }
-    if (!excludeThis) fn(this)
+    return arr
   },
 
-  traverseSum(fn, excludeThis) {
-    return this.postTraverseSum(fn, excludeThis)
+  getAllSummary() {
+    return this.getSummaryByFloor([])
   }
-
 }
 
 export const SummaryMinder = {

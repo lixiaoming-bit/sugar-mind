@@ -395,7 +395,11 @@ Module.register('DragTree', function () {
         mousedown = true
         // 单选中根节点也不触发拖拽
         if (e.originEvent.button) return
-        if (e.getTargetNode() && e.getTargetNode() !== this.getRoot()) {
+        if (
+          e.getTargetNode() &&
+          e.getTargetNode() !== this.getRoot() &&
+          e.getTargetNode()?.type !== 'summary'
+        ) {
           dragger.dragStart(e.getPosition())
         }
       },

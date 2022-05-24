@@ -62,6 +62,7 @@ export default {
         element.data['scopedSlots'] = {
           title: 'title'
         }
+        element.children = [...element.children.common, ...element.children.summary]
         if (element.children.length) {
           this.transformTreeData(element.children)
         } else {
