@@ -169,6 +169,7 @@ Module.register('RelationshipModule', function () {
     // 删除关联线根据id
     removeRelationshipByIndex(index) {
       const [remove] = minder._relationship.splice(index, 1)
+      if (!remove) return
       const { id } = remove
       const shape = document.getElementById(id).shape
       shape.remove()
