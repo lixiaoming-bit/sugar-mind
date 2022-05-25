@@ -96,6 +96,7 @@ Module.register('Expand', function () {
       node.collapse()
       node.renderTree()
       km.layout()
+      console.log(123)
     },
 
     queryState(km) {
@@ -123,7 +124,7 @@ Module.register('Expand', function () {
         expanded ? node.collapse() : node.expand()
       })
       node.renderTree()
-      km.layout(100)
+      km.layout()
     },
 
     queryState(km) {
@@ -186,7 +187,9 @@ Module.register('Expand', function () {
         } else {
           node.expand()
         }
-        node.renderTree().getMinder().layout(100)
+        console.log(123123)
+        node.renderTree()
+        node.getMinder().layout()
         node.getMinder().fire('contentchange')
         e.stopPropagation()
         e.preventDefault()

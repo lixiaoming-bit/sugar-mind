@@ -105,4 +105,50 @@ utils.styleToString = style => {
   return s
 }
 
+// 计算两个直线是否相交 [a,b] [c,d]
+utils.calculateCrossPoint = (a, b, c, d) => {
+  // 平⾏或共线, 不相交
+  const denominator = (b.y - a.y) * (d.x - c.x) - (a.x - b.x) * (c.y - d.y)
+  if (!denominator) new kity.Point()
+  const x =
+    ((b.x - a.x) * (d.x - c.x) * (c.y - a.y) +
+      (b.y - a.y) * (d.x - c.x) * a.x -
+      (d.y - c.y) * (b.x - a.x) * c.x) /
+    denominator
+  const y =
+    -(
+      (b.y - a.y) * (d.y - c.y) * (c.x - a.x) +
+      (b.x - a.x) * (d.y - c.y) * a.y -
+      (d.x - c.x) * (b.y - a.y) * c.y
+    ) / denominator
+  /** 2 判断交点是否在两条线段上 **/
+  if (
+    // 交点在线段1上
+    (x - a.x) * (x - b.x) <= 0 &&
+    (y - a.y) * (y - b.y) <= 0 &&
+    // 且交点也在线段2上
+    (x - c.x) * (x - d.x) <= 0 &&
+    (y - c.y) * (y - d.y) <= 0
+  ) {
+    // 返回交点p
+    return new kity.Point(x, y)
+  }
+  return new kity.Point()
+}
+
+// 计算p点在p1点与p2点线段之间位置
+utils.calculatePointPosition = (p, p1, p2) => {
+  const position = ((p1.x - p2.x) / (p1.y - p2.y)) * (p.y - p2.y) + p2.x
+  //线的左边，说明点在，小于在右边，等于则在线上。
+  if (position > p.x) {
+    return 'left'
+  }
+  // 线的右边
+  else if (position < p.x) {
+    return 'right'
+  }
+  // 线上
+  return 'inner'
+}
+
 export default utils

@@ -41,7 +41,10 @@ export default {
     },
     // 设置标签的值
     setLabel() {
-      const value = this.value.replace(/\r|\n/gi, '').trim().split(',')
+      const value = this.value
+        .replace(/\r?\n|(?<!\n)\r/gi, '')
+        .trim()
+        .split(',')
       this.minder.execCommand('label', value)
     }
   }

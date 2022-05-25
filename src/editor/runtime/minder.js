@@ -18,17 +18,16 @@ export default function MinderRuntime() {
 
   // 渲染，初始化
   minder.renderTo(this.selector)
+  // minder.useTemplate('right')
   // console.log('minder.getTheme(): ', minder.getTheme())
   // console.log('minder.getThemeList(): ', minder.getThemeList())
-  minder.useTemplate('right')
   // console.log('minder.getTemplate(): ', minder.getTemplateList())
   minder.select(minder.getRoot(), true)
   // minder.execCommand('text', '中心主题')
   const json = {
     root: {
       data: {
-        text: '2022个推技术嘉年华',
-        label: ['2022个推技术嘉年华2022个推技术嘉年华']
+        text: '中心主题'
       }
     }
   }

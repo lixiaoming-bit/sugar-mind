@@ -3,7 +3,6 @@ import Minder from './minder'
 const kity = window.kity
 
 function insertNode(minder, info, parent, index, type) {
-  console.log('info: ', info)
   parent = minder.createNode(info.data, parent, index, type, info.data)
   info.children?.common?.forEach(function (childInfo, index) {
     insertNode(minder, childInfo, parent, index)
@@ -22,6 +21,7 @@ function applyPatch(minder, patch) {
   path.shift()
 
   let changed = path.shift()
+  console.log('changed: ', changed)
   let node
 
   if (changed === 'root') {
@@ -46,9 +46,13 @@ function applyPatch(minder, patch) {
     }
     patch.index = index
     patch.node = node
+  } else if (changed === 'relationship') {
+    const [index] = patch.path.match(/\d+$/g)
+    patch.index = index
   }
 
   const express = (patch.express = [changed, patch.op].join('.'))
+  console.log('express: ', express)
 
   switch (express) {
     case 'theme.replace':
@@ -58,20 +62,24 @@ function applyPatch(minder, patch) {
       minder.useTemplate(patch.value)
       break
     case 'node.add':
-      console.log('patch: ', patch)
       patch.path.indexOf('summary') === -1
         ? insertNode(minder, patch.value, patch.node, patch.index).renderTree()
         : insertNode(minder, patch.value, patch.node, patch.index, 'summary').renderTree()
       minder.layout()
       break
     case 'node.remove':
-      console.log('patch: ', patch)
       minder.removeNode(
         patch.path.indexOf('summary') === -1
           ? patch.node.getChild(patch.index)
           : patch.node.getSumByIdx(patch.index)
       )
       minder.layout()
+      break
+    case 'relationship.add':
+      minder.addRelationshipByIndex(patch.index, patch.value)
+      break
+    case 'relationship.remove':
+      minder.removeRelationshipByIndex(patch.index)
       break
     case 'data.add':
     case 'data.replace':

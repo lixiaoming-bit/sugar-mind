@@ -1,6 +1,7 @@
 import compare from '../utils/jsondiff'
 import Command from '../core/command'
 import Module from '../core/module'
+import { debounce } from 'lodash-es'
 const kity = window.kity
 
 Module.register('HistoryModule', function () {
@@ -20,15 +21,16 @@ Module.register('HistoryModule', function () {
   }
 
   // 监听变化
-  const changed = () => {
+  const changed = debounce(() => {
     if (patchLock) return
     if (makeUndoDiff()) redoDiffs = []
-  }
+  }, 0)
 
   // 更新
   const updateSelection = e => {
     if (!patchLock) return
     const patch = e.patch
+    console.log('patch.express: ', patch.express, patch)
     switch (patch.express) {
       case 'node.add':
         minder.select(patch.node.getChild(patch.index), true)
@@ -60,10 +62,7 @@ Module.register('HistoryModule', function () {
 
   // diff 向前
   const makeRedoDiff = () => {
-    console.time('makeRedoDiff')
     const revertSnap = minder.exportJson()
-    console.timeEnd('makeRedoDiff')
-    console.log('revertSnap: ', revertSnap)
     redoDiffs.push(compare(revertSnap, lastSnap))
     lastSnap = revertSnap
   }

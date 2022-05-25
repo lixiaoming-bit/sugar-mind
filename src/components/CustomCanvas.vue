@@ -182,7 +182,6 @@ export default {
       window.KMEditor = this.editor
       const { minder } = this.editor
 
-      console.log('minder', minder.getRoot())
       this.SET_MINDER(minder)
       this.SET_DISPLAY_MODE('normal')
 
