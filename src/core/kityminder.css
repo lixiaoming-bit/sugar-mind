@@ -133,13 +133,13 @@
   margin: 0;
   word-wrap: break-word;
   white-space: inherit;
-  word-break: inherit;
+  word-break: break-all;
 }
 .ql-clipboard {
   display: none;
 }
 
-.boundary-check {
+#check {
   visibility:  hidden;
   opacity: 0;
   max-width: 300px;

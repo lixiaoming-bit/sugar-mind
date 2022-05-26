@@ -22,6 +22,8 @@ register('default', function (node, parent, connection) {
 export default { register }
 
 Module.register('RelationshipModule', function () {
+  let _isConnectingNode = false
+
   const minder = this
   // 数据信息
   minder._relationship = []
@@ -32,16 +34,39 @@ Module.register('RelationshipModule', function () {
     this.addShape(triangle)
     this.setRef(1, 2).setViewBox(0, 0, r, r).setWidth(r).setHeight(r)
   })
+
+  const moveMarker = new kity.Marker().pipe(function () {
+    const r = 8
+    const triangle = new kity.Path('M 0 0 L 4 2 L 0 4 Z').fill('#999999')
+    this.addShape(triangle)
+    this.setRef(1, 2).setViewBox(0, 0, r, r).setWidth(r).setHeight(r)
+  })
+
   const paper = minder.getPaper()
   paper.addResource(marker)
+  paper.addResource(moveMarker)
 
   kity.extendClass(Minder, {
     // 设置关联线容器
     setRelationshipContainer() {
       const id = utils.uuid('minder_relationship_group')
       const shape = new kity.Group().setId(id)
+
+      const dynamicConnection = new kity.Path()
+      const strokeColor = '#999999'
+      const strokeWidth = 2
+      const strokeDasharray = '6 4'
+
+      dynamicConnection.setMarker(moveMarker, 'end')
+      dynamicConnection.stroke(strokeColor, strokeWidth)
+      dynamicConnection.setAttr('stroke-dasharray', strokeDasharray)
+
+      this._dynamicConnection = dynamicConnection
       this._relationshipConnectContainer = shape
+
+      shape.prependShape(dynamicConnection)
       this.getRenderContainer().addShape(shape)
+
       return shape
     },
     // 设置关联线编辑容器
@@ -392,11 +417,6 @@ Module.register('RelationshipModule', function () {
         this.relationship.setContent(this.relationship.text)
         this.textElement.focus()
       })
-      // this.textElement.addEventListener('blur', e => {
-      //   e.stopPropagation()
-      //   if (this.type !== 'edit') return
-      //   this.textElement.blur()
-      // })
     }
   }
 
@@ -615,32 +635,6 @@ Module.register('RelationshipModule', function () {
       this.foreign = new CreateForeignObject(this.relationship, 'edit')
       this.node.appendChild(this.foreign.foreignElement)
     }
-    // 控制显示 连线、手柄、文本
-    // setVisible(visible) {
-    //   this.connection.setVisible(visible)
-    //   this.startControl.setVisible(visible)
-    //   this.endControl.setVisible(visible)
-    //   this.foreign.setVisible(visible)
-    // }
-    // 激活
-    // active() {
-    //   // this.connection.setPathData(pathData)
-    //   // this.setVisible(true)
-
-    //   this.updateTextPosition()
-    // }
-    // 取消激活
-    // deActive() {
-    //   // this.relationship.setContent(this.text)
-    //   minder.getRelationshipEditContainer().remove()
-    //   // this.setVisible(false)
-    // }
-    // 编辑文本
-    // editText() {
-    //   // this.text = text
-    //   // this.foreign.setContent(text)
-    //   this.updateTextPosition()
-    // }
     // 更新文本编辑位置
     updateTextPosition() {
       // const pathData = this.connection.getPathData()
@@ -649,14 +643,6 @@ Module.register('RelationshipModule', function () {
       // this.foreign.setEditStatus(true)
       this.foreign.setTranslate(point.x, point.y)
     }
-    // // 编辑状态绑定双击 编辑文本
-    // bindEvents() {
-    //   this.on('click', e => {
-    //     e.stopPropagation()
-    //     console.log('this.relationship.text: ', this.relationship.text)
-    //     this.relationship.setContent(this.relationship.text)
-    //   })
-    // }
     // 拖拽更新 只更新连接线 和 关联数据
     updateView(nodeId, from, to) {
       const relationshipId = this.relationship.getId()
@@ -742,10 +728,6 @@ Module.register('RelationshipModule', function () {
         const editContainer = minder.setRelationshipEditContainer(this)
         editContainer.updateTextPosition()
       })
-      // 双击连线激活编辑状态并编辑文本
-      // this.on('dblclick', e => {
-      //   e.stopPropagation()
-      // })
     }
     // 失去焦点 或者渲染完成时更新数据
     update(shape, text, points) {
@@ -778,24 +760,26 @@ Module.register('RelationshipModule', function () {
   const RelationshipCommand = kity.createClass('RelationshipCommand', {
     base: Command,
     execute(minder) {
-      // _isConnecting = true
       const selected = minder.getSelectedNodes() || []
+      const { length } = selected
 
-      // 没有选中节点，则选中节点再连线
-
-      // 从当前节点的中心点触发
-      // if (selected.length === 1) {
-      // }
-
-      if (selected.length === 2) {
-        minder.createRelationshipConnect(selected)
+      if (!length) {
+        minder._isNeedSelect = true
       }
-      minder.fire('contentchange')
+      if (length === 1) {
+        _isConnectingNode = selected[0]
+        minder._dynamicConnection.setMarker(moveMarker, 'end')
+      }
+      if (length === 2) {
+        minder.createRelationshipConnect(selected)
+        minder.fire('contentchange')
+        _isConnectingNode = null
+      }
     },
 
     queryState(minder) {
       const selected = minder.getSelectedNodes() || []
-      return selected.length === 2 ? 0 : -1
+      return minder.getStatus() === 'normal' && selected.length <= 2 ? 0 : -1
     }
   })
 
@@ -816,20 +800,49 @@ Module.register('RelationshipModule', function () {
       noderemove(e) {
         this.removeRelationshipConnect(e.node)
       },
-      // nodeattach() {
-      //   this.updateRelationshipConnect()
-      // },
       click: function (e) {
+        e.stopPropagation()
+        const selected = this.getSelectedNode()
         const isEdit = e.kityEvent.targetShape.container instanceof RelationshipEdit
         const isCircle = e.kityEvent.targetShape.container instanceof ControlPoint
         const editContainer = this.getRelationshipEditContainer()
-        if (!isEdit && !isCircle && editContainer) {
-          editContainer.node.remove()
-          this.updateRelationshipConnect()
+        if (!isEdit && !isCircle) {
+          if (editContainer) {
+            editContainer.node.remove()
+            this.updateRelationshipConnect()
+          }
         }
+
+        if (this._isNeedSelect && selected) {
+          this.execCommand('relationship')
+          this._isNeedSelect = false
+          return
+        }
+
+        const isNode = selected instanceof MinderNode && _isConnectingNode instanceof MinderNode
+        if (isNode && selected !== _isConnectingNode) {
+          this.select([_isConnectingNode, selected], true)
+          this.execCommand('relationship')
+        }
+        this._dynamicConnection.setPathData('')
+        this._dynamicConnection.setMarker(null, 'end')
+        _isConnectingNode = null
       },
       'layoutapply layoutfinish noderender': function () {
         this.updateRelationshipConnect()
+      },
+      'normal.mousemove': function (e) {
+        e.stopPropagation()
+        // 创建关联线状态且选中一个节点时 创建动态连线
+        if (_isConnectingNode) {
+          const startPoint = _isConnectingNode.getLayoutBox()
+          const endPoint = e.getPosition()
+          const bezier = new kity.Bezier().addPoints([
+            new kity.BezierPoint(startPoint.cx, startPoint.cy),
+            new kity.BezierPoint(endPoint.x, endPoint.y)
+          ])
+          this._dynamicConnection.setPathData(bezier.getPathData())
+        }
       }
     },
     commands: {

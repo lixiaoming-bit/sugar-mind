@@ -247,6 +247,7 @@ export default {
     },
     // 菜单点击事件
     handleContextmenuClick(item) {
+      console.log('item: ', item)
       const { command } = item
 
       const theme = this.editor.minder.getTheme('theme')

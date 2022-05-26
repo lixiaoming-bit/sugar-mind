@@ -339,7 +339,8 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
       key: 'connect',
       title: '创建关联线',
       description: '',
-      disabled: true
+      command: 'Relationship',
+      disabled: handleCheckDisabled('Relationship')
     },
     {
       key: 'delete',

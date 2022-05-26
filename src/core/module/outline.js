@@ -6,26 +6,27 @@ const kity = window.kity
 const EntityRenderer = kity.createClass('EntityRenderer', {
   base: Renderer,
 
-  create(node) {
+  create() {
+    // node
     const entity = new kity.Rect().setId(utils.uuid('node_entity'))
     this.bringToBack = true
-    entity.on('mouseover', () => {
-      if (node.isSelected()) return
-      if (!node._isHover) {
-        node._isHover = true
-        node.render()
-      }
-    })
-    entity.on('mouseleave', () => {
-      if (node.isSelected()) {
-        delete node._isHover
-        return
-      }
-      if (node._isHover) {
-        node._isHover = false
-        node.render()
-      }
-    })
+    // entity.on('mouseover', () => {
+    //   if (node.isSelected()) return
+    //   if (!node._isHover) {
+    //     node._isHover = true
+    //     node.render()
+    //   }
+    // })
+    // entity.on('mouseleave', () => {
+    //   if (node.isSelected()) {
+    //     delete node._isHover
+    //     return
+    //   }
+    //   if (node._isHover) {
+    //     node._isHover = false
+    //     node.render()
+    //   }
+    // })
     return entity
   },
 
