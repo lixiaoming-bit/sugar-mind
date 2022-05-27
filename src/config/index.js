@@ -76,7 +76,7 @@ export const EN_FONT_FAMILY = [
 ]
 
 // 字体大小
-export const FONT_SIZE = [10, 12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
+export const FONT_SIZE = [12, 14, 16, 18, 20, 22, 24, 28, 32, 48, 60]
 
 // 字体图标
 export const generateFontIcons = (shortcutText = 'Ctrl') => [
@@ -360,17 +360,32 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
 }
 
 // 选中节点后的概要菜单
-export const summarySelectedNodeContextmenu = handleCheckDisabled => {
-  return [
-    {
-      key: 'delete',
-      title: '删除概要',
-      description: 'Backspace [⬅️]',
-      command: 'RemoveNode',
-      disabled: handleCheckDisabled('RemoveNode')
-    }
-  ]
-}
+export const generateSummaryNodeContextmenu = handleCheckDisabled => [
+  {
+    key: 'connect',
+    title: '创建关联线',
+    description: '',
+    command: 'Relationship',
+    disabled: handleCheckDisabled('Relationship')
+  },
+  {
+    key: 'delete',
+    title: '删除概要',
+    description: 'Backspace、Del',
+    command: 'RemoveNode',
+    disabled: handleCheckDisabled('RemoveNode')
+  }
+]
+
+// 选中关联线菜单
+export const generateRelationshipContextmenu = handleCheckDisabled => [
+  {
+    key: 'delete-relationship',
+    title: '删除关联线',
+    command: 'removerelationship',
+    disabled: handleCheckDisabled('removerelationship')
+  }
+]
 
 // 选中paper菜单
 export const generateSelectedPaperContextmenu = (

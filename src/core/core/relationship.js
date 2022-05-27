@@ -1,4 +1,4 @@
-import { debounce } from 'lodash-es'
+import debounce from 'lodash/debounce'
 import utils from './utils'
 
 import Command from './command'
@@ -220,8 +220,15 @@ Module.register('RelationshipModule', function () {
       this.updateRelationshipConnect(nodes)
     },
 
+    // 根据relationship创建关联线]
+    createConnectByRelationship() {
+      const shapes = Array.from(this._relationship, item => new Relationship(item.id))
+      this._relationshipConnectContainer.addShapes(shapes)
+    },
+
     // 更新关联线
     updateRelationshipConnect: debounce(function (nodes) {
+      this.createConnectByRelationship()
       // const selected = this.getSelectedNodes()
       // const defaultNodes = selected.length ? selected : this.getAllNode()
       const container = this.getRenderContainer()
@@ -252,8 +259,12 @@ Module.register('RelationshipModule', function () {
       connection.forEach(connect => {
         const { shape, start, end, text, type, sp, scp, ep, ecp } = connect
         const points = [sp, scp, ep, ecp]
-        const visible =
-          start.isCollapsed() || end.isCollapsed() || start._isDragging || end._isDragging
+        let visible =
+          start.isCollapsed() ||
+          end.isCollapsed() ||
+          start._isDragging ||
+          end._isDragging ||
+          !(start.attached && end.attached)
 
         shape.setVisible(!visible)
         if (!visible) {
@@ -312,7 +323,7 @@ Module.register('RelationshipModule', function () {
   // 创建一个foreignObject节点
   // const DEFAULT_EDITOR_STYLE = 'width: 100%; height: 100%; overflow: visible; cursor: text;'
   const DEFAULT_TEXT_STYLE =
-    'outline: none;padding: 0;height: 100%;margin: 0;width: 100%;display: inline-block;border:none;max-width:300px;white-space:nowrap;overflow:hidden;resize:none;'
+    'outline: none;padding: 0;height: 100%;margin: 0;width: 100%;display: inline-block;border:none;max-width:300px;overflow:hidden;resize:none;word-wrap:break-word;word-break:break-all;'
 
   class CreateForeignObject {
     constructor(relationship, type) {
@@ -335,25 +346,15 @@ Module.register('RelationshipModule', function () {
     createTextContainer() {
       const style =
         this.type === 'edit'
-          ? DEFAULT_TEXT_STYLE
-          : DEFAULT_TEXT_STYLE + 'background:transparent;text-align:center;'
-      const element = document.createElement('textarea')
+          ? DEFAULT_TEXT_STYLE + 'background:#ffffff;white-space:nowrap;'
+          : 'max-width: 300px;background: transparent;text-align: center;display: block;white-space: nowrap;'
+      const element =
+        this.type === 'edit' ? document.createElement('textarea') : document.createElement('div')
       element.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
       element.setAttribute('class', 'relationship-edit')
       element.setAttribute('style', style)
       this.textElement = element
       this.foreignElement.appendChild(this.textElement)
-    }
-
-    // 切换编辑器编辑状态
-    setEditStatus(status) {
-      if (status) {
-        this.setContent(this.relationship.text)
-        this.textElement.focus()
-        //   this.textElement.setAttribute('contenteditable', 'true')
-        // } else {
-        //   this.textElement.setAttribute('contenteditable', 'false')
-      }
     }
 
     // 设置文本内容
@@ -381,15 +382,16 @@ Module.register('RelationshipModule', function () {
       this.foreignElement.style.height = height + 'px'
       this.foreignElement.style.width = width + 'px'
 
-      this.textElement.value = text || ''
+      if (this.type === 'edit') {
+        this.textElement.value = text
+      } else {
+        text = text.replaceAll('\n', '<br/>')
+        this.textElement.innerHTML = text
+      }
 
       if (this.x && this.y) {
         this.setTranslate(this.x, this.y)
       }
-    }
-    // 获取文本内容
-    getContent() {
-      return this.textElement.value
     }
     setTranslate(x, y) {
       this.x = x
@@ -412,9 +414,9 @@ Module.register('RelationshipModule', function () {
       this.textElement.addEventListener('click', e => {
         e.stopPropagation()
         if (this.type !== 'edit') return
-        console.log('this.relationship.text: ', this.relationship.text)
-        this.setContent(this.relationship.text)
-        this.relationship.setContent(this.relationship.text)
+        const text = this.relationship.text || '联系'
+        this.setContent(text)
+        this.relationship.setContent(text)
         this.textElement.focus()
       })
     }
@@ -639,7 +641,7 @@ Module.register('RelationshipModule', function () {
     updateTextPosition() {
       // const pathData = this.connection.getPathData()
       const point = kity.g.pointAtPath(this.pathData, 0.5)
-      this.foreign.setContent(this.relationship.text)
+      this.foreign.setContent(this.relationship.text || '联系')
       // this.foreign.setEditStatus(true)
       this.foreign.setTranslate(point.x, point.y)
     }
@@ -692,18 +694,19 @@ Module.register('RelationshipModule', function () {
   class Relationship extends kity.Group {
     constructor(id = utils.guid()) {
       super()
-      this.initConnectionShadow()
       this.initConnection()
+      this.initConnectionShadow()
       this.initTextContainer()
 
       this.bindEvents()
       this.setId(id)
-      const { text = '关联线' } = minder.getRelationshipTextById(id) || {}
+      const { text = '联系' } = minder.getRelationshipTextById(id) || {}
       this.text = text
     }
     // 初始化背景连接线
     initConnectionShadow() {
-      this.connectionShadow = new kity.Path().stroke('#333', 8).setAttr('stroke-opacity', 0)
+      this.connectionShadow = new kity.Path().stroke('transparent', 8)
+      this.connectionShadow.addClass('relationship-connect-shadow')
       this.addShape(this.connectionShadow)
     }
     // 初始化连接线
@@ -740,6 +743,7 @@ Module.register('RelationshipModule', function () {
       text && this.setContent(text)
     }
     setContent(text) {
+      this.text = text
       const point = kity.g.pointAtPath(this.connection.getPathData(), 0.5)
       this.foreign.setContent(text)
       this.foreign.setVisible(true)
@@ -803,10 +807,12 @@ Module.register('RelationshipModule', function () {
       click: function (e) {
         e.stopPropagation()
         const selected = this.getSelectedNode()
-        const isEdit = e.kityEvent.targetShape.container instanceof RelationshipEdit
+
+        const isRelationship = e.kityEvent.targetShape.container instanceof Relationship
+        const isEditRelationship = e.kityEvent.targetShape.container instanceof RelationshipEdit
         const isCircle = e.kityEvent.targetShape.container instanceof ControlPoint
         const editContainer = this.getRelationshipEditContainer()
-        if (!isEdit && !isCircle) {
+        if (!isRelationship && !isEditRelationship && !isCircle) {
           if (editContainer) {
             editContainer.node.remove()
             this.updateRelationshipConnect()

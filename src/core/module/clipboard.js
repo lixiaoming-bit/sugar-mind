@@ -65,7 +65,8 @@ Module.register('ClipboardModule', function () {
       km.refresh()
     },
     queryState(km) {
-      return km.getSelectedNode().isRoot() ? -1 : 0
+      const selected = km.getSelectedNode()
+      return selected && (selected.isRoot() || selected.type === 'summary') ? -1 : 0
     }
   })
 

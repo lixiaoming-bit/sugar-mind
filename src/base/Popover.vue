@@ -1,9 +1,11 @@
 <template>
-  <div class="popover-container" v-if="visible" @click.stop="hidePopover">
+  <div class="popover-container" v-if="visible">
     <a-popover
-      v-model="visible"
       placement="bottom"
+      v-model="visible"
+      :trigger="['click']"
       :destroy-tooltip-on-hide="true"
+      :get-popup-container="getPopupContainer"
       @visibleChange="onVisibleChange"
     >
       <template slot="content">
@@ -87,6 +89,9 @@ export default {
       if (!visible) {
         this.hidePopover()
       }
+    },
+    getPopupContainer() {
+      return document.querySelector('.popover-container')
     }
   }
 }

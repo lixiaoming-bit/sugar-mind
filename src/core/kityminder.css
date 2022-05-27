@@ -1,7 +1,14 @@
-/* .minder-node:hover .node-outline {
-  stroke: var(--stroke);
-  stroke-width: var(--stroke-width);
-} */
+.minder-node:hover .node-outline {
+  stroke: #5EC7F8;
+  stroke-width: 2;
+  fill: none;
+}
+.relationship-connect-shadow:hover {
+  stroke: #5EC7F8;
+  stroke-opacity: 0.75;
+  cursor: pointer;
+}
+
 
 .upload-image {
   cursor: zoom-in;

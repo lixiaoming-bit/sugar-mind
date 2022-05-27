@@ -58,7 +58,7 @@ Module.register('LabelModule', function () {
       const marginTop = node.getStyle('label-margin-top')
       const labelRadius = node.getStyle('label-radius')
 
-      let [value] = node.getData('label') || []
+      let value = node.getData('label')
       this.text.setContent(value)
 
       const textBox = this.text.getBoundaryBox()
@@ -110,9 +110,7 @@ Module.register('LabelModule', function () {
     },
 
     shouldRender(node) {
-      let label = node.getData('label')
-      if (Array.isArray(label)) label = label.filter(Boolean)
-      return label && label.length > 0
+      return node.getData('label') && !node._isDragging
     },
 
     update(label, node, box) {
@@ -124,11 +122,7 @@ Module.register('LabelModule', function () {
       label.setContent(node)
       label.setVisible(true)
 
-      // const vector = { x: box.x, y: box.y + 10 }
-
-      this.label.setTranslate(0, box.height / 2 + 12)
-
-      return new kity.Box(box.x, box.y, box.width, box.height)
+      this.label.setTranslate(0, box.bottom + 5)
     }
   })
 

@@ -165,12 +165,12 @@ Module.register('Expand', function () {
       this.radius = 7
       const PATH = ['M', 1.5 - this.radius, 0, 'L', this.radius - 1.5, 0]
       this.outline = new kity.Circle(this.radius).stroke('black').fill('white')
-      this.textOutLint = new kity.Circle(10).stroke('black').fill('white')
+      this.textOutLint = new kity.Circle(7).stroke('black').fill('white')
       this.sign = new kity.Path(PATH).stroke('gray')
       this.number = new kity.Text()
         .setTextAnchor('middle')
         .setVerticalAlign('middle')
-        .setFontSize(12)
+        .setFontSize(10)
         .setFontBold(true)
       this.toggleSymbolState(false, false)
       this.addShapes([this.outline, this.textOutLint, this.sign, this.number])

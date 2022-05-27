@@ -85,7 +85,7 @@ Module.register('image', function () {
     },
     queryValue(km) {
       const node = km.getSelectedNode()
-      const url = node.getData('image')
+      const url = node && node.getData('image')
       return url
         ? {
             url,

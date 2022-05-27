@@ -119,7 +119,8 @@ import {
   NODE_FONT_STYLE_SETTING,
   generateExpandToLevelMenu,
   generateSelectedNodeContextmenu,
-  summarySelectedNodeContextmenu,
+  generateSummaryNodeContextmenu,
+  generateRelationshipContextmenu,
   generateSelectedPaperContextmenu,
   removeNodeContextmenu
 } from '@/config'
@@ -201,7 +202,8 @@ export default {
         const { button, pageX, pageY } = event.originEvent
         if (button === 2) {
           this.selectedNode = event.minder.getSelectedNode()
-          this.isSummary = this.selectedNode?.type === 'summary'
+          this.isSummary = this.selectedNode && this.selectedNode.type === 'summary'
+          this.isRelationship = false
 
           // 408、228、310是当前菜单的宽高，会随着设置的选项数量发生变化
           const height =
@@ -212,15 +214,19 @@ export default {
           const top = window.innerHeight - pageY < height ? pageY - height : pageY
           const left = window.innerWidth - pageX < width ? pageX - width : pageX
           this.$refs.contextmenu.show({ top, left })
-          this.contextmenuList = this.selectedNode
-            ? this.isSummary
-              ? summarySelectedNodeContextmenu(this.handleCheckDisabled)
+          if (this.selectedNode) {
+            this.contextmenuList = this.isSummary
+              ? generateSummaryNodeContextmenu(this.handleCheckDisabled)
               : generateSelectedNodeContextmenu(this.handleCheckDisabled, this.macosCommandText)
-            : generateSelectedPaperContextmenu(
-                this.handleCheckDisabled,
-                this.macosCommandText,
-                this.macosOptionText
-              )
+          } else {
+            this.contextmenuList = this.isRelationship
+              ? generateRelationshipContextmenu(this.handleCheckDisabled)
+              : generateSelectedPaperContextmenu(
+                  this.handleCheckDisabled,
+                  this.macosCommandText,
+                  this.macosOptionText
+                )
+          }
           this.removeMenuList = this.selectedNode
             ? removeNodeContextmenu(this.handleCheckValue).filter(item => !item.disabled)
             : ''
@@ -305,13 +311,15 @@ export default {
   top: 0;
   bottom: 0;
 }
+
 .contextmenu-item {
-  width: 280px;
+  width: 220px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 12px;
+  line-height: 15px;
+
   .title {
     flex: 1;
     color: #1a1a1a;
@@ -319,6 +327,7 @@ export default {
     font-weight: 400;
     letter-spacing: 1px;
   }
+
   .description {
     text-align: right;
     color: #999999;
@@ -333,21 +342,26 @@ export default {
   box-shadow: 0 4px 12px 0 #b0b0b080 !important;
   border-radius: 4px;
 }
+
 .v-contextmenu-item--hover {
   background-color: #f3f4f5 !important;
 }
+
 .v-contextmenu-item--disabled {
   .title {
     color: #808080;
   }
 }
+
+.v-contextmenu .v-contextmenu-item {
+  padding: 7px 12px;
+}
+
 .v-contextmenu-item.v-contextmenu-submenu {
-  font-size: 14px;
-  line-height: 26px;
-  color: #1a1a1a;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-size: 12px;
+  line-height: 15px;
+}
+.v-contextmenu-submenu .v-contextmenu {
+  max-width: 150px;
 }
 </style>
-<style></style>
