@@ -223,7 +223,7 @@ Module.register('NodeModule', function () {
       appendsiblingnode: 'normal::enter',
       appendchildnode: 'normal::ins|normal::tab',
       appendparentnode: 'normal::shift+tab|normal::shift+ins',
-      removenode: 'normal::del|normal::backspace',
+      removenode: 'normal::backspace',
       removeCurrentNode:
         'normal::ctrl+del|normal::ctrl+backspace|normal::command+del|normal::command+backspace'
     }

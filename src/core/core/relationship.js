@@ -19,10 +19,9 @@ register('default', function (node, parent, connection) {
   connection.setPathData(['M', parent.getLayoutVertexOut(), 'L', node.getLayoutVertexIn()])
 })
 
-export default { register }
-
 Module.register('RelationshipModule', function () {
   let _isConnectingNode = false
+  let _isSelectedRelationship = null
 
   const minder = this
   // 数据信息
@@ -66,6 +65,8 @@ Module.register('RelationshipModule', function () {
 
       shape.prependShape(dynamicConnection)
       this.getRenderContainer().addShape(shape)
+
+      this.createConnectByRelationship()
 
       return shape
     },
@@ -222,13 +223,13 @@ Module.register('RelationshipModule', function () {
 
     // 根据relationship创建关联线]
     createConnectByRelationship() {
+      // this._relationshipConnectContainer.clear()
       const shapes = Array.from(this._relationship, item => new Relationship(item.id))
       this._relationshipConnectContainer.addShapes(shapes)
     },
 
     // 更新关联线
     updateRelationshipConnect: debounce(function (nodes) {
-      this.createConnectByRelationship()
       // const selected = this.getSelectedNodes()
       // const defaultNodes = selected.length ? selected : this.getAllNode()
       const container = this.getRenderContainer()
@@ -688,6 +689,9 @@ Module.register('RelationshipModule', function () {
       this.connection.setPathData(pathData)
       this.updateTextPosition()
     }
+    getRelationshipId() {
+      return this.relationship.getId()
+    }
   }
 
   // 创建连线
@@ -730,6 +734,12 @@ Module.register('RelationshipModule', function () {
 
         const editContainer = minder.setRelationshipEditContainer(this)
         editContainer.updateTextPosition()
+
+        _isSelectedRelationship = {
+          id: this.getId(),
+          relationship: this,
+          editRelationship: editContainer
+        }
       })
     }
     // 失去焦点 或者渲染完成时更新数据
@@ -741,6 +751,7 @@ Module.register('RelationshipModule', function () {
       this.foreign.setVisible(!!text)
 
       text && this.setContent(text)
+      minder._isRelationship = false
     }
     setContent(text) {
       this.text = text
@@ -755,6 +766,9 @@ Module.register('RelationshipModule', function () {
       this.connection.setVisible(visible)
       this.connectionShadow.setVisible(visible)
       this.foreign.setVisible(visible)
+    }
+    getRelationshipId() {
+      return this.getId()
     }
   }
 
@@ -789,9 +803,17 @@ Module.register('RelationshipModule', function () {
 
   const RemoveRelationshipCommand = kity.createClass('RemoveRelationshipCommand', {
     base: Command,
-    execute(minder, id) {
-      minder._relationship = minder._relationship.filter(item => item.id !== id)
-      minder.updateRelationshipConnect()
+    execute(minder) {
+      minder._relationship = minder._relationship.filter(
+        item => item.id !== _isSelectedRelationship.id
+      )
+      _isSelectedRelationship.relationship.remove()
+      _isSelectedRelationship.editRelationship.remove()
+      _isSelectedRelationship = null
+      minder._isRelationship = false
+    },
+    queryState() {
+      return _isSelectedRelationship ? 0 : -1
     }
   })
 
@@ -811,11 +833,14 @@ Module.register('RelationshipModule', function () {
         const isRelationship = e.kityEvent.targetShape.container instanceof Relationship
         const isEditRelationship = e.kityEvent.targetShape.container instanceof RelationshipEdit
         const isCircle = e.kityEvent.targetShape.container instanceof ControlPoint
+
         const editContainer = this.getRelationshipEditContainer()
         if (!isRelationship && !isEditRelationship && !isCircle) {
           if (editContainer) {
             editContainer.node.remove()
             this.updateRelationshipConnect()
+
+            _isSelectedRelationship = null
           }
         }
 
@@ -849,11 +874,31 @@ Module.register('RelationshipModule', function () {
           ])
           this._dynamicConnection.setPathData(bezier.getPathData())
         }
+      },
+      'normal.mouseup': function (e) {
+        const container = e.kityEvent.targetShape.container
+        const isRelationship = container instanceof Relationship
+        const isEditRelationship = container instanceof RelationshipEdit
+        const isRightButton = e.kityEvent.originEvent.button === 2
+        const isSelected = isRightButton && (isRelationship || isEditRelationship)
+
+        if (isSelected) {
+          minder._isRelationship =
+            _isSelectedRelationship &&
+            e.kityEvent.targetShape.container.getRelationshipId() === _isSelectedRelationship.id
+        } else {
+          minder._isRelationship = false
+        }
       }
     },
     commands: {
       relationship: RelationshipCommand,
-      removeRelationship: RemoveRelationshipCommand
+      removerelationship: RemoveRelationshipCommand
+    },
+    commandShortcutKeys: {
+      removerelationship: 'normal::del'
     }
   }
 })
+
+export default { register }

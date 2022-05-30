@@ -70,8 +70,11 @@
         </v-contextmenu-submenu>
 
         <!-- 不选中：展开至指定主题 -->
-
-        <v-contextmenu-submenu v-else title="展开至" :style="{ color: '#1a1a1a' }">
+        <v-contextmenu-submenu
+          title="展开至"
+          v-else-if="!isRelationship"
+          :style="{ color: '#1a1a1a' }"
+        >
           <v-contextmenu-item
             v-for="item in expandToLevelMenuList"
             :key="item.key"
@@ -140,7 +143,8 @@ export default {
       quickSelectMenuList: QUICK_SELECT_CONTEXTMENU.slice(),
       editor: null,
       selectedNode: null,
-      isSummary: false
+      isSummary: false,
+      isRelationship: false
     }
   },
   computed: {
@@ -203,8 +207,7 @@ export default {
         if (button === 2) {
           this.selectedNode = event.minder.getSelectedNode()
           this.isSummary = this.selectedNode && this.selectedNode.type === 'summary'
-          this.isRelationship = false
-
+          this.isRelationship = minder._isRelationship
           // 408、228、310是当前菜单的宽高，会随着设置的选项数量发生变化
           const height =
             this.$refs.contextmenu.$el.offsetHeight ||
@@ -230,6 +233,12 @@ export default {
           this.removeMenuList = this.selectedNode
             ? removeNodeContextmenu(this.handleCheckValue).filter(item => !item.disabled)
             : ''
+        } else {
+          this.isSummary = false
+          this.isRelationship = false
+          this.removeMenuList = []
+          this.contextmenuList = []
+          this.$refs.contextmenu.hideAll()
         }
       })
       // 监听左键菜单
@@ -253,7 +262,6 @@ export default {
     },
     // 菜单点击事件
     handleContextmenuClick(item) {
-      console.log('item: ', item)
       const { command } = item
 
       const theme = this.editor.minder.getTheme('theme')

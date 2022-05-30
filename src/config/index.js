@@ -345,14 +345,14 @@ export const generateSelectedNodeContextmenu = (handleCheckDisabled, shortcutTex
     {
       key: 'delete',
       title: '删除主题',
-      description: 'Backspace [⬅️]',
+      description: 'Backspace',
       command: 'RemoveNode',
       disabled: handleCheckDisabled('RemoveNode')
     },
     {
       key: 'delete-current',
-      title: '仅删除当前节点',
-      description: `${shortcutText} + Backspace [⬅️]`,
+      title: '删除当前节点',
+      description: `${shortcutText} + Backspace`,
       command: 'RemoveCurrentNode',
       disabled: handleCheckDisabled('RemoveCurrentNode')
     }
@@ -382,6 +382,7 @@ export const generateRelationshipContextmenu = handleCheckDisabled => [
   {
     key: 'delete-relationship',
     title: '删除关联线',
+    description: 'Del',
     command: 'removerelationship',
     disabled: handleCheckDisabled('removerelationship')
   }
@@ -415,7 +416,7 @@ export const generateSelectedPaperContextmenu = (
     },
     {
       key: 'compact',
-      title: '开启 / 关闭紧凑模式',
+      title: '开|关紧凑模式',
       description: '',
       disabled: false,
       command: 'theme'
@@ -428,7 +429,7 @@ export const generateSelectedPaperContextmenu = (
     // },
     {
       key: 'expand-all',
-      title: '展开 / 收起所有主题',
+      title: '展开|收起主题',
       description: `${shortcutText} + ${optionText} + /`,
       command: 'expandtolevel'
     }
