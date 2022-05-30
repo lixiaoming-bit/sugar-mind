@@ -37,10 +37,12 @@ function applyPatch(minder, patch) {
     node = minder.getRoot()
     let segment
     let index
+    const hasSummary = patch.path.indexOf('summary') > -1
     while ((segment = path.shift())) {
       if (segment === 'children' || segment === 'common' || segment === 'summary') continue
       if (typeof index !== 'undefined') {
-        node = patch.path.indexOf('summary') === -1 ? node.getChild(index) : node.getSumByIdx(index)
+        const sumNode = hasSummary && node.getSumByIdx(index)
+        node = sumNode || node.getChild(index)
       }
       index = +segment
     }

@@ -146,10 +146,6 @@ const RemoveNodeCommand = kity.createClass('RemoverNodeCommand', {
 
     nodes.forEach(node => {
       if (!node.isRoot()) {
-        const index = node.parent.getChildren().indexOf(node)
-        node.parent.getSummary()?.forEach(e => {
-          e.data.startIndex === index && e.data.endIndex === index && km.removeNode(e)
-        })
         km.removeNode(node)
       }
     })

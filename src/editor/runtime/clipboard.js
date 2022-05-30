@@ -20,6 +20,13 @@ export default function ClipboardRuntime() {
   let selectedNodes = []
   let clipboardNodes = []
 
+  const isHaveSummary = () => {
+    const nodes = minder.getSelectedNodes()
+    let allCommonNode = true
+    nodes.forEach(e => e.type === 'summary' && (allCommonNode = false))
+    return allCommonNode
+  }
+
   /*
    * 增加对多节点赋值粘贴的处理
    */
@@ -57,7 +64,7 @@ export default function ClipboardRuntime() {
   }
 
   const customCopy = e => {
-    if (document.activeElement === blurElement) {
+    if (document.activeElement === blurElement && isHaveSummary()) {
       if (minder.getStatus() !== 'normal') {
         e.preventDefault()
         return
@@ -75,7 +82,7 @@ export default function ClipboardRuntime() {
   }
 
   const customCut = e => {
-    if (document.activeElement === blurElement) {
+    if (document.activeElement === blurElement && isHaveSummary()) {
       const selected = minder.getSelectedNode()
       if (minder.getStatus() !== 'normal' || !selected || (selected && selected.isRoot())) {
         e.preventDefault()
@@ -100,7 +107,7 @@ export default function ClipboardRuntime() {
   }
 
   const customPaste = e => {
-    if (document.activeElement === blurElement) {
+    if (document.activeElement === blurElement && isHaveSummary()) {
       if (minder.getStatus() !== 'normal') {
         e.preventDefault()
         return

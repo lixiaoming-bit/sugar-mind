@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Command from '../core/command'
 import Module from '../core/module'
-// import Renderer from '../core/render'
+import Minder from '../core/minder'
+
 const kity = window.kity
 const vue = new Vue()
 
@@ -54,10 +55,11 @@ const getAnswer = function (key, ...args) {
 const dropList = (node, list) => {
   let start = 0,
     lastDropLList = []
+  const children = node.parent.getChildren()
   for (let i = 1; i < list.length; i++) {
     if (
       list[i - 1] + 1 !== list[i] ||
-      node.parent.getChildren()[list[i - 1]].side !== node.parent.getChildren()[list[i]].side
+      children[list[i - 1]].getData('side') !== children[list[i]].getData('side')
     ) {
       lastDropLList.push(list.slice(start, i))
       start = i
@@ -89,13 +91,12 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
       const summaryList = parent.getChildren().slice(e[0], e[e.length - 1] + 1)
       const summaryData = {
         startIndex: summaryList[0].getIndex(),
-        startId: summaryList[0].data.id,
-        endIndex: summaryList[summaryList.length - 1].getIndex(),
-        endId: summaryList[summaryList.length - 1].data.id
+        // startId: summaryList[0].data.id,
+        endIndex: summaryList[summaryList.length - 1].getIndex()
+        // endId: summaryList[summaryList.length - 1].data.id
       }
       km.createNode(text, parent, parent.getSummary().length, 'summary', summaryData)
     })
-
     km.refresh()
     km.fire('textedit')
   },
@@ -110,9 +111,53 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
       : -1
   }
 })
+kity.extendClass(Minder, {
+  commonNodeMove(node) {
+    const index = node.getIndex()
+    node.parent.getSummary().forEach(e => {
+      const startIndex = e.getData('startIndex')
+      const endIndex = e.getData('endIndex')
+      if (startIndex === endIndex) {
+        if (startIndex === index) this.removeNode(e)
+      } else {
+        if (startIndex <= index && endIndex >= index) {
+          e.setData('endIndex', endIndex - 1)
+        } else if (index < startIndex) {
+          e.setData({
+            startIndex: startIndex - 1,
+            endIndex: endIndex - 1
+          })
+        }
+      }
+    })
+  },
+  commonNodeAdd(node, index) {
+    node.parent.getSummary().forEach(e => {
+      const startIndex = e.getData('startIndex')
+      const endIndex = e.getData('endIndex')
+      if (startIndex <= index && endIndex >= index) {
+        e.setData('endIndex', endIndex + 1)
+      } else if (index < startIndex) {
+        e.setData({
+          startIndex: startIndex + 1,
+          endIndex: endIndex + 1
+        })
+      }
+    })
+  }
+})
 
 Module.register('SummaryModule', function () {
   return {
+    events: {
+      noderemove(e) {
+        return this.commonNodeMove(e.node)
+      },
+      nodeadd(e) {
+        const { node, index } = e
+        return this.commonNodeAdd(node, index)
+      }
+    },
     commands: {
       AddNodeSummary: AddSummaryCommand
     },

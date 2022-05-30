@@ -10,6 +10,10 @@ kity.extendClass(MinderNode, {
     const sibling = parent.getChildren()
 
     if (index < 0 || index >= sibling.length) return
+    // 节点变化触发概要变化
+    // 先出发节点的删除，再触发节点的新增
+    this.getMinder().fire('noderemove', { node: this })
+    this.getMinder().fire('nodeadd', { node: this, index })
     sibling.splice(this.getIndex(), 1)
     sibling.splice(index, 0, this)
     return this

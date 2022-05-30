@@ -8,6 +8,9 @@ const kity = window.kity
 const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
   base: Command,
   execute(minder, nodes, parent) {
+    console.log('nodes: ', nodes, parent)
+    const summaryNode = minder.getRoot().includeSummary(nodes)
+
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i]
       if (node.parent) {
@@ -16,6 +19,14 @@ const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
         node.render()
       }
     }
+    summaryNode.forEach(e => {
+      e.summary.setData({
+        startIndex: parent.getChildren().indexOf(e.startNode),
+        endIndex: parent.getChildren().indexOf(e.endNode)
+      })
+      minder.createNode('概要', parent, parent.getSummary().length, 'summary', e.summary.data)
+      parent.renderTree()
+    })
     parent.expand()
     minder.select(nodes, true)
   }

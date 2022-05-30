@@ -452,9 +452,13 @@ kity.extendClass(Minder, {
         let right = []
         node.getSummary().forEach(e => {
           const getFirstAttachNode = e.parent.getChildren()[e.data.startIndex]
+          const isRight =
+            getFirstAttachNode.getLevel() === 1
+              ? () => getFirstAttachNode.getLayoutPointPreview().x > 0
+              : () => getFirstAttachNode.getLayout() === 'right'
           switch (minder.getTemplate()) {
             case 'default':
-              getFirstAttachNode.getLayoutPointPreview().x > 0 ? right.push(e) : left.push(e)
+              isRight() ? right.push(e) : left.push(e)
               break
             case 'right':
               right.push(e)
