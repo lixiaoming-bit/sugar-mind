@@ -1,14 +1,13 @@
 .minder-node:hover .node-outline {
-  stroke: #5EC7F8;
+  stroke: #5ec7f8;
   stroke-width: 2;
   fill: none;
 }
 .relationship-connect-shadow:hover {
-  stroke: #5EC7F8;
+  stroke: #5ec7f8;
   stroke-opacity: 0.75;
   cursor: pointer;
 }
-
 
 .upload-image {
   cursor: zoom-in;
@@ -147,7 +146,7 @@
 }
 
 #check {
-  visibility:  hidden;
+  visibility: hidden;
   opacity: 0;
   max-width: 300px;
   word-wrap: break-word;
