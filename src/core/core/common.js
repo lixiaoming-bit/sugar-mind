@@ -56,7 +56,7 @@ kity.extendClass(MinderNode, {
     }
     node.parent = this
     node.root = this.root
-    this.getMinder().fire('nodeadd', { node, index })
+    // this.getMinder().fire('nodeadd', { node, index })
     this.getChildren().splice(index, 0, node)
   },
   appendChild(node) {

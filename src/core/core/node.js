@@ -291,23 +291,23 @@ kity.extendClass(Minder, {
     return result
   },
 
-  createFreedomNode(textOrData) {
-    const isFree = true
-    const node = new MinderNode(textOrData, isFree)
-    const parent = this.getRoot()
-    this.fire('nodecreate', {
-      node,
-      parent
-    })
-    parent.insertChild(node)
-    const rc = this.getRenderContainer()
-    node.traverse(function (current) {
-      current.attached = true
-      rc.addShape(current.getRenderContainer())
-    })
-    rc.addShape(node.getRenderContainer())
-    return node
-  },
+  // createFreedomNode(textOrData) {
+  //   const isFree = true
+  //   const node = new MinderNode(textOrData, isFree)
+  //   const parent = this.getRoot()
+  //   this.fire('nodecreate', {
+  //     node,
+  //     parent
+  //   })
+  //   parent.insertChild(node)
+  //   const rc = this.getRenderContainer()
+  //   node.traverse(function (current) {
+  //     current.attached = true
+  //     rc.addShape(current.getRenderContainer())
+  //   })
+  //   rc.addShape(node.getRenderContainer())
+  //   return node
+  // },
 
   createNode(textOrData, parent, index, type = null, summaryData = {}) {
     const node = new MinderNode(textOrData)
@@ -329,11 +329,11 @@ kity.extendClass(Minder, {
         ...summaryData
       }
       node.setData(data)
-      this.attachNode(node)
     } else {
       parent && parent.insertChild(node, index)
-      this.attachNode(node, type)
+      // this.fire('nodeadd', { node, index })
     }
+    this.attachNode(node)
     return this
   },
 

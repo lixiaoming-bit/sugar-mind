@@ -100,9 +100,10 @@ export default function createEditor(event) {
     // 监听文本变化
     quill.on('text-change', () => {
       const text = quill.getText()
-      IS_CHANGED = selectedNode.getText() !== nodeText
+      IS_CHANGED = true
       selectedNode.setText(text)
-      event.minder.refresh()
+      // event.minder.refresh()
+      selectedNode.render()
     })
 
     // 设置文本 并将光标设置在末尾

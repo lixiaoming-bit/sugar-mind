@@ -153,9 +153,12 @@ Module.register('SummaryModule', function () {
       noderemove(e) {
         return this.commonNodeMove(e.node)
       },
-      nodeadd(e) {
-        const { node, index } = e
-        return this.commonNodeAdd(node, index)
+      nodeattach(e) {
+        const { node } = e
+        const index = node.getIndex()
+        if (node.type !== 'summary') {
+          return this.commonNodeAdd(node, index)
+        }
       }
     },
     commands: {

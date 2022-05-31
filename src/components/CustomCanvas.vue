@@ -216,6 +216,7 @@ export default {
 
           const top = window.innerHeight - pageY < height ? pageY - height : pageY
           const left = window.innerWidth - pageX < width ? pageX - width : pageX
+          console.log('top, left: ', top, left)
           this.$refs.contextmenu.show({ top, left })
           if (this.selectedNode) {
             this.contextmenuList = this.isSummary
