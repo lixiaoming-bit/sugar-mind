@@ -350,6 +350,9 @@ kity.extendClass(Minder, {
 
   removeNode(node) {
     if (node.parent) {
+      this.fire('beforenoderemove', {
+        node: node
+      })
       node.parent.removeChild(node)
       this.detachNode(node)
       this.fire('noderemove', {

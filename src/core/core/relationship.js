@@ -190,6 +190,7 @@ Module.register('RelationshipModule', function () {
         }
       })
       minder._relationship = rest
+      console.log('rest: ', rest)
     },
     // // 删除关联线根据id
     // removeRelationshipByIndex(index) {
@@ -260,15 +261,14 @@ Module.register('RelationshipModule', function () {
       connection.forEach(connect => {
         const { shape, start, end, text, type, sp, scp, ep, ecp } = connect
         const points = [sp, scp, ep, ecp]
-        let visible =
-          start.isCollapsed() ||
-          end.isCollapsed() ||
-          start._isDragging ||
-          end._isDragging ||
-          !(start.attached && end.attached)
+        const startVisible = start.isRoot() ? true : start.parent.isExpanded()
+        const endVisible = end.isRoot() ? true : end.parent.isExpanded()
+        const isDragging = start._isDragging || end._isDragging
+        const isAttached = start.attached && end.attached
+        const visible = isAttached && !isDragging && startVisible && endVisible
 
-        shape.setVisible(!visible)
-        if (!visible) {
+        shape.setVisible(visible)
+        if (visible) {
           shape.connection.stroke(strokeColor, strokeWidth)
           shape.connection.setAttr('stroke-dasharray', strokeDasharray)
 
@@ -292,6 +292,7 @@ Module.register('RelationshipModule', function () {
         this.removeRelationship([node])
       })
       this.updateRelationshipConnect()
+      // this.fire('contentchange')
     }
   })
 
@@ -819,7 +820,7 @@ Module.register('RelationshipModule', function () {
       this.setRelationshipContainer()
     },
     events: {
-      noderemove(e) {
+      beforenoderemove(e) {
         this.removeRelationshipConnect(e.node)
       },
       // nodeattch(e) {

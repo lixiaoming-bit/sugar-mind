@@ -55,8 +55,20 @@ const generate = (mirror, obj, patches, path) => {
   }
 }
 
+const includeRelationshipData = patch => {
+  if (Array.isArray(patch)) {
+    return patch.some(item => item.path.indexOf('sp') !== -1)
+  }
+  return false
+}
+
 export default function compare(tree1, tree2) {
   const patches = []
   generate(tree1, tree2, patches, '')
+  // patches.forEach(patch => {
+  //   if (patch.path.inde)
+  // })
+  const target = patches.filter(patch => !includeRelationshipData(patch))
+  console.log('patches: ', target)
   return patches
 }

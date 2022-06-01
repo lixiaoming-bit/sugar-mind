@@ -55,17 +55,17 @@ Module.register('HistoryModule', function () {
         undoDiffs.shift()
       }
       lastSnap = headSnap
-      // console.log('lastSnap123: ', lastSnap)
+      console.log('lastSnap: ', lastSnap)
       return true
     }
   }
 
   const makeRedoDiff = () => {
     const revertSnap = minder.exportJson()
-    // console.log('headSnap, lastSnap456: ', revertSnap, lastSnap)
+    console.log('headSnap, lastSnap456: ', revertSnap, lastSnap)
     redoDiffs.push(compare(revertSnap, lastSnap))
     lastSnap = revertSnap
-    // console.log('lastSnap456: ', lastSnap)
+    console.log('lastSnap456: ', lastSnap)
   }
 
   const HistoryUndoCommand = kity.createClass('HistoryUndoCommand', {
@@ -74,7 +74,7 @@ Module.register('HistoryModule', function () {
     execute(km) {
       patchLock = true
       const undoDiff = undoDiffs.pop()
-      if (undoDiff) {
+      if (undoDiff.length) {
         km.applyPatches(undoDiff)
         makeRedoDiff()
       }
@@ -89,7 +89,7 @@ Module.register('HistoryModule', function () {
     execute(km) {
       patchLock = true
       const redoDiff = redoDiffs.pop()
-      if (redoDiff) {
+      if (redoDiff.length) {
         km.applyPatches(redoDiff)
         makeUndoDiff()
       }

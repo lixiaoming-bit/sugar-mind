@@ -1,4 +1,5 @@
 // 打补丁
+import { unionBy } from 'lodash-es'
 import Minder from './minder'
 const kity = window.kity
 
@@ -144,7 +145,7 @@ kity.extendClass(Minder, {
     relationships.forEach(patch => {
       patch.path = patch.path.slice(0, 16)
     })
-    patches = [...rest, ...summaries, ...relationships]
+    patches = [...rest, ...summaries, ...unionBy(relationships, 'path')]
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }
