@@ -95,19 +95,20 @@ Module.register('RelationshipModule', function () {
       })
     },
     // 设置连线数据
-    setRelationship(id, nodes) {
+    setRelationship(id, nodes, index) {
       const [start, end] = nodes
       const startId = start.getData('id')
       const endId = end.getData('id')
-      minder._relationship.push({
+      const temp = {
         id,
-        start: {
-          id: startId
-        },
-        end: {
-          id: endId
-        }
-      })
+        start: { id: startId },
+        end: { id: endId }
+      }
+      if (typeof index === 'number') {
+        minder._relationship.splice(index, 0, temp)
+      } else {
+        minder._relationship.push(temp)
+      }
     },
     // 设置关联线的文本
     setRelationshipText(id, text) {
@@ -181,42 +182,40 @@ Module.register('RelationshipModule', function () {
     removeRelationship(nodes) {
       const ids = nodes.map(node => node.getData('id'))
       const rest = []
-      const remove = []
       minder._relationship.forEach(item => {
         if (ids.includes(item.start.id) || ids.includes(item.end.id)) {
-          remove.push(item)
+          document.getElementById(item.id).shape.remove()
         } else {
           rest.push(item)
         }
       })
       minder._relationship = rest
-      return remove.map(connect => document.getElementById(connect.id).shape)
     },
-    // 删除关联线根据id
-    removeRelationshipByIndex(index) {
-      const [remove] = minder._relationship.splice(index, 1)
-      if (!remove) return
-      const { id } = remove
-      const shape = document.getElementById(id).shape
-      shape.remove()
-    },
-    // 设置关联线根据id
-    addRelationshipByIndex(index, value) {
-      // minder._relationship.splice(index, 0, value)
-      const start = this.getNodeById(value.start.id)
-      const end = this.getNodeById(value.end.id)
-      if (start && end) {
-        this.createRelationshipConnect([start, end])
-      }
-    },
+    // // 删除关联线根据id
+    // removeRelationshipByIndex(index) {
+    //   const [remove] = minder._relationship.splice(index, 1)
+    //   if (!remove) return
+    //   const { id } = remove
+    //   const shape = document.getElementById(id).shape
+    //   shape.remove()
+    // },
+    // // 设置关联线根据id
+    // addRelationshipByIndex(value) {
+    //   // minder._relationship.splice(index, 0, value)
+    //   const start = this.getNodeById(value.start.id)
+    //   const end = this.getNodeById(value.end.id)
+    //   if (start && end) {
+    //     this.createRelationshipConnect([start, end])
+    //   }
+    // },
 
     // 创建关联线
-    createRelationshipConnect(nodes) {
+    createRelationshipConnect(nodes, id, index) {
       if (!Array.isArray(nodes) || nodes.length !== 2) return
 
-      const relationship = new Relationship()
+      const relationship = new Relationship(id)
 
-      this.setRelationship(relationship.getId(), nodes)
+      this.setRelationship(relationship.getId(), nodes, index)
       this._relationshipConnectContainer.addShape(relationship)
       this.updateRelationshipConnect(nodes)
     },
@@ -230,6 +229,7 @@ Module.register('RelationshipModule', function () {
 
     // 更新关联线
     updateRelationshipConnect: debounce(function (nodes) {
+      this.createConnectByRelationship()
       // const selected = this.getSelectedNodes()
       // const defaultNodes = selected.length ? selected : this.getAllNode()
       const container = this.getRenderContainer()
@@ -289,11 +289,7 @@ Module.register('RelationshipModule', function () {
     // 删除关联线
     removeRelationshipConnect(node) {
       node.traverse(node => {
-        const connection = this.removeRelationship([node])
-        connection.forEach(connect => {
-          // this._relationshipConnectContainer.removeShape(connect)
-          connect.remove()
-        })
+        this.removeRelationship([node])
       })
       this.updateRelationshipConnect()
     }
@@ -826,6 +822,9 @@ Module.register('RelationshipModule', function () {
       noderemove(e) {
         this.removeRelationshipConnect(e.node)
       },
+      // nodeattch(e) {
+      //   this.updateRelationshipConnect([e.node])
+      // },
       click: function (e) {
         e.stopPropagation()
         const selected = this.getSelectedNode()

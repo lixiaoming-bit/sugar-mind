@@ -21,7 +21,6 @@ function applyPatch(minder, patch) {
   path.shift()
 
   let changed = path.shift()
-  console.log('changed: ', changed)
   let node
 
   if (changed === 'root') {
@@ -49,7 +48,7 @@ function applyPatch(minder, patch) {
     patch.index = index
     patch.node = node
   } else if (changed === 'relationship') {
-    const [index] = patch.path.match(/\d+$/g)
+    const [index] = patch.path.match(/\d+/g) || []
     patch.index = index
   }
 
@@ -78,10 +77,20 @@ function applyPatch(minder, patch) {
       minder.layout()
       break
     case 'relationship.add':
-      minder.addRelationshipByIndex(patch.index, patch.value)
+      minder.createRelationshipConnect([
+        minder.getNodeById(patch.value.start.id),
+        minder.getNodeById(patch.value.end.id)
+      ])
       break
     case 'relationship.remove':
-      minder.removeRelationshipByIndex(patch.index)
+      var removed = minder.getRawRelationship()[patch.index]
+      if (removed) {
+        minder.removeRelationship([
+          minder.getNodeById(removed.start.id),
+          minder.getNodeById(removed.end.id)
+        ])
+      }
+
       break
     case 'data.add':
     case 'data.replace':
@@ -114,6 +123,28 @@ function applyPatch(minder, patch) {
 
 kity.extendClass(Minder, {
   applyPatches(patches) {
+    // 调整diff 的顺序 关联线需要在节点之后
+    const summaries = []
+    const relationships = []
+    const rest = []
+    patches.forEach(patch => {
+      // 概要
+      if (patch.path.indexOf('summary') !== -1) {
+        summaries.push(patch)
+      }
+      // 关系
+      else if (patch.path.indexOf('relationship') !== -1) {
+        relationships.push(patch)
+      }
+      // 剩余
+      else {
+        rest.push(patch)
+      }
+    })
+    relationships.forEach(patch => {
+      patch.path = patch.path.slice(0, 16)
+    })
+    patches = [...rest, ...summaries, ...relationships]
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }

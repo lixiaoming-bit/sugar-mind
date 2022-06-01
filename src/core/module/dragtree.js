@@ -8,7 +8,6 @@ const kity = window.kity
 const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
   base: Command,
   execute(minder, nodes, parent) {
-    console.log('nodes: ', nodes, parent)
     const summaryNode = minder.getRoot().includeSummary(nodes)
 
     for (let i = 0; i < nodes.length; i++) {

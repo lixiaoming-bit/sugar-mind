@@ -30,7 +30,7 @@ Module.register('HistoryModule', function () {
   const updateSelection = e => {
     if (!patchLock) return
     const patch = e.patch
-    console.log('patch.express: ', patch.express, patch)
+    // console.log('patch.express: ', patch.express, patch)
     switch (patch.express) {
       case 'node.add':
         minder.select(patch.node.getChild(patch.index), true)
@@ -44,10 +44,9 @@ Module.register('HistoryModule', function () {
     }
   }
 
-  // diff 向后
   const makeUndoDiff = () => {
     const headSnap = minder.exportJson()
-
+    // console.log('headSnap, lastSnap123: ', headSnap, lastSnap)
     const diff = compare(headSnap, lastSnap)
 
     if (diff.length) {
@@ -56,18 +55,19 @@ Module.register('HistoryModule', function () {
         undoDiffs.shift()
       }
       lastSnap = headSnap
+      // console.log('lastSnap123: ', lastSnap)
       return true
     }
   }
 
-  // diff 向前
   const makeRedoDiff = () => {
     const revertSnap = minder.exportJson()
+    // console.log('headSnap, lastSnap456: ', revertSnap, lastSnap)
     redoDiffs.push(compare(revertSnap, lastSnap))
     lastSnap = revertSnap
+    // console.log('lastSnap456: ', lastSnap)
   }
 
-  // undo command
   const HistoryUndoCommand = kity.createClass('HistoryUndoCommand', {
     base: Command,
 
@@ -84,7 +84,6 @@ Module.register('HistoryModule', function () {
       return undoDiffs.length ? 0 : -1
     }
   })
-  // undo command
   const HistoryRedoCommand = kity.createClass('HistoryRedoCommand', {
     base: Command,
     execute(km) {

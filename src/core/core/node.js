@@ -173,16 +173,16 @@ const MinderNode = kity.createClass('MinderNode', {
     return this.postTraverse(fn, excludeThis)
   },
 
-  removeChild(elem) {
-    if (elem.type !== 'summary') {
-      this.getMinder().fire('noderemove', {
-        node: elem
+  removeChild(node) {
+    if (this.parent) {
+      this.getMinder().fire('beforenoderemove', {
+        node
       })
     }
     let removed, commonIndex, summaryIndex
-    if (elem instanceof MinderNode) {
-      commonIndex = this.getChildren().indexOf(elem)
-      summaryIndex = this.getSummary().indexOf(elem)
+    if (node instanceof MinderNode) {
+      commonIndex = this.getChildren().indexOf(node)
+      summaryIndex = this.getSummary().indexOf(node)
     }
     if (commonIndex !== -1 || summaryIndex !== -1) {
       removed =
@@ -341,6 +341,9 @@ kity.extendClass(Minder, {
     if (node.parent) {
       node.parent.removeChild(node)
       this.detachNode(node)
+      this.fire('noderemove', {
+        node: node
+      })
     }
   },
 

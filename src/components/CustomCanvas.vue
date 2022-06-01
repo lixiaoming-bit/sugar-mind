@@ -209,10 +209,8 @@ export default {
           this.isSummary = this.selectedNode && this.selectedNode.type === 'summary'
           this.isRelationship = minder._isRelationship
           // 408、228、310是当前菜单的宽高，会随着设置的选项数量发生变化
-          const height =
-            this.$refs.contextmenu.$el.offsetHeight ||
-            (this.selectedNode ? (this.isSummary ? 48 : 408) : 228)
-          const width = this.$refs.contextmenu.$el.offsetWidth || 310
+          const height = this.selectedNode ? (this.isSummary ? 70 : 331) : 186
+          const width = this.$refs.contextmenu.$el.offsetWidth || 246
 
           const top = window.innerHeight - pageY < height ? pageY - height : pageY
           const left = window.innerWidth - pageX < width ? pageX - width : pageX
