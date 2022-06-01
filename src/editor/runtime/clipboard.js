@@ -22,9 +22,7 @@ export default function ClipboardRuntime() {
 
   const isHaveSummary = () => {
     const nodes = minder.getSelectedNodes()
-    let allCommonNode = true
-    nodes.forEach(e => e.type === 'summary' && (allCommonNode = false))
-    return allCommonNode
+    return !nodes.some(e => e.type === 'summary')
   }
 
   /*

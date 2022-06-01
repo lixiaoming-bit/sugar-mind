@@ -56,24 +56,11 @@ kity.extendClass(MinderNode, {
     }
     node.parent = this
     node.root = this.root
-    // this.getMinder().fire('nodeadd', { node, index })
+    this.getMinder().fire('nodeadd', { node, index })
     this.getChildren().splice(index, 0, node)
   },
   appendChild(node) {
     return this.insertChild(node)
-  },
-  clone() {
-    const cloned = new MinderNode()
-
-    cloned.data = utils.clone(this.data)
-    cloned.data.id = utils.guid()
-    cloned.data.created = +new Date()
-
-    this.getChildren().forEach(function (child) {
-      cloned.appendChild(child.clone())
-    })
-
-    return cloned
   },
   compareTo(node) {
     if (!utils.comparePlainObject(this.data, node.data)) return false

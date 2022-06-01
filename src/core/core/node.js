@@ -174,11 +174,9 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   removeChild(node) {
-    if (this.parent) {
-      this.getMinder().fire('beforenoderemove', {
-        node
-      })
-    }
+    this.getMinder()?.fire('beforremovechild', {
+      node
+    })
     let removed, commonIndex, summaryIndex
     if (node instanceof MinderNode) {
       commonIndex = this.getChildren().indexOf(node)
@@ -192,6 +190,20 @@ const MinderNode = kity.createClass('MinderNode', {
       removed.parent = null
       removed.root = removed
     }
+  },
+
+  clone() {
+    const cloned = new MinderNode()
+
+    cloned.data = utils.clone(this.data)
+    cloned.data.id = utils.guid()
+    cloned.data.created = +new Date()
+
+    this.getChildren().forEach(function (child) {
+      cloned.appendChild(child.clone())
+    })
+
+    return cloned
   },
 
   getRenderContainer() {
@@ -331,7 +343,6 @@ kity.extendClass(Minder, {
       node.setData(data)
     } else {
       parent && parent.insertChild(node, index)
-      // this.fire('nodeadd', { node, index })
     }
     this.attachNode(node)
     return this

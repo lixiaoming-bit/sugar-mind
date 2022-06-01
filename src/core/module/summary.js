@@ -117,17 +117,20 @@ kity.extendClass(Minder, {
     node.parent.getSummary().forEach(e => {
       const startIndex = e.getData('startIndex')
       const endIndex = e.getData('endIndex')
-      if (startIndex === endIndex) {
-        if (startIndex === index) this.removeNode(e)
-      } else {
-        if (startIndex <= index && endIndex >= index) {
-          e.setData('endIndex', endIndex - 1)
-        } else if (index < startIndex) {
-          e.setData({
-            startIndex: startIndex - 1,
-            endIndex: endIndex - 1
-          })
-        }
+      if (startIndex === endIndex && endIndex === index) {
+        this.removeNode(e)
+        return
+      }
+      if (startIndex <= index && index <= endIndex) {
+        e.setData('endIndex', endIndex - 1)
+        return
+      }
+      if (index < startIndex) {
+        e.setData({
+          startIndex: startIndex - 1,
+          endIndex: endIndex - 1
+        })
+        return
       }
     })
   },
@@ -137,11 +140,14 @@ kity.extendClass(Minder, {
       const endIndex = e.getData('endIndex')
       if (startIndex <= index && endIndex >= index) {
         e.setData('endIndex', endIndex + 1)
-      } else if (index < startIndex) {
+        return
+      }
+      if (index < startIndex) {
         e.setData({
           startIndex: startIndex + 1,
           endIndex: endIndex + 1
         })
+        return
       }
     })
   }
@@ -150,15 +156,13 @@ kity.extendClass(Minder, {
 Module.register('SummaryModule', function () {
   return {
     events: {
-      noderemove(e) {
-        return this.commonNodeMove(e.node)
-      },
-      nodeattach(e) {
+      beforremovechild(e) {
         const { node } = e
-        const index = node.getIndex()
-        if (node.type !== 'summary') {
-          return this.commonNodeAdd(node, index)
-        }
+        node.type !== 'summary' && this.commonNodeMove(node)
+      },
+      nodeadd(e) {
+        const { node, index } = e
+        node.type !== 'summary' && this.commonNodeAdd(node, index)
       }
     },
     commands: {
