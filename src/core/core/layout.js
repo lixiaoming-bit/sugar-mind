@@ -480,6 +480,7 @@ kity.extendClass(Minder, {
     // 第二轮布局
     layoutNode(this.getRoot(), 2)
 
+    layoutNode(this.getRoot(), 2)
     this.applyLayoutResult(this.getRoot(), duration, function () {
       /**
        * 当节点>200, 不使用动画时, 此处逻辑变为同步逻辑, 外部minder.on事件无法

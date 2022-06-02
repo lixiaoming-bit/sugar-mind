@@ -174,6 +174,7 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   removeChild(node) {
+    console.log('node: ', node);
     this.getMinder()?.fire('beforremovechild', {
       node
     })
@@ -200,7 +201,10 @@ const MinderNode = kity.createClass('MinderNode', {
     cloned.data.created = +new Date()
 
     this.getChildren().forEach(function (child) {
-      cloned.appendChild(child.clone())
+      cloned.insertChild(child.clone(), undefined, false)
+    })
+    this.getSummary().forEach(function (summary) {
+      cloned.insertSumChild(summary.clone())
     })
 
     return cloned
@@ -321,18 +325,18 @@ kity.extendClass(Minder, {
   //   return node
   // },
 
-  createNode(textOrData, parent, index, type = null, summaryData = {}) {
+  createNode(textOrData, parent, index, type = null, summaryData = {}, fireSummaryChange = true) {
     const node = new MinderNode(textOrData)
     this.fire('nodecreate', {
       node: node,
       parent: parent,
       index: index
     })
-    this.appendNode(node, parent, index, type, summaryData)
+    this.appendNode(node, parent, index, type, summaryData, fireSummaryChange)
     return node
   },
 
-  appendNode(node, parent, index, type, summaryData) {
+  appendNode(node, parent, index, type, summaryData, fireSummaryChange) {
     if (type) {
       parent && parent.insertSumChild(node, index)
       // 配置概要节点的数据结构
@@ -342,7 +346,7 @@ kity.extendClass(Minder, {
       }
       node.setData(data)
     } else {
-      parent && parent.insertChild(node, index)
+      parent && parent.insertChild(node, index, fireSummaryChange)
     }
     this.attachNode(node)
     return this

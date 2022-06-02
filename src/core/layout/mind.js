@@ -21,7 +21,7 @@ Layout.register(
           let findLeftFirstNode = false
           const e = leftList[i]
           if (e.isInSummary(e.parent).length) {
-            leftFirstBindNode = children[0]?.getBindNode(e, leftList)
+            leftFirstBindNode = children[0]?.getBindNode(e, children)
             findLeftFirstNode = true
           }
           if (findLeftFirstNode) break

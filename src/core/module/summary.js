@@ -114,40 +114,36 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
 kity.extendClass(Minder, {
   commonNodeMove(node) {
     const index = node.getIndex()
-    node.parent.getSummary().forEach(e => {
+    const summary = node.parent.getSummary()
+    for (let i = 0; i < summary.length; i++) {
+      const e = summary[i]
       const startIndex = e.getData('startIndex')
       const endIndex = e.getData('endIndex')
       if (startIndex === endIndex && endIndex === index) {
         this.removeNode(e)
-        return
-      }
-      if (startIndex <= index && index <= endIndex) {
+        i--
+      } else if (startIndex <= index && index <= endIndex) {
         e.setData('endIndex', endIndex - 1)
-        return
-      }
-      if (index < startIndex) {
+      } else if (index < startIndex) {
         e.setData({
           startIndex: startIndex - 1,
           endIndex: endIndex - 1
         })
-        return
       }
-    })
+    }
   },
   commonNodeAdd(node, index) {
     node.parent.getSummary().forEach(e => {
+      console.log('commonNodeAdd', e)
       const startIndex = e.getData('startIndex')
       const endIndex = e.getData('endIndex')
-      if (startIndex <= index && endIndex >= index) {
+      if (startIndex < index && endIndex >= index) {
         e.setData('endIndex', endIndex + 1)
-        return
-      }
-      if (index < startIndex) {
+      } else if (index <= startIndex) {
         e.setData({
           startIndex: startIndex + 1,
           endIndex: endIndex + 1
         })
-        return
       }
     })
   }

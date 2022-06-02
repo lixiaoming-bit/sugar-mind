@@ -205,13 +205,13 @@ kity.extendClass(Minder, {
     const childrenTreeData = json?.children?.common || []
     const summaryTreeData = json?.children?.summary || []
     for (let i = 0; i < summaryTreeData.length; i++) {
-      this.createNode(null, node, 1, 'summary', node.data)
+      this.createNode('概要', node, undefined, 'summary', summaryTreeData[i].data)
     }
     for (let i = 0; i < childrenTreeData.length; i++) {
       if (node.getType() !== 'root' && node.getComplex() > 20) {
         node.setData('expandState', 'collapse')
       }
-      const childNode = this.createNode(null, node)
+      const childNode = this.createNode(null, node, undefined, null, null, false)
       this.importNode(childNode, childrenTreeData[i])
     }
     return node

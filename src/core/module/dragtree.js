@@ -7,9 +7,7 @@ const kity = window.kity
 // 矩形的变形动画定义
 const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
   base: Command,
-  execute(minder, nodes, parent) {
-    const summaryNode = minder.getRoot().includeSummary(nodes)
-
+  execute(minder, nodes, parent, summaryNode) {
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i]
       if (node.parent) {
@@ -117,11 +115,6 @@ const TreeDragger = kity.createClass('TreeDragger', {
     }
 
     for (let i = 0; i < this._dragSources.length; i++) {
-      // console.log('this._dragSources[i]: ', this._dragSources[i])
-      // console.log('this._dragSources[i]._connection: ')
-      // this._dragSources[i].setVisible(false)
-      // this._minder.removeConnect(this._dragSources[i])
-
       this._dragSources[i].setLayoutOffset(this._dragSources[i].getLayoutOffset().offset(movement))
       minder.applyLayoutResult(this._dragSources[i])
     }
@@ -150,7 +143,12 @@ const TreeDragger = kity.createClass('TreeDragger', {
 
       this._minder.layout(-1)
 
-      this._minder.execCommand('movetoparent', this._dragSources, this._dropSucceedTarget)
+      this._minder.execCommand(
+        'movetoparent',
+        this._dragSources,
+        this._dropSucceedTarget,
+        this._summarySource
+      )
     } else if (this._orderSucceedHint) {
       const hint = this._orderSucceedHint
       let index = hint.node.getIndex()
@@ -193,6 +191,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
       this._startPosition = null
       return false
     }
+    this._summarySource = this._minder.getRoot().includeSummary(this._dragSources)
     this._fadeDragSources(0.5)
     this._calcDropTargets()
     this._calcOrderHints()
@@ -216,7 +215,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
 
   _fadeDragSources(opacity) {
     const minder = this._minder
-    this._dragSources.forEach(function (source) {
+    this._dragSources.forEach(source => {
       // 拖拽时 隐藏线
       if (opacity < 1) {
         source._isDragging = true
@@ -232,6 +231,22 @@ const TreeDragger = kity.createClass('TreeDragger', {
           minder.attachNode(node)
         }
       }, true)
+    })
+    this._summarySource.forEach(e => {
+      const { summary } = e
+      // 拖拽时 隐藏线
+      if (opacity < 1) {
+        summary._isDragging = true
+      } else {
+        delete summary._isDragging
+      }
+
+      summary.getRenderContainer().setOpacity(opacity, 200)
+      if (opacity < 1) {
+        minder.detachNode(summary)
+      } else {
+        minder.attachNode(summary)
+      }
     })
   },
 

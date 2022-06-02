@@ -20,6 +20,7 @@ export default function ClipboardRuntime() {
   let selectedNodes = []
   let clipboardNodes = []
 
+  // let originalNode = []
   const isHaveSummary = () => {
     const nodes = minder.getSelectedNodes()
     return !nodes.some(e => e.type === 'summary')
@@ -56,6 +57,7 @@ export default function ClipboardRuntime() {
     nodes.sort(function (a, b) {
       return a.getIndex() - b.getIndex()
     })
+    // originalNode = nodes
     clipboardNodes = nodes.map(function (node) {
       return node.clone()
     })
@@ -68,7 +70,6 @@ export default function ClipboardRuntime() {
         return
       }
       const ancestors = minder.getSelectedAncestors(true)
-
       if (ancestors.length === 0) return
 
       sendToClipboard(ancestors)
@@ -120,6 +121,7 @@ export default function ClipboardRuntime() {
       const nodes = minder.getSelectedNodes()
 
       if (MimeType.whichMimeType(textData) === 'application/km') {
+        // const summaryNode = minder.getRoot().includeSummary(originalNode)
         nodes.forEach(function (node) {
           // 由于粘贴逻辑中为了排除子节点重新排序导致逆序，因此复制的时候倒过来
           for (let i = 0; i <= clipboardNodes.length - 1; i++) {
@@ -128,6 +130,15 @@ export default function ClipboardRuntime() {
             selectedNodes.push(n)
             node.appendChild(n)
           }
+          // 暂时放着，由于找不到概要对应的节点了
+          // summaryNode.forEach(e => {
+          //   const summaryData = {
+          //     startIndex: node.getChildren().indexOf(e.startNode),
+          //     endIndex: node.getChildren().indexOf(e.endNode)
+          //   }
+          //   minder.createNode('概要', node, undefined, 'summary', summaryData)
+          //   node.renderTree()
+          // })
         })
         minder.select(selectedNodes, true)
         selectedNodes = []
