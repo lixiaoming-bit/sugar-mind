@@ -135,7 +135,6 @@ const TreeDragger = kity.createClass('TreeDragger', {
     }
 
     this._fadeDragSources(1)
-
     if (this._dropSucceedTarget) {
       this._dragSources.forEach(function (source) {
         source.setLayoutOffset(null)
@@ -166,8 +165,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
       if (index > maxIndex && hint.type === 'up') index--
 
       hint.node.setLayoutOffset(null)
-
-      this._minder.execCommand('arrange', index)
+      this._minder.execCommand('arrange', index, this._summarySource)
       this._renderOrderHint(null)
       this._minder.fire('contentchange')
     } else {

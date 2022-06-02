@@ -99,7 +99,7 @@ kity.extendClass(MinderNode, {
   includeSummary(nodesList) {
     let partList = new Map()
     nodesList.forEach(e => {
-      const key = e.parent?.getData('id') || undefined
+      const key = e.parent?.getData('id') || 'root'
       partList.set(key, partList.has(key) ? [...partList.get(key), e] : [e])
     })
     let list = []

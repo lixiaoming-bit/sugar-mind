@@ -33,7 +33,7 @@ const canAddSummary = {
         (isExistSummary = true)
     })
     return isExistSummary
-  }
+  },
   // 判断是否是连续的
   // isContinuous: function (nodes, list, summaryNode) {
   //   summaryNode.splice()
@@ -48,6 +48,10 @@ const canAddSummary = {
   //   !sameSide && vue.$message.warning('请选择同边节点')
   //   return !sameSide
   // }
+  // 判断节点中是否包含概要节点
+  withoutSummaryNode: function (nodes) {
+    return !nodes.some(e => e.type === 'summary')
+  }
 }
 const getAnswer = function (key, ...args) {
   return canAddSummary[key](...args)
@@ -77,7 +81,7 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
   execute(km, text = '概要') {
     let list = []
     // summaryNode = []
-    const nodes = km.getSelectedNodes()
+    const nodes = km.getSelectedAncestors()
     if (
       getAnswer('isSameLevel', nodes) ||
       getAnswer('isSameFather', nodes, list) ||
@@ -101,12 +105,9 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
     km.fire('textedit')
   },
   queryState(km) {
-    const nodes = km.getSelectedNodes()
-    // 标识选中的节点中是否都是普通节点
-    let allCommonNode = true
-    nodes.forEach(e => e.type === 'summary' && (allCommonNode = false))
+    const nodes = km.getSelectedAncestors()
     return (km.getSelectedNode() && km.getSelectedNode()?.parent && km.getAllNode().length) > 1 &&
-      allCommonNode
+      getAnswer('withoutSummaryNode', nodes)
       ? 0
       : -1
   }
@@ -134,7 +135,6 @@ kity.extendClass(Minder, {
   },
   commonNodeAdd(node, index) {
     node.parent.getSummary().forEach(e => {
-      console.log('commonNodeAdd', e)
       const startIndex = e.getData('startIndex')
       const endIndex = e.getData('endIndex')
       if (startIndex < index && endIndex >= index) {

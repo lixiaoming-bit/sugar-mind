@@ -3,6 +3,12 @@ import Command from '../core/command'
 import Module from '../core/module'
 const kity = window.kity
 
+const isExistSummary = (parent, startIndex, endIndex) => {
+  return parent.getSummary()?.some(e => {
+    e.data.startIndex === startIndex && e.data.endIndex === endIndex
+  })
+}
+
 kity.extendClass(MinderNode, {
   arrange(index) {
     const parent = this.parent
@@ -101,7 +107,7 @@ const ArrangeDownCommand = kity.createClass('ArrangeUpCommand', {
 const ArrangeCommand = kity.createClass('ArrangeCommand', {
   base: Command,
 
-  execute(km, index) {
+  execute(km, index, summaryNode) {
     const nodes = km.getSelectedNodes().slice()
 
     if (!nodes.length) return
@@ -110,13 +116,14 @@ const ArrangeCommand = kity.createClass('ArrangeCommand', {
 
     if (ancestor != nodes[0].parent) return
 
+    const parent = ancestor
+
     const indexed = nodes.map(function (node) {
       return {
         index: node.getIndex(),
         node: node
       }
     })
-
     const asc =
       Math.min.apply(
         Math,
@@ -131,6 +138,16 @@ const ArrangeCommand = kity.createClass('ArrangeCommand', {
 
     indexed.forEach(function (one) {
       one.node.arrange(index)
+    })
+
+    summaryNode.forEach(e => {
+      const startIndex = parent.getChildren().indexOf(e.startNode)
+      const endIndex = parent.getChildren().indexOf(e.endNode)
+      if (!isExistSummary(parent, startIndex, endIndex)) {
+        e.summary.setData({ startIndex, endIndex })
+        km.createNode('概要', parent, undefined, 'summary', e.summary.data)
+        parent.renderTree()
+      }
     })
 
     km.layout(300)

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import utils from './utils'
 import MinderNode from './node'
 
@@ -18,6 +19,12 @@ kity.extendClass(MinderNode, {
    */
   getIndex() {
     return this.parent ? this.parent.getChildren().indexOf(this) : -1
+  },
+  getCopyIndex(id) {
+    const node = _.find(this.getChildren(), e => {
+      return e.getData('originId') === id
+    })
+    return node.getIndex()
   },
   clearChildren() {
     this.children.common = []

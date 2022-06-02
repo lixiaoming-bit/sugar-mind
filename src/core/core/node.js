@@ -174,7 +174,6 @@ const MinderNode = kity.createClass('MinderNode', {
   },
 
   removeChild(node) {
-    console.log('node: ', node);
     this.getMinder()?.fire('beforremovechild', {
       node
     })
@@ -197,6 +196,7 @@ const MinderNode = kity.createClass('MinderNode', {
     const cloned = new MinderNode()
 
     cloned.data = utils.clone(this.data)
+    cloned.data.originId = utils.clone(this.data)?.id
     cloned.data.id = utils.guid()
     cloned.data.created = +new Date()
 

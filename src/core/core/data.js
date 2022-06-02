@@ -45,27 +45,8 @@ kity.extendClass(Minder, {
    * @grammar exportJson() => {plain}
    */
   exportJson() {
-    /* 导出 node 上整棵树的数据为 JSON */
-    function exportNode(node) {
-      const exported = {}
-      exported['data'] = node.getData()
-      const childNodes = node.getChildren()
-      const childSummarys = node.getSummary()
-      exported['children'] = {
-        common: [],
-        summary: []
-      }
-      for (let i = 0; i < childSummarys.length; i++) {
-        exported.children.summary.push(exportNode(childSummarys[i]))
-      }
-      for (let i = 0; i < childNodes.length; i++) {
-        exported.children.common.push(exportNode(childNodes[i]))
-      }
-      return exported
-    }
-
     const json = {
-      root: exportNode(this.getRoot())
+      root: this.exportNode(this.getRoot())
     }
 
     json['template'] = this.getTemplate()
@@ -96,7 +77,10 @@ kity.extendClass(Minder, {
     if (!(node instanceof MinderNode)) {
       return
     }
-    let children = {}
+    let children = {
+      common: [],
+      summary: []
+    }
     let jsonMap = {}
     let level = 0
 
@@ -118,7 +102,10 @@ kity.extendClass(Minder, {
         data: {
           text: line.replace(/^(\t|\x20{4})+/, '').replace(/(\t|\x20{4})+$/, '')
         },
-        children: {}
+        children: {
+          common: [],
+          summary: []
+        }
       }
     }
 
@@ -162,7 +149,7 @@ kity.extendClass(Minder, {
       }
     }
 
-    importChildren(node, children)
+    importChildren(node, children.common)
     minder.refresh()
   },
 
