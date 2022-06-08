@@ -54,7 +54,7 @@ kity.extendClass(MinderNode, {
     }
   },
 
-  insertChild(node, index, fireSummaryChange = true) {
+  insertChild(node, index, fireSummaryChange = true, isDragTree = false) {
     if (index === undefined) {
       index = this.getChildren().length
     }
@@ -64,7 +64,7 @@ kity.extendClass(MinderNode, {
     node.parent = this
     node.root = this.root
     if (fireSummaryChange) {
-      this.getMinder().fire('nodeadd', { node, index })
+      this.getMinder().fire('nodeadd', { node, index, isDragTree })
     }
     this.getChildren().splice(index, 0, node)
   },

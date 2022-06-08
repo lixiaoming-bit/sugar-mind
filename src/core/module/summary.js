@@ -113,7 +113,7 @@ const AddSummaryCommand = kity.createClass('AddSummaryCommand', {
   }
 })
 kity.extendClass(Minder, {
-  commonNodeMove(node) {
+  commonNodeMove(node, isDragTree = false) {
     const index = node.getIndex()
     const summary = node.parent.getSummary()
     for (let i = 0; i < summary.length; i++) {
@@ -131,9 +131,10 @@ kity.extendClass(Minder, {
           endIndex: endIndex - 1
         })
       }
+      isDragTree && this.fire('contentchange')
     }
   },
-  commonNodeAdd(node, index) {
+  commonNodeAdd(node, index, isDragTree = false) {
     node.parent.getSummary().forEach(e => {
       const startIndex = e.getData('startIndex')
       const endIndex = e.getData('endIndex')
@@ -145,6 +146,7 @@ kity.extendClass(Minder, {
           endIndex: endIndex + 1
         })
       }
+      isDragTree && this.fire('contentchange')
     })
   }
 })
@@ -153,12 +155,12 @@ Module.register('SummaryModule', function () {
   return {
     events: {
       beforremovechild(e) {
-        const { node } = e
-        node.type !== 'summary' && this.commonNodeMove(node)
+        const { node, isDragTree = false } = e
+        node.type !== 'summary' && this.commonNodeMove(node, isDragTree)
       },
       nodeadd(e) {
-        const { node, index } = e
-        node.type !== 'summary' && this.commonNodeAdd(node, index)
+        const { node, index, isDragTree } = e
+        node.type !== 'summary' && this.commonNodeAdd(node, index, isDragTree)
       }
     },
     commands: {

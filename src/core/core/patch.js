@@ -42,7 +42,9 @@ function applyPatch(minder, patch) {
       if (segment === 'children' || segment === 'common' || segment === 'summary') continue
       if (typeof index !== 'undefined') {
         const sumNode = hasSummary && node.getSumByIdx(index)
-        node = sumNode || node.getChild(index)
+        const case1 = node.getChild(index) || sumNode
+        const case2 = sumNode || node.getChild(index)
+        node = patch.op === 'add' ? case1 : case2
       }
       index = +segment
     }
@@ -130,7 +132,7 @@ kity.extendClass(Minder, {
     const rest = []
     patches.forEach(patch => {
       // 概要
-      if (patch.path.indexOf('summary') !== -1) {
+      if (patch.path.indexOf('summary') !== -1 && patch?.op === 'add') {
         summaries.push(patch)
       }
       // 关系
@@ -149,7 +151,7 @@ kity.extendClass(Minder, {
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }
-
+    this.layout()
     // this.fire('contentchange')
     return this
   }

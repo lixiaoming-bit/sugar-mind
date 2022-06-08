@@ -17,14 +17,17 @@ Layout.register(
       let leftFirstBindNode = []
       let rightLastBindNode = []
       if (round === 2) {
-        for (let i = 0; i < leftList.length; i++) {
-          let findLeftFirstNode = false
-          const e = leftList[i]
-          if (e.isInSummary(e.parent).length) {
-            leftFirstBindNode = children[0]?.getBindNode(e, children)
-            findLeftFirstNode = true
-          }
-          if (findLeftFirstNode) break
+        // for (let i = 0; i < leftList.length; i++) {
+        //   let findLeftFirstNode = false
+        //   const e = leftList[i]
+        //   if (e.isInSummary(e.parent).length) {
+        //     leftFirstBindNode = children[0]?.getBindNode(e, children)
+        //     findLeftFirstNode = true
+        //   }
+        //   if (findLeftFirstNode) break
+        // }
+        if (leftList.length && leftList[0].isInSummary(leftList[0].parent).length) {
+          leftFirstBindNode = children[0]?.getBindNode(leftList[0], children)
         }
         for (let j = 0; j < rightReverse.length; j++) {
           let findRightFirstNode = false

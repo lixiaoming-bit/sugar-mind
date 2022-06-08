@@ -173,9 +173,10 @@ const MinderNode = kity.createClass('MinderNode', {
     return this.postTraverse(fn, excludeThis)
   },
 
-  removeChild(node) {
+  removeChild(node, isDragTree = false) {
     this.getMinder()?.fire('beforremovechild', {
-      node
+      node,
+      isDragTree
     })
     let removed, commonIndex, summaryIndex
     if (node instanceof MinderNode) {
@@ -353,7 +354,7 @@ kity.extendClass(Minder, {
   },
 
   removeNode(node) {
-    if (node.parent) {
+    if (node?.parent) {
       this.fire('beforenoderemove', {
         node: node
       })

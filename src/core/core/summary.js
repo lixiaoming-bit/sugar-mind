@@ -104,7 +104,7 @@ kity.extendClass(MinderNode, {
     })
     let list = []
     for (const [key, value] of partList) {
-      value[0].parent.getSummary().forEach(e => {
+      value[0]?.parent?.getSummary().forEach(e => {
         // 对应概要的起点和终点
         const startIndex = e.getData('startIndex')
         const endIndex = e.getData('endIndex')

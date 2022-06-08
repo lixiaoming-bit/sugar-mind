@@ -11,9 +11,12 @@ const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i]
       if (node.parent) {
-        node.parent.removeChild(node)
-        parent.appendChild(node)
+        node.parent.removeChild(node, true)
+        parent.insertChild(node, undefined, true, true)
         node.render()
+        if (node?.getLevel() === 1) {
+          node.setData('side', 'left')
+        }
       }
     }
     summaryNode.forEach(e => {
@@ -21,8 +24,9 @@ const MoveToParentCommand = kity.createClass('MoveToParentCommand', {
         startIndex: parent.getChildren().indexOf(e.startNode),
         endIndex: parent.getChildren().indexOf(e.endNode)
       })
-      minder.createNode('概要', parent, parent.getSummary().length, 'summary', e.summary.data)
-      parent.renderTree()
+      minder
+        .createNode('概要', parent, parent.getSummary().length, 'summary', e.summary.data)
+        .render()
     })
     parent.expand()
     minder.select(nodes, true)
@@ -140,7 +144,7 @@ const TreeDragger = kity.createClass('TreeDragger', {
         source.setLayoutOffset(null)
       })
 
-      this._minder.layout(-1)
+      // this._minder.layout(-1)
 
       this._minder.execCommand(
         'movetoparent',
