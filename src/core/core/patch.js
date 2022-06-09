@@ -37,14 +37,23 @@ function applyPatch(minder, patch) {
     node = minder.getRoot()
     let segment
     let index
+    let flag
     const hasSummary = patch.path.indexOf('summary') > -1
     while ((segment = path.shift())) {
-      if (segment === 'children' || segment === 'common' || segment === 'summary') continue
+      if (segment === 'children' || segment === 'common' || segment === 'summary') {
+        flag = segment
+        continue
+      }
       if (typeof index !== 'undefined') {
         const sumNode = hasSummary && node.getSumByIdx(index)
         const case1 = node.getChild(index) || sumNode
         const case2 = sumNode || node.getChild(index)
-        node = patch.op === 'add' ? case1 : case2
+        // node = patch.op === 'add' ? case1 : case2
+        if (flag === 'common') {
+          node = case1
+        } else {
+          node = case2
+        }
       }
       index = +segment
     }
@@ -126,14 +135,18 @@ function applyPatch(minder, patch) {
 
 kity.extendClass(Minder, {
   applyPatches(patches) {
+    console.log('patches: ', patches)
     // 调整diff 的顺序 关联线需要在节点之后
     const summaries = []
+    const summaries1 = []
     const relationships = []
     const rest = []
     patches.forEach(patch => {
       // 概要
       if (patch.path.indexOf('summary') !== -1 && patch?.op === 'add') {
         summaries.push(patch)
+      } else if (patch.path.indexOf('summary') !== -1 && patch?.op === 'replace') {
+        summaries1.push(patch)
       }
       // 关系
       else if (patch.path.indexOf('relationship') !== -1) {
@@ -147,7 +160,7 @@ kity.extendClass(Minder, {
     relationships.forEach(patch => {
       patch.path = patch.path.slice(0, 16)
     })
-    patches = [...rest, ...summaries, ...unionBy(relationships, 'path')]
+    patches = [...rest, ...summaries1, ...summaries, ...unionBy(relationships, 'path')]
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }
