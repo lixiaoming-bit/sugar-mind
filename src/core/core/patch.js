@@ -46,13 +46,10 @@ function applyPatch(minder, patch) {
       }
       if (typeof index !== 'undefined') {
         const sumNode = hasSummary && node.getSumByIdx(index)
-        const case1 = node.getChild(index) || sumNode
-        const case2 = sumNode || node.getChild(index)
-        // node = patch.op === 'add' ? case1 : case2
         if (flag === 'common') {
-          node = case1
+          node = node.getChild(index) || sumNode
         } else {
-          node = case2
+          node = sumNode || node.getChild(index)
         }
       }
       index = +segment
@@ -78,7 +75,6 @@ function applyPatch(minder, patch) {
       patch.path.indexOf('summary') === -1
         ? insertNode(minder, patch.value, patch.node, patch.index).renderTree()
         : insertNode(minder, patch.value, patch.node, patch.index, 'summary').renderTree()
-      minder.layout()
       break
     case 'node.remove':
       minder.removeNode(
@@ -86,7 +82,6 @@ function applyPatch(minder, patch) {
           ? patch.node.getChild(patch.index)
           : patch.node.getSumByIdx(patch.index)
       )
-      minder.layout()
       break
     case 'relationship.add':
       minder.createRelationshipConnect([
@@ -127,7 +122,6 @@ function applyPatch(minder, patch) {
       } else {
         node.render()
       }
-      minder.layout()
   }
 
   minder.fire('patch', { patch: patch })
