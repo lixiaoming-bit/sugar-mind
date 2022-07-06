@@ -45,11 +45,11 @@ function applyPatch(minder, patch) {
         continue
       }
       if (typeof index !== 'undefined') {
-        const sumNode = hasSummary && node.getSumByIdx(index)
-        if (flag === 'common') {
-          node = node.getChild(index) || sumNode
+        const sumNode = hasSummary && node?.getSumByIdx(index)
+        if (flag === 'summary' && segment === 'data') {
+          node = sumNode
         } else {
-          node = sumNode || node.getChild(index)
+          node = node?.getChild(index)
         }
       }
       index = +segment
@@ -62,7 +62,6 @@ function applyPatch(minder, patch) {
   }
 
   const express = (patch.express = [changed, patch.op].join('.'))
-  console.log('express: ', express)
 
   switch (express) {
     case 'theme.replace':
@@ -72,11 +71,13 @@ function applyPatch(minder, patch) {
       minder.useTemplate(patch.value)
       break
     case 'node.add':
+      if (!patch.node) break
       patch.path.indexOf('summary') === -1
         ? insertNode(minder, patch.value, patch.node, patch.index).renderTree()
         : insertNode(minder, patch.value, patch.node, patch.index, 'summary').renderTree()
       break
     case 'node.remove':
+      if (!patch.node) break
       minder.removeNode(
         patch.path.indexOf('summary') === -1
           ? patch.node.getChild(patch.index)
@@ -102,6 +103,7 @@ function applyPatch(minder, patch) {
     case 'data.add':
     case 'data.replace':
     case 'data.remove':
+      if (!patch.node) break
       var data = patch.node.data
       var field
       path = patch.dataPath.slice()
@@ -129,10 +131,10 @@ function applyPatch(minder, patch) {
 
 kity.extendClass(Minder, {
   applyPatches(patches) {
-    console.log('patches: ', patches)
     // 调整diff 的顺序 关联线需要在节点之后
     const summaries = []
     const summaries1 = []
+    const commonRemove = []
     const relationships = []
     const rest = []
     patches.forEach(patch => {
@@ -145,6 +147,8 @@ kity.extendClass(Minder, {
       // 关系
       else if (patch.path.indexOf('relationship') !== -1) {
         relationships.push(patch)
+      } else if (patch.path.indexOf('summary') === -1 && patch?.op === 'remove') {
+        commonRemove.push(patch)
       }
       // 剩余
       else {
@@ -154,7 +158,14 @@ kity.extendClass(Minder, {
     relationships.forEach(patch => {
       patch.path = patch.path.slice(0, 16)
     })
-    patches = [...rest, ...summaries1, ...summaries, ...unionBy(relationships, 'path')]
+    patches = [
+      ...rest,
+      ...summaries1,
+      ...summaries,
+      ...commonRemove,
+      ...unionBy(relationships, 'path')
+    ]
+    console.log('patches: ', patches)
     for (let i = 0; i < patches.length; i++) {
       applyPatch(this, patches[i])
     }

@@ -126,7 +126,7 @@ kity.extendClass(Minder, {
       for (let i = 0, l = children.length; i < l; i++) {
         const childNode = minder.createNode(null, node)
         childNode.setData('text', children[i].data.text || '')
-        importChildren(childNode, children[i].children)
+        importChildren(childNode, children[i].children.common)
       }
     }
 
@@ -139,7 +139,7 @@ kity.extendClass(Minder, {
       if (level === 0) {
         jsonMap = {}
         children.common.push(jsonNode)
-        jsonMap[0] = children.common[children.common.length - 1]
+        jsonMap[0] = jsonNode
       } else {
         if (!jsonMap[level - 1]) {
           throw new Error('Invalid local format')
