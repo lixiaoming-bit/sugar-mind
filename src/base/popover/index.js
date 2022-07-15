@@ -1,2 +1,3 @@
 import Label from './Label.vue'
-export { Label }
+import Icon from './Icon.vue'
+export { Label, Icon }

@@ -11,8 +11,9 @@ Module.register('ProgressModule', function () {
   // 进度图标的图形
 
   class ProgressIcon extends kity.Group {
-    constructor() {
+    constructor(node) {
       super()
+      this.initEvents(node)
       this.setSize(24)
       this.create()
       this.setId(utils.uuid('node_progress'))
@@ -34,6 +35,13 @@ Module.register('ProgressModule', function () {
       if (url) {
         this.progressImage.setUrl(url)
       }
+    }
+
+    initEvents(node) {
+      const minder = node.getMinder()
+      this.on('click', () => {
+        minder.execCommand('OpenPopover', 'icon', 'progress')
+      })
     }
   }
 
@@ -67,8 +75,8 @@ Module.register('ProgressModule', function () {
   const ProgressRenderer = kity.createClass('ProgressRenderer', {
     base: Renderer,
 
-    create() {
-      return new ProgressIcon()
+    create(node) {
+      return new ProgressIcon(node)
     },
 
     shouldRender(node) {

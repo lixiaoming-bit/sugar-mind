@@ -11,8 +11,9 @@ Module.register('EmojiModule', function () {
   // 进度图标的图形
 
   class EmojiIcon extends kity.Group {
-    constructor() {
+    constructor(node) {
       super()
+      this.initEvents(node)
       this.setSize(24)
       this.create()
       this.setId(utils.uuid('node_emoji'))
@@ -34,6 +35,13 @@ Module.register('EmojiModule', function () {
       if (url) {
         this.emojiImage.setUrl(url)
       }
+    }
+
+    initEvents(node) {
+      const minder = node.getMinder()
+      this.on('click', () => {
+        minder.execCommand('OpenPopover', 'icon', 'emoji')
+      })
     }
   }
 
@@ -66,8 +74,8 @@ Module.register('EmojiModule', function () {
   const EmojiRenderer = kity.createClass('EmojiRenderer', {
     base: Renderer,
 
-    create() {
-      return new EmojiIcon()
+    create(node) {
+      return new EmojiIcon(node)
     },
 
     shouldRender(node) {

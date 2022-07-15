@@ -11,8 +11,9 @@ Module.register('MarkModule', function () {
   // 进度图标的图形
 
   class MarkIcon extends kity.Group {
-    constructor() {
+    constructor(node) {
       super()
+      this.initEvents(node)
       this.setSize(24)
       this.create()
       this.setId(utils.uuid('node_mark'))
@@ -34,6 +35,13 @@ Module.register('MarkModule', function () {
       if (url) {
         this.markImage.setUrl(url)
       }
+    }
+
+    initEvents(node) {
+      const minder = node.getMinder()
+      this.on('click', () => {
+        minder.execCommand('OpenPopover', 'icon', 'mark')
+      })
     }
   }
 
@@ -66,8 +74,8 @@ Module.register('MarkModule', function () {
   const MarkRenderer = kity.createClass('MarkRenderer', {
     base: Renderer,
 
-    create() {
-      return new MarkIcon()
+    create(node) {
+      return new MarkIcon(node)
     },
 
     shouldRender(node) {

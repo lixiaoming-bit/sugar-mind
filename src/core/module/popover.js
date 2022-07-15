@@ -18,8 +18,8 @@ Module.register('PopoverControlCommand', function () {
   const OpenPopoverCommand = kity.createClass('OpenPopoverCommand', {
     base: Command,
 
-    execute(minder, type) {
-      minder.fire('openpopoverrequest', { popoverType: type })
+    execute(minder, popoverType, iconType) {
+      minder.fire('openpopoverrequest', { popoverType, iconType })
     },
 
     queryState(minder) {

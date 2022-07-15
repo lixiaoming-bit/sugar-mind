@@ -9,7 +9,7 @@
       @visibleChange="onVisibleChange"
     >
       <template slot="content">
-        <component :is="componentId"></component>
+        <component :is="componentId" :type="type"></component>
       </template>
       <div class="popover-box" :style="boxStyle"></div>
     </a-popover>
@@ -21,7 +21,8 @@ import { mapGetters } from 'vuex'
 import * as PopoverComponents from './popover/index'
 
 const COMPONENT_MAP = {
-  label: 'Label'
+  label: 'Label',
+  icon: 'icon'
 }
 
 export default {
@@ -35,6 +36,7 @@ export default {
     return {
       visible: false,
       componentId: null,
+      popoverType: null,
       type: null,
       boxStyle: {}
     }
@@ -60,11 +62,12 @@ export default {
     offEvents() {},
     // 检测组件是否存在
     checkComponentAvailable() {
-      this.componentId = COMPONENT_MAP[this.type]
+      this.componentId = COMPONENT_MAP[this.popoverType]
       this.visible = !!this.componentId
     },
     // 初始化
     initPopover(e = {}) {
+      console.log('e: ', e);
       const selected = this.minder.getSelectedNode()
       if (!selected) return
       const box = selected.getRenderContainer().getRenderBox('screen')
@@ -74,8 +77,10 @@ export default {
         width: box.width + 'px',
         height: box.height + 'px'
       }
-      const { popoverType } = e
-      this.type = popoverType || this.type
+      const { popoverType, iconType } = e
+      this.popoverType = popoverType || this.popoverType
+      this.type = iconType
+      console.log('this.type: ', this.type);
 
       this.checkComponentAvailable()
     },
@@ -83,7 +88,7 @@ export default {
     hidePopover() {
       this.visible = false
       this.componentId = null
-      this.type = null
+      this.popoverType = null
     },
     onVisibleChange(visible) {
       if (!visible) {

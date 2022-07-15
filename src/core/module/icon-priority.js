@@ -11,8 +11,9 @@ Module.register('PriorityModule', function () {
   // 优先级图标的图形
 
   class PriorityIcon extends kity.Group {
-    constructor() {
+    constructor(node) {
       super()
+      this.initEvents(node)
       this.setSize(24)
       this.create()
       this.setId(utils.uuid('node_priority'))
@@ -34,6 +35,13 @@ Module.register('PriorityModule', function () {
       if (url) {
         this.priorityImage.setUrl(url)
       }
+    }
+
+    initEvents(node) {
+      const minder = node.getMinder()
+      this.on('click', () => {
+        minder.execCommand('OpenPopover', 'icon', 'priority')
+      })
     }
   }
   /**
@@ -69,8 +77,8 @@ Module.register('PriorityModule', function () {
   const PriorityRenderer = kity.createClass('PriorityRenderer', {
     base: Renderer,
 
-    create() {
-      return new PriorityIcon()
+    create(node) {
+      return new PriorityIcon(node)
     },
 
     shouldRender(node) {
