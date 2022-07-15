@@ -27,11 +27,11 @@
         ></a-input>
       </a-popover>
       <div class="title">方法三</div>
-      <span>1.截图 > 2.选择主题 > 3.粘贴（Command + V)</span>
+      <span>1.截图 > 2.选择主题 > 3.粘贴（Command + V）</span>
     </div>
   </a-modal>
 </template>
-公式
+
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 export default {

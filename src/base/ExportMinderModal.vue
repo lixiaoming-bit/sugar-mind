@@ -41,28 +41,30 @@ export default {
     handleExport() {
       this.minder.removeAllSelectedNodes()
       const type = this.selectedExportType
-      if (type === 'png' || type === 'pdf') {
+      const exportType = type === 'pdf' ? 'png' : type
+      if (exportType) {
         this.minder
-          .exportData('png')
-          .then(base64 => {
-            type === 'pdf'
-              ? downloadPDF(base64, new Date().toLocaleString())
-              : downloadFile(base64, new Date().toLocaleString(), 'png')
+          .exportData(exportType)
+          .then(content => {
+            switch (type) {
+              case 'pdf':
+                downloadPDF(content, new Date().toLocaleString())
+                break
+              case 'png':
+                downloadFile(content, new Date().toLocaleString(), 'png')
+                break
+              case 'markdown':
+                downloadMarkdown(content, new Date().toLocaleString(), 'markdown')
+                break
+              default:
+                console.log('导出数据:', content)
+                break
+            }
           })
           .catch(err => {
             console.log('err: ', err)
-            this.$message.warning('导出图片失败，请重新导出')
+            this.$message.warning(err)
           })
-      }
-      if (type === 'markdown') {
-        this.minder.exportData('markdown').then(content => {
-          downloadMarkdown(content, new Date().toLocaleString(), 'markdown')
-        })
-      }
-      if (type === 'svg') {
-        this.minder.exportData('svg').then(svg => {
-          console.log('svg: ', svg)
-        })
       }
       this.SET_VISIBLE_MODAL('')
     },

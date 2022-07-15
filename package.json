@@ -10,6 +10,7 @@
   "dependencies": {
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.6.5",
+    "fast-xml-parser": "^4.0.9",
     "jspdf": "^2.5.1",
     "kity": "^2.0.4",
     "lodash-es": "^4.17.21",

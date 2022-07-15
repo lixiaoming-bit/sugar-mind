@@ -23,6 +23,8 @@ import CanvasStructModal from '@/base/CanvasStructModal'
 import SynopsisModal from '@/base/SynopsisModal'
 // 导出弹框
 import ExportMinderModal from '@/base/ExportMinderModal'
+// 导入弹框
+import ImportMinderModal from '@/base/ImportMinderModal'
 // 快捷键弹窗
 import ShortcutModal from '@/base/ShortcutModal'
 // 复制样式弹窗
@@ -42,6 +44,7 @@ export default {
     CanvasStructModal,
     SynopsisModal,
     ExportMinderModal,
+    ImportMinderModal,
     ShortcutModal,
     CopyStyleModal
   },

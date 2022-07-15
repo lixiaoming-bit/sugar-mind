@@ -36,8 +36,8 @@ export default {
   methods: {
     // 获取标签内部的值
     getLabel() {
-      const value = this.minder.queryCommandValue('label') || []
-      this.value = value.join()
+      const value = this.minder.queryCommandValue('label') || ''
+      this.value = value.trim()
     },
     // 设置标签的值
     setLabel() {

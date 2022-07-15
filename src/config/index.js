@@ -240,6 +240,12 @@ export const generateToolBoxTopRightOptions = (shortcutText = 'Ctrl') => [
     title: '导出',
     tips: '导出高清晰度文件',
     command: 'export'
+  },
+  {
+    icon: 'iconicon_draw_export',
+    title: '导入',
+    tips: '导出xmind文件',
+    command: 'import'
   }
 ]
 
@@ -620,17 +626,17 @@ export const EXPORT_TYPE_LIST = [
     key: 'markdown',
     title: 'Markdown 文档',
     disabled: false
+  },
+  {
+    key: 'json',
+    title: 'json',
+    disabled: false
+  },
+  {
+    key: 'xmind',
+    title: 'Xmind 文档（.xmind)',
+    disabled: false
   }
-  // {
-  //   key: 'svg',
-  //   title: 'Svg',
-  //   disabled: false
-  // }
-  // {
-  //   key: 'xmind',
-  //   title: 'Xmind 文档（.xmind)',
-  //   disabled: true
-  // }
 ]
 
 // 快捷键操作列表

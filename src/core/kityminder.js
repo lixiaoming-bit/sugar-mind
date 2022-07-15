@@ -72,6 +72,7 @@ require('./protocol/text')
 require('./protocol/markdown')
 require('./protocol/svg')
 require('./protocol/png')
+require('./protocol/xmind')
 
 require('./layout/summary')
 require('./layout/btree')

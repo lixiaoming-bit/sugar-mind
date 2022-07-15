@@ -75,7 +75,10 @@ export default {
     handleClick(item) {
       switch (item.command) {
         case 'export':
-          this.openExportModal()
+          this.SET_VISIBLE_MODAL('ExportMinderModal')
+          break
+        case 'import':
+          this.SET_VISIBLE_MODAL('ImportMinderModal')
           break
         default:
           this.$message.warning('功能开发ing...')
