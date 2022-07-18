@@ -14,6 +14,7 @@ data.registerProtocol('xmind', {
 
   decode: function (local) {
     let entriesFile
+    let fileList = []
     function compatibilityLowData(topic, obj) {
       dataDealMap(obj, topic, 'lowV')
       if (topic['xhtml:img']) {
@@ -24,16 +25,18 @@ data.registerProtocol('xmind', {
           const imgFile = new window.File([blob], file.filename.split('/')[1], {
             type: 'image/png'
           })
+          fileList.push(imgFile)
           console.log('imgFile: ', imgFile)
         })
       }
       // 处理概要
       const sum = topic.summaries && topic.summaries?.summary
       if (sum) {
+        const topicSum = _.find(topic.children.topics, o => o.type === 'summary').topic
         if (sum.length && sum.length > 0) {
           for (let i in sum) {
             obj.children.summary.push({})
-            const sumData = _.find(topic.children.topics[1].topic, o => o.id === sum[i]['topic-id'])
+            const sumData = _.find(topicSum, o => o.id === sum[i]['topic-id'])
             const sumTopic = {
               ...sum[i],
               ...sumData,
@@ -44,7 +47,7 @@ data.registerProtocol('xmind', {
           }
         } else {
           obj.children.summary = [{}]
-          const sumData = topic.children.topics[1].topic
+          const sumData = topicSum
           const sumTopic = {
             ...sum,
             ...sumData,
@@ -56,9 +59,19 @@ data.registerProtocol('xmind', {
       }
       //处理子节点
       const topics = topic.children && topic.children.topics
-      const subTopics = topics && (topics.topic || (topics[0] && topics[0].topic))
+      let subTopics
+      switch (Object.prototype.toString.call(topics)) {
+        case '[object Array]':
+          subTopics = _.find(topics, o => o.type === 'attached').topic
+          break;
+        case '[object Object]':
+          subTopics = topics.topic
+          break;
+        default:
+          break;
+      }
       // 忽略自由节点
-      if (subTopics && (topics?.type === 'attached' || topics[0]?.type === 'attached')) {
+      if (subTopics) {
         const tmp = subTopics
         if (tmp.length && tmp.length > 0) {
           for (let i in tmp) {
@@ -80,6 +93,7 @@ data.registerProtocol('xmind', {
           const imgFile = new window.File([blob], file.filename.split('/')[1], {
             type: 'image/png'
           })
+          fileList.push(imgFile)
           console.log('imgFile: ', imgFile)
         })
       }
@@ -134,7 +148,7 @@ data.registerProtocol('xmind', {
       isLowV
         ? compatibilityLowData(sheet.topic, obj.root)
         : compatibilityHeighData(sheet.rootTopic, obj.root)
-      console.log('sheet: ', sheet)
+      console.log('sheet: ', sheet,fileList)
       return obj
     }
 
